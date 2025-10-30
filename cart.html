@@ -1,0 +1,69 @@
+<!-- html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Cart</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- Vietnamese-capable web font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap&subset=vietnamese" rel="stylesheet">
+
+    <!-- Project styles -->
+    <link rel="stylesheet" href="src/main/webapp/assets/css/style-common.css" />
+    <link rel="stylesheet" href="cart.css">
+
+    <style>
+        :root{
+            --ui-font: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+        html,body{ font-family:var(--ui-font); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+        pre,code,kbd,samp{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace; }
+    </style>
+</head>
+<body>
+
+<div class="top">
+    <div class="wrap">Trang chủ / <strong>Giỏ hàng ( <span id="count" aria-live="polite">0</span> )</strong></div>
+</div>
+
+<main>
+    <div class="wrap">
+        <!-- hero message -->
+        <section class="hero">
+            <h1>Giỏ hàng</h1>
+            <p id="heroMsg" role="status" aria-live="polite">Chưa có sản phẩm nào trong giỏ hàng – quay về <a href="/">Trang Chủ</a> để mua hàng</p>
+        </section>
+
+        <!-- danh sách giỏ -->
+        <div class="card" style="margin-top:18px;">
+            <h2>Sản phẩm trong giỏ</h2>
+            <div class="body" id="cartBody">
+                <!-- Empty state / list render bằng JS -->
+                <div class="empty" id="emptyBlock" role="status" aria-live="polite">
+                    <div class="big" aria-hidden="true"> </div>
+                    <div>Giỏ hàng của bạn đang trống.</div>
+                </div>
+                <div id="list" hidden aria-hidden="true"></div>
+            </div>
+        </div>
+
+        <!-- tổng tiền -->
+        <div class="sum">
+            <div class="sum-box">
+                <div class="row"><span>Tạm tính</span><strong id="subTotal">0₫</strong></div>
+                <div class="row"><span>Phí vận chuyển</span><span class="muted">Tính khi thanh toán</span></div>
+                <div class="row total"><span>Thành tiền</span><strong id="grandTotal">0₫</strong></div>
+
+                <button id="checkoutBtn" type="button" class="checkout" disabled>Thanh toán</button>
+                <!-- Nút demo để thử nhanh, có thể xóa -->
+                <button id="demoAdd" type="button" class="btn" style="width:100%; margin-top:8px;" aria-label="Thêm món demo">Thêm món demo (có thể xóa)</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
