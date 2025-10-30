@@ -1,0 +1,180 @@
+
+:root {
+  --bg: #ffffff;
+  --surface: #f5f7fb;
+  --primary: #0078d4;
+  --accent: #ff6b00;
+  --muted: #6b7280;
+  --border: #e6e8eb;
+  --text: #111827;
+  --radius: 8px;
+  --max-width: 1100px;
+  --gap: 12px;/* css */
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font), sans-serif;
+    color: var(--text);
+    background: var(--bg);
+  }
+  --font: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ========== Reset / Base ========== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0;
+    font-family: var(--font), serif; color: var(--text); background: var(--bg); }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ========== Container ========== */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ========== Header ========== */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.logo img { height: 36px; }
+
+/* Simple nav */
+.site-nav { display: flex; gap: 8px; align-items: center; }
+.site-nav a {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+.site-nav a:hover { background: #eef2f6; color: var(--text); }
+
+/* Search (simple) */
+.header-search {
+  flex: 1;
+  margin: 0 12px;
+}
+.header-search input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* ========== Hero ========== */
+.hero {
+  background: linear-gradient(90deg, #f7fbff, #ffffff);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.hero-title { margin: 0; font-size: 1.3rem; font-weight: 700; }
+.hero-sub { margin: 6px 0 0; color: var(--muted); }
+
+/* ========== Product grid and card ========== */
+.products {
+  padding: 18px 0;
+}
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.product-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  width: calc(25% - var(--gap)); /* 4 columns on wide screens */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.product-media {
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #f0f2f5;
+}
+.product-title { margin: 0; font-weight: 600; font-size: 0.98rem; }
+.product-price { color: var(--primary); font-weight: 700; }
+
+/* Small helper for badges */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-sale { background: var(--accent); color: #fff; }
+.badge-new { background: #eef6ff; color: var(--primary); }
+
+/* Actions */
+.card-actions {
+  margin-top: auto; /* push to bottom */
+  display: flex;
+  gap: 8px;
+}
+.btn {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ========== Forms ========== */
+.form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+input, select, textarea {
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* ========== Footer ========== */
+.site-footer {
+  background: #0f1724;
+  color: #fff;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+.footer-links a { color: #dfe7ff; display: block; margin: 6px 0; }
+
+/* ========== Utilities ========== */
+.text-center { text-align: center; }
+.text-muted { color: var(--muted); }
+
+/* ========== Simple Responsive ========== */
+@media (max-width: 900px) {
+  .product-card { width: calc(33.333% - var(--gap)); } /* 3 columns */
+}
+@media (max-width: 600px) {
+  .header-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .product-card { width: calc(50% - var(--gap)); } /* 2 columns */
+  .hero-title { font-size: 1.1rem; }
+}
+@media (max-width: 380px) {
+  .product-card { width: 100%; } /* 1 column */
+}
