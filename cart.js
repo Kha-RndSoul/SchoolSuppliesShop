@@ -1,4 +1,5 @@
 // javascript
+
 (() => {
     const KEY = 'cart';
     const listEl = document.getElementById('list');

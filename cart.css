@@ -1,0 +1,286 @@
+/* css
+   File: `SchoolSuppliesShop/src/main/webapp/assets/css/cart.css`
+   Modern, minimal cart styles — responsive and accessible
+*/
+/* css */
+html, body {
+    /* keep your variable, but add a generic fallback */
+    font-family: var(--ui-font), sans-serif;
+}
+/* css */
+:root {
+    --ui-font: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root{
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #0ea5e9; /* blue accent */
+    --accent-600: #0288d1;
+    --danger: #ef4444;
+    --shadow: 0 8px 20px rgba(23, 23, 23, 0.06);
+    --radius: 14px;
+    --max-width: 1100px;
+    --gap: 18px;
+    --ui-font: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html,body{
+    height:100%;
+    margin:0;
+    font-family:var(--ui-font);
+    background: linear-gradient(180deg, var(--bg) 0%, #ffffff 4%);
+    color: #0f172a;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-size:16px;
+    line-height:1.45;
+}
+
+/* container */
+.wrap{
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 18px;
+}
+
+/* top breadcrumb bar */
+.top{
+    background: linear-gradient(180deg, #e7f3ff, #eaf6ff 60%);
+    border-bottom: 1px solid rgba(15,23,42,0.04);
+    padding: 10px 0;
+    font-size: 14px;
+    color: #0f172a;
+}
+.top .wrap{
+    display:flex;
+    align-items:center;
+}
+
+/* hero */
+.hero{
+    background: transparent;
+    padding: 28px 18px;
+}
+.hero h1{
+    margin:0 0 8px;
+    font-size: clamp(28px, 3.6vw, 40px);
+    font-weight:700;
+}
+#heroMsg{
+    margin:0;
+    color:var(--muted);
+}
+
+/* main layout */
+main .wrap{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    align-items:start;
+}
+
+/* card for cart content */
+.card{
+    background: transparent;
+}
+.card h2{
+    margin:0 0 10px;
+    font-size:18px;
+    font-weight:600;
+    color:#111827;
+}
+.card .body{
+    background:var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    min-height: 120px;
+}
+
+/* empty state */
+.empty{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    color:var(--muted);
+}
+.empty .big{
+    width:88px;
+    height:88px;
+    border-radius:50%;
+    background: linear-gradient(180deg, rgba(14,165,233,0.12), rgba(14,165,233,0.06));
+    display:inline-block;
+    flex:0 0 88px;
+    box-shadow: inset 0 -6px 12px rgba(2,8,23,0.02);
+}
+
+/* list (rendered by cart.js) */
+#list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.cart-item{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid rgba(15,23,42,0.04);
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.98));
+}
+.item-img{
+    width:72px;
+    height:72px;
+    background:#f3f4f6;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex:0 0 72px;
+}
+.item-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+.item-info{
+    flex:1 1 auto;
+    min-width:0;
+}
+.item-info .title{
+    font-weight:600;
+    color:#0f172a;
+    margin-bottom:6px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.item-info .meta{
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* quantity and price */
+.item-controls{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-left:12px;
+}
+.qty{
+    display:inline-flex;
+    align-items:center;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid rgba(15,23,42,0.06);
+    background:#fff;
+}
+.qty button{
+    padding:6px 10px;
+    font-size:14px;
+    border:0;
+    background:transparent;
+    cursor:pointer;
+    color:#111827;
+}
+.qty input{
+    width:48px;
+    text-align:center;
+    border:0;
+    font-size:14px;
+    padding:6px 8px;
+    outline:none;
+}
+
+/* price and remove */
+.price{
+    font-weight:700;
+    min-width:90px;
+    text-align:right;
+    color:#0f172a;
+}
+.remove{
+    background:transparent;
+    border:0;
+    color:var(--danger);
+    cursor:pointer;
+    font-size:13px;
+    padding:6px 8px;
+}
+
+/* summary column */
+.sum{
+    display:block;
+}
+.sum-box{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px;
+    max-width:380px;
+}
+.sum-box .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px dashed rgba(15,23,42,0.04);
+}
+.sum-box .row:last-child{ border-bottom:0; }
+.sum-box .row.total{ font-size:18px; font-weight:700; color:#0f172a; padding-top:14px; }
+
+/* amounts */
+#subTotal, #grandTotal{
+    font-weight:700;
+    color:#0f172a;
+}
+
+/* buttons */
+.checkout, .btn{
+    width:100%;
+    display:inline-block;
+    border:0;
+    padding:12px 14px;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:12px;
+    font-size:15px;
+}
+.checkout{
+    background: linear-gradient(180deg,var(--accent), var(--accent-600));
+    color:#fff;
+}
+.checkout:disabled{
+    opacity:0.55;
+    cursor:not-allowed;
+    box-shadow:none;
+    filter:grayscale(0.05);
+}
+.btn{
+    background:#fff;
+    border:1px solid rgba(15,23,42,0.06);
+    color:#0f172a;
+}
+
+/* small screens: stack layout */
+@media (min-width: 900px){
+    main .wrap{
+        grid-template-columns: 1fr 360px;
+        align-items:start;
+    }
+    .card .body{
+        padding:28px;
+    }
+}
+
+/* subtle focus states for accessibility */
+button:focus, .qty input:focus, a:focus{
+    outline:3px solid rgba(14,165,233,0.18);
+    outline-offset:2px;
+}
+
+/* utility */
+.muted{ color:var(--muted); font-size:14px; }
+.small{ font-size:13px; color:var(--muted); }
