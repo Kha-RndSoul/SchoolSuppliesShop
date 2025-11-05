@@ -10,16 +10,15 @@
   --radius: 8px;
   --max-width: 1100px;
   --gap: 12px;/* css */
-  html, body {
+    --font: "Segoe UI", Roboto, Arial, sans-serif;
+}
+html, body {
     margin: 0;
     padding: 0;
     font-family: var(--font), sans-serif;
     color: var(--text);
     background: var(--bg);
-  }
-  --font: "Segoe UI", Roboto, Arial, sans-serif;
 }
-
 /* ========== Reset / Base ========== */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0;
