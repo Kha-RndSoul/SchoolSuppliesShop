@@ -2,63 +2,67 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Giỏ hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giỏ hàng | School Supplies Shop</title>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap&subset=vietnamese" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap&subset=vietnamese" rel="stylesheet" />
 
+    <!-- CSS chung và riêng -->
     <link rel="stylesheet" href="assets/css/style-common.css" />
     <link rel="stylesheet" href="assets/css/cart.css" />
 
-    <style>
-        :root{ --ui-font: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
-        html,body{ font-family:var(--ui-font); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-    </style>
-    <script src="assets/js/cart.js"></script>
+    <!-- JS -->
+    <script src="assets/js/cart.js" defer></script>
 </head>
+
 <body>
-<div class="top">
-    <div class="wrap">Trang chủ / <strong>Giỏ hàng ( <span id="count" aria-live="polite">0</span> )</strong></div>
+<!-- Thanh breadcrumb trên đầu -->
+<div class="cart-top">
+    <div class="wrap">
+        <a href="/" aria-label="Về trang chủ">Trang chủ</a> /
+        <strong>Giỏ hàng (<span id="count" aria-live="polite">0</span>)</strong>
+    </div>
 </div>
 
-<main>
+<!-- Nội dung chính -->
+<main class="cart-page">
     <div class="wrap">
-        <section class="hero">
-            <h1>Giỏ hàng</h1>
-            <p id="heroMsg" role="status" aria-live="polite">Chưa có sản phẩm nào trong giỏ hàng – quay về <a href="/">Trang Chủ</a> để mua hàng</p>
+        <!-- Cột trái: danh sách sản phẩm -->
+        <section class="cart-card">
+            <h1>Giỏ hàng của bạn</h1>
+
+            <!-- Khi giỏ hàng trống -->
+            <div class="cart-empty" id="emptyBlock" role="status" aria-live="polite">
+                <div class="icon" aria-hidden="true">🛒</div>
+                <div>Giỏ hàng của bạn đang trống.</div>
+            </div>
+
+            <!-- Danh sách sản phẩm (ẩn khi trống) -->
+            <div class="cart-list" id="list" hidden aria-hidden="true"></div>
         </section>
 
-        <div class="card" style="margin-top:18px;">
-            <h2>Sản phẩm trong giỏ</h2>
-            <div class="body" id="cartBody">
-                <!-- empty state shown by default; cart.js will toggle these -->
-                <div class="empty" id="emptyBlock" role="status" aria-live="polite">
-                    <div class="big" aria-hidden="true"></div>
-                    <div>Giỏ hàng của bạn đang trống.</div>
-                </div>
-
-                <!-- list rendered by cart.js; start hidden -->
-                <div id="list" hidden aria-hidden="true"></div>
+        <!-- Cột phải: tổng kết -->
+        <aside class="cart-summary">
+            <div class="row">
+                <span>Tạm tính</span>
+                <strong id="subTotal">0₫</strong>
             </div>
-        </div>
-
-        <div class="sum">
-            <div class="sum-box">
-                <div class="row"><span>Tạm tính</span><strong id="subTotal">0₫</strong></div>
-                <div class="row"><span>Phí vận chuyển</span><span class="muted">Tính khi thanh toán</span></div>
-                <div class="row total"><span>Thành tiền</span><strong id="grandTotal">0₫</strong></div>
-
-                <button id="checkoutBtn" type="button" class="checkout" disabled>Thanh toán</button>
-
-                <!-- demo add button used by cart.js; optional in production -->
-                <button id="demoAdd" type="button" class="btn" style="width:100%; margin-top:8px;" aria-label="Thêm món demo">Thêm món demo (có thể xóa)</button>
+            <div class="row">
+                <span>Phí vận chuyển</span>
+                <span class="text-muted">Tính khi thanh toán</span>
             </div>
-        </div>
+            <div class="row total">
+                <span>Thành tiền</span>
+                <strong id="grandTotal">0₫</strong>
+            </div>
+
+            <button id="checkoutBtn" type="button" class="checkout" disabled>Thanh toán</button>
+            <button id="demoAdd" type="button" class="btn" aria-label="Thêm sản phẩm demo">Thêm món demo (test)</button>
+        </aside>
     </div>
 </main>
-
-<script src="assets/js/cart.js" defer></script>
 </body>
 </html>
