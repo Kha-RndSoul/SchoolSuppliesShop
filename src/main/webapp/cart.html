@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giỏ hàng | School Supplies Shop</title>
+
+
+    <!-- CSS chung và riêng -->
+    <link rel="stylesheet" href="assets/css/style-common.css" />
+    <link rel="stylesheet" href="assets/css/cart.css" />
+
+    <!-- JS -->
+    <script src="assets/js/cart.js" defer></script>
+</head>
+
+<body>
+<!-- Thanh breadcrumb trên đầu -->
+<div class="cart-top">
+    <div class="wrap">
+        <a href="/" aria-label="Về trang chủ">Trang chủ</a> /
+        <strong>Giỏ hàng (<span id="count" aria-live="polite">0</span>)</strong>
+    </div>
+</div>
+
+<!-- Nội dung chính -->
+<main class="cart-page">
+    <div class="wrap">
+        <!-- Cột trái: danh sách sản phẩm -->
+        <section class="cart-card">
+            <h1>Giỏ hàng của bạn</h1>
+
+            <!-- Khi giỏ hàng trống -->
+            <div class="cart-empty" id="emptyBlock" role="status" aria-live="polite">
+                <div class="icon" aria-hidden="true">🛒</div>
+                <div>Giỏ hàng của bạn đang trống.</div>
+            </div>
+
+            <!-- Danh sách sản phẩm (ẩn khi trống) -->
+            <div class="cart-list" id="list" hidden aria-hidden="true"></div>
+        </section>
+
+        <!-- Cột phải: tổng kết -->
+        <aside class="cart-summary">
+            <div class="row">
+                <span>Tạm tính</span>
+                <strong id="subTotal">0₫</strong>
+            </div>
+            <div class="row">
+                <span>Phí vận chuyển</span>
+                <span class="text-muted">Tính khi thanh toán</span>
+            </div>
+            <div class="row total">
+                <span>Thành tiền</span>
+                <strong id="grandTotal">0₫</strong>
+            </div>
+
+            <button id="checkoutBtn" type="button" class="checkout" disabled>Thanh toán</button>
+            <button id="demoAdd" type="button" class="btn" aria-label="Thêm sản phẩm demo">Thêm món demo (test)</button>
+        </aside>
+    </div>
+</main>
+</body>
+</html>

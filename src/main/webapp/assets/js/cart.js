@@ -143,7 +143,7 @@
         btn.style.width = '100%';
         btn.style.marginTop = '8px';
         btn.addEventListener('click', () => {
-            // go to home
+
             window.location.href = '/';
         });
         container.appendChild(btn);
