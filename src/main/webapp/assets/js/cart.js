@@ -60,6 +60,7 @@
             <button class="dec" aria-label="Giảm">-</button>
             <span class="qty-val">${qty}</span>
             <button class="inc" aria-label="Tăng">+</button>
+            
           </div>
           <div class="line-total">${fmt(price * qty)}</div>
           <button class="remove" aria-label="Xóa">X</button>
