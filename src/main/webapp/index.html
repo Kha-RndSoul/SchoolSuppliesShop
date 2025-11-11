@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hero Slider</title>
+  <link rel="stylesheet" href="assets/css/style-common.css" />
+    <link rel="stylesheet" href="assets/css/style-home.css">
+
+
+</head>
+<body>
+  <main>
+    <!-- Hero Banner Slider -->
+      <section class="hero-section">
+          <div class="slider-container">
+              <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200');">
+                  <div class="slide-content">
+                      <h1>Chuẩn Bị Cho Năm Học Mới</h1>
+                      <p>Giảm giá lên đến 40% cho tất cả đồ dùng học tập</p>
+                      <a href="products.html" class="btn-primary">Mua Ngay</a>
+                  </div>
+              </div>
+              <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200');">
+                  <div class="slide-content">
+                      <h1>Đồ Dùng Học Tập Chất Lượng</h1>
+                      <p>Bút, vở, sách và nhiều sản phẩm khác đang chờ bạn</p>
+                      <a href="products.html" class="btn-primary">Xem Ngay</a>
+                  </div>
+              </div>
+              <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200');">
+                  <div class="slide-content">
+                      <h1>Miễn Phí Vận Chuyển</h1>
+                      <p>Đơn hàng trên 300.000đ được miễn phí vận chuyển toàn quốc</p>
+                      <a href="products.html" class="btn-primary">Mua Sắm Ngay</a>
+                  </div>
+              </div>
+              <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
+              <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
+              <div class="slider-controls">
+                  <span class="slider-dot active" onclick="goToSlide(0)"></span>
+                  <span class="slider-dot" onclick="goToSlide(1)"></span>
+                  <span class="slider-dot" onclick="goToSlide(2)"></span>
+              </div>
+          </div>
+      </section>
+      <!-- Featured Categories -->
+      <section class="featured-categories">
+          <div class="container">
+              <h2 class="section-title">Danh Mục Nổi Bật</h2>
+              <div class="categories-grid">
+                  <a href="products.html?category=van-phong-pham" class="category-card">
+                      <img src="assets/images/van-phong-pham.svg" alt="Văn Phòng Phẩm" class="category-image">
+                      <div class="category-info">
+                          <h3>Văn Phòng Phẩm</h3>
+                          <p>Bút, thước, tẩy, gôm, kẹp giấy</p>
+                      </div>
+                  </a>
+                  <a href="products.html?category=sach-vo" class="category-card">
+                      <img src="assets/images/sach-vo.svg" alt="Sách Vở" class="category-image">
+                      <div class="category-info">
+                          <h3>Sách Vở</h3>
+                          <p>Vở, sách, tập, bìa bảo vệ</p>
+                      </div>
+                  </a>
+                  <a href="products.html?category=do-dung-ve" class="category-card">
+                      <img src="assets/images/do-dung-ve.svg" alt="Đồ Dùng Vẽ" class="category-image">
+                      <div class="category-info">
+                          <h3>Đồ Dùng Vẽ</h3>
+                          <p>Màu, cọ, giấy vẽ, bút chì màu</p>
+                      </div>
+                  </a>
+                  <a href="products.html?category=balo-cap" class="category-card">
+                      <img src="assets/images/balo-cap.svg" alt="Balo & Cặp" class="category-image">
+                      <div class="category-info">
+                          <h3>Balo & Cặp</h3>
+                          <p>Balo học sinh, cặp sách, túi đựng</p>
+                      </div>
+                  </a>
+              </div>
+          </div>
+      </section>
+
+
+  </main>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>
