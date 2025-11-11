@@ -163,8 +163,12 @@ input, select, textarea {
 .footer-links a { color: #dfe7ff; display: block; margin: 6px 0; }
 
 /* ========== Utilities ========== */
-.text-center { text-align: center; }
-.text-muted { color: var(--muted); }
+.text-center {
+    text-align: center;
+}
+.text-muted {
+    color: var(--muted);
+}
 
 /* ========== Simple Responsive ========== */
 @media (max-width: 900px) {
