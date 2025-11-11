@@ -106,7 +106,6 @@
         const dt = new Date().toISOString().replace(/[^0-9]/g,'').slice(0,14);
         return 'ORD-' + dt + '-' + Math.floor(Math.random()*9000+1000);
     }
-
     function showMsg(text, type='info') {
         // tạo banner bằng DOM nhưng style do CSS xử lý bởi class .msg-banner
         const old = document.getElementById('cartMsgBanner'); if (old) old.remove();
