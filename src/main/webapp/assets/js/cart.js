@@ -118,6 +118,7 @@
         setTimeout(()=>{ el.remove(); }, 3000);
     }
 
+
     function checkout() {
         const cart = load();
         if (!cart.length) {

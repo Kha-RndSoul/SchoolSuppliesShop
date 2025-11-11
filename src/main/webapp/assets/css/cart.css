@@ -5,6 +5,7 @@
     gap: 24px;
     align-items: start;
 }
+
 .cart-list {
     display: flex;
     flex-direction: column;
