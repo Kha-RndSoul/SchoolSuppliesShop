@@ -5,85 +5,92 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Đăng nhập</title>
 
+  <link rel="stylesheet" href="assets/css/style-common.css" />
+    <link rel="stylesheet" href="assets/css/style-login.css">
 
-  <link rel="stylesheet" href="src/main/webapp/assets/css/style-common.css" />
-
-    <style>
-        :root{
-            --primary: #0078d4;
-            --primary-dark: #005a9e;
-            --muted: #6b7280;
-            --card-bg: #ffffff;
-            --border: #e6e8eb;
-            --radius: 8px;
-        }
-
-        /* center container vertically and horizontally */
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body{
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            background: #f4f6f8;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        /* container fills available width up to max */
-        .container{
-            width: 100%;
-            max-width: 480px;
-            margin: 0; /* removed vertical margin to let flex center it */
-        }
-
-        /* make card take full container width */
-        .card{
-            width: 100%;
-            background:var(--card-bg);
-            border:1px solid var(--border);
-            border-radius:var(--radius);
-            padding:20px;
-            box-shadow: 0 2px 6px rgba(16,24,40,0.04);
-        }
-
-        /* rest unchanged */
-        h1{margin:0 0 12px;font-size:1.25rem}
-        .form-field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-        label{font-size:0.95rem;color:#222}
-        input[type="email"], input[type="password"]{
-            padding:10px;border:1px solid var(--border);border-radius:6px;font-size:1rem;
-        }
-        .helper-line{font-size:0.95rem;color:var(--muted);margin-bottom:12px}
-        .text-link{
-            color:var(--primary);
-            text-decoration:underline;
-            cursor:pointer;
-        }
-        .text-link:hover{color:var(--primary-dark)}
-        .btn{
-            display:inline-block;padding:10px 14px;border-radius:6px;border:1px solid var(--border);
-            background:#fff;cursor:pointer;font-weight:600;
-        }
-        .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
-        .row-center{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px}
-        .signup-line{font-size:0.95rem;color:var(--muted);text-align:center;margin-top:12px}
-        .social-row{display:flex;gap:10px;margin-top:14px}
-        .social-btn{
-            flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:6px;
-            border:1px solid var(--border);cursor:pointer;background:#fff;font-weight:600;
-        }
-        .social-google{background:#fff;color:#111}
-        .social-facebook{background:#1877f2;color:#fff;border-color:#1877f2}
-
-        /* small responsive tweak */
-        @media (max-width:420px){ body{padding:12px} .container{max-width:100%;} }
-    </style>
 </head>
 <body>
+<header class="header">
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            <span>
+                DPK Shop
+            </span>
+        </a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm sản phẩm...">
+            <button class="search-button">
+                🔍
+            </button>
+        </div>
+
+        <div class="header-actions">
+            <a href="contact.html" class="action-item">
+                <div class="action-text">
+                    <button class="phone-button">
+                        📞
+                    </button>
+                    <span>Liên hệ</span>
+                </div>
+            </a>
+            <a href="login.html" class="action-item">
+                <div class="action-text">
+                    <button class="user-button">
+                        👤
+                    </button>
+                    <span>Đăng nhập/Đăng ký</span>
+                </div>
+            </a>
+            <a href="cart.html" class="action-item">
+                <div class="action-text">
+                    <button class="cart-button">
+                        🛒
+                    </button>
+                    <span>Giỏ hàng</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="nav-row">
+        <div class="container">
+            <ul class="nav-links">
+                <li>
+                    <a href="products.html?category=van-phong-pham">
+                        Văn phòng phẩm
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=sach-vo">
+                        Sách vở
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=do-dung-ve">
+                        Đồ dùng vẽ
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=balo-cap">
+                        Balo & Cặp
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=may-tinh">
+                        Máy tính
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=den-hoc">
+                        Đèn học
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
   <main class="container">
     <section class="card" aria-labelledby="login-title">
       <h1 id="login-title">Đăng nhập</h1>
@@ -125,5 +132,38 @@
       </form>
     </section>
   </main>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Về Chúng Tôi</h3>
+                <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Hệ</h3>
+                <p>📧 Email: contact@hoctapstore.com</p>
+                <p>📞 Hotline: 1900 5678</p>
+                <p>📍 Địa chỉ: 123 Đường Học Tập, Quận 1, TP.HCM</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hỗ Trợ</h3>
+                <a href="#">Hướng dẫn mua hàng</a>
+                <a href="#">Chính sách đổi trả</a>
+                <a href="#">Vận chuyển</a>
+                <a href="#">Thanh toán</a>
+            </div>
+            <div class="footer-section">
+                <h3>Theo Dõi</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 DPK Shop. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

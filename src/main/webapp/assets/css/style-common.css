@@ -241,7 +241,7 @@ body {
 
 /* Footer */
 .footer {
-    background: var(--text-dark);
+    background: var(--header-bg);
     color: white;
     padding: 3rem 0 1.5rem;
     margin-top: 4rem;
