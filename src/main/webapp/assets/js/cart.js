@@ -1,7 +1,6 @@
 (() => {
     const KEY = 'cart';
     const ORDERS = 'orders';
-
     const listEl = document.getElementById('list');
     const emptyBlock = document.getElementById('emptyBlock');
     const countEl = document.getElementById('count');
