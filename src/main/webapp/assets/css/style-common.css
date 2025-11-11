@@ -17,6 +17,8 @@
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --header-bg: #0047AB;
+    --nav-bg: #E8F0F8;
 }
 
 body {
@@ -28,8 +30,8 @@ body {
 
 /* Header & Navigation */
 .header {
-    background: var(--bg-white);
-    box-shadow: var(--shadow);
+    background: var(--header-bg);
+    box-shadow: var(--shadow-md);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -42,67 +44,138 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
+/* Logo */
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: white;
     text-decoration: none;
+    transition: opacity 0.3s;
 }
 
-.nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
+.logo:hover {
+    opacity: 0.9;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: var(--text-dark);
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--primary-color);
-}
-
+/* Search Bar */
 .search-bar {
     display: flex;
-    gap: 0.5rem;
     flex: 1;
     max-width: 500px;
-    margin: 0 2rem;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
 
 .search-bar input {
     flex: 1;
-    padding: 0.75rem 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    border: none;
     font-size: 1rem;
-    transition: border-color 0.3s;
-}
-
-.search-bar input:focus {
     outline: none;
-    border-color: var(--primary-color);
 }
 
-.search-bar button {
+.search-bar input::placeholder {
+    color: var(--text-light);
+}
+
+.search-button {
     padding: 0.75rem 1.5rem;
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
+    font-size: 1.2rem;
     transition: background 0.3s;
 }
 
-.search-bar button:hover {
+.search-button:hover {
     background: var(--secondary-color);
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.action-item {
+    text-decoration: none;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+.action-item:hover {
+    opacity: 0.8;
+}
+
+.action-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.action-text span {
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+/* Action Buttons - Gộp chung */
+.phone-button,
+.user-button,
+.cart-button {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.phone-button:hover,
+.user-button:hover,
+.cart-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+/* Cart Icon & Badge */
+.cart-icon {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff3b30;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navigation Row */
+.nav-row {
+    background: var(--nav-bg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Container */
@@ -110,6 +183,32 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-links a {
+    display: block;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--primary-color);
 }
 
 /* Section Titles */
@@ -178,3 +277,6 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.6);
 }
+
+
+
