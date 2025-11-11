@@ -133,7 +133,6 @@
         render();
     }
 
-
     // bindings
     demoAdd && demoAdd.addEventListener('click', addDemoItem);
     checkoutBtn && checkoutBtn.addEventListener('click', checkout);

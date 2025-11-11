@@ -1,7 +1,14 @@
 
 .cart-page { padding: 24px 0; }
-.cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
-.cart-list { display: flex; flex-direction: column; gap: 12px; }
+.cart-layout { display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; }
 /* cart item */
 .cart-item {
     display: flex;
