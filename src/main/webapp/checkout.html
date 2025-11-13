@@ -1,41 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
 
-    <meta charset="UTF-8">
-    <title>thông tin khách hàng</title>
-    <link rel="stylesheet" href="assets/css/style-common.css">
-    <link rel="stylesheet" href="assets/css/checkout.css">
-</head>
-<body>
+        <meta charset="UTF-8">
+        <title>thông tin khách hàng</title>
+        <link rel="stylesheet" href="assets/css/style-common.css">
+        <link rel="stylesheet" href="assets/css/checkout.css">
+    </head>
+    <body>
 
-<form id="checkoutForm">
-    <h2>Thông tin khách hàng</h2>
-    <label>Tên <input id="name" required></label>
-    <label>Phone <input id="phone" required></label>
-    <label>Email <input id="email"></label>
-    <label>Địa chỉ <textarea id="address" required></textarea></label>
+    <form id="checkoutForm">
+        <h2>Thông tin khách hàng</h2>
+        <label>Tên <input id="name" required></label>
+        <label>Phone <input id="phone" required></label>
+        <label>Email <input id="email"></label>
+        <label>Địa chỉ <textarea id="address" required></textarea></label>
 
-    <h3>Vận chuyển</h3>
-    <label><input type="radio" name="shipping" value="standard" checked> Standard (25.000₫)</label>
-    <label><input type="radio" name="shipping" value="express"> Express (50.000₫)</label>
+        <h3>Vận chuyển</h3>
+        <label class="radio-inline">
+            <input type="radio" name="shipping" value="standard" checked>
+            Standard (25.000₫)
+        </label>
 
-    <h3>Thanh toán</h3>
-    <label><input type="radio" name="payment" value="cod" checked> COD</label>
-    <label><input type="radio" name="payment" value="online"> Mock Online</label>
+        <label class="radio-inline">
+            <input type="radio" name="shipping" value="express">
+            Express (50.000₫)
+        </label>
+        <h3>Thanh toán</h3>
+        <label><input type="radio" name="payment" value="cod" checked> COD</label>
+        <label><input type="radio" name="payment" value="online"> Mock Online</label>
 
-    <div id="orderReview"></div>
+        <div id="orderReview"></div>
 
-    <div class="totals">
-        <div>Subtotal: <span id="subtotal">0</span></div>
-        <div>Shipping: <span id="shippingFee">0</span></div>
-        <div>Total: <span id="total">0</span></div>
-    </div>
+        <div class="totals">
+            <div>Subtotal: <span id="subtotal">0</span></div>
+            <div>Shipping: <span id="shippingFee">0</span></div>
+            <div>Total: <span id="total">0</span></div>
+        </div>
 
-    <button type="button" id="placeOrderBtn">Đặt hàng</button>
-    <div id="checkoutError" role="alert"></div>
-</form>
+        <button type="button" id="placeOrderBtn">Đặt hàng</button>
+        <div id="checkoutError" role="alert"></div>
+    </form>
 
 
-</body>
-</html>
+    </body>
+    </html>
