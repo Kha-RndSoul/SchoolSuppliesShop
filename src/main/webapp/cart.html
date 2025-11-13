@@ -1,68 +1,53 @@
 <!doctype html>
 <html lang="vi">
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Giỏ hàng | School Supplies Shop</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap&subset=vietnamese" rel="stylesheet" />
-
-    <!-- CSS chung và riêng -->
-    <link rel="stylesheet" href="assets/css/style-common.css" />
-    <link rel="stylesheet" href="assets/css/cart.css" />
-
-    <!-- JS -->
-    <script src="assets/js/cart.js" defer></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Giỏ hàng</title>
+    <link rel="stylesheet" href="assets/css/style-common.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
 </head>
-
 <body>
-<!-- Thanh breadcrumb trên đầu -->
-<div class="cart-top">
-    <div class="wrap">
-        <a href="/" aria-label="Về trang chủ">Trang chủ</a> /
-        <strong>Giỏ hàng (<span id="count" aria-live="polite">0</span>)</strong>
+<main class="container cart-page" id="main">
+    <h1 class="section-title">Giỏ hàng của bạn</h1>
+
+    <!-- nút demo thêm hàng -->
+    <div style="margin-bottom:12px;">
+        <button id="demoAdd" class="btn-primary" type="button">Thêm món hàng (demo)</button>
     </div>
-</div>
+    <!-- Khi giỏ rỗng -->
+    <div id="emptyBlock" class="cart-empty" role="status" aria-live="polite" hidden>
+        <p>Giỏ hàng của bạn đang trống.</p>
+        <a class="btn-primary" href="products.html">Tiếp tục mua hàng</a>
+    </div>
 
-<!-- Nội dung chính -->
-<main class="cart-page">
-    <div class="wrap">
-        <!-- Cột trái: danh sách sản phẩm -->
-        <section class="cart-card">
-            <h1>Giỏ hàng của bạn</h1>
+    <div class="cart-layout">
+        <section class="cart-list" id="list" aria-label="Danh sách sản phẩm">
 
-            <!-- Khi giỏ hàng trống -->
-            <div class="cart-empty" id="emptyBlock" role="status" aria-live="polite">
-                <div class="icon" aria-hidden="true">🛒</div>
-                <div>Giỏ hàng của bạn đang trống.</div>
-            </div>
-
-            <!-- Danh sách sản phẩm (ẩn khi trống) -->
-            <div class="cart-list" id="list" hidden aria-hidden="true"></div>
         </section>
+        <aside class="cart-summary" aria-label="Tóm tắt đơn hàng">
+            <div class="summary-box">
+                <h2>Tóm tắt</h2>
+                <div class="summary-row">
+                    <span>Tạm tính</span>
+                    <strong id="subTotal">0₫</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Phí vận chuyển</span>
+                    <strong id="shippingFee">0₫</strong>
+                </div>
+                <div class="summary-row total">
+                    <span>Tổng cộng</span>
+                    <strong id="grandTotal">0₫</strong>
+                </div>
 
-        <!-- Cột phải: tổng kết -->
-        <aside class="cart-summary">
-            <div class="row">
-                <span>Tạm tính</span>
-                <strong id="subTotal">0₫</strong>
+                <button id="checkoutBtn" class="btn-primary" type="button">Thanh toán</button>
             </div>
-            <div class="row">
-                <span>Phí vận chuyển</span>
-                <span class="text-muted">Tính khi thanh toán</span>
-            </div>
-            <div class="row total">
-                <span>Thành tiền</span>
-                <strong id="grandTotal">0₫</strong>
-            </div>
-
-            <button id="checkoutBtn" type="button" class="checkout" disabled>Thanh toán</button>
-            <button id="demoAdd" type="button" class="btn" aria-label="Thêm sản phẩm demo">Thêm món demo (test)</button>
         </aside>
     </div>
 </main>
+
+<script src="assets/js/cart.js"></script>
 </body>
 </html>
