@@ -4,10 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Sản Phẩm</title>
-    <link rel="stylesheet" href="assets/css/style-home.css">
+
     <link rel="stylesheet" href="assets/css/style-common.css">
+    <link rel="stylesheet" href="assets/css/style-product.css">
+
 </head>
 <body>
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <span>
+                DPK Shop
+            </span>
+        </a>
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm sản phẩm...">
+            <button class="search-button">
+                🔍
+            </button>
+        </div>
+
+        <div class="header-actions">
+            <a href="contact.html" class="action-item">
+                <div class="action-text">
+                    <button class="phone-button">
+                        📞
+                    </button>
+                    <span>Liên hệ</span>
+                </div>
+            </a>
+            <a href="login.html" class="action-item">
+                <div class="action-text">
+                    <button class="user-button">
+                        👤
+                    </button>
+                    <span>Đăng nhập/Đăng ký</span>
+                </div>
+            </a>
+            <a href="cart.html" class="action-item">
+                <div class="action-text">
+                    <button class="cart-button">
+                        🛒
+                    </button>
+                    <span>Giỏ hàng</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="nav-row">
+        <div class="container">
+            <ul class="nav-links">
+                <li>
+                    <a href="products.html?category=van-phong-pham">
+                        Văn phòng phẩm
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=sach-vo">
+                        Sách vở
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=do-dung-ve">
+                        Đồ dùng vẽ
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=balo-cap">
+                        Balo & Cặp
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=may-tinh">
+                        Máy tính
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=den-hoc">
+                        Đèn học
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
 
 <!-- Trang Sản phẩm -->
 <div class="container products-page">
@@ -26,8 +107,107 @@
                     </div>
                 </div>
             </div>
+            <!-- Bộ lọc Theo Thương Hiệu -->
+            <div class="filter-section">
+                <h3 class="filter-title">Thương Hiệu</h3>
+                <div class="filter-group">
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-thien-long" value="Thiên Long" onchange="applyFilters()">
+                        <label for="brand-thien-long">Thiên Long</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-ben-nghe" value="Bến Nghé" onchange="applyFilters()">
+                        <label for="brand-ben-nghe">Bến Nghé</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-hong-ha" value="Hồng Hà" onchange="applyFilters()">
+                        <label for="brand-hong-ha">Hồng Hà</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-faber-castell" value="Faber-Castell" onchange="applyFilters()">
+                        <label for="brand-faber-castell">Faber-Castell</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-staedtler" value="Staedtler" onchange="applyFilters()">
+                        <label for="brand-staedtler">Staedtler</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-jansport" value="Jansport" onchange="applyFilters()">
+                        <label for="brand-jansport">Jansport</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="brand-casio" value="Casio" onchange="applyFilters()">
+                        <label for="brand-casio">Casio</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-filter" onclick="resetFilters()">Đặt Lại Bộ Lọc</button>
         </aside>
+        <!-- Nội dung Sản Phẩm-->
+        <main>
+            <div class="products-header">
+                <div>
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Sản Phẩm</h1>
+                    <p class="products-count" id="productsCount">Hiển thị <span id="showingCount">0</span> / <span id="totalCount">0</span> sản phẩm</p>
+                </div>
+                <div class="sort-container">
+                    <label for="sortSelect">Sắp xếp:</label>
+                    <select id="sortSelect" onchange="applyFilters()">
+                        <option value="default">Mặc định</option>
+                        <option value="price-asc">Giá: Thấp đến Cao</option>
+                        <option value="price-desc">Giá: Cao đến Thấp</option>
+                        <option value="name-asc">Tên: A-Z</option>
+                        <option value="name-desc">Tên: Z-A</option>
+                        <option value="rating-desc">Đánh giá cao nhất</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded by JavaScript -->
+            </div>
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be generated by JavaScript -->
+            </div>
+        </main>
         </div>
 </div>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
+                <a href="about.html" class="text-link" >Về chúng tôi </a>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Hệ</h3>
+                <p>📧 Email: contact@dpkshop.com</p>
+                <p>📞 Hotline: 1900 5678</p>
+                <p>📍 Địa chỉ: 123 Đường Học Tập, Quận 1, TP.HCM</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hỗ Trợ</h3>
+                <a href="#">Hướng dẫn mua hàng</a>
+                <a href="#">Chính sách đổi trả</a>
+                <a href="#">Vận chuyển</a>
+                <a href="#">Thanh toán</a>
+            </div>
+            <div class="footer-section">
+                <h3>Theo Dõi</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
+<script src="assets/js/products.js"></script>
 </body>
 </html>
