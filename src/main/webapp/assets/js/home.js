@@ -24,3 +24,17 @@ function goToSlide(index) {
 setInterval(() => {
     changeSlide(1);
 }, 5000);
+// Search function
+function handleSearch() {
+    const searchTerm = document.getElementById('searchInput').value;
+    if (searchTerm.trim()) {
+        window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
+    }
+}
+
+// Enter key search
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        handleSearch();
+    }
+});
