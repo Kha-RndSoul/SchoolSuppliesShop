@@ -1,164 +1,145 @@
-// javascript
 (() => {
     const KEY = 'cart';
+    const ORDERS = 'orders';
     const listEl = document.getElementById('list');
     const emptyBlock = document.getElementById('emptyBlock');
     const countEl = document.getElementById('count');
     const subTotalEl = document.getElementById('subTotal');
+    const shippingFeeEl = document.getElementById('shippingFee');
     const grandTotalEl = document.getElementById('grandTotal');
     const checkoutBtn = document.getElementById('checkoutBtn');
+    const continueBtn = document.getElementById('continueBtn');
     const demoAdd = document.getElementById('demoAdd');
+    const mainEl = document.getElementById('main') || document.body;
 
-    function loadCart() {
-        try {
-            const raw = localStorage.getItem(KEY);
-            return raw ? JSON.parse(raw) : [];
-        } catch {
-            return [];
-        }
-    }
-
-    function saveCart(cart) {
+    const load = () => {
+        try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+        catch { return []; }
+    };
+    const save = cart => {
         localStorage.setItem(KEY, JSON.stringify(cart));
-    }
+        window.dispatchEvent(new CustomEvent('cart:updated', { detail: { items: cart } }));
+    };
+    const clear = () => {
+        localStorage.removeItem(KEY);
+        window.dispatchEvent(new CustomEvent('cart:updated', { detail: { items: [] } }));
+    };
+    const fmt = n => (Number(n)||0).toLocaleString('vi-VN') + '₫';
+    const subtotalOf = items => (items||[]).reduce((s,it)=>s + (Number(it.price)||0)*(Number(it.qty)||0), 0);
 
-    function formatVND(n) {
-        return n.toLocaleString('vi-VN') + '₫';
-    }
-
-    function calcTotals(cart) {
-        const subtotal = cart.reduce((s, it) => s + it.price * it.qty, 0);
-        // Shipping not calculated here; grandTotal = subtotal
-        return { subtotal, grandTotal: subtotal };
-    }
+    function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     function render() {
-        const cart = loadCart();
+        const cart = load();
         if (!cart.length) {
-            emptyBlock.removeAttribute('hidden');
-            emptyBlock.setAttribute('aria-hidden', 'false');
-            listEl.hidden = true;
-            countEl.textContent = '0';
-            subTotalEl.textContent = formatVND(0);
-            grandTotalEl.textContent = formatVND(0);
-            checkoutBtn.disabled = true;
+            if (emptyBlock) emptyBlock.hidden = false;
+            if (listEl) listEl.innerHTML = '';
+            if (subTotalEl) subTotalEl.textContent = fmt(0);
+            if (shippingFeeEl) shippingFeeEl.textContent = fmt(0);
+            if (grandTotalEl) grandTotalEl.textContent = fmt(0);
+            if (checkoutBtn) checkoutBtn.disabled = true;
+            if (countEl) countEl.textContent = '0';
             return;
         }
-
-        emptyBlock.hidden = true;
-        emptyBlock.setAttribute('aria-hidden', 'true');
-        listEl.hidden = false;
+        if (emptyBlock) emptyBlock.hidden = true;
         listEl.innerHTML = '';
-
-        cart.forEach(item => {
+        cart.forEach(it => {
+            const title = escapeHtml(it.name || it.title || 'Sản phẩm');
+            const price = Number(it.price) || 0;
+            const qty = Number(it.qty) || 1;
             const row = document.createElement('div');
             row.className = 'cart-item';
-            row.dataset.id = item.id;
+            row.dataset.id = it.id;
             row.innerHTML = `
         <div class="item-left">
-          <div class="title">${escapeHtml(item.name)}</div>
-          <div class="price">${formatVND(item.price)}</div>
+          <div class="title">${title}</div>
+          <div class="price">${fmt(price)}</div>
         </div>
         <div class="item-right">
           <div class="qty">
             <button class="dec" aria-label="Giảm">-</button>
-            <span class="qty-val" aria-live="polite">${item.qty}</span>
+            <span class="qty-val">${qty}</span>
             <button class="inc" aria-label="Tăng">+</button>
+            
           </div>
-          <div class="line-total">${formatVND(item.price * item.qty)}</div>
+          <div class="line-total">${fmt(price * qty)}</div>
           <button class="remove" aria-label="Xóa">X</button>
-        </div>
-      `;
-            // event handlers
-            row.querySelector('.inc').addEventListener('click', () => changeQty(item.id, +1));
-            row.querySelector('.dec').addEventListener('click', () => changeQty(item.id, -1));
-            row.querySelector('.remove').addEventListener('click', () => removeItem(item.id));
+        </div>`;
+            row.querySelector('.inc').addEventListener('click', ()=>changeQty(it.id, +1));
+            row.querySelector('.dec').addEventListener('click', ()=>changeQty(it.id, -1));
+            row.querySelector('.remove').addEventListener('click', ()=>removeItem(it.id));
             listEl.appendChild(row);
         });
-
-        countEl.textContent = cart.reduce((c, it) => c + it.qty, 0);
-        const totals = calcTotals(cart);
-        subTotalEl.textContent = formatVND(totals.subtotal);
-        grandTotalEl.textContent = formatVND(totals.grandTotal);
-        checkoutBtn.disabled = false;
+        const sub = subtotalOf(cart);
+        if (subTotalEl) subTotalEl.textContent = fmt(sub);
+        const shipping = sub > 0 ? 25000 : 0;
+        if (shippingFeeEl) shippingFeeEl.textContent = fmt(shipping);
+        if (grandTotalEl) grandTotalEl.textContent = fmt(sub + shipping);
+        if (checkoutBtn) checkoutBtn.disabled = false;
+        if (countEl) countEl.textContent = String(cart.reduce((c,i)=>c + (Number(i.qty)||0),0));
     }
 
     function changeQty(id, delta) {
-        const cart = loadCart();
-        const idx = cart.findIndex(i => i.id === id);
+        const cart = load();
+        const idx = cart.findIndex(i => String(i.id) === String(id));
         if (idx === -1) return;
-        cart[idx].qty = Math.max(1, cart[idx].qty + delta);
-        saveCart(cart);
+        cart[idx].qty = Math.max(1, (Number(cart[idx].qty)||1) + delta);
+        save(cart);
         render();
     }
-
     function removeItem(id) {
-        let cart = loadCart();
-        cart = cart.filter(i => i.id !== id);
-        saveCart(cart);
+        const cart = load().filter(i => String(i.id) !== String(id));
+        save(cart);
+        render();
+    }
+    function addDemoItem() {
+        const demo = { id: 'demo-pencil', name: 'Bút chì HB (demo)', price: 12000, qty: 1 };
+        const cart = load();
+        const ex = cart.find(i => i.id === demo.id);
+        if (ex) ex.qty = (Number(ex.qty)||0) + 1;
+        else cart.push(demo);
+        save(cart);
         render();
     }
 
-    function addItem(item) {
-        const cart = loadCart();
-        const existing = cart.find(i => i.id === item.id);
-        if (existing) {
-            existing.qty += item.qty;
-        } else {
-            cart.push(item);
+    function genOrderId() {
+        const dt = new Date().toISOString().replace(/[^0-9]/g,'').slice(0,14);
+        return 'ORD-' + dt + '-' + Math.floor(Math.random()*9000+1000);
+    }
+    function showMsg(text, type='info') {
+        // tạo banner bằng DOM nhưng style do CSS xử lý bởi class .msg-banner
+        const old = document.getElementById('cartMsgBanner'); if (old) old.remove();
+        const el = document.createElement('div');
+        el.id = 'cartMsgBanner';
+        el.className = 'msg-banner ' + (type || 'info');
+        el.textContent = text;
+        mainEl.insertBefore(el, mainEl.firstChild);
+        setTimeout(()=>{ el.remove(); }, 3000);
+    }
+
+
+    function checkout() {
+        const cart = load();
+        if (!cart.length) {
+            showMsg('Giỏ hàng trống — không thể thanh toán', 'error');
+            return;
         }
-        saveCart(cart);
+        const order = { orderId: genOrderId(), createdAt: new Date().toISOString(), items: cart, subtotal: subtotalOf(cart) };
+        const orders = JSON.parse(localStorage.getItem(ORDERS) || '[]');
+        orders.push(order);
+        localStorage.setItem(ORDERS, JSON.stringify(orders));
+        showMsg('Thanh toán thành công — Mã đơn: ' + order.orderId, 'success');
+        clear();
         render();
     }
-
-    // demo Add handler
-    demoAdd.addEventListener('click', () => {
-        const demo = {
-            id: 'demo-' + Date.now(),
-            name: 'Món demo',
-            price: 50000,
-            qty: 1
-        };
-        addItem(demo);
-    });
-
-    // checkout handler
-    checkoutBtn.addEventListener('click', () => {
-        const cart = loadCart();
-        if (!cart.length) return;
-        // replace with real checkout flow
-        alert('Proceed to checkout — total: ' + formatVND(calcTotals(cart).grandTotal));
-    });
-
-    // create "Tiếp tục mua hàng" button if not present
-    function ensureContinueButton() {
-        if (document.getElementById('continueBtn')) return;
-        const container = document.querySelector('.sum-box') || document.body;
-        const btn = document.createElement('button');
-        btn.id = 'continueBtn';
-        btn.type = 'button';
-        btn.className = 'btn';
-        btn.textContent = 'Tiếp tục mua hàng';
-        btn.style.width = '100%';
-        btn.style.marginTop = '8px';
-        btn.addEventListener('click', () => {
-            // go to home
-            window.location.href = '/';
-        });
-        container.appendChild(btn);
-    }
-
-    // minimal HTML escaping for names
-    function escapeHtml(s) {
-        return String(s)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
+    // bindings
+    demoAdd && demoAdd.addEventListener('click', addDemoItem);
+    checkoutBtn && checkoutBtn.addEventListener('click', checkout);
+    continueBtn && continueBtn.addEventListener('click', ()=> window.location.href = 'products.html');
 
     // init
-    ensureContinueButton();
     render();
+
+    // expose for debug
+    window.appCart = { load, save, clear, render };
 })();
