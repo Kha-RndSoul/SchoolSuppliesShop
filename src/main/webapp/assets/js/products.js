@@ -16,7 +16,12 @@ const allProducts = [
     { id: 14, name: 'Cặp Sách Học Sinh', brand: 'Hồng Hà', category: 'balo-cap', price: 350000, oldPrice: 450000, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop', rating: 4.6 },
     { id: 15, name: 'Balo Nike Heritage', brand: 'Nike', category: 'balo-cap', price: 1200000, oldPrice: 1500000, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop', rating: 4.7 },
     { id: 18, name: 'Đèn Bàn Học Chống Cận', brand: 'Sunny', category: 'den-hoc', price: 320000, oldPrice: 450000, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop', rating: 4.5 },
-    { id: 20, name: 'Bộ Bút Lông Màu 36 Màu', brand: 'Faber-Castell', category: 'do-dung-ve', price: 180000, oldPrice: 250000, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop', rating: 4.8 }
+    { id: 20, name: 'Bộ Bút Lông Màu 36 Màu', brand: 'Faber-Castell', category: 'do-dung-ve', price: 180000, oldPrice: 250000, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop', rating: 4.8 },
+    { id: 21, name: 'Balo đựng mèo', brand: 'Thiên Long', category: 'balo-cap', price: 330000, oldPrice: 380000, image: 'https://cunsieupham.com/wp-content/uploads/2023/06/22584100670_1106168684.jpg', rating: 4.8 },
+    { id: 22, name: 'Máy Tính Casio FX-570VN Plus', brand: 'Casio', category: 'may-tinh', price: 490000, oldPrice: 650000, image: 'https://bizweb.dktcdn.net/100/379/648/products/may…plus-8-x-16-cm-l-1537255666-2.jpg?v=1587370028027',rating: 4.7},
+    { id: 23, name: 'Máy Tính Casio DF-120 ', brand: 'Casio', category: 'may-tinh', price: 250000, oldPrice: 300000, image: 'https://bizweb.dktcdn.net/100/379/648/products/may…plus-8-x-16-cm-l-1537255666-2.jpg?v=1587370028027',rating: 4.7},
+    { id: 24, name: 'Máy Tính Casio FX-880 ', brand: 'Casio', category: 'may-tinh', price: 800000, oldPrice: 900000, image: 'https://cdn1.fahasa.com/media/catalog/product/4/5/4549526613708.jpg',rating: 4.9},
+    { id: 25, name: 'Máy Tính Casio FX-570ES Plus ', brand: 'Casio', category: 'may-tinh', price: 430000, oldPrice: 600000, image: 'https://www.bachdang.info/image/cache/catalog/revs…lder/6361ddff80f0dde2fd7141fb6f5772f9-500x524.jpg',rating: 4.8}
 ];
 
 let currentPage = 1;
