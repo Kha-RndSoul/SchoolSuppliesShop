@@ -22,7 +22,6 @@ const allProducts = [
     { id: 23, name: 'Máy Tính Casio DF-120 ', brand: 'Casio', category: 'may-tinh', price: 250000, oldPrice: 300000, image: 'https://bizweb.dktcdn.net/100/379/648/products/may…plus-8-x-16-cm-l-1537255666-2.jpg?v=1587370028027',rating: 4.7},
     { id: 24, name: 'Máy Tính Casio FX-880 ', brand: 'Casio', category: 'may-tinh', price: 800000, oldPrice: 900000, image: 'https://cdn1.fahasa.com/media/catalog/product/4/5/4549526613708.jpg',rating: 4.9},
     { id: 25, name: 'Máy Tính Casio FX-570ES Plus ', brand: 'Casio', category: 'may-tinh', price: 430000, oldPrice: 600000, image: 'https://www.bachdang.info/image/cache/catalog/revs…lder/6361ddff80f0dde2fd7141fb6f5772f9-500x524.jpg',rating: 4.8}
-
 ];
 
 let currentPage = 1;
