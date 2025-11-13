@@ -1,8 +1,6 @@
 /* Bố cục Chính */
 .product-page {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 280px 1fr;
+    padding: 2rem 0;
 }
 .products-layout{
     display: grid;
@@ -86,6 +84,15 @@
     background: var(--secondary-color);  /* Đổi màu khi hover */
 }
 /* Lưới Sản phẩm */
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
 .products-count {
     color: var(--text-light);
     font-size: 0.9rem;
@@ -137,11 +144,9 @@
     object-fit: cover;
     background: var(--bg-light);
 }
-
 .product-info {
     padding: 1.5rem;
 }
-
 .product-name {
     font-size: 1.1rem;
     font-weight: 600;

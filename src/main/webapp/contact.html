@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ</title>
+    <link rel="stylesheet" href="assets/css/style-common.css" />
+    <link rel="stylesheet" href="assets/css/style-contact.css" />
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <span>DPK Shop</span>
+        </a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm sản phẩm...">
+            <button class="search-button">🔍</button>
+        </div>
+
+        <div class="header-actions">
+            <a href="contact.html" class="action-item">
+                <div class="action-text">
+                    <button class="phone-button">📞</button>
+                    <span>Liên hệ</span>
+                </div>
+            </a>
+            <a href="login.html" class="action-item">
+                <div class="action-text">
+                    <button class="user-button">👤</button>
+                    <span>Đăng nhập/Đăng ký</span>
+                </div>
+            </a>
+            <a href="cart.html" class="action-item">
+                <div class="action-text">
+                    <button class="cart-button">🛒</button>
+                    <span>Giỏ hàng</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="nav-row">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="products.html?category=van-phong-pham">Văn phòng phẩm</a></li>
+                <li><a href="products.html?category=sach-vo">Sách vở</a></li>
+                <li><a href="products.html?category=do-dung-ve">Đồ dùng vẽ</a></li>
+                <li><a href="products.html?category=balo-cap">Balo & Cặp</a></li>
+                <li><a href="products.html?category=may-tinh">Máy tính</a></li>
+                <li><a href="products.html?category=den-hoc">Đèn học</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-layout">
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h1>Thông Tin Liên Hệ</h1>
+                    <p class="contact-desc">Liên hệ với chúng tôi qua các kênh sau:</p>
+
+                    <div class="info-item">
+                        <div class="info-icon">📧</div>
+                        <div class="info-content">
+                            <h2>Email</h2>
+                            <p><a href="#">contact@dpkshop.com</a></p>
+                            <p><a href="#">support@dpkshop.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-content">
+                            <h2>Hotline</h2>
+                            <p><a href="#">1900 5678</a> (7:30 - 22:00)</p>
+                            <p><a href="#">0123 456 789</a> (24/7)</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-content">
+                            <h2>Địa Chỉ</h2>
+                            <p>123 Đường Học Tập, Phường 1</p>
+                            <p>Quận 1, TP. Hồ Chí Minh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h2>Gửi Tin Nhắn Cho Chúng Tôi</h2>
+                    <form action="#" method="post" class="contact-form">
+                        <div class="form-group">
+                            <label for="fullname">Họ và Tên <span class="required">*</span></label>
+                            <input
+                                    type="text"
+                                    id="fullname"
+                                    name="fullname"
+                                    placeholder="Nguyễn Văn A"
+                                    required
+                            />
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="example@email.com"
+                                        required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Số Điện Thoại <span class="required">*</span></label>
+                                <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        placeholder="0123 456 789"
+                                        required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Tiêu Đề</label>
+                            <input
+                                    type="text"
+                                    id="subject"
+                                    name="subject"
+                                    placeholder="Chủ đề liên hệ"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Nội Dung <span class="required">*</span></label>
+                            <textarea
+                                    id="message"
+                                    name="message"
+                                    rows="6"
+                                    placeholder="Nhập nội dung tin nhắn của bạn tại đây..."
+                                    required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">
+                                ✉️ Gửi Tin Nhắn
+                            </button>
+                            <button type="reset" class="btn-reset">
+                                🔄 Nhập Lại
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
+                <a href="about.html" class="text-link" >Về chúng tôi </a>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Hệ</h3>
+                <p>📧 Email: contact@dpkshop.com</p>
+                <p>📞 Hotline: 1900 5678</p>
+                <p>📍 Địa chỉ: 123 Đường Học Tập, Phường 1, Quận 1, TP.HCM</p>
+                <a href="contact.html" class="text-link" >Chi tiết liên hệ </a>
+            </div>
+            <div class="footer-section">
+                <h3>Hỗ Trợ</h3>
+                <a href="#">Hướng dẫn mua hàng</a>
+                <a href="#">Chính sách đổi trả</a>
+                <a href="#">Vận chuyển</a>
+                <a href="#">Thanh toán</a>
+            </div>
+            <div class="footer-section">
+                <h3>Theo Dõi</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
