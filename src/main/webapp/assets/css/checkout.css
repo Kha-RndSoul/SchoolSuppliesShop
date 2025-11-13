@@ -2,7 +2,11 @@
 body {
     background: var(--bg-light);
 }
-
+#checkout-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
 #checkoutForm {
     max-width: 600px;
     background: white;
