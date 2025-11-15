@@ -355,8 +355,145 @@
             </div>
         </section>
         <section id="products-section" class="admin-section">
-            <h2>Quản lý sản phẩm</h2>
-            <p>Nội dung sẽ được thêm sau...</p>
+            <div class="section-header">
+                <h2>Quản Lý Sản Phẩm</h2>
+                <div class="section-actions">
+                    <button class="btn-add-new" onclick="toggleProductForm()">Thêm Sản Phẩm</button>
+                </div>
+            </div>
+
+            <!-- Form Thêm Sản Phẩm -->
+            <div class="product-form-container">
+                <h3>Thêm Sản Phẩm Mới</h3>
+                <form class="product-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tên sản phẩm *</label>
+                            <input type="text" placeholder="Nhập tên sản phẩm" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Danh mục *</label>
+                            <select required>
+                                <option value="">-- Chọn danh mục --</option>
+                                <option value="Văn phòng phẩm">Văn phòng phẩm</option>
+                                <option value="Sách vở">Sách vở</option>
+                                <option value="Đồ dùng vẽ">Đồ dùng vẽ</option>
+                                <option value="Balo & Cặp">Balo & Cặp</option>
+                                <option value="Máy tính">Máy tính</option>
+                                <option value="Đèn học">Đèn học</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Giá bán (đ) *</label>
+                            <input type="number" placeholder="0" min="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số lượng tồn kho *</label>
+                            <input type="number" placeholder="0" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Lưu Sản Phẩm</button>
+                        <button type="reset" class="btn-secondary">Xóa Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bảng Danh Sách Sản Phẩm -->
+            <div class="dashboard-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">Danh Sách Sản Phẩm</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Danh Mục</th>
+                            <th>Giá Bán</th>
+                            <th>Tồn Kho</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><span class="order-code">#SP001</span></td>
+                            <td><strong>Bút bi Thiên Long TL-027</strong></td>
+                            <td>Văn phòng phẩm</td>
+                            <td><strong>5,000đ</strong></td>
+                            <td><span class="stock-badge high">2,500</span></td>
+                            <td>
+                                <button class="btn-edit" title="Sửa">Sửa</button>
+                                <button class="btn-delete" title="Xóa">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#SP002</span></td>
+                            <td><strong>Vở kẻ ngang A4 - 200 trang</strong></td>
+                            <td>Sách vở</td>
+                            <td><strong>25,000đ</strong></td>
+                            <td><span class="stock-badge medium">450</span></td>
+                            <td>
+                                <button class="btn-edit" title="Sửa">Sửa</button>
+                                <button class="btn-delete" title="Xóa">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#SP003</span></td>
+                            <td><strong>Balo học sinh cấp 2</strong></td>
+                            <td>Balo & Cặp</td>
+                            <td><strong>350,000đ</strong></td>
+                            <td><span class="stock-badge low">45</span></td>
+                            <td>
+                                <button class="btn-edit" title="Sửa">Sửa</button>
+                                <button class="btn-delete" title="Xóa">Xóa️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#SP004</span></td>
+                            <td><strong>Bộ màu nước 36 màu</strong></td>
+                            <td>Đồ dùng vẽ</td>
+                            <td><strong>120,000đ</strong></td>
+                            <td><span class="stock-badge medium">180</span></td>
+                            <td>
+                                <button class="btn-edit" title="Sửa">Sửa️</button>
+                                <button class="btn-delete" title="Xóa">Xóa️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#SP005</span></td>
+                            <td><strong>Máy tính Casio FX-570VN Plus</strong></td>
+                            <td>Máy tính</td>
+                            <td><strong>450,000đ</strong></td>
+                            <td><span class="stock-badge low">23</span></td>
+                            <td>
+                                <button class="btn-edit" title="Sửa">Sửa️</button>
+                                <button class="btn-delete" title="Xóa">Xóa️</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-controls">
+                        <button class="pagination-btn">◀</button>
+                        <button class="pagination-btn active" onclick="changePage()" >1</button>
+                        <button class="pagination-btn" onclick="changePage()" >2</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-btn" onclick="changePage()" >9</button>
+                        <button class="pagination-btn" onclick="changePage()" >10</button>
+                        <button class="pagination-btn">▶</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="orders-section" class="admin-section">
