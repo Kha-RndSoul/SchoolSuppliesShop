@@ -105,47 +105,47 @@
             <h2>🛠️ Bảng quản trị</h2>
         </div>
         <nav class="sidebar-nav">
-            <a href="#dashboard" class="nav-item active" data-section="dashboard">
+            <a href="#dashboard-section" class="nav-item active" data-section="dashboard">
                 <span class="nav-icon">📊</span>
                 <span class="nav-text">Dashboard</span>
             </a>
 
-            <a href="#products" class="nav-item" data-section="products">
+            <a href="#products-section" class="nav-item" data-section="products">
                 <span class="nav-icon">📦</span>
                 <span class="nav-text">Sản phẩm</span>
             </a>
 
-            <a href="#orders" class="nav-item" data-section="orders">
+            <a href="#orders-section" class="nav-item" data-section="orders">
                 <span class="nav-icon">🛒</span>
                 <span class="nav-text">Đơn hàng</span>
             </a>
 
-            <a href="#customers" class="nav-item" data-section="customers">
+            <a href="#customers-section" class="nav-item" data-section="customers">
                 <span class="nav-icon">👥</span>
                 <span class="nav-text">Khách hàng</span>
             </a>
 
-            <a href="#categories" class="nav-item" data-section="categories">
+            <a href="#categories-section" class="nav-item" data-section="categories">
                 <span class="nav-icon">📑</span>
                 <span class="nav-text">Danh mục</span>
             </a>
 
-            <a href="#coupons" class="nav-item" data-section="coupons">
+            <a href="#coupons-section" class="nav-item" data-section="coupons">
                 <span class="nav-icon">🎟️</span>
                 <span class="nav-text">Mã giảm giá</span>
             </a>
 
-            <a href="#reviews" class="nav-item" data-section="reviews">
+            <a href="#reviews-section" class="nav-item" data-section="reviews">
                 <span class="nav-icon">⭐</span>
                 <span class="nav-text">Đánh giá</span>
             </a>
 
-            <a href="#reports" class="nav-item" data-section="reports">
+            <a href="#reports-section" class="nav-item" data-section="reports">
                 <span class="nav-icon">📈</span>
                 <span class="nav-text">Báo cáo</span>
             </a>
 
-            <a href="#settings" class="nav-item" data-section="settings">
+            <a href="#settings-section" class="nav-item" data-section="settings">
                 <span class="nav-icon">⚙️</span>
                 <span class="nav-text">Cài đặt</span>
             </a>
@@ -153,8 +153,206 @@
     </aside>
     <main class="admin-main">
         <section id="dashboard-section" class="admin-section active">
-            <h2>Dashboard</h2>
-            <p>Nội dung sẽ được thêm sau...</p>
+                <div class="section-header">
+                <h2>Dashboard</h2>
+                <div class="section-actions">
+                    <select class="filter-select">
+                        <option value="today">Hôm nay</option>
+                        <option value="yesterday">Hôm qua</option>
+                        <option value="7days">7 ngày qua</option>
+                        <option value="30days" selected>30 ngày qua</option>
+                        <option value="custom">Tùy chỉnh</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <p class="stat-label">Doanh Thu</p>
+                        <h3 class="stat-value">45,250,000đ</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-icon">🛒</div>
+                    <div class="stat-content">
+                        <p class="stat-label">Đơn Hàng Mới</p>
+                        <h3 class="stat-value">24</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-content">
+                        <p class="stat-label">Sản Phẩm</p>
+                        <h3 class="stat-value">1,234</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <p class="stat-label">Khách Hàng</p>
+                        <h3 class="stat-value">567</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="dashboard-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">Đơn Hàng Gần Đây</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Mã Đơn</th>
+                            <th>Khách Hàng</th>
+                            <th>Tổng Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Ngày Đặt</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><span class="order-code">#DH-001</span></td>
+                            <td>Nguyễn Văn A</td>
+                            <td><strong>350,000đ</strong></td>
+                            <td><span class="status-badge pending">Chờ xử lý</span></td>
+                            <td>15/11/2025 14:30</td>
+                            <td>
+                                <button class="btn-primary" title="Xem chi tiết">Xem️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#DH-002</span></td>
+                            <td>Trần Thị B</td>
+                            <td><strong>520,000đ</strong></td>
+                            <td><span class="status-badge processing">Đang xử lý</span></td>
+                            <td>15/11/2025 10:15</td>
+                            <td>
+                                <button class="btn-primary" title="Xem chi tiết">Xem️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#DH-003</span></td>
+                            <td>Lê Văn C</td>
+                            <td><strong>780,000đ</strong></td>
+                            <td><span class="status-badge shipping">Đang giao</span></td>
+                            <td>14/11/2025 16:45</td>
+                            <td>
+                                <button class="btn-primary" title="Xem chi tiết">Xem️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#DH-004</span></td>
+                            <td>Phạm Thị D</td>
+                            <td><strong>450,000đ</strong></td>
+                            <td><span class="status-badge completed">Hoàn thành</span></td>
+                            <td>14/11/2025 09:20</td>
+                            <td>
+                                <button class="btn-primary" title="Xem chi tiết">Xem️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-code">#DH-005</span></td>
+                            <td>Hoàng Văn E</td>
+                            <td><strong>290,000đ</strong></td>
+                            <td><span class="status-badge completed">Hoàn thành</span></td>
+                            <td>13/11/2025 18:30</td>
+                            <td>
+                                <button class="btn-primary" title="Xem chi tiết">Xem️</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="" class="view-all-link">Xem tất cả →</a>
+                </div>
+            </div>
+
+            <!-- Best Selling Products -->
+            <div class="dashboard-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">Sản Phẩm Bán Chạy</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Sản Phẩm</th>
+                            <th>Danh Mục</th>
+                            <th>Giá</th>
+                            <th>Đã Bán</th>
+                            <th>Tồn Kho</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="product-info">
+
+                                    <span class="product-name">Bút bi Thiên Long TL-027</span>
+                                </div>
+                            </td>
+                            <td>Văn phòng phẩm</td>
+                            <td><strong>5,000đ</strong></td>
+                            <td>1,245</td>
+                            <td><span class="stock-badge high">2,500</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product-info">
+                                    <span class="product-name">Vở kẻ ngang A4 - 200 trang</span>
+                                </div>
+                            </td>
+                            <td>Sách vở</td>
+                            <td><strong>25,000đ</strong></td>
+                            <td>856</td>
+                            <td><span class="stock-badge medium">450</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product-info">
+                                    <span class="product-name">Balo học sinh cấp 2</span>
+                                </div>
+                            </td>
+                            <td>Balo & Cặp</td>
+                            <td><strong>350,000đ</strong></td>
+                            <td>423</td>
+                            <td><span class="stock-badge low">45</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product-info">
+                                    <span class="product-name">Bộ màu nước 36 màu</span>
+                                </div>
+                            </td>
+                            <td>Đồ dùng vẽ</td>
+                            <td><strong>120,000đ</strong></td>
+                            <td>389</td>
+                            <td><span class="stock-badge medium">180</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product-info">
+                                    <span class="product-name">Máy tính Casio FX-570VN Plus</span>
+                                </div>
+                            </td>
+                            <td>Máy tính</td>
+                            <td><strong>450,000đ</strong></td>
+                            <td>267</td>
+                            <td><span class="stock-badge low">23</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="" class="view-all-link">Xem tất cả →</a>
+                </div>
+            </div>
         </section>
         <section id="products-section" class="admin-section">
             <h2>Quản lý sản phẩm</h2>
