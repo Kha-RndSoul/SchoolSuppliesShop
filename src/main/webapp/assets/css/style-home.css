@@ -220,11 +220,12 @@
     white-space: nowrap;
     backdrop-filter: blur(4px);
     transition: all 0.3s ease;
+    transform: scale(0.8);
 }
 /* Hover effect cho badge khi hover vào card */
 .product-card:hover .sold-count {
     background: linear-gradient(135deg, #ee5a6f 0%, #ff6b6b 100%);
-    transform: scale(1.05) translateY(-2px);
+    transform: scale(1.02) translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.6);
 
 }
