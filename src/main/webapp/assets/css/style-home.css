@@ -42,6 +42,7 @@
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
 }
+/* Slider controls */
 .slider-controls {
     position: absolute;
     bottom: 2rem;
@@ -62,6 +63,7 @@
 .slider-dot.active {
     background: white;
 }
+/* Mũi tên trượt */
 .slider-arrow {
     position: absolute;
     top: 50%;
@@ -85,7 +87,7 @@
 .slider-arrow.next {
     right: 2rem;
 }
-/* Featured Categories */
+/* Danh Mục nổi bật */
 .featured-categories {
     padding: 3rem 0;
     background: var(--bg-white);
@@ -127,16 +129,17 @@
     color: var(--text-light);
     font-size: 0.9rem;
 }
-/* Products Section on Homepage */
+/* Sản phẩm */
 .products-section {
     padding: 3rem 0;
 }
 .products-grid {
-    display: grid;
+    display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
 }
 .product-card {
+    position: relative; /* dùng cho badge absolute */
     background: var(--bg-white);
     border-radius: 12px;
     overflow: hidden;
@@ -150,12 +153,14 @@
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
 }
+/* Hình ãnh sản phẩm */
 .product-image {
     width: 100%;
     height: 250px;
     object-fit: cover;
     background: var(--bg-light);
 }
+/*Thông tin sản phẩm */
 .product-info {
     padding: 1.5rem;
 }
@@ -170,6 +175,7 @@
     font-size: 0.9rem;
     margin-bottom: 0.75rem;
 }
+/* Giá sản phẩm */
 .product-price {
     font-size: 1.25rem;
     font-weight: bold;
@@ -192,6 +198,33 @@
     color: var(--accent-color);
 }
 
+/* Badge container - nằm góc dưới phải */
+.product-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10;
+    animation: fadeInUp 0.5s ease;
+}
 
+/* Style cho badge số lượt bán */
+.sold-count {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+/* Hover effect cho badge khi hover vào card */
+.product-card:hover .sold-count {
+    background: linear-gradient(135deg, #ee5a6f 0%, #ff6b6b 100%);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.6);
 
-
+}
