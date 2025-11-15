@@ -229,3 +229,65 @@
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.6);
 
 }
+/* Featured Promotions */
+.featured-promotions {
+    padding: 3rem 0;
+    background: var(--bg-white);
+}
+
+.promotions-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.featured-promotions .section-title {
+    margin-bottom: 0;
+}
+
+.promo-view-all {
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s;
+    background: #f59e0b;
+    float: right;
+    transform: scale(0.75);
+}
+
+.promo-view-all:hover {
+    transform: scale(1.1) ;
+}
+
+.promo-visual {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.promo-icon {
+    font-size: 5rem;
+}
+
+.featured-promotions .category-info h3 {
+    font-family: 'Courier New', monospace;
+    color: #667eea;
+}
+.featured-promotions .category-info p{
+    color: #0f172a;
+}
+.promo-usage {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.featured-promotions .btn-primary {
+    width: 100%;
+    margin-top: 0.5rem;
+}
