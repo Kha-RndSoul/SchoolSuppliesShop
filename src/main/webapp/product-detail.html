@@ -1,12 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Đăng nhập</title>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm - DPK Shop</title>
+    <link rel="stylesheet" href="assets/css/style-common.css" />
+    <link rel="stylesheet" href="assets/css/style-product-detail.css">
 
-  <link rel="stylesheet" href="assets/css/style-common.css" />
-    <link rel="stylesheet" href="assets/css/style-login.css">
 
 </head>
 <body>
@@ -87,47 +86,22 @@
         </div>
     </div>
 </header>
-  <main class="container">
-    <section class="card" aria-labelledby="login-title">
-      <h1 id="login-title">Đăng nhập</h1>
-
-      <form action="#" method="post" novalidate>
-        <div class="form-field">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+<!-- Chi tiết sản phẩm-->
+<div class="container product-detail">
+    <div id="productDetailContent">
+        <!-- Content will be loaded by JavaScript -->
+        <div style="text-align: center; padding: 3rem;">
+            <p>Đang tải thông tin sản phẩm...</p>
         </div>
-
-        <div class="form-field">
-          <label for="password">Mật khẩu</label>
-          <input id="password" name="password" type="password" placeholder="********" required />
+    </div>
+    <!-- Sản phẩm liên quan -->
+    <section style="margin-top: 4rem;">
+        <h2 class="section-title">Sản Phẩm Liên Quan</h2>
+        <div class="products-grid" id="relatedProducts">
+            <!-- Related products will be loaded by JavaScript -->
         </div>
-
-        <div class="helper-line">
-          Quên mật khẩu? Nhấn vào <a href="#" class="text-link" role="button">đây</a>
-        </div>
-
-        <div class="row-center">
-          <button type="submit" class="btn btn-primary">Đăng nhập</button>
-        </div>
-
-        <div class="signup-line">
-          Bạn chưa có tài khoản? <a href="#" class="text-link" role="button">Đăng ký tại đây</a>
-        </div>
-
-        <div style="margin-top:14px">
-          <div class="social-row">
-            <button type="button" class="social-btn social-google" aria-label="Sign in with Google">
-              <!-- simple icon as text for clarity -->
-              <span></span> Google
-            </button>
-            <button type="button" class="social-btn social-facebook" aria-label="Sign in with Facebook">
-              <span></span> Facebook
-            </button>
-          </div>
-        </div>
-      </form>
     </section>
-  </main>
+</div>
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
@@ -163,5 +137,6 @@
         </div>
     </div>
 </footer>
+<script src="assets/js/product-detail.js"></script>
 </body>
 </html>
