@@ -130,7 +130,8 @@ body {
 /* Action Buttons - Gộp chung */
 .phone-button,
 .user-button,
-.cart-button {
+.cart-button,
+.admin-button{
     background: rgba(255, 255, 255, 0.15);
     border: none;
     border-radius: 50%;
@@ -146,7 +147,8 @@ body {
 
 .phone-button:hover,
 .user-button:hover,
-.cart-button:hover {
+.cart-button:hover,
+.admin-button:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: scale(1.05);
 }
