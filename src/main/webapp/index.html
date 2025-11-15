@@ -22,7 +22,6 @@
                 🔍
             </button>
         </div>
-
         <div class="header-actions">
             <a href="contact.html" class="action-item">
                 <div class="action-text">
@@ -50,7 +49,6 @@
             </a>
         </div>
     </nav>
-
     <div class="nav-row">
         <div class="container">
             <ul class="nav-links">
@@ -122,7 +120,7 @@
               </div>
           </div>
       </section>
-      <!-- Featured Categories -->
+      <!-- Danh mục nổi bật -->
       <section class="featured-categories">
           <div class="container">
               <h2 class="section-title">Danh Mục Nổi Bật</h2>
@@ -158,17 +156,127 @@
               </div>
           </div>
       </section>
-<!-- Sản Phẩm Nổi Bật-->
-      <section class ="Sản Phẩm Bán Chạy">
+<!-- Sản Phẩm Bán Chạy-->
+      <section class="products-section">
           <div class="container">
-              <h2 class="section-title">Sản Phẩm Bán Chạy</h2>
-                <div class="products-grid" id="best-selling-products">
-                    <!-- Sản phẩm sẽ được tải động bằng JavaScript -->
+              <h2 class="section-title">🔥 Sản Phẩm Bán Chạy</h2>
+              <div class="products-grid">
+                  <!-- Card 1 -->
+                  <a href="product-detail.html?id=1" class="product-card">
+                      <!--  Thêm badge này vào mỗi card -->
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 2.5K</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=400&h=400&fit=crop"
+                           alt="Bút Bi Thiên Long TL-027"
+                           class="product-image">
+                      <div class="product-info">
+                          <h3 class="product-name">Bút Bi Thiên Long TL-027</h3>
+                          <p class="product-brand">Thiên Long</p>
+                          <div>
+                              <span class="product-price">3.500đ</span>
+                              <span class="product-price-old">5.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(4.8)</span>
+                          </div>
+                      </div>
+                  </a>
+                  <!-- Card 2: Vở Hồng Hà -->
+                  <a href="product-detail.html?id=2" class="product-card">
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 1.8K</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop"
+                           alt="Vở Hồng Hà 200 Trang"
+                           class="product-image"
+                           onerror="handleImageError(this)">
+                      <div class="product-info">
+                          <h3 class="product-name">Vở Hồng Hà 200 Trang</h3>
+                          <p class="product-brand">Hồng Hà</p>
+                          <div>
+                              <span class="product-price">25.000đ</span>
+                              <span class="product-price-old">30.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★☆</span>
+                              <span>(4.7)</span>
+                          </div>
+                      </div>
+                  </a>
+
+                  <!-- Card 3: Bút Chì Màu -->
+                  <a href="product-detail.html?id=3" class="product-card">
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 3.2K</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop"
+                           alt="Bút Chì Màu Faber-Castell 24 Màu"
+                           class="product-image"
+                           onerror="handleImageError(this)">
+                      <div class="product-info">
+                          <h3 class="product-name">Bút Chì Màu Faber-Castell 24 Màu</h3>
+                          <p class="product-brand">Faber-Castell</p>
+                          <div>
+                              <span class="product-price">89.000đ</span>
+                              <span class="product-price-old">120.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(4.9)</span>
+                          </div>
+                      </div>
+                  </a>
+
+                  <!-- Card 4: Balo Jansport -->
+                  <a href="product-detail.html?id=4" class="product-card">
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 956</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"
+                           alt="Balo Jansport SuperBreak"
+                           class="product-image"
+                           onerror="handleImageError(this)">
+                      <div class="product-info">
+                          <h3 class="product-name">Balo Jansport SuperBreak</h3>
+                          <p class="product-brand">Jansport</p>
+                          <div>
+                              <span class="product-price">890.000đ</span>
+                              <span class="product-price-old">1.200.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★☆</span>
+                              <span>(4.6)</span>
+                          </div>
+                      </div>
+                  </a>
+
+                  <!-- Card 5: Máy Tính Casio -->
+                  <a href="product-detail.html?id=5" class="product-card">
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 1.5K</span>
+                      </div>
+                      <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=400&fit=crop"
+                           alt="Máy Tính Casio FX-580VN X"
+                           class="product-image"
+                           onerror="handleImageError(this)">
+                      <div class="product-info">
+                          <h3 class="product-name">Máy Tính Casio FX-580VN X</h3>
+                          <p class="product-brand">Casio</p>
+                          <div>
+                              <span class="product-price">590.000đ</span>
+                              <span class="product-price-old">750.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(4.8)</span>
+                          </div>
+                      </div>
+                  </a>
 
               </div>
           </div>
-
-
       </section>
 
   </main>
