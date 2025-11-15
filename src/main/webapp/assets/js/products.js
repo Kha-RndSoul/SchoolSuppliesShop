@@ -629,5 +629,9 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.id = 'sidebar';
     }
 });
-
+// Event listeners for filters
+document.getElementById('priceRange')?.addEventListener('input', function() {
+    document.getElementById('maxPrice').textContent = parseInt(this.value).toLocaleString('vi-VN') + 'đ';
+    applyFilters();
+});
 
