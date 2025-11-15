@@ -1,83 +1,432 @@
 // Sample products data - Đồ Dùng Học Tập
     const allProducts = [
-        { id: 1, name: 'Bút Bi Thiên Long TL-027', brand: 'Thiên Long', category: 'van-phong-pham', price: 3500, oldPrice: 5000, image: '', rating: 4.8,
+        // ==================== VĂN PHÒNG PHẨM (ID 1-5) ====================
+        {
+            id: 1,
+            name: 'Bút Bi Thiên Long TL-027',
+            brand: 'Thiên Long',
+            category: 'van-phong-pham',
+            price: 3500,
+            oldPrice: 5000,
+            image: 'https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=400&h=400&fit=crop',
+            rating: 4.8,
+            soldCount: 2500,
             description: 'Bút bi Thiên Long TL-027 với ngòi bút mượt mà, mực đậm, không bị lem. Thiết kế nhỏ gọn, dễ cầm, phù hợp cho học sinh, sinh viên. Mực xanh đậm, bền màu, viết được trên nhiều loại giấy.',
-            specs: { 'Loại': 'Bút bi', 'Màu mực': 'Xanh đậm', 'Ngòi': '0.7mm', 'Thương hiệu': 'Thiên Long', 'Xuất xứ': 'Việt Nam' } },
+            specs: {
+                'Loại': 'Bút bi',
+                'Màu mực': 'Xanh đậm',
+                'Ngòi': '0.7mm',
+                'Thương hiệu': 'Thiên Long',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 2,
+            name: 'Bút Chì Gỗ Thiên Long GP-02',
+            brand: 'Thiên Long',
+            category: 'van-phong-pham',
+            price: 2500,
+            oldPrice: 3500,
+            image: 'https://images.unsplash.com/photo-1564951434112-64d74cc2a2d7?w=400&h=400&fit=crop',
+            rating: 4.6,
+            soldCount: 1800,
+            description: 'Bút chì gỗ cao cấp với ruột chì đen đậm, không gãy dễ dàng. Vỏ gỗ tự nhiên thân thiện môi trường, dễ chuốt. Phù hợp cho học sinh tiểu học và trung học cơ sở.',
+            specs: {
+                'Loại': 'Bút chì gỗ',
+                'Độ cứng': 'HB',
+                'Chất liệu vỏ': 'Gỗ tự nhiên',
+                'Độ dài': '18cm',
+                'Thương hiệu': 'Thiên Long',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 3,
+            name: 'Tẩy Thiên Long E-013',
+            brand: 'Thiên Long',
+            category: 'van-phong-pham',
+            price: 1500,
+            oldPrice: 2000,
+            image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=400&fit=crop',
+            rating: 4.7,
+            soldCount: 3200,
+            description: 'Tẩy cao su chất lượng cao, tẩy sạch không để vết, không làm rách giấy. Màu trắng, hình chữ nhật nhỏ gọn, dễ sử dụng và mang theo.',
+            specs: {
+                'Loại': 'Tẩy cao su',
+                'Màu sắc': 'Trắng',
+                'Kích thước': '4cm x 2cm x 1cm',
+                'Trọng lượng': '15g',
+                'Thương hiệu': 'Thiên Long',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 4,
+            name: 'Thước Kẻ Nhựa 30cm',
+            brand: 'Thiên Long',
+            category: 'van-phong-pham',
+            price: 4000,
+            oldPrice: 6000,
+            image: 'https://images.unsplash.com/photo-1562543732-9582c2efe8e5?w=400&h=400&fit=crop',
+            rating: 4.5,
+            soldCount: 1200,
+            description: 'Thước kẻ nhựa trong suốt 30cm với vạch chia chính xác đến từng mm. Chất liệu nhựa dẻo dai, không gãy dễ. Phù hợp cho học sinh và văn phòng.',
+            specs: {
+                'Loại': 'Thước kẻ',
+                'Chiều dài': '30cm',
+                'Chất liệu': 'Nhựa trong suốt',
+                'Độ chính xác': '±0.5mm',
+                'Thương hiệu': 'Thiên Long',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 5,
+            name: 'Bút Dạ Quang Stabilo Boss',
+            brand: 'Stabilo',
+            category: 'van-phong-pham',
+            price: 15000,
+            oldPrice: 20000,
+            image: 'https://images.unsplash.com/photo-1587466125770-f8cf5b3c96e4?w=400&h=400&fit=crop',
+            rating: 4.9,
+            soldCount: 2800,
+            description: 'Bút dạ quang Stabilo Boss màu vàng neon nổi bật, không thấm qua giấy. Đầu bút dẹt 2-5mm tiện lợi cho việc highlight. Mực không độc hại, an toàn cho sức khỏe.',
+            specs: {
+                'Loại': 'Bút dạ quang',
+                'Màu sắc': 'Vàng neon',
+                'Độ dày nét': '2-5mm',
+                'Dung tích mực': '3ml',
+                'Thương hiệu': 'Stabilo',
+                'Xuất xứ': 'Đức'
+            }
+        },
 
-        { id: 2, name: 'Vở Hồng Hà 200 Trang', brand: 'Hồng Hà', category: 'sach-vo', price: 25000, oldPrice: 30000, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop', rating: 4.7,
-            description: 'Vở Hồng Hà 200 trang với giấy trắng mịn, không bị thấm mực. Bìa cứng bảo vệ, kẻ ô ly rõ ràng, phù hợp cho học sinh tiểu học và trung học cơ sở.',
-            specs: { 'Số trang': '200 trang', 'Kích thước': 'A5', 'Loại giấy': 'Giấy trắng 80gsm', 'Bìa': 'Bìa cứng', 'Xuất xứ': 'Việt Nam' } },
+        // ==================== SÁCH VỞ (ID 6-10) ====================
+        {
+            id: 6,
+            name: 'Vở Kẻ Ngang Campus 200 Trang',
+            brand: 'Campus',
+            category: 'sach-vo',
+            price: 25000,
+            oldPrice: 30000,
+            image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop',
+            rating: 4.8,
+            soldCount: 1800,
+            description: 'Vở 200 trang Campus với giấy dày 80gsm, không thấm mực, kẻ ngang chuẩn. Bìa cứng màu sắc đa dạng, bảo vệ giấy bên trong tốt. Lò xo chắc chắn, dễ gấp và viết.',
+            specs: {
+                'Loại': 'Vở kẻ ngang',
+                'Số trang': '200 trang',
+                'Loại giấy': 'Giấy dày 80gsm',
+                'Kích thước': '17cm x 24cm',
+                'Loại bìa': 'Bìa cứng màu',
+                'Thương hiệu': 'Campus',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 7,
+            name: 'Vở Ô Ly Hong Ha 96 Trang',
+            brand: 'Hồng Hà',
+            category: 'sach-vo',
+            price: 12000,
+            oldPrice: 15000,
+            image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=400&fit=crop',
+            rating: 4.6,
+            soldCount: 2100,
+            description: 'Vở ô ly 96 trang Hồng Hà dành cho môn Toán, giấy trắng mịn, ô li 5mm chuẩn. Bìa màu bóng đẹp mắt, giá thành phải chăng, phù hợp cho học sinh.',
+            specs: {
+                'Loại': 'Vở ô ly',
+                'Số trang': '96 trang',
+                'Loại giấy': 'Giấy trắng 70gsm',
+                'Kích thước ô': '5mm x 5mm',
+                'Kích thước': '17cm x 24cm',
+                'Thương hiệu': 'Hồng Hà',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 8,
+            name: 'Sổ Tay Bìa Da A5',
+            brand: 'Thái Hà Books',
+            category: 'sach-vo',
+            price: 45000,
+            oldPrice: 60000,
+            image: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&h=400&fit=crop',
+            rating: 4.7,
+            soldCount: 950,
+            description: 'Sổ tay bìa da A5 cao cấp với 120 trang giấy dày, có đường kẻ ngang nhẹ. Bìa da PU sang trọng, có dây đánh dấu trang và khóa nam châm. Phù hợp làm quà tặng hoặc ghi chú công việc.',
+            specs: {
+                'Loại': 'Sổ tay bìa da',
+                'Số trang': '120 trang',
+                'Loại giấy': 'Giấy kem 100gsm',
+                'Kích thước': 'A5 (14.8cm x 21cm)',
+                'Chất liệu bìa': 'Da PU cao cấp',
+                'Thương hiệu': 'Thái Hà Books',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 9,
+            name: 'Giấy Note Sticker 3M Post-it',
+            brand: '3M',
+            category: 'sach-vo',
+            price: 35000,
+            oldPrice: 45000,
+            image: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&h=400&fit=crop',
+            rating: 4.9,
+            soldCount: 1650,
+            description: 'Giấy note sticker 3M Post-it 76x76mm màu vàng pastel, dán và bóc dễ dàng không để vết keo. Có thể viết, xóa và dán lại nhiều lần. Tiện dụng cho việc ghi chú nhanh.',
+            specs: {
+                'Loại': 'Giấy note sticker',
+                'Kích thước': '76mm x 76mm',
+                'Số tờ': '100 tờ/xấp',
+                'Màu sắc': 'Vàng pastel',
+                'Chất liệu': 'Giấy cao cấp có keo dính',
+                'Thương hiệu': '3M',
+                'Xuất xứ': 'USA'
+            }
+        },
+        {
+            id: 10,
+            name: 'Bìa Lá Plastic Deli',
+            brand: 'Deli',
+            category: 'sach-vo',
+            price: 8000,
+            oldPrice: 12000,
+            image: 'https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?w=400&h=400&fit=crop',
+            rating: 4.5,
+            soldCount: 2400,
+            description: 'Bìa lá plastic trong suốt Deli dùng để bảo quản tài liệu A4. Chất liệu nhựa PP dày dặn, chống nước, chống bụi. Có lỗ khóa 11 lỗ tiêu chuẩn.',
+            specs: {
+                'Loại': 'Bìa lá plastic',
+                'Kích thước': 'A4 (21cm x 29.7cm)',
+                'Chất liệu': 'Nhựa PP 0.08mm',
+                'Số lỗ': '11 lỗ',
+                'Màu sắc': 'Trong suốt',
+                'Thương hiệu': 'Deli',
+                'Xuất xứ': 'Trung Quốc'
+            }
+        },
 
-        { id: 3, name: 'Bút Chì Màu Faber-Castell 24 Màu', brand: 'Faber-Castell', category: 'do-dung-ve', price: 89000, oldPrice: 120000, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop', rating: 4.9,
-            description: 'Bộ bút chì màu Faber-Castell 24 màu với màu sắc tươi sáng, bền màu. Ruột chì mềm, dễ tô, không dễ gãy. Hộp đựng tiện lợi, phù hợp cho học sinh và người yêu thích vẽ.',
-            specs: { 'Số lượng': '24 màu', 'Độ cứng': 'HB', 'Xuất xứ': 'Đức', 'Bảo hành': '1 năm' } },
+        // ==================== ĐỒ DÙNG VẼ (ID 11-14) ====================
+        {
+            id: 11,
+            name: 'Bút Chì Màu Faber-Castell 24 Màu',
+            brand: 'Faber-Castell',
+            category: 'do-dung-ve',
+            price: 89000,
+            oldPrice: 120000,
+            image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop',
+            rating: 4.9,
+            soldCount: 3200,
+            description: 'Bộ 24 màu bút chì màu Faber-Castell với sắc màu tươi sáng, dễ tô, dễ blend. Ruột chì chắc chắn không gãy dễ. Vỏ gỗ tự nhiên thân thiện môi trường, hộp thiết kế sang trọng.',
+            specs: {
+                'Loại': 'Bút chì màu',
+                'Số lượng': '24 màu',
+                'Độ dày ruột': '3.3mm',
+                'Chất liệu vỏ': 'Gỗ tự nhiên',
+                'Đóng gói': 'Hộp thiết kế',
+                'Thương hiệu': 'Faber-Castell',
+                'Xuất xứ': 'Đức'
+            }
+        },
+        {
+            id: 12,
+            name: 'Màu Nước Thiên Long 12 Màu',
+            brand: 'Thiên Long',
+            category: 'do-dung-ve',
+            price: 25000,
+            oldPrice: 35000,
+            image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400&h=400&fit=crop',
+            rating: 4.6,
+            soldCount: 1500,
+            description: 'Bộ màu nước 12 màu Thiên Long trong hộp nhựa chắc chắn, kèm cọ vẽ. Màu sắc tươi sáng, dễ pha trộn, không độc hại. Phù hợp cho trẻ em và người mới học vẽ.',
+            specs: {
+                'Loại': 'Màu nước',
+                'Số lượng': '12 màu',
+                'Dung tích mỗi viên': '3ml',
+                'Đi kèm': 'Cọ vẽ',
+                'Chất liệu': 'Màu nước không độc',
+                'Thương hiệu': 'Thiên Long',
+                'Xuất xứ': 'Việt Nam'
+            }
+        },
+        {
+            id: 13,
+            name: 'Bút Vẽ Kỹ Thuật Rotring 0.5mm',
+            brand: 'Rotring',
+            category: 'do-dung-ve',
+            price: 125000,
+            oldPrice: 180000,
+            image: 'https://images.unsplash.com/photo-1607827448387-a67db1383b59?w=400&h=400&fit=crop',
+            rating: 4.9,
+            soldCount: 680,
+            description: 'Bút vẽ kỹ thuật Rotring 0.5mm với ngòi kim loại chính xác, đường nét đều. Thân kim loại chắc chắn, có clip cài túi. Phù hợp cho kiến trúc sư, kỹ sư và họa sĩ chuyên nghiệp.',
+            specs: {
+                'Loại': 'Bút vẽ kỹ thuật',
+                'Độ dày nét': '0.5mm',
+                'Chất liệu thân': 'Kim loại',
+                'Chất liệu ngòi': 'Kim loại cao cấp',
+                'Màu mực': 'Đen',
+                'Thương hiệu': 'Rotring',
+                'Xuất xứ': 'Đức'
+            }
+        },
+        {
+            id: 14,
+            name: 'Sổ Vẽ Sketch Maruman A4',
+            brand: 'Maruman',
+            category: 'do-dung-ve',
+            price: 65000,
+            oldPrice: 85000,
+            image: 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=400&fit=crop',
+            rating: 4.8,
+            soldCount: 890,
+            description: 'Sổ vẽ sketch Maruman A4 với 50 tờ giấy dày 100gsm, bề mặt nhám phù hợp cho bút chì, than, màu. Bìa cứng bảo vệ giấy, có khả năng tháo rời từng tờ dễ dàng.',
+            specs: {
+                'Loại': 'Sổ vẽ sketch',
+                'Số trang': '50 tờ',
+                'Loại giấy': 'Giấy vẽ 100gsm',
+                'Kích thước': 'A4 (21cm x 29.7cm)',
+                'Bề mặt': 'Nhám',
+                'Thương hiệu': 'Maruman',
+                'Xuất xứ': 'Nhật Bản'
+            }
+        },
 
-        { id: 4, name: 'Balo Jansport SuperBreak', brand: 'Jansport', category: 'balo-cap', price: 890000, oldPrice: 1200000, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop', rating: 4.6,
-            description: 'Balo Jansport SuperBreak với thiết kế cổ điển, bền bỉ. Chất liệu vải bền, chống thấm nước nhẹ. Nhiều ngăn tiện lợi, đai vai đệm êm, phù hợp cho học sinh, sinh viên.',
-            specs: { 'Dung tích': '31L', 'Chất liệu': 'Polyester', 'Kích thước': '43 x 30 x 13 cm', 'Màu sắc': 'Đa dạng', 'Bảo hành': 'Lifetime' } },
+        // ==================== BALO & CẶP (ID 15-17) ====================
+        {
+            id: 15,
+            name: 'Balo Học Sinh Jansport SuperBreak',
+            brand: 'Jansport',
+            category: 'balo-cap',
+            price: 890000,
+            oldPrice: 1200000,
+            image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
+            rating: 4.7,
+            soldCount: 956,
+            description: 'Balo Jansport SuperBreak với thiết kế đơn giản, năng động. Chất liệu vải polyester chống nước, dây đeo đệm êm ái. Ngăn chính rộng rãi, ngăn phụ trước, phù hợp cho học sinh cấp 2, 3.',
+            specs: {
+                'Loại': 'Balo học sinh',
+                'Kích thước': '42cm x 33cm x 21cm',
+                'Dung tích': '25 lít',
+                'Chất liệu': 'Polyester chống nước',
+                'Số ngăn': '2 ngăn chính',
+                'Thương hiệu': 'Jansport',
+                'Xuất xứ': 'USA'
+            }
+        },
+        {
+            id: 16,
+            name: 'Cặp Da Đựng Laptop 15.6 inch',
+            brand: 'Samsonite',
+            category: 'balo-cap',
+            price: 650000,
+            oldPrice: 900000,
+            image: 'https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?w=400&h=400&fit=crop',
+            rating: 4.8,
+            soldCount: 720,
+            description: 'Cặp da Samsonite cao cấp đựng laptop 15.6 inch với ngăn đệm chống sốc. Thiết kế thanh lịch, chuyên nghiệp. Da PU bền đẹp, chống thấm nước, có quai xách và dây đeo vai.',
+            specs: {
+                'Loại': 'Cặp laptop',
+                'Kích thước phù hợp': 'Laptop 15.6 inch',
+                'Kích thước': '40cm x 30cm x 8cm',
+                'Chất liệu': 'Da PU cao cấp',
+                'Ngăn chống sốc': 'Có',
+                'Thương hiệu': 'Samsonite',
+                'Xuất xứ': 'Thái Lan'
+            }
+        },
+        {
+            id: 17,
+            name: 'Túi Đeo Chéo Mini Unisex',
+            brand: 'Anello',
+            category: 'balo-cap',
+            price: 350000,
+            oldPrice: 480000,
+            image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=400&fit=crop',
+            rating: 4.6,
+            soldCount: 1150,
+            description: 'Túi đeo chéo mini Anello unisex phong cách Hàn Quốc, nhỏ gọn tiện lợi. Chất liệu vải canvas bền, nhiều ngăn nhỏ đựng điện thoại, tiền, thẻ. Dây đeo điều chỉnh được.',
+            specs: {
+                'Loại': 'Túi đeo chéo',
+                'Kích thước': '18cm x 13cm x 6cm',
+                'Chất liệu': 'Vải canvas',
+                'Số ngăn': '3 ngăn',
+                'Phong cách': 'Unisex',
+                'Thương hiệu': 'Anello',
+                'Xuất xứ': 'Nhật Bản'
+            }
+        },
 
-        { id: 5, name: 'Máy Tính Casio FX-580VN X', brand: 'Casio', category: 'may-tinh', price: 590000, oldPrice: 750000, image: '', rating: 4.8,
-            description: 'Máy tính Casio FX-580VN X với 552 tính năng, màn hình LCD rõ nét. Hỗ trợ giải phương trình, tính toán phức tạp. Pin lâu dài, phù hợp cho học sinh THPT và sinh viên.',
-            specs: { 'Tính năng': '552 chức năng', 'Màn hình': 'LCD 4 dòng', 'Pin': 'Pin năng lượng mặt trời + Pin', 'Kích thước': '161 x 80 x 11.1 mm', 'Xuất xứ': 'Nhật Bản' } },
+        // ==================== MÁY TÍNH (ID 18-19) ====================
+        {
+            id: 18,
+            name: 'Máy Tính Casio FX-580VN X',
+            brand: 'Casio',
+            category: 'may-tinh',
+            price: 590000,
+            oldPrice: 750000,
+            image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=400&fit=crop',
+            rating: 4.9,
+            soldCount: 1500,
+            description: 'Máy tính khoa học Casio FX-580VN X với 552 chức năng, màn hình 2 dòng hiển thị rõ ràng. Được phép sử dụng trong các kỳ thi THPT Quốc gia. Pin bền, thiết kế chắc chắn.',
+            specs: {
+                'Loại': 'Máy tính khoa học',
+                'Số chức năng': '552 chức năng',
+                'Màn hình': 'LCD 2 dòng',
+                'Nguồn điện': 'Pin AAA',
+                'Kích thước': '16.6cm x 7.7cm x 1.4cm',
+                'Thương hiệu': 'Casio',
+                'Xuất xứ': 'Thái Lan'
+            }
+        },
+        {
+            id: 19,
+            name: 'Máy Tính Bỏ Túi Casio MH-12',
+            brand: 'Casio',
+            category: 'may-tinh',
+            price: 180000,
+            oldPrice: 250000,
+            image: 'https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=400&h=400&fit=crop',
+            rating: 4.7,
+            soldCount: 2100,
+            description: 'Máy tính bỏ túi Casio MH-12 với màn hình lớn 12 chữ số, phím bấm êm. Có chức năng tính thuế, lãi suất, quy đổi tiền tệ. Thiết kế nhỏ gọn, pin năng lượng mặt trời kết hợp pin dự phòng.',
+            specs: {
+                'Loại': 'Máy tính bỏ túi',
+                'Màn hình': '12 chữ số',
+                'Nguồn điện': 'Pin mặt trời + pin dự phòng',
+                'Kích thước': '15cm x 10cm x 2cm',
+                'Trọng lượng': '120g',
+                'Thương hiệu': 'Casio',
+                'Xuất xứ': 'Trung Quốc'
+            }
+        },
 
-        { id: 6, name: 'Đèn Bàn Học LED Điều Chỉnh', brand: 'Philips', category: 'den-hoc', price: 450000, oldPrice: 600000, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&h=600&fit=crop', rating: 4.7,
-            description: 'Đèn bàn học LED Philips với ánh sáng tự nhiên, không chói mắt. Điều chỉnh độ sáng và góc chiếu linh hoạt. Chống cận thị, bảo vệ mắt, phù hợp cho học tập lâu dài.',
-            specs: { 'Công suất': '8W', 'Ánh sáng': 'LED 4000K', 'Điều chỉnh': '3 mức độ sáng', 'Kích thước': '40 x 20 x 50 cm', 'Bảo hành': '2 năm' } },
-
-        { id: 7, name: 'Bút Máy Thiên Long TL-079', brand: 'Thiên Long', category: 'van-phong-pham', price: 45000, oldPrice: 60000, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=600&fit=crop', rating: 4.6,
-            description: 'Bút máy Thiên Long TL-079 với ngòi mực mượt mà, viết đẹp. Thiết kế sang trọng, phù hợp cho học sinh luyện chữ đẹp. Mực xanh, dễ thay thế.',
-            specs: { 'Loại': 'Bút máy', 'Ngòi': '0.5mm', 'Màu mực': 'Xanh', 'Xuất xứ': 'Việt Nam' } },
-
-        { id: 8, name: 'Vở Campus 120 Trang', brand: 'Campus', category: 'sach-vo', price: 18000, oldPrice: 25000, image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=600&fit=crop', rating: 4.5,
-            description: 'Vở Campus 120 trang với giấy chất lượng, không thấm mực. Bìa đẹp, kẻ ô ly chuẩn, phù hợp cho học sinh các cấp.',
-            specs: { 'Số Trang': '120 trang', 'Kích thước': 'A5', 'Loại giấy': 'Giấy trắng 70gsm', 'Bìa': 'Bìa mềm' } },
-
-        { id: 9, name: 'Bút Chì 2B Staedtler', brand: 'Staedtler', category: 'van-phong-pham', price: 12000, oldPrice: 15000, image:'' , rating: 4.7,
-            description: 'Bút chì Staedtler 2B với ruột chì mềm, dễ tẩy. Phù hợp cho vẽ, tô đậm, làm bài thi. Chất lượng Đức, bền bỉ.',
-            specs: { 'Độ cứng': '2B', 'Xuất xứ': 'Đức', 'Độ dài': '17.5cm' } },
-
-        { id: 10, name: 'Thước Kẻ 30cm Nhựa', brand: 'Thiên Long', category: 'van-phong-pham', price: 8000, oldPrice: 12000, image: 'https://vanphongpham123.com/pic/products/thuoc-ke-_637740492089870680_HasThumb.jpg', rating: 4.4,
-            description: 'Thước kẻ 30cm bằng nhựa trong suốt, vạch chia rõ ràng. Bền, không bị cong vênh, phù hợp cho học sinh.',
-            specs: { 'Độ dài': '30cm', 'Chất liệu': 'Nhựa trong suốt', 'Vạch chia': 'mm và cm' } },
-
-        { id: 11, name: 'Tẩy Gôm Pentel', brand: 'Pentel', category: 'van-phong-pham', price: 15000, oldPrice: 20000, image: 'https://cdn1.fahasa.com/media/catalog/product/4/0/4007817523865-1.jpg', rating: 4.6,
-            description: 'Tẩy gôm Pentel với khả năng tẩy sạch, không để lại vết bẩn. Mềm, không làm rách giấy, phù hợp cho bút chì và bút chì màu.',
-            specs: { 'Loại': 'Tẩy mềm', 'Xuất xứ': 'Nhật Bản', 'Kích thước': '5 x 2 x 1 cm' } },
-
-        { id: 12, name: 'Bộ Màu Nước 12 Màu', brand: 'Faber-Castell', category: 'do-dung-ve', price: 125000, oldPrice: 180000, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop', rating: 4.8,
-            description: 'Bộ màu nước Faber-Castell 12 màu với màu sắc tươi sáng, dễ pha trộn. Hộp đựng tiện lợi, kèm cọ vẽ, phù hợp cho học sinh và người yêu thích hội họa.',
-            specs: { 'Số lượng': '12 màu', 'Kèm theo': 'Cọ vẽ', 'Xuất xứ': 'Đức' } },
-
-
-        { id: 13, name: 'Giấy Vẽ A4 200 Tờ', brand: 'Double A', category: 'do-dung-ve', price: 45000, oldPrice: 60000, image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=600&fit=crop', rating: 4.5,
-            description: 'Giấy vẽ Double A A4 200 tờ với bề mặt mịn, dày dặn. Phù hợp cho vẽ bút chì, màu nước, màu sáp. Chất lượng cao, không thấm mực.',
-            specs: { 'Kích thước': 'A4 (210 x 297mm)', 'Số tờ': '200 tờ', 'Định lượng': '80gsm', 'Xuất xứ': 'Thái Lan' } },
-
-        { id: 14, name: 'Cặp Sách Học Sinh', brand: 'Hồng Hà', category: 'balo-cap', price: 350000, oldPrice: 450000, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop', rating: 4.6,
-            description: 'Cặp sách Hồng Hà với thiết kế đẹp, nhiều ngăn tiện lợi. Chất liệu bền, đai vai đệm êm, phù hợp cho học sinh tiểu học.',
-            specs: { 'Chất liệu': 'Polyester', 'Số ngăn': '3 ngăn chính', 'Kích thước': '38 x 28 x 15 cm', 'Màu sắc': 'Đa dạng' } },
-
-        { id: 15, name: 'Balo Nike Heritage', brand: 'Nike', category: 'balo-cap', price: 1200000, oldPrice: 1500000, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop', rating: 4.7,
-            description: 'Balo Nike Heritage với thiết kế thể thao, bền bỉ. Nhiều ngăn, túi đựng laptop, phù hợp cho sinh viên và người đi làm.', specs: { 'Dung tích': '25L', 'Chất liệu': 'Polyester', 'Kích thước': '45 x 30 x 15 cm', 'Bảo hành': '1 năm' } },
-
-        { id: 18, name: 'Đèn Bàn Học Chống Cận', brand: 'Sunny', category: 'den-hoc', price: 320000, oldPrice: 450000, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&h=600&fit=crop', rating: 4.5,
-            description: 'Đèn bàn học Sunny chống cận với ánh sáng LED tự nhiên, không chói mắt. Điều chỉnh độ sáng và góc chiếu, bảo vệ mắt hiệu quả.',
-            specs: { 'Công suất': '6W', 'Ánh sáng': 'LED 4000K', 'Điều chỉnh': '3 mức độ sáng', 'Kích thước': '35 x 18 x 45 cm' } },
-
-        { id: 20, name: 'Bộ Bút Lông Màu 36 Màu', brand: 'Faber-Castell', category: 'do-dung-ve', price: 180000, oldPrice: 250000, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop', rating: 4.8,
-            description: 'Bộ bút lông màu Faber-Castell 36 màu với màu sắc đa dạng, tươi sáng. Đầu bút mềm, dễ tô, không độc hại, phù hợp cho trẻ em và học sinh.',
-            specs: { 'Số lượng': '36 màu', 'Đầu bút': 'Đầu tròn mềm', 'Xuất xứ': 'Đức', 'An toàn': 'Không độc hại' } },
-
-        { id: 21, name: 'Balo đựng mèo', brand: 'Thiên Long', category: 'balo-cap', price: 330000, oldPrice: 380000, image: 'https://cunsieupham.com/wp-content/uploads/2023/06/22584100670_1106168684.jpg', rating: 4.8 },
-
-        { id: 22, name: 'Máy Tính Casio FX-570VN Plus', brand: 'Casio', category: 'may-tinh', price: 490000, oldPrice: 650000, image: 'https://bizweb.dktcdn.net/100/379/648/products/may…plus-8-x-16-cm-l-1537255666-2.jpg?v=1587370028027',rating: 4.7},
-
-        { id: 23, name: 'Máy Tính Casio DF-120 ', brand: 'Casio', category: 'may-tinh', price: 250000, oldPrice: 300000, image: 'https://bizweb.dktcdn.net/100/379/648/products/may…plus-8-x-16-cm-l-1537255666-2.jpg?v=1587370028027',rating: 4.7},
-
-        { id: 24, name: 'Máy Tính Casio FX-880 ', brand: 'Casio', category: 'may-tinh', price: 800000, oldPrice: 900000, image: 'https://cdn1.fahasa.com/media/catalog/product/4/5/4549526613708.jpg',rating: 4.9},
-
-        { id: 25, name: 'Máy Tính Casio FX-570ES Plus ', brand: 'Casio', category: 'may-tinh', price: 430000, oldPrice: 600000, image: 'https://www.bachdang.info/image/cache/catalog/revs…lder/6361ddff80f0dde2fd7141fb6f5772f9-500x524.jpg',rating: 4.8}
-];
+        // ==================== ĐÈN HỌC (ID 20) ====================
+        {
+            id: 20,
+            name: 'Đèn Bàn Học LED Philips EyeCare',
+            brand: 'Philips',
+            category: 'den-hoc',
+            price: 450000,
+            oldPrice: 600000,
+            image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop',
+            rating: 4.8,
+            soldCount: 780,
+            description: 'Đèn bàn học LED Philips EyeCare bảo vệ mắt với 3 chế độ ánh sáng (trắng, vàng, trung tính). Cần đèn điều chỉnh độ cao và góc chiếu linh hoạt. Tiết kiệm điện, tuổi thọ 25,000 giờ.',
+            specs: {
+                'Loại': 'Đèn bàn học LED',
+                'Công suất': '12W',
+                'Nhiệt độ màu': '3000K - 6500K',
+                'Chế độ ánh sáng': '3 chế độ',
+                'Tuổi thọ': '25,000 giờ',
+                'Chiều cao điều chỉnh': '30-50cm',
+                'Thương hiệu': 'Philips',
+                'Xuất xứ': 'Trung Quốc'
+            }
+        }
+        ];
 // Lấy id sản phẩm từ URL
 function getProductId() {
     const params = new URLSearchParams(window.location.search);
@@ -195,16 +544,5 @@ document.addEventListener('DOMContentLoaded', function() {
     renderProductDetail();
 });
 
-// Chức năng tìm kiếm
-    function handleSearch() {
-    const searchTerm = document.getElementById('searchInput').value;
-    if (searchTerm.trim()) {
-    window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
-}
-}
-    // Nhập Enter để tìm kiếm
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-    handleSearch();
-}
-});
+
+
