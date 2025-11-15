@@ -26,3 +26,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// Toggle hiển thị form thêm sản phẩm
+function toggleProductForm() {
+    const form = document.querySelector('.product-form-container');
+    const button = document.querySelector('.btn-add-new');
+
+    if (form.classList.contains('show')) {
+        // Đang hiện → Ẩn đi
+        form.classList.remove('show');
+        button.textContent = ' Thêm Sản Phẩm';
+    } else {
+        // Đang ẩn → Hiện ra
+        form.classList.add('show');
+        button.textContent = ' Đóng Form';
+    }
+}
+// Active nút chuyển trang
+function changePage() {
+    document.querySelectorAll('.pagination-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
