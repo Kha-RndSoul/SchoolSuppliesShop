@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Admin</title>
     <link rel="stylesheet" href="../assets/css/style-common.css">
+    <link rel="stylesheet" href="../assets/css/style-admin.css">
 </head>
 <body>
 <header class="header">
     <nav class="navbar">
 
-        <a href="index.html" class="logo">
+        <a href="../index.html" class="logo">
             <span>
                 DPK Shop
             </span>
@@ -23,7 +25,7 @@
         </div>
 
         <div class="header-actions">
-            <a href="contact.html" class="action-item">
+            <a href="../contact.html" class="action-item">
                 <div class="action-text">
                     <button class="phone-button">
                         📞
@@ -31,7 +33,7 @@
                     <span>Liên hệ</span>
                 </div>
             </a>
-            <a href="login.html" class="action-item">
+            <a href="../login.html" class="action-item">
                 <div class="action-text">
                     <button class="user-button">
                         👤
@@ -39,12 +41,20 @@
                     <span>Đăng nhập/Đăng ký</span>
                 </div>
             </a>
-            <a href="cart.html" class="action-item">
+            <a href="../cart.html" class="action-item">
                 <div class="action-text">
                     <button class="cart-button">
                         🛒
                     </button>
                     <span>Giỏ hàng</span>
+                </div>
+            </a>
+            <a href="admin.html" class="action-item">
+                <div class="action-text">
+                    <button class="admin-button">
+                        ⚙️
+                    </button>
+                    <span class="admin-text">Admin</span>
                 </div>
             </a>
         </div>
@@ -54,32 +64,32 @@
         <div class="container">
             <ul class="nav-links">
                 <li>
-                    <a href="products.html?category=van-phong-pham">
+                    <a href="../products.html?category=van-phong-pham">
                         Văn phòng phẩm
                     </a>
                 </li>
                 <li>
-                    <a href="products.html?category=sach-vo">
+                    <a href="../products.html?category=sach-vo">
                         Sách vở
                     </a>
                 </li>
                 <li>
-                    <a href="products.html?category=do-dung-ve">
+                    <a href="../products.html?category=do-dung-ve">
                         Đồ dùng vẽ
                     </a>
                 </li>
                 <li>
-                    <a href="products.html?category=balo-cap">
+                    <a href="../products.html?category=balo-cap">
                         Balo & Cặp
                     </a>
                 </li>
                 <li>
-                    <a href="products.html?category=may-tinh">
+                    <a href="../products.html?category=may-tinh">
                         Máy tính
                     </a>
                 </li>
                 <li>
-                    <a href="products.html?category=den-hoc">
+                    <a href="../products.html?category=den-hoc">
                         Đèn học
                     </a>
                 </li>
@@ -87,21 +97,120 @@
         </div>
     </div>
 </header>
+<!-- Admin Panel -->
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2>🛠️ Bảng quản trị</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
 
+            <a href="#products" class="nav-item" data-section="products">
+                <span class="nav-icon">📦</span>
+                <span class="nav-text">Sản phẩm</span>
+            </a>
+
+            <a href="#orders" class="nav-item" data-section="orders">
+                <span class="nav-icon">🛒</span>
+                <span class="nav-text">Đơn hàng</span>
+            </a>
+
+            <a href="#customers" class="nav-item" data-section="customers">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Khách hàng</span>
+            </a>
+
+            <a href="#categories" class="nav-item" data-section="categories">
+                <span class="nav-icon">📑</span>
+                <span class="nav-text">Danh mục</span>
+            </a>
+
+            <a href="#coupons" class="nav-item" data-section="coupons">
+                <span class="nav-icon">🎟️</span>
+                <span class="nav-text">Mã giảm giá</span>
+            </a>
+
+            <a href="#reviews" class="nav-item" data-section="reviews">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-text">Đánh giá</span>
+            </a>
+
+            <a href="#reports" class="nav-item" data-section="reports">
+                <span class="nav-icon">📈</span>
+                <span class="nav-text">Báo cáo</span>
+            </a>
+
+            <a href="#settings" class="nav-item" data-section="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Cài đặt</span>
+            </a>
+        </nav>
+    </aside>
+    <main class="admin-main">
+        <section id="dashboard-section" class="admin-section active">
+            <h2>Dashboard</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+        <section id="products-section" class="admin-section">
+            <h2>Quản lý sản phẩm</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="orders-section" class="admin-section">
+            <h2>Quản lý đơn hàng</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="customers-section" class="admin-section">
+            <h2>Quản lý khách hàng</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="categories-section" class="admin-section">
+            <h2>Quản lý danh mục</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="coupons-section" class="admin-section">
+            <h2>Quản lý mã giảm giá</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="reviews-section" class="admin-section">
+            <h2>Quản lý đánh giá</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="reports-section" class="admin-section">
+            <h2>Báo cáo</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+
+        <section id="settings-section" class="admin-section">
+            <h2>Cài đặt</h2>
+            <p>Nội dung sẽ được thêm sau...</p>
+        </section>
+    </main>
+</div>
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Giới thiệu</h3>
                 <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
-                <a href="about.html" class="text-link" >Về chúng tôi </a>
+                <a href="../about.html" class="text-link" >Về chúng tôi </a>
             </div>
             <div class="footer-section">
                 <h3>Liên Hệ</h3>
                 <p>📧 Email: contact@dpkshop.com</p>
                 <p>📞 Hotline: 1900 5678</p>
                 <p>📍 Địa chỉ: 123 Đường Học Tập, Phường 1, Quận 1, TP.HCM</p>
-                <a href="contact.html" class="text-link" >Chi tiết liên hệ </a>
+                <a href="../contact.html" class="text-link" >Chi tiết liên hệ </a>
             </div>
             <div class="footer-section">
                 <h3>Hỗ Trợ</h3>
@@ -123,5 +232,6 @@
         </div>
     </div>
 </footer>
+<script src="../assets/js/admin.js"></script>
 </body>
 </html>
