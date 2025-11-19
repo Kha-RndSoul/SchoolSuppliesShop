@@ -477,7 +477,7 @@ function renderProductDetail() {
                     <p>${product.description || 'Sản phẩm chất lượng cao, đảm bảo uy tín.'}</p>
                 </div>
                 <div class="product-actions">
-                    <button class="btn-add-cart" onclick="addToCart(${product.id})">🛒 Thêm Vào Giỏ</button>
+                    <button class="btn-add-cart" onclick="addToCart(${product.id})"> Thêm Vào Giỏ</button>
                     <button class="btn-buy-now" onclick="buyNow(${product.id})">Mua Ngay</button>
                 </div>
             </div>
@@ -534,8 +534,9 @@ function buyNow(productId) {
     if (product) {
         // In a real app, this would redirect to checkout
         if (confirm(`Bạn có muốn mua "${product.name}" ngay bây giờ?`)) {
-            alert('Chức năng thanh toán đang được phát triển!');
+
             console.log('Buy now:', product);
+            window.location.href = 'checkout.html' ;
         }
     }
 }
