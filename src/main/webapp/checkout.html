@@ -1,10 +1,6 @@
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="en" xmlns="http://www.w3.org/1999/html">
     <head>
-        <div class="checkout-actions">
-            <a href="cart.html" class="btn-primary">Quay lại giỏ hàng</a>
-        </div>
-
         <meta charset="UTF-8">
         <title>thông tin khách hàng</title>
         <link rel="stylesheet" href="assets/css/style-common.css">
@@ -93,39 +89,65 @@
         </div>
     </header>
 
-    <form id="checkoutForm">
-        <h2>Thông tin khách hàng</h2>
-        <label>Tên <input id="name" required></label>
-        <label>Phone <input id="phone" required></label>
-        <label>Email <input id="email"></label>
-        <label>Địa chỉ <textarea id="address" required></textarea></label>
+    <main class="container">
+        <div class="checkout-card">
+            <form id="checkoutForm" novalidate>
+                <h2>Thông tin khách hàng</h2>
 
-        <h3>Vận chuyển</h3>
-        <label class="radio-inline">
-            <input type="radio" name="shipping" value="standard" checked>
-            Standard (25.000₫)
-        </label>
 
-        <label class="radio-inline">
-            <input type="radio" name="shipping" value="express">
-            Express (50.000₫)
-        </label>
-        <h3>Thanh toán</h3>
-        <label><input type="radio" name="payment" value="cod" checked> COD</label>
-        <label><input type="radio" name="payment" value="online"> Mock Online</label>
+                <label class="field">Tên
+                    <input id="name" name="name" required placeholder="Họ và tên">
+                </label>
 
-        <div id="orderReview"></div>
 
-        <div class="totals">
-            <div>Subtotal: <span id="subtotal">0</span></div>
-            <div>Shipping: <span id="shippingFee">0</span></div>
-            <div>Total: <span id="total">0</span></div>
+                <label class="field">Số điện thoại
+                    <input id="phone" name="phone" required placeholder="0912345678">
+                </label>
+
+
+                <label class="field">Email (tuỳ chọn)
+                    <input id="email" name="email" type="email" placeholder="you@example.com">
+                </label>
+
+
+                <label class="field">Địa chỉ giao hàng
+                    <textarea id="address" name="address" required placeholder="Số nhà, đường, phường, quận"></textarea>
+                </label>
+
+
+                <h3>Vận chuyển</h3>
+                <label class="radio-inline"><input type="radio" name="shipping" value="standard" checked> Bình thường (25.000₫)</label>
+                <label class="radio-inline"><input type="radio" name="shipping" value="express"> Hỏa tốc (50.000₫)</label>
+
+
+                <h3>Phương thức thanh toán</h3>
+                <label><input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)</label>
+                <label><input type="radio" name="payment" value="online"> Chuyển khoản / Online</label>
+
+
+                <h3>Xem lại đơn hàng</h3>
+                <div id="orderReview" class="order-review">Đang tải sản phẩm...</div>
+
+
+                <div class="totals">
+                    <div>Phí hàng: <span id="subtotal">0</span></div>
+                    <div>Phí vận chuyển: <span id="shippingFee">0</span></div>
+                    <div class="total-line">Tổng: <strong id="total">0</strong></div>
+                </div>
+
+
+                <div id="checkoutError" role="alert" class="form-error" aria-live="polite"></div>
+
+
+                <div class="form-actions">
+                    <button id="placeOrderBtn" type="button" class="btn-primary">
+                        Đặt hàng
+                    </button>
+
+                </div>
+            </form>
         </div>
-        <button onclick="window.location.href='order-confirmation.html'" id="placeOrderBtn">
-        Đặt hàng
-        </button>
-        <div id="checkoutError" role="alert"></div>
-    </form>
+    </main>
 
     <footer class="footer">
         <div class="container">

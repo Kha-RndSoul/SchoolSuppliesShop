@@ -1,87 +1,148 @@
+// assets/js/checkout.js  (thay thế toàn bộ bằng đoạn này)
 (function(){
-    const CART = 'cart';
-    const ORDERS = 'orders';
+    const CART_KEY = 'cart';
+    const ORDERS_KEY = 'orders';
+    const get = id => document.getElementById(id);
 
-    const el = id => document.getElementById(id);
-    function loadCart(){
-        return JSON.parse(localStorage.getItem(CART)||'[]');
-    }
-    function saveOrders(v){
-        localStorage.setItem(ORDERS, JSON.stringify(v));
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = get('checkoutForm');
+        const placeBtn = get('placeOrderBtn');
+        const orderReview = get('orderReview');
+        const subtotalEl = get('subtotal');
+        const shippingFeeEl = get('shippingFee');
+        const totalEl = get('total');
+        const errBox = get('checkoutError');
+        if(!form || !placeBtn) return;
 
-    function fmt(n){
-        return Number(n||0).toLocaleString('vi-VN') + '₫';
-    }
-    function subtotal(items){
-        return items.reduce((s,i)=> s + (Number(i.price)||0)*(Number(i.qty)||0),0);
-    }
-    function shippingFee(mode){
-        return mode==='express'?50000:25000;
-    }
+        const fmt = n => Number(n||0).toLocaleString('vi-VN') + '₫';
+        const loadCart = () => JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+        const subtotal = items => (items||[]).reduce((s,i)=> s + (Number(i.price)||0)*(Number(i.qty)||0),0);
+        const shipFee = mode => mode === 'express' ? 50000 : 25000;
 
-    document.addEventListener('DOMContentLoaded', function(){
-        const review = el('orderReview');
-        const sub = el('subtotal');
-        const ship = el('shippingFee');
-        const tot = el('total');
-        const place = el('placeOrderBtn');
-        const form = el('checkoutForm');
-        if(!review || !place || !form) return;
+        // prevent inline navigation if any
+        placeBtn.type = 'button';
 
-        function render(){
-            const cart = loadCart();
-            if(!cart.length){ review.innerHTML = '<div class="empty">Giỏ hàng trống</div>'; place.disabled = true; sub.textContent = ship.textContent = tot.textContent = fmt(0); return; }
-            review.innerHTML = cart.map(i=>`<div>${i.name} x ${i.qty} — ${fmt(i.price*i.qty)}</div>`).join('');
-            const s = subtotal(cart);
-            const mode = document.querySelector('input[name="shipping"]:checked')?.value || 'standard';
-            const sh = shippingFee(mode);
-            sub.textContent = fmt(s); ship.textContent = fmt(sh); tot.textContent = fmt(s+sh); place.disabled = false;
+        // helper: create/return inline error element after input
+        function ensureErr(input){
+            if(!input) return null;
+            let el = input.nextElementSibling;
+            if(el && el.classList && el.classList.contains('field-error')) return el;
+            el = document.createElement('div');
+            el.className = 'field-error';
+            el.style.color = '#b00020';
+            el.style.fontSize = '0.9rem';
+            el.style.marginTop = '6px';
+            input.parentNode.insertBefore(el, input.nextSibling);
+            return el;
+        }
+        function setErr(input, msg){
+            const e = ensureErr(input);
+            if(e) e.textContent = msg || '';
+            if(msg) input.classList && input.classList.add('invalid'); else input.classList && input.classList.remove('invalid');
         }
 
-        document.querySelectorAll('input[name="shipping"]').forEach(r=> r.onchange = render);
-        render();
+        // validators
+        const validName = v => String(v||'').trim().length >= 2;
+        const validPhone = v => /^((\+84|0)\d{9,10})$/.test(String(v||'').trim());
+        const validEmail = v => !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v||'').trim());
+        const validAddress = v => String(v||'').trim().length >= 6;
 
+        // render order review & totals
+        function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function render(){
+            const cart = loadCart();
+            if(!orderReview) return;
+            if(!cart.length){
+                orderReview.innerHTML = '<div class="empty">Giỏ hàng trống.</div>';
+                subtotalEl && (subtotalEl.textContent = fmt(0));
+                shippingFeeEl && (shippingFeeEl.textContent = fmt(0));
+                totalEl && (totalEl.textContent = fmt(0));
+                return;
+            }
+            orderReview.innerHTML = cart.map(i=>`<div>${escapeHtml(i.name)} x ${i.qty} — ${fmt((i.price||0)*i.qty)}</div>`).join('');
+            const sub = subtotal(cart);
+            const mode = document.querySelector('input[name="shipping"]:checked')?.value || 'standard';
+            const ship = shipFee(mode);
+            subtotalEl && (subtotalEl.textContent = fmt(sub));
+            shippingFeeEl && (shippingFeeEl.textContent = fmt(ship));
+            totalEl && (totalEl.textContent = fmt(sub + ship));
+        }
+
+        // blur validation
+        const nameInput = get('name');
+        const phoneInput = get('phone');
+        const emailInput = get('email');
+        const addressInput = get('address');
+        [nameInput, phoneInput, emailInput, addressInput].forEach(inp=>{
+            if(!inp) return;
+            inp.addEventListener('blur', ()=>{
+                if(inp === nameInput) setErr(inp, validName(inp.value) ? '' : 'Tên phải ít nhất 2 ký tự.');
+                if(inp === phoneInput) setErr(inp, validPhone(inp.value) ? '' : 'Số điện thoại không hợp lệ. Ví dụ: 0912345678 hoặc +84912345678');
+                if(inp === emailInput) setErr(inp, validEmail(inp.value) ? '' : 'Email không đúng định dạng.');
+                if(inp === addressInput) setErr(inp, validAddress(inp.value) ? '' : 'Địa chỉ quá ngắn (>=6 ký tự).');
+            });
+        });
+
+        // submit handler
         let submitting = false;
-        place.addEventListener('click', function(e){
-            e.preventDefault();
+        placeBtn.addEventListener('click', ()=>{
             if(submitting) return;
             const cart = loadCart();
-            if(!cart.length){ alert('Giỏ hàng trống'); return; }
+            if(!cart.length){ alert('Giỏ hàng trống — không thể đặt hàng.'); return; }
 
-            const name = el('name').value.trim();
-            const phone = el('phone').value.trim();
-            const address = el('address').value.trim();
-            if(!name || !phone || !address){
-                alert('Vui lòng điền tên, điện thoại và địa chỉ'); return;
+            // clear prev errors
+            setErr(nameInput,''); setErr(phoneInput,''); setErr(emailInput,''); setErr(addressInput,'');
+            if(errBox) errBox.textContent = '';
+
+            // validate
+            let ok = true;
+            if(!validName(nameInput.value)){ setErr(nameInput,'Tên phải ít nhất 2 ký tự.'); ok = false; }
+            if(!validPhone(phoneInput.value)){ setErr(phoneInput,'Số điện thoại không hợp lệ.'); ok = false; }
+            if(!validEmail(emailInput.value)){ setErr(emailInput,'Email không đúng định dạng.'); ok = false; }
+            if(!validAddress(addressInput.value)){ setErr(addressInput,'Địa chỉ quá ngắn (>=6 ký tự).'); ok = false; }
+            if(!ok){
+                if(errBox){ errBox.textContent = 'Vui lòng sửa các trường có lỗi.'; errBox.style.color = '#b00020'; }
+                return;
             }
 
-            submitting = true; place.disabled = true;
+            // create order (mock)
+            submitting = true;
+            placeBtn.disabled = true;
 
-            const shippingMethod = document.querySelector('input[name="shipping"]:checked')?.value || 'standard';
+            const shippingMode = document.querySelector('input[name="shipping"]:checked')?.value || 'standard';
             const payment = document.querySelector('input[name="payment"]:checked')?.value || 'cod';
-            const shFee = shippingFee(shippingMethod);
-            const subVal = subtotal(cart);
+            const sub = subtotal(cart);
+            const ship = shipFee(shippingMode);
+
             const order = {
                 orderId: 'ORD' + Date.now(),
                 createdAt: new Date().toISOString(),
                 items: cart,
-                subtotal: subVal,
-                shippingFee: shFee,
-                total: subVal + shFee,
-                shippingMethod, payment,
-                customer: { name, phone, email: el('email') ? el('email').value.trim() : '', address }
+                subtotal: sub,
+                shippingFee: ship,
+                total: sub + ship,
+                payment,
+                shippingMethod: shippingMode,
+                customer: {
+                    name: nameInput.value.trim(),
+                    phone: phoneInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    address: addressInput.value.trim()
+                }
             };
-            const orders = JSON.parse(localStorage.getItem(ORDERS)||'[]');
-            orders.push(order);
-            saveOrders(orders);
 
-            // clear cart
-            localStorage.removeItem(CART);
-            // notify other pages
-            try{ window.dispatchEvent(new CustomEvent('cart:updated', { detail: { items: [] } })); }catch(e){}
-            // redirect to confirmation
+            const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+            orders.push(order);
+            localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+
+            localStorage.removeItem(CART_KEY);
             location.href = `order-confirmation.html?orderId=${encodeURIComponent(order.orderId)}`;
         });
+
+        // recalc totals when shipping changes
+        document.querySelectorAll('input[name="shipping"]').forEach(r => r.addEventListener('change', render));
+
+        // initial render
+        render();
     });
 })();
