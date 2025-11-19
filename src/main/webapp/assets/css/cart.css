@@ -1,5 +1,7 @@
 
-.cart-page { padding: 24px 0; }
+.cart-page {
+    padding: 24px 0;
+}
 .cart-layout { display: grid;
     grid-template-columns: 1fr 320px;
     gap: 24px;
@@ -128,13 +130,16 @@
 .msg-banner.info {
     background:#eef2ff;
     color:#3730a3;
-    border-color:#c7d2fe; }
+    border-color:#c7d2fe;
+}
 .msg-banner.success {
     background:#ecfdf5;
     color:#065f46;
-    border-color: #0078d4; }
+    border-color: #0078d4;
+}
 .msg-banner.error {
     background:#fff1f2;
     color:#991b1b;
-    border-color:#fecaca; }
+    border-color:#fecaca;
+}
 

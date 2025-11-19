@@ -1,12 +1,10 @@
-<!doctype html>
 <html lang="vi">
 <head>
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Giỏ hàng</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Xác nhận đơn hàng</title>
     <link rel="stylesheet" href="assets/css/style-common.css">
-    <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="assets/css/order-confirmation.css">
 </head>
 <body>
 <header class="header">
@@ -91,44 +89,11 @@
     </div>
 </header>
 
-<main class="container cart-page" id="main">
-    <h1 class="section-title">Giỏ hàng của bạn</h1>
-
-    <!-- nút demo thêm hàng -->
-    <div style="margin-bottom:12px;">
-        <button id="demoAdd" class="btn-primary" type="button">Thêm món hàng (demo)</button>
-    </div>
-    <!-- Khi giỏ rỗng -->
-    <div id="emptyBlock" class="cart-empty" role="status" aria-live="polite" hidden>
-        <p>Giỏ hàng của bạn đang trống.</p>
-        <a class="btn-primary" href="products.html">Tiếp tục mua hàng</a>
-    </div>
-
-    <div class="cart-layout">
-        <section class="cart-list" id="list" aria-label="Danh sách sản phẩm">
-
-        </section>
-        <aside class="cart-summary" aria-label="Tóm tắt đơn hàng">
-            <div class="summary-box">
-                <h2>Tóm tắt</h2>
-                <div class="summary-row">
-                    <span>Tạm tính</span>
-                    <strong id="subTotal">0₫</strong>
-                </div>
-                <div class="summary-row">
-                    <span>Phí vận chuyển</span>
-                    <strong id="shippingFee">0₫</strong>
-                </div>
-                <div class="summary-row total">
-                    <span>Tổng cộng</span>
-                    <strong id="grandTotal">0₫</strong>
-                </div>
-
-                <button onclick="window.location.href='checkout.html'" class="btn-primary">
-                    Thanh toán
-                </button>
-            </div>
-        </aside>
+<main class="wrap">
+    <div id="root" class="card">Đang tải đơn hàng…</div>
+    <div class="actions">
+        <button id="printBtn" class="btn">In hóa đơn</button>
+        <a href="index.html" class="btn link">Về trang chủ</a>
     </div>
 </main>
 
@@ -167,6 +132,6 @@
         </div>
     </div>
 </footer>
-<script src="assets/js/cart.js"></script>
+<script src="assets/js/order-confirmation.js"></script>
 </body>
 </html>
