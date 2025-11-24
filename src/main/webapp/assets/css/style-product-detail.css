@@ -120,12 +120,6 @@
 .spec-value {
     color: var(--text-light);
 }
-/* Sản phẩm liên quan - Grid layout */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-}
 
 /* Product card styling  */
 .product-card {
@@ -194,11 +188,3 @@
     color: #f39c12;
 }
 
-/* Section title cho sản phẩm liên quan */
-.section-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    color: #333;
-    text-align: left;
-}

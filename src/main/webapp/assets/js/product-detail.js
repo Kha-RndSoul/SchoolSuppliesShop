@@ -428,121 +428,41 @@
         }
         ];
 // Lấy id sản phẩm từ URL
-function getProductId() {
-    const params = new URLSearchParams(window.location.search);
-    return parseInt(params.get('id')) || 1;
-}
-// hiển thị chi tiết sản phẩm
-function renderProductDetail() {
-    const productId = getProductId();
-    const product = allProducts.find(p => p.id === productId);
-    if (!product) {
-        document.getElementById('productDetailContent').innerHTML = `
-            <div style="text-align: center; padding: 3rem;">
-                <h2>Sản phẩm không tồn tại</h2>
-                <a href="products.html" class="btn-primary" style="margin-top: 1rem; display: inline-block;">Quay lại danh sách</a>
-            </div>
-        `;
-        return;
-    }
-    // cập nhập tiêu đề trang
-    document.title = `${product.name} - DPK Shop`;
-    const specsHTML = Object.entries(product.specs || {}).map(([key, value]) => `
-        <div class="spec-item">
-            <span class="spec-label">${key}:</span>
-            <span class="spec-value">${value}</span>
-        </div>
-    `).join('');
+const getProductId = () => parseInt(new URLSearchParams(window.location.search).get('id')) || 1;
+
+// Render chi tiết sản phẩm
+document.addEventListener('DOMContentLoaded', () => {
+    const id = parseInt(new URLSearchParams(window.location.search).get('id')) || 1;
+    const p = allProducts.find(item => item.id === id);
+    document.title = `${p.name} - DPK Shop`;
+
+    const specs = Object.entries(p.specs || {}).map(([k, v]) =>
+        `<div class="spec-item"><span class="spec-label">${k}:</span><span class="spec-value">${v}</span></div>`
+    ).join('');
+
     document.getElementById('productDetailContent').innerHTML = `
         <div class="product-detail-layout">
-            <div>
-                <img src="${product.image}" alt="${product.name}" class="product-detail-image" onerror='this.src="https://via.placeholder.com/600" '>
-            </div>
+            <div><img src="${p.image}" alt="${p.name}" class="product-detail-image" onerror='this.src="https://via.placeholder.com/600"'></div>
             <div class="product-detail-info">
-                <h1>${product.name}</h1>
-                <p class="product-detail-brand">Thương hiệu: ${product.brand}</p>
+                <h1>${p.name}</h1>
+                <p class="product-detail-brand">Thương hiệu: ${p.brand}</p>
                 <div class="product-detail-rating">
-                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
-                    <span>(${product.rating} / 5.0)</span>
+                    <span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span>
+                    <span>(${p.rating} / 5.0)</span>
                 </div>
-                <div class="product-detail-price">
-                    ${product.price.toLocaleString('vi-VN')}đ
-                    ${product.oldPrice ? `<span style="font-size: 1.2rem; color: var(--text-light); text-decoration: line-through; margin-left: 1rem;">${product.oldPrice.toLocaleString('vi-VN')}đ</span>` : ''}
+                <div class="product-detail-price">${p.price.toLocaleString('vi-VN')}đ
+                    ${p.oldPrice ? `<span style="font-size:1.2rem;color:var(--text-light);text-decoration:line-through;margin-left:1rem">${p.oldPrice.toLocaleString('vi-VN')}đ</span>` : ''}
                 </div>
-                <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; margin: 1.5rem 0;">
-                    <strong>🎁 Khuyến mãi:</strong> Giảm ${product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0}% khi mua sản phẩm này!
-                </div>
-                <div class="product-description">
-                    <h3 style="margin-bottom: 0.5rem;">Mô tả sản phẩm</h3>
-                    <p>${product.description || 'Sản phẩm chất lượng cao, đảm bảo uy tín.'}</p>
-                </div>
+                ${p.oldPrice ? `<div style="background:#fef3c7;padding:1rem;border-radius:8px;margin:1.5rem 0">
+                    <strong>🎁 Khuyến mãi:</strong> Giảm ${Math.round((1-p.price/p.oldPrice)*100)}% khi mua sản phẩm này!</div>` : ''}
+                <div class="product-description"><h3>Mô tả sản phẩm</h3><p>${p.description || 'Sản phẩm chất lượng cao.'}</p></div>
                 <div class="product-actions">
-                    <button class="btn-add-cart" onclick="addToCart(${product.id})"> Thêm Vào Giỏ</button>
-                    <button class="btn-buy-now" onclick="buyNow(${product.id})">Mua Ngay</button>
+                    <button class="btn-add-cart" onclick="alert('Đã thêm vào giỏ!')">Thêm Vào Giỏ</button>
+                    <button class="btn-buy-now" onclick="confirm('Mua ngay?')&&(location.href='checkout.html')">Mua Ngay</button>
                 </div>
             </div>
         </div>
-        <div class="product-specs">
-            <h2>Thông số kỹ thuật</h2>
-            ${specsHTML}
-        </div>
-    `;
-    // Hiển thị sản phẩm liên quan
-    renderRelatedProducts(product);
-}
-
-// Hiển thị sản phẩm liên quan
-function renderRelatedProducts(currentProduct) {
-    const relatedProducts = allProducts
-        .filter(p => p.id !== currentProduct.id && (p.category === currentProduct.category || p.brand === currentProduct.brand))
-        .slice(0, 4);
-    // Nếu không có sản phẩm liên quan, ẩn phần này
-    if (relatedProducts.length === 0) {
-        document.getElementById('relatedProducts').innerHTML = '';
-        return;
-    }
-    document.getElementById('relatedProducts').innerHTML = relatedProducts.map(product => `
-        <a href="product-detail.html?id=${product.id}" class="product-card">
-            <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/400'">
-            <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-brand">${product.brand}</p>
-                <div>
-                    <span class="product-price">${product.price.toLocaleString('vi-VN')}đ</span>
-                    ${product.oldPrice ? `<span class="product-price-old">${product.oldPrice.toLocaleString('vi-VN')}đ</span>` : ''}
-                </div>
-                <div class="product-rating">
-                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
-                    <span>(${product.rating})</span>
-                </div>
-            </div>
-        </a>
-    `).join('');
-}
-// Thêm vào giỏ hàng
-function addToCart(productId) {
-    const product = allProducts.find(p => p.id === productId);
-    if (product) {
-        // In a real app, this would add to cart storage/API
-        alert(`Đã thêm "${product.name}" vào giỏ hàng!`);
-        console.log('Added to cart:', product);
-    }
-}
-// Mua ngay
-function buyNow(productId) {
-    const product = allProducts.find(p => p.id === productId);
-    if (product) {
-        // In a real app, this would redirect to checkout
-        if (confirm(`Bạn có muốn mua "${product.name}" ngay bây giờ?`)) {
-
-            console.log('Buy now:', product);
-            window.location.href = 'checkout.html' ;
-        }
-    }
-}
-// Khởi tạo trang khi tải xong
-document.addEventListener('DOMContentLoaded', function() {
-    renderProductDetail();
+        <div class="product-specs"><h2>Thông số kỹ thuật</h2>${specs}</div>`;
 });
 
 
