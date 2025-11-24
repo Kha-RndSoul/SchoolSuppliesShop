@@ -430,7 +430,6 @@ let currentPage = 1;
 const productsPerPage = 9;
 let filteredProducts = [...allProducts];
 
-// Get URL parameters
 function getUrlParams() {
     const params = new URLSearchParams(window.location.search);
     return {
@@ -440,91 +439,53 @@ function getUrlParams() {
     };
 }
 
-// Apply filters
 function applyFilters() {
     const urlParams = getUrlParams();
     const searchTerm = urlParams.search.toLowerCase() || document.getElementById('searchInput')?.value.toLowerCase() || '';
-    const maxPrice = parseInt(document.getElementById('priceRange').value);
 
-    // Get selected categories
     const selectedCategories = [];
     document.querySelectorAll('#sidebar input[type="checkbox"][id^="cat-"]:checked').forEach(checkbox => {
         selectedCategories.push(checkbox.value);
     });
 
-    // Get selected brands
     const selectedBrands = [];
     document.querySelectorAll('#sidebar input[type="checkbox"][id^="brand-"]:checked').forEach(checkbox => {
         selectedBrands.push(checkbox.value);
     });
 
-    // Filter products
     filteredProducts = allProducts.filter(product => {
-        // Search filter
         const matchesSearch = !searchTerm ||
             product.name.toLowerCase().includes(searchTerm) ||
             product.brand.toLowerCase().includes(searchTerm);
 
-        // Price filter
-        const matchesPrice = product.price <= maxPrice;
-
-        // Category filter - ưu tiên URL param, sau đó mới đến checkbox
         let matchesCategory = true;
         if (urlParams.category) {
-            // Nếu có category trong URL, chỉ hiển thị sản phẩm thuộc category đó
             matchesCategory = product.category === urlParams.category;
         } else if (selectedCategories.length > 0) {
-            // Nếu không có URL param nhưng có checkbox được chọn, lọc theo checkbox
             matchesCategory = selectedCategories.includes(product.category);
         }
-        // Nếu không có cả URL param và checkbox, hiển thị tất cả (matchesCategory = true)
 
-        // Brand filter
         const matchesBrand = selectedBrands.length === 0 ||
             selectedBrands.includes(product.brand);
 
-        return matchesSearch && matchesPrice && matchesCategory && matchesBrand;
+        return matchesSearch && matchesCategory && matchesBrand;
     });
-    // Apply sorting
-    const sortValue = document.getElementById('sortSelect').value;
-    switch(sortValue) {
-        case 'price-asc':
-            filteredProducts.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-desc':
-            filteredProducts.sort((a, b) => b.price - a.price);
-            break;
-        case 'name-asc':
-            filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-        case 'name-desc':
-            filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
-            break;
-        case 'rating-desc':
-            filteredProducts.sort((a, b) => b.rating - a.rating);
-            break;
-    }
+
     currentPage = 1;
     renderProducts();
     renderPagination();
     updateProductsCount();
 }
-// Reset filters
+
 function resetFilters() {
-    document.getElementById('priceRange').value = 5000000;
-    document.getElementById('maxPrice').textContent = '5.000.000đ';
     document.querySelectorAll('#sidebar input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false;
     });
-    document.getElementById('sortSelect').value = 'default';
     document.getElementById('searchInput').value = '';
-
-    // Clear URL params
     window.history.pushState({}, '', 'products.html');
-
     applyFilters();
 }
-// Render products
+
 function renderProducts() {
     const container = document.getElementById('productsGrid');
     const startIndex = (currentPage - 1) * productsPerPage;
@@ -553,7 +514,7 @@ function renderProducts() {
         </a>
     `).join('');
 }
-// Render pagination
+
 function renderPagination() {
     const container = document.getElementById('pagination');
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -562,9 +523,7 @@ function renderPagination() {
         return;
     }
     let paginationHTML = '';
-    // Previous button
     paginationHTML += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ Trước</button>`;
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
             paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
@@ -572,66 +531,50 @@ function renderPagination() {
             paginationHTML += `<span>...</span>`;
         }
     }
-    // Next button
     paginationHTML += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Sau ›</button>`;
-
     container.innerHTML = paginationHTML;
 }
-// Go to page
+
 function goToPage(page) {
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
     if (page < 1 || page > totalPages) return;
     currentPage = page;
     renderProducts();
     renderPagination();
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Update URL
     const url = new URL(window.location);
     url.searchParams.set('page', page);
     window.history.pushState({}, '', url);
 }
-// Update products count
+
 function updateProductsCount() {
     const showingCount = Math.min(currentPage * productsPerPage, filteredProducts.length);
     const startCount = (currentPage - 1) * productsPerPage + 1;
-
     document.getElementById('showingCount').textContent =
         filteredProducts.length > 0 ? `${startCount}-${showingCount}` : '0';
     document.getElementById('totalCount').textContent = filteredProducts.length;
 }
-// Initialize
+
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = getUrlParams();
-
-    // Set search input if URL has search param
     if (urlParams.search && document.getElementById('searchInput')) {
         document.getElementById('searchInput').value = urlParams.search;
     }
-    // Set category checkbox if URL has category param - PHẢI SET TRƯỚC KHI GỌI applyFilters()
     if (urlParams.category) {
         const categoryCheckbox = document.getElementById(`cat-${urlParams.category}`);
         if (categoryCheckbox) {
             categoryCheckbox.checked = true;
         }
     }
-    // Set page from URL
     if (urlParams.page) {
         currentPage = urlParams.page;
     }
-    // Gọi applyFilters() sau khi đã set tất cả các giá trị từ URL
     applyFilters();
 });
-// Add sidebar ID for easier selection
+
 document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.querySelector('.sidebar');
     if (sidebar) {
         sidebar.id = 'sidebar';
     }
 });
-// Event listeners for filters
-document.getElementById('priceRange')?.addEventListener('input', function() {
-    document.getElementById('maxPrice').textContent = parseInt(this.value).toLocaleString('vi-VN') + 'đ';
-    applyFilters();
-});
-

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns="http://www.w3.org/1999/html">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Sản Phẩm</title>
-
+    <title>Danh Sách Sản Phẩm - DPK Shop</title>
     <link rel="stylesheet" href="assets/css/style-common.css">
     <link rel="stylesheet" href="assets/css/style-product.css">
 
@@ -13,202 +11,425 @@
 <header class="header">
     <nav class="navbar">
         <a href="index.html" class="logo">
-            <span>
-                DPK Shop
-            </span>
+            <span>DPK Shop</span>
         </a>
         <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm sản phẩm...">
-            <button class="search-button">
-                🔍
-            </button>
+            <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+            <button class="search-button">🔍</button>
         </div>
-
         <div class="header-actions">
             <a href="contact.html" class="action-item">
                 <div class="action-text">
-                    <button class="phone-button">
-                        📞
-                    </button>
+                    <button class="phone-button">📞</button>
                     <span>Liên hệ</span>
                 </div>
             </a>
             <a href="login.html" class="action-item">
                 <div class="action-text">
-                    <button class="user-button">
-                        👤
-                    </button>
+                    <button class="user-button">👤</button>
                     <span>Đăng nhập/Đăng ký</span>
                 </div>
             </a>
             <a href="cart.html" class="action-item">
                 <div class="action-text">
-                    <button class="cart-button">
-                        🛒
-                    </button>
+                    <button class="cart-button">🛒</button>
                     <span>Giỏ hàng</span>
                 </div>
             </a>
         </div>
     </nav>
-
     <div class="nav-row">
         <div class="container">
             <ul class="nav-links">
-                <li>
-                    <a href="products.html?category=van-phong-pham">
-                        Văn phòng phẩm
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=sach-vo">
-                        Sách vở
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=do-dung-ve">
-                        Đồ dùng vẽ
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=balo-cap">
-                        Balo & Cặp
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=may-tinh">
-                        Máy tính
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=den-hoc">
-                        Đèn học
-                    </a>
-                </li>
+                <li><a href="products.html?category=van-phong-pham">Văn phòng phẩm</a></li>
+                <li><a href="products.html?category=sach-vo">Sách vở</a></li>
+                <li><a href="products.html?category=do-dung-ve">Đồ dùng vẽ</a></li>
+                <li><a href="products.html?category=balo-cap">Balo & Cặp</a></li>
+                <li><a href="products.html?category=may-tinh">Máy tính</a></li>
+                <li><a href="products.html?category=den-hoc">Đèn học</a></li>
             </ul>
         </div>
     </div>
 </header>
 
-<!-- Trang Sản phẩm -->
-<div class="container products-page">
+<div class="container">
+    <!-- Main Content -->
     <div class="products-layout">
-        <!-- bộ Lọc sản phẩm -->
+        <!-- Sidebar Filters (Chỉ hiển thị, không có chức năng) -->
         <aside class="sidebar">
-            <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Bộ Lọc</h2>
-            <!-- Bộ lọc Theo Giá -->
             <div class="filter-section">
-                <h3 class="filter-title">Khoảng Giá</h3>
-                <div class="filter-group">
-                    <input type="range" id="priceRange" min="0" max="5000000" value="5000000" step="50000">
-                    <div class="price-range">
-                        <span>0đ</span>
-                        <span id="maxPrice">5.000.000đ</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Bộ lọc Theo Thương Hiệu -->
-            <div class="filter-section">
-                <h3 class="filter-title">Thương Hiệu</h3>
-                <div class="filter-group">
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-thien-long" value="Thiên Long" onchange="applyFilters()">
-                        <label for="brand-thien-long">Thiên Long</label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-ben-nghe" value="Bến Nghé" onchange="applyFilters()">
-                        <label for="brand-ben-nghe">Bến Nghé</label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-hong-ha" value="Hồng Hà" onchange="applyFilters()">
-                        <label for="brand-hong-ha">Hồng Hà</label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-faber-castell" value="Faber-Castell" onchange="applyFilters()">
-                        <label for="brand-faber-castell">Faber-Castell</label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-staedtler" value="Staedtler" onchange="applyFilters()">
-                        <label for="brand-staedtler">Staedtler</label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-jansport" value="Jansport" onchange="applyFilters()">
-                        <label for="brand-jansport">Jansport</label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <input type="checkbox" id="brand-casio" value="Casio" onchange="applyFilters()">
-                        <label for="brand-casio">Casio</label>
-                    </div>
-                </div>
+                <h3>Danh mục</h3>
+                <label><input type="checkbox" disabled> Văn phòng phẩm (5)</label>
+                <label><input type="checkbox" disabled> Sách vở (5)</label>
+                <label><input type="checkbox" disabled> Đồ dùng vẽ (4)</label>
+                <label><input type="checkbox" disabled> Balo & Cặp (3)</label>
+                <label><input type="checkbox" disabled> Máy tính (2)</label>
+                <label><input type="checkbox" disabled> Đèn học (1)</label>
             </div>
 
-            <button class="btn-filter" onclick="resetFilters()">Đặt Lại Bộ Lọc</button>
+            <div class="filter-section">
+                <h3>Thương hiệu</h3>
+                <label><input type="checkbox" disabled> Thiên Long</label>
+                <label><input type="checkbox" disabled> Campus</label>
+                <label><input type="checkbox" disabled> Faber-Castell</label>
+                <label><input type="checkbox" disabled> Casio</label>
+                <label><input type="checkbox" disabled> Stabilo</label>
+            </div>
+
+            <p style="color: #999; font-size: 0.875rem; font-style: italic; margin-top: 1rem;">
+                * Chức năng lọc sẽ được cập nhật sau
+            </p>
         </aside>
-        <!-- Nội dung Sản Phẩm-->
-        <main>
-            <div class="products-header">
-                <div>
-                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Sản Phẩm</h1>
-                    <p class="products-count" id="productsCount">Hiển thị <span id="showingCount">0</span> / <span id="totalCount">0</span> sản phẩm</p>
-                </div>
-                <div class="sort-container">
-                    <label for="sortSelect">Sắp xếp:</label>
-                    <select id="sortSelect" onchange="applyFilters()">
-                        <option value="default">Mặc định</option>
-                        <option value="price-asc">Giá: Thấp đến Cao</option>
-                        <option value="price-desc">Giá: Cao đến Thấp</option>
-                        <option value="name-asc">Tên: A-Z</option>
-                        <option value="name-desc">Tên: Z-A</option>
-                        <option value="rating-desc">Đánh giá cao nhất</option>
-                    </select>
-                </div>
+
+        <!-- Products Grid -->
+        <main class="products-main">
+            <div class="products-header-bar">
+                <p class="products-count">Hiển thị tất cả sản phẩm</p>
             </div>
 
-            <div class="products-grid" id="productsGrid">
-                <!-- Products will be loaded by JavaScript -->
-            </div>
-            <!-- Pagination -->
-            <div class="pagination" id="pagination">
-                <!-- Pagination will be generated by JavaScript -->
+            <div class="products-grid">
+                <!-- SẢN PHẨM 1 -->
+                <a href="product-detail.html?id=1" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=400&h=400&fit=crop" alt="Bút Bi Thiên Long TL-027" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Bút Bi Thiên Long TL-027</h3>
+                        <p class="product-brand">Thiên Long</p>
+                        <div>
+                            <span class="product-price">3.500đ</span>
+                            <span class="product-price-old">5.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.8)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 2 -->
+                <a href="product-detail.html?id=2" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1564951434112-64d74cc2a2d7?w=400&h=400&fit=crop" alt="Bút Chì Gỗ Thiên Long GP-02" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Bút Chì Gỗ Thiên Long GP-02</h3>
+                        <p class="product-brand">Thiên Long</p>
+                        <div>
+                            <span class="product-price">2.500đ</span>
+                            <span class="product-price-old">3.500đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.6)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 3 -->
+                <a href="product-detail.html?id=3" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=400&fit=crop" alt="Tẩy Thiên Long E-013" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Tẩy Thiên Long E-013</h3>
+                        <p class="product-brand">Thiên Long</p>
+                        <div>
+                            <span class="product-price">1.500đ</span>
+                            <span class="product-price-old">2.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.7)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 4 -->
+                <a href="product-detail.html?id=4" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1562543732-9582c2efe8e5?w=400&h=400&fit=crop" alt="Thước Kẻ Nhựa 30cm" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Thước Kẻ Nhựa 30cm</h3>
+                        <p class="product-brand">Thiên Long</p>
+                        <div>
+                            <span class="product-price">4.000đ</span>
+                            <span class="product-price-old">6.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.5)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 5 -->
+                <a href="product-detail.html?id=5" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1587466125770-f8cf5b3c96e4?w=400&h=400&fit=crop" alt="Bút Dạ Quang Stabilo Boss" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Bút Dạ Quang Stabilo Boss</h3>
+                        <p class="product-brand">Stabilo</p>
+                        <div>
+                            <span class="product-price">15.000đ</span>
+                            <span class="product-price-old">20.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.9)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 6 -->
+                <a href="product-detail.html?id=6" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop" alt="Vở Kẻ Ngang Campus 200 Trang" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Vở Kẻ Ngang Campus 200 Trang</h3>
+                        <p class="product-brand">Campus</p>
+                        <div>
+                            <span class="product-price">25.000đ</span>
+                            <span class="product-price-old">30.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.8)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 7 -->
+                <a href="product-detail.html?id=7" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=400&fit=crop" alt="Vở Ô Ly Hong Ha 96 Trang" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Vở Ô Ly Hong Ha 96 Trang</h3>
+                        <p class="product-brand">Hồng Hà</p>
+                        <div>
+                            <span class="product-price">12.000đ</span>
+                            <span class="product-price-old">15.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.6)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 8 -->
+                <a href="product-detail.html?id=8" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&h=400&fit=crop" alt="Sổ Tay Bìa Da A5" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sổ Tay Bìa Da A5</h3>
+                        <p class="product-brand">Thái Hà Books</p>
+                        <div>
+                            <span class="product-price">45.000đ</span>
+                            <span class="product-price-old">60.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.7)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 9 -->
+                <a href="product-detail.html?id=9" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&h=400&fit=crop" alt="Giấy Note Sticker 3M Post-it" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Giấy Note Sticker 3M Post-it</h3>
+                        <p class="product-brand">3M</p>
+                        <div>
+                            <span class="product-price">35.000đ</span>
+                            <span class="product-price-old">45.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.9)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 10 -->
+                <a href="product-detail.html?id=10" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?w=400&h=400&fit=crop" alt="Bìa Lá Plastic Deli" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Bìa Lá Plastic Deli</h3>
+                        <p class="product-brand">Deli</p>
+                        <div>
+                            <span class="product-price">8.000đ</span>
+                            <span class="product-price-old">12.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.5)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 11 -->
+                <a href="product-detail.html?id=11" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop" alt="Bút Chì Màu Faber-Castell 24 Màu" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Bút Chì Màu Faber-Castell 24 Màu</h3>
+                        <p class="product-brand">Faber-Castell</p>
+                        <div>
+                            <span class="product-price">89.000đ</span>
+                            <span class="product-price-old">120.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.9)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 12 -->
+                <a href="product-detail.html?id=12" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400&h=400&fit=crop" alt="Màu Nước Thiên Long 12 Màu" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Màu Nước Thiên Long 12 Màu</h3>
+                        <p class="product-brand">Thiên Long</p>
+                        <div>
+                            <span class="product-price">25.000đ</span>
+                            <span class="product-price-old">35.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.6)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 13 -->
+                <a href="product-detail.html?id=13" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1607827448387-a67db1383b59?w=400&h=400&fit=crop" alt="Bút Vẽ Kỹ Thuật Rotring 0.5mm" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Bút Vẽ Kỹ Thuật Rotring 0.5mm</h3>
+                        <p class="product-brand">Rotring</p>
+                        <div>
+                            <span class="product-price">125.000đ</span>
+                            <span class="product-price-old">180.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.9)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 14 -->
+                <a href="product-detail.html?id=14" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=400&fit=crop" alt="Sổ Vẽ Sketch Maruman A4" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sổ Vẽ Sketch Maruman A4</h3>
+                        <p class="product-brand">Maruman</p>
+                        <div>
+                            <span class="product-price">65.000đ</span>
+                            <span class="product-price-old">85.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.8)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 15 -->
+                <a href="product-detail.html?id=15" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop" alt="Balo Học Sinh Jansport SuperBreak" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Balo Học Sinh Jansport SuperBreak</h3>
+                        <p class="product-brand">Jansport</p>
+                        <div>
+                            <span class="product-price">890.000đ</span>
+                            <span class="product-price-old">1.200.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.7)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 16 -->
+                <a href="product-detail.html?id=16" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?w=400&h=400&fit=crop" alt="Cặp Da Đựng Laptop 15.6 inch" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Cặp Da Đựng Laptop 15.6 inch</h3>
+                        <p class="product-brand">Samsonite</p>
+                        <div>
+                            <span class="product-price">650.000đ</span>
+                            <span class="product-price-old">900.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.8)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 17 -->
+                <a href="product-detail.html?id=17" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=400&fit=crop" alt="Túi Đeo Chéo Mini Unisex" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Túi Đeo Chéo Mini Unisex</h3>
+                        <p class="product-brand">Anello</p>
+                        <div>
+                            <span class="product-price">350.000đ</span>
+                            <span class="product-price-old">480.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(4.6)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 18 -->
+                <a href="product-detail.html?id=18" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=400&fit=crop" alt="Máy Tính Casio FX-580VN X" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Máy Tính Casio FX-580VN X</h3>
+                        <p class="product-brand">Casio</p>
+                        <div>
+                            <span class="product-price">590.000đ</span>
+                            <span class="product-price-old">750.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.9)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 19 -->
+                <a href="product-detail.html?id=19" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=400&h=400&fit=crop" alt="Máy Tính Bỏ Túi Casio MH-12" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Máy Tính Bỏ Túi Casio MH-12</h3>
+                        <p class="product-brand">Casio</p>
+                        <div>
+                            <span class="product-price">180.000đ</span>
+                            <span class="product-price-old">250.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.7)</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SẢN PHẨM 20 -->
+                <a href="product-detail.html?id=20" class="product-card">
+                    <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop" alt="Đèn Bàn Học LED Philips EyeCare" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Đèn Bàn Học LED Philips EyeCare</h3>
+                        <p class="product-brand">Philips</p>
+                        <div>
+                            <span class="product-price">450.000đ</span>
+                            <span class="product-price-old">600.000đ</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4.8)</span>
+                        </div>
+                    </div>
+                </a>
             </div>
         </main>
-        </div>
-</div>
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Giới thiệu</h3>
-                <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
-                <a href="about.html" class="text-link" >Về chúng tôi </a>
-            </div>
-            <div class="footer-section">
-                <h3>Liên Hệ</h3>
-                <p>📧 Email: contact@dpkshop.com</p>
-                <p>📞 Hotline: 1900 5678</p>
-                <p>📍 Địa chỉ: 123 Đường Học Tập, Phường 1, Quận 1, TP.HCM</p>
-                <a href="contact.html" class="text-link" >Chi tiết liên hệ </a>
-            </div>
-            <div class="footer-section">
-                <h3>Hỗ Trợ</h3>
-                <a href="#">Hướng dẫn mua hàng</a>
-                <a href="#">Chính sách đổi trả</a>
-                <a href="#">Vận chuyển</a>
-                <a href="#">Thanh toán</a>
-            </div>
-            <div class="footer-section">
-                <h3>Theo Dõi</h3>
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Twitter</a>
-                <a href="#">YouTube</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
-        </div>
     </div>
-</footer>
-<script src="assets/js/products.js"></script>
+</div>
 </body>
 </html>
