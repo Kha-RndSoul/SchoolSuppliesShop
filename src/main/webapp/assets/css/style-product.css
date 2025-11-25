@@ -1,23 +1,4 @@
 
-/* Header */
-.products-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem 0;
-}
-
-.products-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 0.75rem;
-    color: var(--text-dark);
-}
-
-.products-header p {
-    font-size: 1.125rem;
-    color: var(--text-light);
-}
-
 /* Layout */
 .products-layout {
     display: grid;
@@ -59,7 +40,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 0.875rem;
-    cursor: not-allowed;
+    cursor: pointer;
     color: var(--text-light);
     font-size: 0.95rem;
 }
@@ -95,14 +76,9 @@
     border: 1px solid var(--border-color);
 }
 
-.products-count {
+.products-show {
     font-size: 1rem;
     color: var(--text-light);
-}
-
-.products-count strong {
-    color: var(--text-dark);
-    font-weight: 600;
 }
 
 /* Products Grid */
