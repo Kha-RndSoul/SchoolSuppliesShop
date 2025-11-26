@@ -26,8 +26,4 @@ function goToSlide(index) {
 setInterval(() => {
     changeSlide(1);
 }, 5000);
-function getSoldCountClass(count) {
-    if (count >= 3000) return 'hot';
-    if (count >= 1000) return 'warm';
-    return 'cool';
-}
+
