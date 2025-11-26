@@ -44,12 +44,26 @@
     color: var(--text-light);
     font-size: 0.95rem;
 }
+.filter-section label:hover {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
 
 .filter-section input[type="checkbox"] {
     margin-right: 0.75rem;
     width: 18px;
     height: 18px;
     opacity: 0.5;
+}
+/*hover cho chekcbox*/
+.filter-section input[type="checkbox"]:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.filter-section input[type="checkbox"]:checked {
+    opacity: 1;
+    accent-color: var(--primary-color);
 }
 
 .sidebar p {
@@ -182,7 +196,7 @@
 }
 /*Bộ lọc giá */
 .filter-group input[type="range"] { /* Thanh trượt giá */
-    width: 100%; /* Đặt chiều rộng của thanh trượt bằng 100% */
+    width: 100%;
     margin-bottom: 0.5rem;
 }
 .price-range { /* Hiển thị giá trị min và max */
@@ -191,7 +205,24 @@
     font-size: 0.9rem;
     color: var(--text-light);
 }
-/*Header sản phẩm - Phần đếm số lượng sản phẩm */
+.filter-group input[type="range"]:hover {
+    background: var(--primary-color);
+    opacity: 1;
+}
+.filter-group input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.filter-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
 /* Products Header */
 .products-header {
     display: flex;
