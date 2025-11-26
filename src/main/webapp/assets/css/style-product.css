@@ -241,17 +241,6 @@
     appearance: none;
     min-width: 200px;
 }
-.sort-select::after {
-    content: '▼';
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-light);
-    font-size: 0.75rem;
-    pointer-events: none;
-}
-
 .sort-select:hover {
     border-color: var(--primary-color);
 }

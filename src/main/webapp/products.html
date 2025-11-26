@@ -105,14 +105,17 @@
                 <!-- Sort section -->
                 <div class="sort-section">
                     <label for="sortSelect" class="sort-label">Sắp xếp theo:</label>
-                    <select name="sort" id="sortSelect" class="sort-select">
-                        <option value="">Mặc định</option>
-                        <option value="price-asc">Giá: Thấp đến Cao</option>
-                        <option value="price-desc">Giá: Cao đến Thấp</option>
-                        <option value="name-asc">Tên: A-Z</option>
-                        <option value="name-desc">Tên: Z-A</option>
-                        <option value="rating-desc">Đánh giá cao nhất</option>
-                    </select>
+                    <div style="position: relative; display: inline-block;">
+                        <select name="sort" id="sortSelect" class="sort-select">
+                            <option value="">Mặc định</option>
+                            <option value="price-asc">Giá: Thấp đến Cao</option>
+                            <option value="price-desc">Giá: Cao đến Thấp</option>
+                            <option value="name-asc">Tên: A-Z</option>
+                            <option value="name-desc">Tên: Z-A</option>
+                            <option value="rating-desc">Đánh giá cao nhất</option>
+                        </select>
+                        <span style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 0.75rem; pointer-events: none;">▼</span>
+                    </div>
                 </div>
             </div>
 
