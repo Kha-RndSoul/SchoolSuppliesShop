@@ -53,9 +53,23 @@
 
 <div class="container">
     <!-- Main Content -->
+
     <div class="products-layout">
-        <!-- Sidebar Filters -->
+
+        <!-- Bộ lọc sản phẩm -->
         <aside class="sidebar">
+            <!-- Bộ lọc Theo Giá -->
+            <div class="filter-section">
+                <h3 class="filter-title">Khoảng Giá</h3>
+                <div class="filter-group">
+                    <input type="range" id="priceRange" min="0" max="5000000" value="5000000" step="50000">
+                    <div class="price-range">
+                        <span>0đ</span>
+                        <span id="maxPrice">5.000.000đ</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="filter-section">
                 <h3>Danh mục</h3>
                 <label><input type="checkbox" > Văn phòng phẩm (5)</label>
@@ -80,10 +94,29 @@
             </p>
         </aside>
 
+
         <!-- Products Grid -->
         <main class="products-main">
-            <div class="products-header-bar">
-                <p class="products-count">Hiển thị 10 sản phẩm</p>
+            <div class="products-header">
+                <div class="products-count">
+                    <span class="count-text">Hiển thị 10 sản phẩm</span>
+                </div>
+
+                <!-- Sort section -->
+                <div class="sort-section">
+                    <label for="sortSelect" class="sort-label">Sắp xếp theo:</label>
+                    <div style="position: relative; display: inline-block;">
+                        <select name="sort" id="sortSelect" class="sort-select">
+                            <option value="">Mặc định</option>
+                            <option value="price-asc">Giá: Thấp đến Cao</option>
+                            <option value="price-desc">Giá: Cao đến Thấp</option>
+                            <option value="name-asc">Tên: A-Z</option>
+                            <option value="name-desc">Tên: Z-A</option>
+                            <option value="rating-desc">Đánh giá cao nhất</option>
+                        </select>
+                        <span style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 0.75rem; pointer-events: none;">▼</span>
+                    </div>
+                </div>
             </div>
 
             <div class="products-grid">

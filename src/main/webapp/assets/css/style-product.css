@@ -180,3 +180,72 @@
     color: var(--text-light);
     font-size: 0.875rem;
 }
+/*Bộ lọc giá */
+.filter-group input[type="range"] { /* Thanh trượt giá */
+    width: 100%; /* Đặt chiều rộng của thanh trượt bằng 100% */
+    margin-bottom: 0.5rem;
+}
+.price-range { /* Hiển thị giá trị min và max */
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+/*Header sản phẩm - Phần đếm số lượng sản phẩm */
+/* Products Header */
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.products-count h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.count-text {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Sort Section */
+.sort-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sort-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.sort-select {
+    padding: 0.625rem 2.25rem 0.625rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background: var(--bg-white) ;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    appearance: none;
+    min-width: 200px;
+}
+.sort-select:hover {
+    border-color: var(--primary-color);
+}
+.sort-select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
