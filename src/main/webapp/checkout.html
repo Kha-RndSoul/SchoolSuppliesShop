@@ -113,22 +113,12 @@
                 <label class="field">Địa chỉ giao hàng
                     <textarea id="address" name="address" required placeholder="Số nhà, đường, phường, quận"></textarea>
                 </label>
-
-
                 <h3>Vận chuyển</h3>
                 <label class="radio-inline"><input type="radio" name="shipping" value="standard" checked> Bình thường (25.000₫)</label>
                 <label class="radio-inline"><input type="radio" name="shipping" value="express"> Hỏa tốc (50.000₫)</label>
-
-
                 <h3>Phương thức thanh toán</h3>
                 <label><input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)</label>
                 <label><input type="radio" name="payment" value="online"> Chuyển khoản / Online</label>
-
-
-                <h3>Xem lại đơn hàng</h3>
-                <div id="orderReview" class="order-review">Đang tải sản phẩm...</div>
-
-
                 <div class="totals">
                     <div>Phí hàng: <span id="subtotal">0</span></div>
                     <div>Phí vận chuyển: <span id="shippingFee">0</span></div>
@@ -140,10 +130,10 @@
 
 
                 <div class="form-actions">
-                    <button id="placeOrderBtn" type="button" class="btn-primary">
+                    <button id="placeOrderBtn" type="button" class="btn-primary"
+                            onclick="window.location.href='order-confirmation.html'">
                         Đặt hàng
                     </button>
-
                 </div>
             </form>
         </div>
@@ -182,7 +172,11 @@
             <div class="footer-bottom">
                 <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
             </div>
+
         </div>
     </footer>
+
+    <script src="assets/js/checkout.js"></script>
+
     </body>
     </html>
