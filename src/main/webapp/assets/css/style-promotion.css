@@ -13,8 +13,8 @@
 }
 .promotions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
     margin-bottom: 3rem;
 }
 .promotion-card {
@@ -30,11 +30,11 @@
 }
 .promotion-image {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
 }
 .promotion-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
 }
 .promotion-badge {
     display: inline-block;
@@ -43,11 +43,11 @@
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
 }
 .promotion-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: var(--text-dark);
@@ -55,22 +55,22 @@
 .promotion-description {
     color: var(--text-light);
     margin-bottom: 1rem;
-    line-height: 1.6;
+    line-height: 1;
 }
 .promotion-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
     border-top: 1px solid var(--border-color);
 }
 .promotion-code {
     font-weight: 600;
     color: var(--primary-color);
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 .promotion-expiry {
     color: var(--text-light);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }

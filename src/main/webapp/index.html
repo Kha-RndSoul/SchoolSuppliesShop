@@ -111,12 +111,20 @@
                       <a href="products.html" class="btn-primary">Mua Sắm Ngay</a>
                   </div>
               </div>
+              <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/images/banners/banner4.png');">
+                  <div class="slide-content">
+                      <h1>Dụng Cụ Xinh</h1>
+                      <p>Học cụ xinh Rinh deal xịn</p>
+                      <a href="products.html" class="btn-primary">Săn Ngay</a>
+                  </div>
+              </div>
               <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
               <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
               <div class="slider-controls">
                   <span class="slider-dot active" onclick="goToSlide(0)"></span>
                   <span class="slider-dot" onclick="goToSlide(1)"></span>
                   <span class="slider-dot" onclick="goToSlide(2)"></span>
+                  <span class="slider-dot" onclick="goToSlide(3)"></span>
               </div>
           </div>
       </section>
@@ -128,28 +136,24 @@
                   <a href="products.html?category=van-phong-pham" class="category-card">
                       <img src="assets/images/icons/van-phong-pham.svg" alt="Văn Phòng Phẩm" class="category-image">
                       <div class="category-info">
-                          <h3>Văn Phòng Phẩm</h3>
                           <p>Bút, thước, tẩy, gôm, kẹp giấy</p>
                       </div>
                   </a>
                   <a href="products.html?category=sach-vo" class="category-card">
                       <img src="assets/images/icons/sach-vo.svg" alt="Sách Vở" class="category-image">
                       <div class="category-info">
-                          <h3>Sách Vở</h3>
                           <p>Vở, sách, tập, bìa bảo vệ</p>
                       </div>
                   </a>
                   <a href="products.html?category=do-dung-ve" class="category-card">
                       <img src="assets/images/icons/do-dung-ve.svg" alt="Đồ Dùng Vẽ" class="category-image">
                       <div class="category-info">
-                          <h3>Đồ Dùng Vẽ</h3>
                           <p>Màu, cọ, giấy vẽ, bút chì màu</p>
                       </div>
                   </a>
                   <a href="products.html?category=balo-cap" class="category-card">
                       <img src="assets/images/icons/balo-cap.svg" alt="Balo & Cặp" class="category-image">
                       <div class="category-info">
-                          <h3>Balo & Cặp</h3>
                           <p>Balo học sinh, cặp sách, túi đựng</p>
                       </div>
                   </a>
@@ -162,7 +166,7 @@
               <h2 class="section-title">🔥 Sản Phẩm Bán Chạy</h2>
               <div class="products-grid">
                   <!-- Card 1 -->
-                  <a href="product-detail.html?id=1" class="product-card">
+                  <a href="product-detail.html#product-1" class="product-card">
                       <!--  Thêm badge này vào mỗi card -->
                       <div class="product-badge">
                           <span class="sold-count">🔥 Đã bán 2.5K</span>
@@ -183,67 +187,20 @@
                           </div>
                       </div>
                   </a>
-                  <!-- Card 2: Vở Hồng Hà -->
-                  <a href="product-detail.html?id=2" class="product-card">
+                  <!-- Card 2: Bút Chì Gỗ Thiên Long -->
+                  <a href="product-detail.html#product-2" class="product-card">
                       <div class="product-badge">
                           <span class="sold-count">🔥 Đã bán 1.8K</span>
                       </div>
-                      <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop"
-                           alt="Vở Hồng Hà 200 Trang"
-                           class="product-image"
-                           onerror="handleImageError(this)">
+                      <img src="https://images.unsplash.com/photo-1564951434112-64d74cc2a2d7?w=400&h=400&fit=crop"
+                           alt="Bút Chì Gỗ Thiên Long GP-02"
+                           class="product-image">
                       <div class="product-info">
-                          <h3 class="product-name">Vở Hồng Hà 200 Trang</h3>
-                          <p class="product-brand">Hồng Hà</p>
+                          <h3 class="product-name">Bút Chì Gỗ Thiên Long GP-02</h3>
+                          <p class="product-brand">Thiên Long</p>
                           <div>
-                              <span class="product-price">25.000đ</span>
-                              <span class="product-price-old">30.000đ</span>
-                          </div>
-                          <div class="product-rating">
-                              <span class="stars">★★★★☆</span>
-                              <span>(4.7)</span>
-                          </div>
-                      </div>
-                  </a>
-
-                  <!-- Card 3: Bút Chì Màu -->
-                  <a href="product-detail.html?id=3" class="product-card">
-                      <div class="product-badge">
-                          <span class="sold-count">🔥 Đã bán 3.2K</span>
-                      </div>
-                      <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop"
-                           alt="Bút Chì Màu Faber-Castell 24 Màu"
-                           class="product-image"
-                           onerror="handleImageError(this)">
-                      <div class="product-info">
-                          <h3 class="product-name">Bút Chì Màu Faber-Castell 24 Màu</h3>
-                          <p class="product-brand">Faber-Castell</p>
-                          <div>
-                              <span class="product-price">89.000đ</span>
-                              <span class="product-price-old">120.000đ</span>
-                          </div>
-                          <div class="product-rating">
-                              <span class="stars">★★★★★</span>
-                              <span>(4.9)</span>
-                          </div>
-                      </div>
-                  </a>
-
-                  <!-- Card 4: Balo Jansport -->
-                  <a href="product-detail.html?id=4" class="product-card">
-                      <div class="product-badge">
-                          <span class="sold-count">🔥 Đã bán 956</span>
-                      </div>
-                      <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"
-                           alt="Balo Jansport SuperBreak"
-                           class="product-image"
-                           onerror="handleImageError(this)">
-                      <div class="product-info">
-                          <h3 class="product-name">Balo Jansport SuperBreak</h3>
-                          <p class="product-brand">Jansport</p>
-                          <div>
-                              <span class="product-price">890.000đ</span>
-                              <span class="product-price-old">1.200.000đ</span>
+                              <span class="product-price">2.500đ</span>
+                              <span class="product-price-old">3.500đ</span>
                           </div>
                           <div class="product-rating">
                               <span class="stars">★★★★☆</span>
@@ -252,25 +209,68 @@
                       </div>
                   </a>
 
-                  <!-- Card 5: Máy Tính Casio -->
-                  <a href="product-detail.html?id=5" class="product-card">
+                  <!-- Card 3: Tẩy Thiên Long -->
+                  <a href="product-detail.html#product-3" class="product-card">
                       <div class="product-badge">
-                          <span class="sold-count">🔥 Đã bán 1.5K</span>
+                          <span class="sold-count">🔥 Đã bán 3.2K</span>
                       </div>
-                      <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=400&fit=crop"
-                           alt="Máy Tính Casio FX-580VN X"
-                           class="product-image"
-                           onerror="handleImageError(this)">
+                      <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=400&fit=crop"
+                           alt="Tẩy Thiên Long E-013"
+                           class="product-image">
                       <div class="product-info">
-                          <h3 class="product-name">Máy Tính Casio FX-580VN X</h3>
-                          <p class="product-brand">Casio</p>
+                          <h3 class="product-name">Tẩy Thiên Long E-013</h3>
+                          <p class="product-brand">Thiên Long</p>
                           <div>
-                              <span class="product-price">590.000đ</span>
-                              <span class="product-price-old">750.000đ</span>
+                              <span class="product-price">1.500đ</span>
+                              <span class="product-price-old">2.000đ</span>
                           </div>
                           <div class="product-rating">
                               <span class="stars">★★★★★</span>
-                              <span>(4.8)</span>
+                              <span>(4.7)</span>
+                          </div>
+                      </div>
+                  </a>
+
+                  <!-- Card 4: Thước Kẻ Nhựa -->
+                  <a href="product-detail.html#product-4" class="product-card">
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 1.2K</span>
+                      </div>
+                      <img src="https://product.hstatic.net/1000230347/product/artboard_1_copy_9f29e76219704e838ade99015e7921b8_large.jpg"
+                           alt="Thước Kẻ Nhựa 30cm"
+                           class="product-image">
+                      <div class="product-info">
+                          <h3 class="product-name">Thước Kẻ Nhựa 30cm</h3>
+                          <p class="product-brand">Thiên Long</p>
+                          <div>
+                              <span class="product-price">4.000đ</span>
+                              <span class="product-price-old">6.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★☆</span>
+                              <span>(4.5)</span>
+                          </div>
+                      </div>
+                  </a>
+
+                  <!-- Card 5: Bút Dạ Quang Stabilo -->
+                  <a href="product-detail.html#product-5" class="product-card">
+                      <div class="product-badge">
+                          <span class="sold-count">🔥 Đã bán 2.8K</span>
+                      </div>
+                      <img src="https://product.hstatic.net/1000230347/product/artboard_11_copy_e12dfb9407a54f5f815559b8e0ff3dc2.jpg"
+                           alt="Bút Dạ Quang Stabilo Boss"
+                           class="product-image">
+                      <div class="product-info">
+                          <h3 class="product-name">Bút Dạ Quang Stabilo Boss</h3>
+                          <p class="product-brand">Stabilo</p>
+                          <div>
+                              <span class="product-price">15.000đ</span>
+                              <span class="product-price-old">20.000đ</span>
+                          </div>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(4.9)</span>
                           </div>
                       </div>
                   </a>
@@ -289,7 +289,7 @@
                   <!-- Promotion Card 1 -->
                   <div class="category-card">
                       <div class="promo-visual">
-                          <div class="promo-icon">🔥</div>
+                          <img class="promo-icon" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300">
                       </div>
                       <div class="category-info">
                           <h3>GIAMGIA50K</h3>
@@ -299,11 +299,10 @@
                           <button class="btn-primary">🛒 Sử dụng ngay</button>
                       </div>
                   </div>
-
                   <!-- Promotion Card 2 -->
                   <div class="category-card">
                       <div class="promo-visual">
-                          <div class="promo-icon">⚡</div>
+                          <img class="promo-icon" src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=300">
                       </div>
                       <div class="category-info">
                           <h3>FREESHIP99</h3>
@@ -313,11 +312,10 @@
                           <button class="btn-primary">🛒 Sử dụng ngay</button>
                       </div>
                   </div>
-
                   <!-- Promotion Card 3 -->
                   <div class="category-card">
                       <div class="promo-visual">
-                          <div class="promo-icon">🎉</div>
+                          <img class="promo-icon" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300">
                       </div>
                       <div class="category-info">
                           <h3>HOCSINH2025</h3>
@@ -327,11 +325,10 @@
                           <button class="btn-primary">🛒 Sử dụng ngay</button>
                       </div>
                   </div>
-
                   <!-- Promotion Card 4 -->
                   <div class="category-card">
                       <div class="promo-visual">
-                          <div class="promo-icon">💝</div>
+                          <img class="promo-icon" src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=300">
                       </div>
                       <div class="category-info">
                           <h3>NEWMEMBER</h3>
@@ -345,7 +342,6 @@
               <a href="promotion.html" class="promo-view-all">Xem tất cả </a>
           </div>
       </section>
-
   </main>
 <footer class="footer">
     <div class="container">

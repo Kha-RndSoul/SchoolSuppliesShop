@@ -3,47 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Chi tiết sản phẩm - DPK Shop</title>
-    <link rel="stylesheet" href="assets/css/style-common.css" />
+    <link rel="stylesheet" href="assets/css/style-common.css">
     <link rel="stylesheet" href="assets/css/style-product-detail.css">
-
-
 </head>
 <body>
 <header class="header">
     <nav class="navbar">
         <a href="index.html" class="logo">
-            <span>
-                DPK Shop
-            </span>
+            <span>DPK Shop</span>
         </a>
         <div class="search-bar">
             <input type="text" placeholder="Tìm kiếm sản phẩm...">
-            <button class="search-button">
-                🔍
-            </button>
+            <button class="search-button">🔍</button>
         </div>
         <div class="header-actions">
             <a href="contact.html" class="action-item">
                 <div class="action-text">
-                    <button class="phone-button">
-                        📞
-                    </button>
+                    <button class="phone-button">📞</button>
                     <span>Liên hệ</span>
                 </div>
             </a>
             <a href="login.html" class="action-item">
                 <div class="action-text">
-                    <button class="user-button">
-                        👤
-                    </button>
+                    <button class="user-button">👤</button>
                     <span>Đăng nhập/Đăng ký</span>
                 </div>
             </a>
             <a href="cart.html" class="action-item">
                 <div class="action-text">
-                    <button class="cart-button">
-                        🛒
-                    </button>
+                    <button class="cart-button">🛒</button>
                     <span>Giỏ hàng</span>
                 </div>
             </a>
@@ -52,53 +40,631 @@
     <div class="nav-row">
         <div class="container">
             <ul class="nav-links">
-                <li>
-                    <a href="products.html?category=van-phong-pham">
-                        Văn phòng phẩm
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=sach-vo">
-                        Sách vở
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=do-dung-ve">
-                        Đồ dùng vẽ
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=balo-cap">
-                        Balo & Cặp
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=may-tinh">
-                        Máy tính
-                    </a>
-                </li>
-                <li>
-                    <a href="products.html?category=den-hoc">
-                        Đèn học
-                    </a>
-                </li>
+                <li><a href="products.html?category=van-phong-pham">Văn phòng phẩm</a></li>
+                <li><a href="products.html?category=sach-vo">Sách vở</a></li>
+                <li><a href="products.html?category=do-dung-ve">Đồ dùng vẽ</a></li>
+                <li><a href="products.html?category=balo-cap">Balo & Cặp</a></li>
+                <li><a href="products.html?category=may-tinh">Máy tính</a></li>
+                <li><a href="products.html?category=den-hoc">Đèn học</a></li>
             </ul>
         </div>
     </div>
 </header>
-<!-- Chi tiết sản phẩm-->
+
 <div class="container product-detail">
-    <div id="productDetailContent">
-        <!-- Content will be loaded by JavaScript -->
-        <div style="text-align: center; padding: 3rem;">
-            <p>Đang tải thông tin sản phẩm...</p>
+
+    <!-- ==================== SẢN PHẨM 1 ==================== -->
+    <section id="product-1" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=400&h=400&fit=crop" alt="Bút Bi Thiên Long TL-027" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Bút Bi Thiên Long TL-027</h1>
+
+                <div class="detail-brand">Thương hiệu: <strong>Thiên Long</strong></div>
+
+                <div class="detail-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-num">4.8</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 2500</span>
+                </div>
+
+                <div class="detail-price-section">
+                    <div class="detail-price">3.500₫</div>
+                    <div class="detail-old-price">5.000₫</div>
+                    <div class="detail-discount">-30%</div>
+                </div>
+
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Bút bi Thiên Long TL-027 với ngòi bút mượt mà, mực đậm, không bị lem. Thiết kế nhỏ gọn, dễ cầm, phù hợp cho học sinh, sinh viên. Mực xanh đậm, bền màu, viết được trên nhiều loại giấy.</p>
+                </div>
+
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- Sản phẩm liên quan -->
-    <section style="margin-top: 4rem;">
-        <h2 class="section-title">Sản Phẩm Liên Quan</h2>
-        <div class="products-grid" id="relatedProducts">
-            <!-- Related products will be loaded by JavaScript -->
+
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Bút bi</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Màu mực:</span>
+                    <span class="spec-value">Xanh đậm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Ngòi:</span>
+                    <span class="spec-value">0.7mm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Thương hiệu:</span>
+                    <span class="spec-value">Thiên Long</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SẢN PHẨM 2 ==================== -->
+    <section id="product-2" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1564951434112-64d74cc2a2d7?w=400&h=400&fit=crop" alt="Bút Chì Gỗ Thiên Long GP-02" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Bút Chì Gỗ Thiên Long GP-02</h1>
+                <div class="detail-brand">Thương hiệu: <strong>Thiên Long</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-num">4.6</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 1800</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">2.500₫</div>
+                    <div class="detail-old-price">3.500₫</div>
+                    <div class="detail-discount">-29%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Bút chì gỗ cao cấp với ruột chì đen đậm, không gãy dễ dàng. Vỏ gỗ tự nhiên thân thiện môi trường, dễ chuốt. Phù hợp cho học sinh tiểu học và trung học cơ sở.</p>
+                </div>
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Bút chì gỗ</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Độ cứng:</span>
+                    <span class="spec-value">HB</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Chất liệu vỏ:</span>
+                    <span class="spec-value">Gỗ tự nhiên</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Độ dài:</span>
+                    <span class="spec-value">18cm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SẢN PHẨM 3 ==================== -->
+    <section id="product-3" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=400&fit=crop" alt="Tẩy Thiên Long E-013" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Tẩy Thiên Long E-013</h1>
+                <div class="detail-brand">Thương hiệu: <strong>Thiên Long</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-num">4.7</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 3200</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">1.500₫</div>
+                    <div class="detail-old-price">2.000₫</div>
+                    <div class="detail-discount">-25%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Tẩy cao su chất lượng cao, tẩy sạch không để vết, không làm rách giấy. Màu trắng, hình chữ nhật nhỏ gọn, dễ sử dụng và mang theo.</p>
+                </div>
+
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Tẩy cao su</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Màu sắc:</span>
+                    <span class="spec-value">Trắng</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Kích thước:</span>
+                    <span class="spec-value">4cm x 2cm x 1cm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Trọng lượng:</span>
+                    <span class="spec-value">15g</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 4 ==================== -->
+    <section id="product-4" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://product.hstatic.net/1000230347/product/artboard_1_copy_9f29e76219704e838ade99015e7921b8_large.jpg" alt="Thước Kẻ Nhựa 30cm" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Thước Kẻ Nhựa 30cm</h1>
+
+                <div class="detail-brand">Thương hiệu: <strong>Thiên Long</strong></div>
+
+                <div class="detail-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-num">4.5</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 1200</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">4.000₫</div>
+                    <div class="detail-old-price">6.000₫</div>
+                    <div class="detail-discount">-33%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Thước kẻ nhựa trong suốt 30cm với vạch chia chính xác đến từng mm. Chất liệu nhựa dẻo dai, không gãy dễ. Phù hợp cho học sinh và văn phòng.</p>
+                </div>
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Thước kẻ</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Chiều dài:</span>
+                    <span class="spec-value">30cm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Chất liệu:</span>
+                    <span class="spec-value">Nhựa trong suốt</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Độ chính xác:</span>
+                    <span class="spec-value">±0.5mm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 5 ==================== -->
+    <section id="product-5" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://product.hstatic.net/1000230347/product/artboard_11_copy_e12dfb9407a54f5f815559b8e0ff3dc2.jpg" alt="Bút Dạ Quang Stabilo Boss" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Bút Dạ Quang Stabilo Boss</h1>
+
+                <div class="detail-brand">Thương hiệu: <strong>Stabilo</strong></div>
+
+                <div class="detail-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-num">4.9</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 2800</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">15.000₫</div>
+                    <div class="detail-old-price">20.000₫</div>
+                    <div class="detail-discount">-25%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Bút dạ quang Stabilo Boss màu vàng neon nổi bật, không thấm qua giấy. Đầu bút dẹt 2-5mm tiện lợi cho việc highlight. Mực không độc hại, an toàn cho sức khỏe.</p>
+                </div>
+
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Bút dạ quang</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Màu sắc:</span>
+                    <span class="spec-value">Vàng neon</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Độ dày nét:</span>
+                    <span class="spec-value">2-5mm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Dung tích mực:</span>
+                    <span class="spec-value">3ml</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Đức</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 6 ==================== -->
+    <section id="product-6" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop" alt="Vở Kẻ Ngang Campus 200 Trang" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Vở Kẻ Ngang Campus 200 Trang</h1>
+                <div class="detail-brand">Thương hiệu: <strong>Campus</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-num">4.8</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 1800</span>
+                </div>
+
+                <div class="detail-price-section">
+                    <div class="detail-price">25.000₫</div>
+                    <div class="detail-old-price">30.000₫</div>
+                    <div class="detail-discount">-17%</div>
+                </div>
+
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Vở 200 trang Campus với giấy dày 80gsm, không thấm mực, kẻ ngang chuẩn. Bìa cứng màu sắc đa dạng, bảo vệ giấy bên trong tốt. Lò xo chắc chắn, dễ gấp và viết.</p>
+                </div>
+
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Vở kẻ ngang</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Số trang:</span>
+                    <span class="spec-value">200 trang</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Loại giấy:</span>
+                    <span class="spec-value">Giấy dày 80gsm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Kích thước:</span>
+                    <span class="spec-value">17cm x 24cm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 7 ==================== -->
+    <section id="product-7" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=400&fit=crop" alt="Vở Ô Ly Hong Ha 96 Trang" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Vở Ô Ly Hong Ha 96 Trang</h1>
+                <div class="detail-brand">Thương hiệu: <strong>Hồng Hà</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-num">4.6</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 2100</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">12.000₫</div>
+                    <div class="detail-old-price">15.000₫</div>
+                    <div class="detail-discount">-20%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Vở ô ly 96 trang Hồng Hà dành cho môn Toán, giấy trắng mịn, ô li 5mm chuẩn. Bìa màu bóng đẹp mắt, giá thành phải chăng, phù hợp cho học sinh.</p>
+                </div>
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Vở ô ly</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Số trang:</span>
+                    <span class="spec-value">96 trang</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Loại giấy:</span>
+                    <span class="spec-value">Giấy trắng 70gsm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Kích thước ô:</span>
+                    <span class="spec-value">5mm x 5mm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 8 ==================== -->
+    <section id="product-8" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&h=400&fit=crop" alt="Sổ Tay Bìa Da A5" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Sổ Tay Bìa Da A5</h1>
+                <div class="detail-brand">Thương hiệu: <strong>Thái Hà Books</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-num">4.7</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 950</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">45.000₫</div>
+                    <div class="detail-old-price">60.000₫</div>
+                    <div class="detail-discount">-25%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Sổ tay bìa da A5 cao cấp với 120 trang giấy dày, có đường kẻ ngang nhẹ. Bìa da PU sang trọng, có dây đánh dấu trang và khóa nam châm. Phù hợp làm quà tặng hoặc ghi chú công việc.</p>
+                </div>
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Sổ tay bìa da</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Số trang:</span>
+                    <span class="spec-value">120 trang</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Loại giấy:</span>
+                    <span class="spec-value">Giấy kem 100gsm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Kích thước:</span>
+                    <span class="spec-value">A5 (14.8cm x 21cm)</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">Việt Nam</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 9 ==================== -->
+    <section id="product-9" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&h=400&fit=crop" alt="Giấy Note Sticker 3M Post-it" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Giấy Note Sticker 3M Post-it</h1>
+                <div class="detail-brand">Thương hiệu: <strong>3M</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-num">4.9</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 1650</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">35.000₫</div>
+                    <div class="detail-old-price">45.000₫</div>
+                    <div class="detail-discount">-22%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Giấy note sticker 3M Post-it 76x76mm màu vàng pastel, dán và bóc dễ dàng không để vết keo. Có thể viết, xóa và dán lại nhiều lần. Tiện dụng cho việc ghi chú nhanh.</p>
+                </div>
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Giấy note sticker</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Kích thước:</span>
+                    <span class="spec-value">76mm x 76mm</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Số tờ:</span>
+                    <span class="spec-value">100 tờ/xấp</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Màu sắc:</span>
+                    <span class="spec-value">Vàng pastel</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Xuất xứ:</span>
+                    <span class="spec-value">USA</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================== SẢN PHẨM 10 ==================== -->
+    <section id="product-10" class="product-section">
+        <div class="detail-container">
+            <div class="detail-left">
+                <img src="https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?w=400&h=400&fit=crop" alt="Bìa Lá Plastic Deli" class="detail-image">
+            </div>
+            <div class="detail-right">
+                <h1 class="detail-title">Bìa Lá Plastic Deli</h1>
+
+                <div class="detail-brand">Thương hiệu: <strong>Deli</strong></div>
+                <div class="detail-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-num">4.5</span>
+                    <span class="divider">|</span>
+                    <span class="sold-count">Đã bán 2400</span>
+                </div>
+                <div class="detail-price-section">
+                    <div class="detail-price">8.000₫</div>
+                    <div class="detail-old-price">12.000₫</div>
+                    <div class="detail-discount">-33%</div>
+                </div>
+                <div class="detail-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p>Bìa lá plastic trong suốt Deli dùng để bảo quản tài liệu A4. Chất liệu nhựa PP dày dặn, chống nước, chống bụi. Có lỗ khóa 11 lỗ tiêu chuẩn.</p>
+                </div>
+
+                <div class="detail-actions">
+                    <div class="quantity-selector">
+                        <span class="qty-label">Số lượng:</span>
+                        <input type="number" value="1" min="1" max="99">
+                    </div>
+                    <a href="cart.html" class="btn-add-to-cart">🛒 Thêm vào giỏ hàng</a>
+                    <a href="checkout.html" class="btn-buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-specs">
+            <h2>Thông số kỹ thuật</h2>
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Loại:</span>
+                    <span class="spec-value">Bìa lá plastic</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Kích thước:</span>
+                    <span class="spec-value">A4 (21cm x 29.7cm)</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Chất liệu:</span>
+                    <span class="spec-value">Nhựa PP 0.08mm</span>
+                </div>
+            </div>
         </div>
     </section>
 </div>
@@ -108,14 +674,14 @@
             <div class="footer-section">
                 <h3>Giới thiệu</h3>
                 <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
-                <a href="about.html" class="text-link" >Về chúng tôi </a>
+                <a href="about.html" class="text-link">Về chúng tôi</a>
             </div>
             <div class="footer-section">
                 <h3>Liên Hệ</h3>
                 <p>📧 Email: contact@dpkshop.com</p>
                 <p>📞 Hotline: 1900 5678</p>
                 <p>📍 Địa chỉ: 123 Đường Học Tập, Phường 1, Quận 1, TP.HCM</p>
-                <a href="contact.html" class="text-link" >Chi tiết liên hệ </a>
+                <a href="contact.html" class="text-link">Chi tiết liên hệ</a>
             </div>
             <div class="footer-section">
                 <h3>Hỗ Trợ</h3>
@@ -137,6 +703,3 @@
         </div>
     </div>
 </footer>
-<script src="assets/js/product-detail.js"></script>
-</body>
-</html>
