@@ -3,10 +3,7 @@ package com.shop.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-/**
- * Model class for order_coupons table
- * Represents the relationship between orders and applied coupons
- */
+
 public class OrderCoupon {
 
     // Fields matching database columns
@@ -19,15 +16,11 @@ public class OrderCoupon {
 
     // Constructors
 
-    /**
-     * Default constructor
-     */
+
     public OrderCoupon() {
     }
 
-    /**
-     * Constructor for creating new order coupon (without ID)
-     */
+
     public OrderCoupon(Long orderId, Long couponId, String couponCode, BigDecimal discountAmount) {
         this.orderId = orderId;
         this.couponId = couponId;
@@ -35,9 +28,7 @@ public class OrderCoupon {
         this. discountAmount = discountAmount;
     }
 
-    /**
-     * Full constructor with all fields
-     */
+
     public OrderCoupon(Long orderCouponId, Long orderId, Long couponId,
                        String couponCode, BigDecimal discountAmount, Timestamp appliedAt) {
         this.orderCouponId = orderCouponId;
@@ -48,7 +39,6 @@ public class OrderCoupon {
         this. appliedAt = appliedAt;
     }
 
-    // Getters and Setters
 
     public Long getOrderCouponId() {
         return orderCouponId;
