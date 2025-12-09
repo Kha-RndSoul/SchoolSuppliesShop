@@ -1,19 +1,15 @@
--- ============================================
--- Script: Create Database
--- Description: Drop and create school_supplies_db database
--- Author: Person 3 (Support)
--- ============================================
 
--- Drop database if exists (for clean setup)
+
+-- Drop DB nếu nó đã tồn tại
 DROP DATABASE IF EXISTS school_supplies_db;
 
--- Create database with UTF-8 support
+-- Tạo DB
 CREATE DATABASE school_supplies_db
 CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_520_ci;
 
--- Use the database
+-- Use DB
 USE school_supplies_db;
 
--- Confirmation message
-SELECT 'Database school_supplies_db created successfully' AS message;
+-- Tin nhắn xác nhận
+SELECT 'Tạo DB thành công' AS message;
