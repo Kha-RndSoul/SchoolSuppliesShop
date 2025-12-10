@@ -11,7 +11,7 @@ public class Customer {
     // Fields matching database columns
     private int customerId;
     private String email;
-    private String passwordHash;
+    private String password;
     private String fullName;
     private String phone;
     private String address;
@@ -29,9 +29,9 @@ public class Customer {
     /**
      * Constructor for new customer registration (without ID)
      */
-    public Customer(String email, String passwordHash, String fullName, String phone, String address) {
+    public Customer(String email, String password, String fullName, String phone, String address) {
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.fullName = fullName;
         this.phone = phone;
         this.address = address;
@@ -40,11 +40,11 @@ public class Customer {
     /**
      * Full constructor with all fields
      */
-    public Customer(int customerId, String email, String passwordHash, String fullName,
+    public Customer(int customerId, String email, String password, String fullName,
                     String phone, String address, Timestamp createdAt, Timestamp updatedAt) {
         this.customerId = customerId;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.fullName = fullName;
         this. phone = phone;
         this. address = address;
@@ -70,12 +70,12 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getpassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setpassword(String password) {
+        this.password = password;
     }
 
     public String getFullName() {

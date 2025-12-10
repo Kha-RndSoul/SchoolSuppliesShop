@@ -17,6 +17,11 @@ CREATE TABLE contact_messages (
 
                                   FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL,
 
+                                  INDEX idx_customer (customer_id),
+                                  INDEX idx_status (status),
+                                  INDEX idx_created_at (created_at),
+                                  INDEX idx_email (email)
+
 ) ;
 
 --Tạo bảng banners
@@ -25,6 +30,8 @@ CREATE TABLE banners (
                          title VARCHAR(200) NOT NULL,
                          image_url VARCHAR(500) NOT NULL,
                          status BIT DEFAULT 1,
+
+                         INDEX idx_status (status)
 ) ;
 
 -- Tin nhắn xác nhận
