@@ -2,17 +2,13 @@ package com.shop.model;
 
 import java.sql.Timestamp;
 
-/**
- * Model class for admins table
- * Represents an admin user in the system
- */
 public class Admin {
 
     // Fields matching database columns
     private int adminId;
     private String username;
     private String email;
-    private String passwordHash;
+    private String password;
     private String fullName;
     private String role; // SUPER_ADMIN, ADMIN, STAFF
     private boolean isActive;
@@ -20,19 +16,16 @@ public class Admin {
 
     // Constructors
 
-    /**
-     * Default constructor
-     */
     public Admin() {
     }
 
     /**
      * Constructor for creating new admin (without ID)
      */
-    public Admin(String username, String email, String passwordHash, String fullName, String role) {
+    public Admin(String username, String email, String password, String fullName, String role) {
         this.username = username;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.fullName = fullName;
         this.role = role;
         this.isActive = true; // Default active
@@ -41,12 +34,12 @@ public class Admin {
     /**
      * Full constructor with all fields
      */
-    public Admin(int adminId, String username, String email, String passwordHash,
+    public Admin(int adminId, String username, String email, String password,
                  String fullName, String role, boolean isActive, Timestamp createdAt) {
         this. adminId = adminId;
         this.username = username;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.fullName = fullName;
         this.role = role;
         this.isActive = isActive;
@@ -80,11 +73,11 @@ public class Admin {
     }
 
     public String getPasswordHash() {
-        return passwordHash;
+        return password;
     }
 
     public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+        this.password = passwordHash;
     }
 
     public String getFullName() {
