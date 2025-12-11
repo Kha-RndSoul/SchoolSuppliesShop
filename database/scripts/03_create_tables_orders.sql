@@ -26,7 +26,7 @@ create table order_details (
                                foreign key (product_id) references products(id)
 );
 
--
+
 -- 3. Bảng cart_items
 
 create table cart_items (
