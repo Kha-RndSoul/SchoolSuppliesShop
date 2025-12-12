@@ -1,6 +1,6 @@
 package com.shop.model;
 
-public class Products {
+public class Product {
     // Attributes
     private int productId;
     private String productName;
@@ -10,11 +10,11 @@ public class Products {
     // Constructors
 
     // Constructor rỗng
-    public Products() {
+    public Product() {
     }
 
     // Constructor đầy đủ
-    public Products(int productId, String productName, double price, double salePrice, int stockQuantity) {
+    public Product(int productId, String productName, double price, double salePrice, int stockQuantity) {
         this. productId = productId;
         this.productName = productName;
         this.price = price;
