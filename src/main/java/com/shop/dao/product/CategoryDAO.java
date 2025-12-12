@@ -1,12 +1,12 @@
 package com.shop.dao.product;
 
 import com.shop.model.Category;
-import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org. jdbi.v3.sqlobject. customizer.Bind;
+import org.jdbi.v3.sqlobject. config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.customizer. Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org.jdbi.v3.sqlobject. statement.GetGeneratedKeys;
+import org.jdbi.v3.sqlobject.statement. GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
-import org.jdbi.v3.sqlobject. statement.SqlUpdate;
+import org.jdbi.v3.sqlobject.statement. SqlUpdate;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,31 +15,39 @@ import java.util.Optional;
 public interface CategoryDAO {
 
     // Danh sách tất cả danh mục
-    @SqlQuery("SELECT category_id, category_name, image_url, created_at FROM categories")
+    @SqlQuery("SELECT * FROM categories")
     List<Category> getAll();
 
-    // Danh sách danh mục theo id
-    @SqlQuery("SELECT category_id, category_name, image_url, created_at FROM categories WHERE category_id = :id")
+    // Lấy danh mục theo ID
+    @SqlQuery("SELECT * FROM categories WHERE id = : id")
     Optional<Category> getById(@Bind("id") int id);
 
+    // Lấy danh mục cha (parent_id = NULL)
+    @SqlQuery("SELECT * FROM categories WHERE parent_id IS NULL")
+    List<Category> getRootCategories();
+
+    // Lấy danh mục con theo parent_id
+    @SqlQuery("SELECT * FROM categories WHERE parent_id = :parentId")
+    List<Category> getByParentId(@Bind("parentId") int parentId);
+
     // Insert
-    @SqlUpdate("INSERT INTO categories (category_name, image_url) VALUES (:categoryName, :imageUrl)")
+    @SqlUpdate("INSERT INTO categories (name, description, parent_id) VALUES (:name, :description, :parentId)")
     @GetGeneratedKeys
     int insert(@BindBean Category category);
 
     // Update
-    @SqlUpdate("UPDATE categories SET category_name = :categoryName, image_url = :imageUrl WHERE category_id = :categoryId")
+    @SqlUpdate("UPDATE categories SET name = :name, description = :description, parent_id = :parentId WHERE id = : id")
     void update(@BindBean Category category);
 
     // Delete
-    @SqlUpdate("DELETE FROM categories WHERE category_id = :id")
+    @SqlUpdate("DELETE FROM categories WHERE id = :id")
     void delete(@Bind("id") int id);
 
     // Đếm số lượng danh mục
-    @SqlQuery("SELECT COUNT(category_id) FROM categories")
+    @SqlQuery("SELECT COUNT(*) FROM categories")
     int count();
 
-    // Đếm số sản phẩm trong danh mục
-    @SqlQuery("SELECT COUNT(product_id) FROM products WHERE category_id = :id")
+    // Kiểm tra danh mục có sản phẩm không
+    @SqlQuery("SELECT COUNT(*) FROM products WHERE category_id = :id")
     int countProducts(@Bind("id") int id);
 }
