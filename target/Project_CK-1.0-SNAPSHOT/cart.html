@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="vi">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Giỏ hàng</title>
+    <link rel="stylesheet" href="assets/css/style-common.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
+</head>
+<body>
+<header class="header">
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            <span>
+                DPK Shop
+            </span>
+        </a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm sản phẩm...">
+            <button class="search-button">
+                🔍
+            </button>
+        </div>
+
+        <div class="header-actions">
+            <a href="contact.html" class="action-item">
+                <div class="action-text">
+                    <button class="phone-button">
+                        📞
+                    </button>
+                    <span>Liên hệ</span>
+                </div>
+            </a>
+            <a href="login.html" class="action-item">
+                <div class="action-text">
+                    <button class="user-button">
+                        👤
+                    </button>
+                    <span>Đăng nhập/Đăng ký</span>
+                </div>
+            </a>
+            <a href="cart.html" class="action-item">
+                <div class="action-text">
+                    <button class="cart-button">
+                        🛒
+                    </button>
+                    <span>Giỏ hàng</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="nav-row">
+        <div class="container">
+            <ul class="nav-links">
+                <li>
+                    <a href="products.html?category=van-phong-pham">
+                        Văn phòng phẩm
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=sach-vo">
+                        Sách vở
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=do-dung-ve">
+                        Đồ dùng vẽ
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=balo-cap">
+                        Balo & Cặp
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=may-tinh">
+                        Máy tính
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html?category=den-hoc">
+                        Đèn học
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<main class="container cart-page" id="main">
+    <h1 class="section-title">Giỏ hàng của bạn</h1>
+
+    <!-- nút demo thêm hàng -->
+    <div style="margin-bottom:12px;">
+        <button id="demoAdd" class="btn-primary" type="button">Thêm món hàng (demo)</button>
+    </div>
+    <!-- Khi giỏ rỗng -->
+    <div id="emptyBlock" class="cart-empty" role="status" aria-live="polite" hidden>
+        <p>Giỏ hàng của bạn đang trống.</p>
+        <a class="btn-primary" href="products.html">Tiếp tục mua hàng</a>
+    </div>
+
+    <div class="cart-layout">
+        <section class="cart-list" id="list" aria-label="Danh sách sản phẩm">
+
+        </section>
+        <aside class="cart-summary" aria-label="Tóm tắt đơn hàng">
+            <div class="summary-box">
+                <h2>Tóm tắt</h2>
+                <div class="summary-row">
+                    <span>Tạm tính</span>
+                    <strong id="subTotal">0₫</strong>
+                </div>
+
+                <button id="checkoutBtn" type="button" class="btn-primary">Thanh toán</button>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>DPK Shop là cửa hàng chuyên cung cấp đồ dùng học tập chất lượng cao với giá cả hợp lý, phục vụ học sinh, sinh viên trên toàn quốc.</p>
+                <a href="about.html" class="text-link" >Về chúng tôi </a>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Hệ</h3>
+                <p>📧 Email: contact@dpkshop.com</p>
+                <p>📞 Hotline: 1900 5678</p>
+                <p>📍 Địa chỉ: 123 Đường Học Tập, Phường 1, Quận 1, TP.HCM</p>
+                <a href="contact.html" class="text-link" >Chi tiết liên hệ </a>
+            </div>
+            <div class="footer-section">
+                <h3>Hỗ Trợ</h3>
+                <a href="#">Hướng dẫn mua hàng</a>
+                <a href="#">Chính sách đổi trả</a>
+                <a href="#">Vận chuyển</a>
+                <a href="#">Thanh toán</a>
+            </div>
+            <div class="footer-section">
+                <h3>Theo Dõi</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
+<script src="assets/js/cart.js"></script>
+</body>
+</html>
