@@ -1,6 +1,6 @@
 package com.shop.model;
 
-public class Categories {
+public class Category {
     // Attributes
     private int categoryId;
     private String categoryName;
@@ -8,10 +8,10 @@ public class Categories {
     // Constructors
 
     // Constructor rỗng
-    public Categories() {
+    public Category() {
     }
     // Constructor đầy đủ
-    public Categories(int categoryId, String categoryName, String imageUrl) {
+    public Category(int categoryId, String categoryName, String imageUrl) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this. imageUrl = imageUrl;
