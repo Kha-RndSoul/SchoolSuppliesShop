@@ -1,0 +1,124 @@
+
+body {
+    background: var(--bg-light);
+}
+#checkout-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+#checkoutForm {
+    max-width: 600px;
+    background: white;
+    padding: 2rem 2.5rem;
+    margin: 3rem auto;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+}
+
+#checkoutForm h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+#checkoutForm h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: var(--text-dark);
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+
+input, textarea {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Radio labels */
+input[type="radio"] {
+    margin-right: 8px;
+    transform: scale(1.15);
+}
+
+label input[type="radio"] {
+    margin-bottom: 0;
+}
+
+/* Totals box */
+.totals {
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+}
+
+.totals div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.totals div:last-child {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Place order button */
+#placeOrderBtn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: background 0.3s;
+}
+
+#placeOrderBtn:hover {
+    background: var(--secondary-color);
+}
+
+/* Error message */
+#checkoutError {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #fee2e2;
+    border-left: 4px solid #ef4444;
+    border-radius: 6px;
+    color: #991b1b;
+    display: none;
+}
+label:has(input[type="radio"]) {
+    flex-direction: row !important;
+    align-items: center !important;
+}
