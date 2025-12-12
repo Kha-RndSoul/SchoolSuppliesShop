@@ -1,12 +1,8 @@
 package com.shop.model;
 
-/**
- * Model class for banners table
- * Represents a banner/slider on homepage
- */
+
 public class Banner {
 
-    // Fields matching database columns
     private int bannerId;
     private String title;
     private String imageUrl;
@@ -14,24 +10,16 @@ public class Banner {
 
     // Constructors
 
-    /**
-     * Default constructor
-     */
     public Banner() {
     }
 
-    /**
-     * Constructor for creating new banner (without ID)
-     */
+    //Constructor để tạo banner mới
     public Banner(String title, String imageUrl, boolean status) {
         this.title = title;
         this.imageUrl = imageUrl;
         this.status = status;
     }
 
-    /**
-     * Full constructor with all fields
-     */
     public Banner(int bannerId, String title, String imageUrl, boolean status) {
         this.bannerId = bannerId;
         this. title = title;
@@ -65,7 +53,7 @@ public class Banner {
         this.imageUrl = imageUrl;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
@@ -73,11 +61,8 @@ public class Banner {
         this.status = status;
     }
 
-    // Utility methods
 
-    /**
-     * Check if banner is active
-     */
+    // Kiểm tra banner có đang hoạt động hay không
     public boolean isActive() {
         return this.status;
     }
