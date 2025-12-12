@@ -1,6 +1,6 @@
 package com.shop.model;
 
-public class Brands {
+public class Brand {
 
     // Attributes
     private int brandId;
@@ -9,11 +9,11 @@ public class Brands {
     // Constructors
 
     // Constructor rỗng
-    public Brands() {
+    public Brand() {
     }
 
     // Constructor đầy đủ
-    public Brands(int brandId, String brandName, String logoUrl) {
+    public Brand(int brandId, String brandName, String logoUrl) {
         this.brandId = brandId;
         this.brandName = brandName;
         this.logoUrl = logoUrl;
