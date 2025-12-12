@@ -1,6 +1,6 @@
 package com.shop.model;
 
-public class ProductImages {
+public class ProductImage {
 
     // Attributes
     private int imageId;
@@ -10,11 +10,11 @@ public class ProductImages {
     // Constructors
 
     // Constructor rỗng
-    public ProductImages() {
+    public ProductImage() {
     }
 
     // Constructor đầy đủ
-    public ProductImages(int imageId, int productId, String imageUrl, boolean isPrimary) {
+    public ProductImage(int imageId, int productId, String imageUrl, boolean isPrimary) {
         this. imageId = imageId;
         this.productId = productId;
         this.imageUrl = imageUrl;
