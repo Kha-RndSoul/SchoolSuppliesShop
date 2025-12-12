@@ -1,5 +1,5 @@
 package com.shop.model;
-public class ProductReviews {
+public class ProductReview {
 
     // Attributes
     private int reviewId;
@@ -10,11 +10,11 @@ public class ProductReviews {
     // Constructors
 
     // Constructor rỗng
-    public ProductReviews() {
+    public ProductReview() {
     }
 
     // Constructor đầy đủ
-    public ProductReviews(int reviewId, int productId, int customerId, int rating, String comment) {
+    public ProductReview(int reviewId, int productId, int customerId, int rating, String comment) {
         this.reviewId = reviewId;
         this.productId = productId;
         this.customerId = customerId;
