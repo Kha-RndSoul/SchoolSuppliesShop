@@ -42,17 +42,9 @@ public interface ProductDAO {
     @SqlQuery("SELECT product_id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, image_url, is_active, created_at, updated_at FROM products WHERE price BETWEEN :minPrice AND :maxPrice")
     List<Product> getByPriceRange(@Bind("minPrice") double minPrice, @Bind("maxPrice") double maxPrice);
 
-    // Sản phẩm mới nhất
-    @SqlQuery("SELECT product_id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, image_url, is_active, created_at, updated_at FROM products ORDER BY created_at DESC LIMIT : limit")
-    List<Product> getLatest(@Bind("limit") int limit);
-
     // Sản phẩm bán chạy
     @SqlQuery("SELECT product_id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, image_url, is_active, created_at, updated_at FROM products ORDER BY sold_count DESC LIMIT : limit")
     List<Product> getBestSellers(@Bind("limit") int limit);
-
-    // Sản phẩm đang sale
-    @SqlQuery("SELECT product_id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, image_url, is_active, created_at, updated_at FROM products WHERE sale_price IS NOT NULL AND sale_price < price AND is_active = 1")
-    List<Product> getOnSale();
 
     // Insert
     @SqlUpdate("INSERT INTO products (product_name, description, category_id, brand_id, price, sale_price, stock_quantity, image_url, is_active) VALUES (:productName, :description, :categoryId, :brandId, :price, :salePrice, :stockQuantity, :imageUrl, :isActive)")
