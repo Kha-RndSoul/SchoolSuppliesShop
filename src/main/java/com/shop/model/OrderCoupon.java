@@ -11,7 +11,7 @@ public class OrderCoupon {
     private Long orderId;
     private Long couponId;
     private String couponCode;
-    private BigDecimal discountAmount;
+    private double discountAmount;
     private Timestamp appliedAt;
 
     // Constructors
@@ -21,7 +21,7 @@ public class OrderCoupon {
     }
 
 
-    public OrderCoupon(Long orderId, Long couponId, String couponCode, BigDecimal discountAmount) {
+    public OrderCoupon(Long orderId, Long couponId, String couponCode, double discountAmount) {
         this.orderId = orderId;
         this.couponId = couponId;
         this.couponCode = couponCode;
@@ -30,7 +30,7 @@ public class OrderCoupon {
 
 
     public OrderCoupon(Long orderCouponId, Long orderId, Long couponId,
-                       String couponCode, BigDecimal discountAmount, Timestamp appliedAt) {
+                       String couponCode, double discountAmount, Timestamp appliedAt) {
         this.orderCouponId = orderCouponId;
         this.orderId = orderId;
         this.couponId = couponId;
@@ -72,11 +72,11 @@ public class OrderCoupon {
         this.couponCode = couponCode;
     }
 
-    public BigDecimal getDiscountAmount() {
+    public double getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(BigDecimal discountAmount) {
+    public void setDiscountAmount(double discountAmount) {
         this.discountAmount = discountAmount;
     }
 

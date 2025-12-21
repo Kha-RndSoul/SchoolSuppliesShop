@@ -1,92 +1,201 @@
 package com.shop.dao.order;
 
-import com.shop.model.OrderDetail;
-import org.jdbi.v3.sqlobject.config. RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.customizer.Bind;
-import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org. jdbi.v3.sqlobject. statement.GetGeneratedKeys;
-import org.jdbi.v3.sqlobject.statement.SqlBatch;
-import org. jdbi.v3.sqlobject. statement.SqlQuery;
-import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import com.shop.dao.support.BaseDao;
+import com.shop. model.OrderDetail;
+import org.jdbi.v3.core.statement.PreparedBatch;
 
-import java.util. List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
-@RegisterBeanMapper(OrderDetail. class)
-public interface OrderDetailDAO {
+public class OrderDetailDAO extends BaseDao {
 
-    /// Lấy all chi tiết đơn hàng
-    @SqlQuery("Select id, order_id, product_id, product_name, quantity, unit_price, subtotal " +
-            "From order_details")
-    List<OrderDetail> getAll();
+    static Map<Integer, OrderDetail> data = new HashMap<>();
+    static {
+        data.put(1, new OrderDetail(
+                1L,                 // orderDetailId
+                1L,                 // orderId
+                1L,                 // productId
+                2,                  // quantity
+                BigDecimal.valueOf(24000)
+        ));
 
-    /// Lấy chi tiết đơn hàng theo ID
-    @SqlQuery("Select id, order_id, product_id, product_name, quantity, unit_price, subtotal " +
-            "From order_details " +
-            "Where id = :id")
-    Optional<OrderDetail> getById(@Bind("id") int id);
+        data.put(2, new OrderDetail(
+                2L,
+                1L,
+                2L,
+                10,
+                BigDecimal.valueOf(40000)
+        ));
 
-    /// Thêm chi tiết đơn hàng mới
-    @SqlUpdate("Insert into order_details " +
-            "(order_id, product_id, product_name, quantity, unit_price, subtotal) " +
-            "Values (:orderId, :productId, :productName, :quantity, :unitPrice, :subtotal)")
-    @GetGeneratedKeys
-    int insert(@BindBean OrderDetail orderDetail);
+        data.put(3, new OrderDetail(
+                3L,
+                2L,
+                3L,
+                1,
+                BigDecimal.valueOf(299000)
+        ));
 
-    /// Cập nhật chi tiết đơn hàng
-    @SqlUpdate("Update order_details Set " +
-            "quantity = :quantity, " +
-            "unit_price = :unitPrice, " +
-            "subtotal = :subtotal " +
-            "Where id = :id")
-    boolean update(@BindBean OrderDetail orderDetail);
+        data.put(4, new OrderDetail(
+                4L,
+                3L,
+                4L,
+                5,
+                BigDecimal.valueOf(40000)
+        ));
 
-    /// Xóa chi tiết đơn hàng
-    @SqlUpdate("Delete From order_details Where id = :id")
-    boolean delete(@Bind("id") int id);
+        data.put(5, new OrderDetail(
+                5L,
+                3L,
+                5L,
+                3,
+                BigDecimal.valueOf(66000)
+        ));
+    }
 
+    public List<OrderDetail> getListOrderDetail() {
+        return new ArrayList<>(data.values());
+    }
 
-    /// Lấy all chi tiết của 1 đơn hàng
-    @SqlQuery("Select id, order_id, product_id, product_name, quantity, unit_price, subtotal " +
-            "From order_details " +
-            "Where order_id = :orderId")
-    List<OrderDetail> getByOrderId(@Bind("orderId") int orderId);
+    public OrderDetail getOrderDetail(int id) {
+        return data.get(id);
+    }
 
-    /// Xóa all chi tiết của 1 đơn hàng
-    @SqlUpdate("Delete From order_details Where order_id = :orderId")
-    boolean deleteByOrderId(@Bind("orderId") int orderId);
+    public List<OrderDetail> getList() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT id, order_id, product_id, product_name, quantity, unit_price, subtotal FROM order_details")
+                        .mapToBean(OrderDetail.class)
+                        .list()
+        );
+    }
 
-    /// Đếm số lượng sản phẩm trong 1 đơn hàng
-    @SqlQuery("Select Count(id) From order_details Where order_id = : orderId")
-    int countByOrderId(@Bind("orderId") int orderId);
+    public OrderDetail getOrderDetailById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, product_id, product_name, quantity, unit_price, subtotal FROM order_details WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(OrderDetail.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Tính tổng tiền của 1 đơn hàng
-    @SqlQuery("Select Coalesce(Sum(subtotal), 0) " +
-            "From order_details " +
-            "Where order_id = :orderId")
-    double getTotalByOrderId(@Bind("orderId") int orderId);
+    public List<OrderDetail> getByOrderId(int orderId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, product_id, product_name, quantity, unit_price, subtotal FROM order_details WHERE order_id = :orderId")
+                        .bind("orderId", orderId)
+                        .mapToBean(OrderDetail.class)
+                        .list()
+        );
+    }
 
-    /// Lấy chi tiết theo product_id - dùng để thống kê sản phẩm bán chạy
-    @SqlQuery("Select id, order_id, product_id, product_name, quantity, unit_price, subtotal " +
-            "From order_details " +
-            "Where product_id = :productId")
-    List<OrderDetail> getByProductId(@Bind("productId") int productId);
+    public List<OrderDetail> getByProductId(int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, product_id, product_name, quantity, unit_price, subtotal FROM order_details WHERE product_id = :productId")
+                        .bind("productId", productId)
+                        .mapToBean(OrderDetail.class)
+                        .list()
+        );
+    }
 
-    /// Đếm số lượng đã bán của 1 sản phẩm
-    @SqlQuery("Select Coalesce(Sum(quantity), 0) " +
-            "From order_details " +
-            "Where product_id = :productId")
-    int getTotalSoldByProductId(@Bind("productId") int productId);
+    public OrderDetail getByOrderIdAndProductId(int orderId, int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, product_id, product_name, quantity, unit_price, subtotal FROM order_details WHERE order_id = :orderId AND product_id = :productId")
+                        .bind("orderId", orderId)
+                        .bind("productId", productId)
+                        .mapToBean(OrderDetail.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Thêm nhiều chi tiết đơn hàng cùng lúc - batch insert
-    @SqlBatch("Insert into order_details " +
-            "(order_id, product_id, product_name, quantity, unit_price, subtotal) " +
-            "Values (:orderId, :productId, :productName, : quantity, :unitPrice, :subtotal)")
-    void insertBatch(@BindBean List<OrderDetail> orderDetails);
+    public void insert(List<OrderDetail> orderDetails) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO order_details (id, order_id, product_id, product_name, quantity, unit_price, subtotal) VALUES (:id, :orderId, :productId, : productName, :quantity, :unitPrice, :subtotal)"
+            );
+            orderDetails.forEach(od -> batch.bindBean(od).add());
+            batch.execute();
+        });
+    }
 
-    /// Kiểm tra sản phẩm đã có trong đơn hàng chưa
-    @SqlQuery("Select id, order_id, product_id, product_name, quantity, unit_price, subtotal " +
-            "From order_details " +
-            "Where order_id = :orderId And product_id = : productId")
-    Optional<OrderDetail> getByOrderIdAndProductId(@Bind("orderId") int orderId, @Bind("productId") int productId);
+    public void insertOrderDetail(OrderDetail orderDetail) {
+        get().useHandle(h -> {
+            h.createUpdate("INSERT INTO order_details (order_id, product_id, product_name, quantity, unit_price, subtotal) VALUES (:orderId, :productId, :productName, :quantity, :unitPrice, :subtotal)")
+                    .bindBean(orderDetail)
+                    .execute();
+        });
+    }
+
+    public void insertBatch(List<OrderDetail> orderDetails) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO order_details (order_id, product_id, product_name, quantity, unit_price, subtotal) VALUES (:orderId, :productId, :productName, :quantity, :unitPrice, :subtotal)"
+            );
+            orderDetails.forEach(od -> batch.bindBean(od).add());
+            batch.execute();
+        });
+    }
+
+    public void updateOrderDetail(OrderDetail orderDetail) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE order_details SET quantity = :quantity, unit_price = :unitPrice, subtotal = :subtotal WHERE id = :id")
+                    .bindBean(orderDetail)
+                    .execute();
+        });
+    }
+
+    public void deleteOrderDetail(int id) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM order_details WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
+
+    public void deleteByOrderId(int orderId) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM order_details WHERE order_id = :orderId")
+                    .bind("orderId", orderId)
+                    .execute();
+        });
+    }
+
+    public int countByOrderId(int orderId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) FROM order_details WHERE order_id = : orderId")
+                        .bind("orderId", orderId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public double getTotalByOrderId(int orderId) {
+        Double total = get().withHandle(h ->
+                h. createQuery("SELECT COALESCE(SUM(subtotal), 0) FROM order_details WHERE order_id = :orderId")
+                        .bind("orderId", orderId)
+                        .mapTo(Double.class)
+                        .one()
+        );
+        return total != null ? total : 0.0;
+    }
+
+    public int getTotalSoldByProductId(int productId) {
+        Integer total = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(quantity), 0) FROM order_details WHERE product_id = :productId")
+                        .bind("productId", productId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+        return total != null ? total : 0;
+    }
+
+    public static void main(String[] args) {
+        OrderDetailDAO dao = new OrderDetailDAO();
+        System.out.println("=== INSERT DUMMY DATA ===");
+        List<OrderDetail> details = dao.getListOrderDetail();
+        dao.insert(details);
+        System.out.println("✅ Inserted " + details.size() + " order details");
+
+        System.out. println("\n=== GET BY ORDER ID 1 ===");
+        dao.getByOrderId(1).forEach(System.out::println);
+    }
 }

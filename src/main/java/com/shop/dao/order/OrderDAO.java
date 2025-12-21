@@ -1,124 +1,202 @@
-package com.shop.dao. order;
+package com.shop.dao.order;
 
+import com.shop.dao.support.BaseDao;
 import com.shop.model.Order;
-import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.customizer.Bind;
-import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org. jdbi.v3.sqlobject. statement.GetGeneratedKeys;
-import org.jdbi.v3.sqlobject.statement. SqlQuery;
-import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.jdbi.v3.core.statement.PreparedBatch;
 
-import java.util. List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
-@RegisterBeanMapper(Order.class)
-public interface OrderDAO {
+public class OrderDAO extends BaseDao {
 
-    /// Lấy all đơn hàng
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Order by created_at Desc")
-    List<Order> getAll();
+    static Map<Integer, Order> data = new HashMap<>();
+    static {
+        data.put(1, new Order(
+                1L,                     // orderId
+                1L,                     // customerId
+                "ORD-001",              // orderCode
+                "PENDING",              // orderStatus
+                BigDecimal.valueOf(500000)
+        ));
 
-    /// Lấy đơn hàng theo ID
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Where id = :id")
-    Optional<Order> getById(@Bind("id") int id);
+        data.put(2, new Order(
+                2L,
+                2L,
+                "ORD-002",
+                "PROCESSING",
+                BigDecimal.valueOf(350000)
+        ));
 
-    /// Thêm đơn hàng mới
-    @SqlUpdate("Insert into orders (customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at) " +
-            "Values (:customerId, :totalAmount, :status, : shippingAddress, " +
-            ":shippingPhone, :paymentMethod, :note, NOW())")
-    @GetGeneratedKeys
-    int insert(@BindBean Order order);
+        data.put(3, new Order(
+                3L,
+                1L,
+                "ORD-003",
+                "COMPLETED",
+                BigDecimal.valueOf(750000)
+        ));
 
-    /// Cập nhật đơn hàng
-    @SqlUpdate("Update orders Set " +
-            "total_amount = :totalAmount, " +
-            "status = : status, " +
-            "shipping_address = :shippingAddress, " +
-            "shipping_phone = :shippingPhone, " +
-            "payment_method = :paymentMethod, " +
-            "note = :note, " +
-            "updated_at = NOW() " +
-            "Where id = :id")
-    boolean update(@BindBean Order order);
+        data.put(4, new Order(
+                4L,
+                3L,
+                "ORD-004",
+                "CANCELLED",
+                BigDecimal.valueOf(220000)
+        ));
+    }
 
-    /// Xóa đơn hàng
-    @SqlUpdate("Delete From orders Where id = : id")
-    boolean delete(@Bind("id") int id);
+    public List<Order> getListOrder() {
+        return new ArrayList<>(data.values());
+    }
 
+    public Order getOrder(int id) {
+        return data.get(id);
+    }
 
-    /// Lấy all đơn hàng của 1 khách hàng
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Where customer_id = :customerId " +
-            "Order by created_at Desc")
-    List<Order> getByCustomerId(@Bind("customerId") int customerId);
+    public List<Order> getList() {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at, updated_at FROM orders ORDER BY created_at DESC")
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
 
-    /// Lấy đơn hàng theo trạng thái
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Where status = :status " +
-            "Order by created_at Desc")
-    List<Order> getByStatus(@Bind("status") String status);
+    public Order getOrderById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at, updated_at FROM orders WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(Order. class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Cập nhật trạng thái đơn hàng
-    @SqlUpdate("Update orders " +
-            "Set status = :status, updated_at = NOW() " +
-            "Where id = : id")
-    boolean updateStatus(@Bind("id") int id, @Bind("status") String status);
+    public List<Order> getByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at, updated_at FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC")
+                        .bind("customerId", customerId)
+                        .mapToBean(Order. class)
+                        .list()
+        );
+    }
 
-    /// Đếm tổng số đơn hàng
-    @SqlQuery("Select Count(id) From orders")
-    int countAll();
+    public List<Order> getByStatus(String status) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at, updated_at FROM orders WHERE status = :status ORDER BY created_at DESC")
+                        .bind("status", status)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
 
-    /// Đếm đơn hàng theo trạng thái
-    @SqlQuery("Select Count(id) From orders Where status = :status")
-    int countByStatus(@Bind("status") String status);
+    public Order getLatestByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at, updated_at FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC LIMIT 1")
+                        .bind("customerId", customerId)
+                        .mapToBean(Order.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Lấy đơn hàng mới nhất của khách hàng
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Where customer_id = :customerId " +
-            "Order by created_at Desc " +
-            "Limit 1")
-    Optional<Order> getLatestByCustomerId(@Bind("customerId") int customerId);
+    public List<Order> search(String keyword) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at, updated_at FROM orders WHERE shipping_address LIKE CONCAT('%', :keyword, '%') OR note LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC")
+                        .bind("keyword", keyword)
+                        .mapToBean(Order. class)
+                        .list()
+        );
+    }
 
-    /// Tính tổng doanh thu
-    @SqlQuery("Select Coalesce(Sum(total_amount), 0) " +
-            "From orders " +
-            "Where status = 'COMPLETED'")
-    double getTotalRevenue();
+    public void insert(List<Order> orders) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO orders (id, customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at) VALUES (:id, :customerId, :totalAmount, :status, :shippingAddress, :shippingPhone, :paymentMethod, : note, NOW())"
+            );
+            orders.forEach(o -> batch.bindBean(o).add());
+            batch.execute();
+        });
+    }
 
-    /// Tính tổng doanh thu theo tháng
-    @SqlQuery("Select Coalesce(Sum(total_amount), 0) " +
-            "From orders " +
-            "Where status = 'COMPLETED' " +
-            "And Month(created_at) = : month " +
-            "And Year(created_at) = :year")
-    double getRevenueByMonth(@Bind("month") int month, @Bind("year") int year);
+    public int insertOrder(Order order) {
+        return get().withHandle(h ->
+                h.createUpdate("INSERT INTO orders (customer_id, total_amount, status, shipping_address, shipping_phone, payment_method, note, created_at) VALUES (:customerId, :totalAmount, :status, :shippingAddress, :shippingPhone, :paymentMethod, :note, NOW())")
+                        .bindBean(order)
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
 
-    /// Lấy đơn hàng trong khoảng thời gian
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Where created_at Between : startDate And :endDate " +
-            "Order by created_at Desc")
-    List<Order> getByDateRange(@Bind("startDate") String startDate, @Bind("endDate") String endDate);
+    public void updateOrder(Order order) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE orders SET total_amount = :totalAmount, status = :status, shipping_address = :shippingAddress, shipping_phone = :shippingPhone, payment_method = :paymentMethod, note = :note, updated_at = NOW() WHERE id = :id")
+                    .bindBean(order)
+                    .execute();
+        });
+    }
 
-    /// Tìm kiếm đơn hàng theo từ khóa
-    @SqlQuery("Select id, customer_id, total_amount, status, shipping_address, " +
-            "shipping_phone, payment_method, note, created_at, updated_at " +
-            "From orders " +
-            "Where shipping_address Like : keyword Or note Like :keyword " +
-            "Order by created_at Desc")
-    List<Order> search(@Bind("keyword") String keyword);
+    public void updateStatus(int id, String status) {
+        get().useHandle(h -> {
+            h. createUpdate("UPDATE orders SET status = :status, updated_at = NOW() WHERE id = :id")
+                    .bind("id", id)
+                    .bind("status", status)
+                    .execute();
+        });
+    }
+
+    public void deleteOrder(int id) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM orders WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
+
+    public int countAll() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT COUNT(id) FROM orders")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int countByStatus(String status) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) FROM orders WHERE status = :status")
+                        .bind("status", status)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public double getTotalRevenue() {
+        Double revenue = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE status = 'COMPLETED'")
+                        .mapTo(Double. class)
+                        .one()
+        );
+        return revenue != null ? revenue : 0.0;
+    }
+
+    public double getRevenueByMonth(int month, int year) {
+        Double revenue = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE status = 'COMPLETED' AND MONTH(created_at) = :month AND YEAR(created_at) = :year")
+                        .bind("month", month)
+                        .bind("year", year)
+                        .mapTo(Double.class)
+                        .one()
+        );
+        return revenue != null ? revenue : 0.0;
+    }
+
+    public static void main(String[] args) {
+        OrderDAO dao = new OrderDAO();
+        System.out. println("=== INSERT DUMMY DATA ===");
+        List<Order> orders = dao.getListOrder();
+        dao.insert(orders);
+        System.out.println("✅ Inserted " + orders.size() + " orders");
+
+        System.out. println("\n=== GET BY STATUS PENDING ===");
+        dao.getByStatus("PENDING").forEach(System.out::println);
+    }
 }

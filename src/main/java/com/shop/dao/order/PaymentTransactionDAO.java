@@ -1,146 +1,252 @@
-package com. shop.dao.order;
+package com.shop.dao. order;
 
+import com.shop.dao.support.BaseDao;
 import com. shop.model.PaymentTransaction;
-import org.jdbi. v3.sqlobject.config.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.customizer.Bind;
-import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
-import org. jdbi.v3.sqlobject. statement.SqlQuery;
-import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.jdbi.v3.core.statement.PreparedBatch;
 
-import java.util. List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.*;
 
-@RegisterBeanMapper(PaymentTransaction.class)
-public interface PaymentTransactionDAO {
+public class PaymentTransactionDAO extends BaseDao {
 
-    /// Lấy all giao dịch thanh toán
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Order by created_at Desc")
-    List<PaymentTransaction> getAll();
+    static Map<Integer, PaymentTransaction> data = new HashMap<>();
+    static {
+        data.put(1, new PaymentTransaction(
+                1L,                     // transactionId
+                1L,                     // orderId
+                "BANK_TRANSFER",        // paymentMethod
+                "TXN001",               // transactionCode
+                BigDecimal.valueOf(500000),
+                "SUCCESS",
+                Timestamp.valueOf("2023-10-27 10:30:00"),
+                Timestamp.valueOf("2023-10-27 10:35:00")
+        ));
 
-    /// Lấy giao dịch theo ID
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where id = :id")
-    Optional<PaymentTransaction> getById(@Bind("id") int id);
+        data.put(2, new PaymentTransaction(
+                2L,
+                2L,
+                "VNPAY",
+                "TXN002",
+                BigDecimal.valueOf(350000),
+                "SUCCESS",
+                Timestamp.valueOf("2023-10-28 09:15:00"),
+                Timestamp.valueOf("2023-10-28 09:16:00")
+        ));
 
-    /// Thêm giao dịch mới
-    @SqlUpdate("Insert into payment_transactions " +
-            "(order_id, transaction_id, payment_method, amount, currency, status, " +
-            "payment_gateway, gateway_response, payer_email, created_at) " +
-            "Values (:orderId, :transactionId, :paymentMethod, :amount, : currency, : status, " +
-            ":paymentGateway, : gatewayResponse, :payerEmail, NOW())")
-    @GetGeneratedKeys
-    int insert(@BindBean PaymentTransaction paymentTransaction);
+        data.put(3, new PaymentTransaction(
+                3L,
+                3L,
+                "COD",
+                "TXN003",
+                BigDecimal.valueOf(750000),
+                "PENDING",
+                Timestamp.valueOf("2023-10-29 14:00:00"),
+                null                    // COD chưa cập nhật
+        ));
 
-    /// Cập nhật giao dịch
-    @SqlUpdate("Update payment_transactions Set " +
-            "status = :status, " +
-            "gateway_response = :gatewayResponse, " +
-            "updated_at = NOW() " +
-            "Where id = :id")
-    boolean update(@BindBean PaymentTransaction paymentTransaction);
+        data.put(4, new PaymentTransaction(
+                4L,
+                4L,
+                "MOMO",
+                "TXN004",
+                BigDecimal.valueOf(220000),
+                "FAILED",
+                Timestamp.valueOf("2023-10-30 16:20:00"),
+                Timestamp.valueOf("2023-10-30 16:21:30")
+        ));
+    }
 
-    /// Xóa giao dịch
-    @SqlUpdate("Delete From payment_transactions Where id = :id")
-    boolean delete(@Bind("id") int id);
 
+    public List<PaymentTransaction> getListPaymentTransaction() {
+        return new ArrayList<>(data.values());
+    }
 
-    /// Lấy giao dịch theo order_id
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where order_id = :orderId " +
-            "Order by created_at Desc")
-    List<PaymentTransaction> getByOrderId(@Bind("orderId") int orderId);
+    public PaymentTransaction getPaymentTransaction(int id) {
+        return data.get(id);
+    }
 
-    /// Lấy giao dịch theo transaction_id từ payment gateway
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where transaction_id = :transactionId")
-    Optional<PaymentTransaction> getByTransactionId(@Bind("transactionId") String transactionId);
+    public List<PaymentTransaction> getList() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions ORDER BY created_at DESC")
+                        .mapToBean(PaymentTransaction.class)
+                        .list()
+        );
+    }
 
-    /// Lấy giao dịch theo trạng thái
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where status = :status " +
-            "Order by created_at Desc")
-    List<PaymentTransaction> getByStatus(@Bind("status") String status);
+    public PaymentTransaction getPaymentTransactionById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(PaymentTransaction.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Lấy giao dịch theo phương thức thanh toán
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where payment_method = :paymentMethod " +
-            "Order by created_at Desc")
-    List<PaymentTransaction> getByPaymentMethod(@Bind("paymentMethod") String paymentMethod);
+    public List<PaymentTransaction> getByOrderId(int orderId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE order_id = :orderId ORDER BY created_at DESC")
+                        .bind("orderId", orderId)
+                        .mapToBean(PaymentTransaction.class)
+                        .list()
+        );
+    }
 
-    /// Cập nhật trạng thái giao dịch
-    @SqlUpdate("Update payment_transactions " +
-            "Set status = :status, gateway_response = :gatewayResponse, updated_at = NOW() " +
-            "Where id = :id")
-    boolean updateStatus(@Bind("id") int id, @Bind("status") String status, @Bind("gatewayResponse") String gatewayResponse);
+    public PaymentTransaction getByTransactionId(String transactionId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE transaction_id = :transactionId")
+                        .bind("transactionId", transactionId)
+                        .mapToBean(PaymentTransaction.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Cập nhật trạng thái theo transaction_id
-    @SqlUpdate("Update payment_transactions " +
-            "Set status = :status, gateway_response = :gatewayResponse, updated_at = NOW() " +
-            "Where transaction_id = : transactionId")
-    boolean updateStatusByTransactionId(@Bind("transactionId") String transactionId, @Bind("status") String status, @Bind("gatewayResponse") String gatewayResponse);
+    public List<PaymentTransaction> getByStatus(String status) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE status = :status ORDER BY created_at DESC")
+                        .bind("status", status)
+                        .mapToBean(PaymentTransaction.class)
+                        .list()
+        );
+    }
 
-    /// Check đơn hàng đã có giao dịch thành công chưa
-    @SqlQuery("Select Count(id) > 0 " +
-            "From payment_transactions " +
-            "Where order_id = :orderId And status = 'SUCCESS'")
-    boolean hasSuccessfulPayment(@Bind("orderId") int orderId);
+    public List<PaymentTransaction> getByPaymentMethod(String paymentMethod) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE payment_method = :paymentMethod ORDER BY created_at DESC")
+                        .bind("paymentMethod", paymentMethod)
+                        .mapToBean(PaymentTransaction.class)
+                        .list()
+        );
+    }
 
-    /// Lấy giao dịch thành công mới nhất của đơn hàng
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where order_id = :orderId And status = 'SUCCESS' " +
-            "Order by created_at Desc " +
-            "Limit 1")
-    Optional<PaymentTransaction> getSuccessfulPaymentByOrderId(@Bind("orderId") int orderId);
+    public List<PaymentTransaction> getByPaymentGateway(String paymentGateway) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE payment_gateway = :paymentGateway ORDER BY created_at DESC")
+                        .bind("paymentGateway", paymentGateway)
+                        .mapToBean(PaymentTransaction.class)
+                        .list()
+        );
+    }
 
-    /// Đếm tổng số giao dịch
-    @SqlQuery("Select Count(id) From payment_transactions")
-    int countAll();
+    public boolean hasSuccessfulPayment(int orderId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) > 0 FROM payment_transactions WHERE order_id = :orderId AND status = 'SUCCESS'")
+                        .bind("orderId", orderId)
+                        .mapTo(Boolean.class)
+                        .one()
+        );
+    }
 
-    /// Đếm giao dịch theo trạng thái
-    @SqlQuery("Select Count(id) From payment_transactions Where status = : status")
-    int countByStatus(@Bind("status") String status);
+    public PaymentTransaction getSuccessfulPaymentByOrderId(int orderId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE order_id = :orderId AND status = 'SUCCESS' ORDER BY created_at DESC LIMIT 1")
+                        .bind("orderId", orderId)
+                        .mapToBean(PaymentTransaction.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Tính tổng tiền giao dịch thành công
-    @SqlQuery("Select Coalesce(Sum(amount), 0) " +
-            "From payment_transactions " +
-            "Where status = 'SUCCESS'")
-    double getTotalSuccessfulAmount();
+    public void insert(List<PaymentTransaction> transactions) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO payment_transactions (id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at) VALUES (:id, :orderId, :transactionId, :paymentMethod, :amount, :currency, :status, :paymentGateway, :gatewayResponse, :payerEmail, NOW())"
+            );
+            transactions. forEach(t -> batch.bindBean(t).add());
+            batch.execute();
+        });
+    }
 
-    /// Tính tổng tiền theo phương thức thanh toán
-    @SqlQuery("Select Coalesce(Sum(amount), 0) " +
-            "From payment_transactions " +
-            "Where payment_method = :paymentMethod And status = 'SUCCESS'")
-    double getTotalAmountByPaymentMethod(@Bind("paymentMethod") String paymentMethod);
+    public void insertPaymentTransaction(PaymentTransaction transaction) {
+        get().useHandle(h -> {
+            h. createUpdate("INSERT INTO payment_transactions (order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at) VALUES (:orderId, :transactionId, : paymentMethod, :amount, : currency, :status, :paymentGateway, :gatewayResponse, :payerEmail, NOW())")
+                    .bindBean(transaction)
+                    .execute();
+        });
+    }
 
-    /// Lấy giao dịch trong khoảng thời gian
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where created_at Between :startDate And : endDate " +
-            "Order by created_at Desc")
-    List<PaymentTransaction> getByDateRange(@Bind("startDate") String startDate, @Bind("endDate") String endDate);
+    public void updatePaymentTransaction(PaymentTransaction transaction) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE payment_transactions SET status = :status, gateway_response = :gatewayResponse, updated_at = NOW() WHERE id = :id")
+                    .bindBean(transaction)
+                    .execute();
+        });
+    }
 
-    /// Lấy giao dịch theo payment gateway - VNPAY, MOMO, PAYPAL, etc
-    @SqlQuery("Select id, order_id, transaction_id, payment_method, amount, currency, " +
-            "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
-            "From payment_transactions " +
-            "Where payment_gateway = :paymentGateway " +
-            "Order by created_at Desc")
-    List<PaymentTransaction> getByPaymentGateway(@Bind("paymentGateway") String paymentGateway);
+    public void updateStatus(int id, String status, String gatewayResponse) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE payment_transactions SET status = : status, gateway_response = :gatewayResponse, updated_at = NOW() WHERE id = :id")
+                    .bind("id", id)
+                    .bind("status", status)
+                    .bind("gatewayResponse", gatewayResponse)
+                    .execute();
+        });
+    }
+
+    public void updateStatusByTransactionId(String transactionId, String status, String gatewayResponse) {
+        get().useHandle(h -> {
+            h. createUpdate("UPDATE payment_transactions SET status = :status, gateway_response = :gatewayResponse, updated_at = NOW() WHERE transaction_id = :transactionId")
+                    .bind("transactionId", transactionId)
+                    .bind("status", status)
+                    .bind("gatewayResponse", gatewayResponse)
+                    .execute();
+        });
+    }
+
+    public void deletePaymentTransaction(int id) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM payment_transactions WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
+
+    public int countAll() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT COUNT(id) FROM payment_transactions")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int countByStatus(String status) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) FROM payment_transactions WHERE status = :status")
+                        .bind("status", status)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public double getTotalSuccessfulAmount() {
+        Double total = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(amount), 0) FROM payment_transactions WHERE status = 'SUCCESS'")
+                        .mapTo(Double.class)
+                        .one()
+        );
+        return total != null ? total : 0.0;
+    }
+
+    public double getTotalAmountByPaymentMethod(String paymentMethod) {
+        Double total = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(amount), 0) FROM payment_transactions WHERE payment_method = :paymentMethod AND status = 'SUCCESS'")
+                        .bind("paymentMethod", paymentMethod)
+                        .mapTo(Double.class)
+                        .one()
+        );
+        return total != null ? total : 0.0;
+    }
+
+    public static void main(String[] args) {
+        PaymentTransactionDAO dao = new PaymentTransactionDAO();
+        System.out.println("=== INSERT DUMMY DATA ===");
+        List<PaymentTransaction> transactions = dao.getListPaymentTransaction();
+        dao.insert(transactions);
+        System.out.println("✅ Inserted " + transactions.size() + " payment transactions");
+
+        System.out.println("\n=== GET SUCCESS TRANSACTIONS ===");
+        dao.getByStatus("SUCCESS").forEach(System.out::println);
+    }
 }
