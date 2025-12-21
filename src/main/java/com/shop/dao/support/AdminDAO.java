@@ -1,73 +1,152 @@
 package com.shop.dao.support;
 
-import com.shop.model.Admin;
-import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.customizer.Bind;
-import org. jdbi.v3.sqlobject.customizer.BindBean;
-import org.jdbi. v3.sqlobject.statement.GetGeneratedKeys;
-import org.jdbi.v3.sqlobject.statement.SqlQuery;
-import org.jdbi. v3.sqlobject.statement.SqlUpdate;
+import com. shop.model.Admin;
+import org.jdbi.v3.core.statement.PreparedBatch;
 
-import java. util.List;
-import java. util.Optional;
+import java.util.*;
 
-@RegisterBeanMapper(Admin.class)
-public interface AdminDAO {
+public class AdminDAO extends BaseDao {
 
-    //Danh sách tất cả admin
-    @SqlQuery("SELECT id, username, email, password, full_name, role, is_active, created_at " +
-            "FROM admins ORDER BY created_at DESC")
-    List<Admin> getAll();
+    static Map<Integer, Admin> data = new HashMap<>();
+    static {
+        data. put(1, new Admin(1, "admin", "admin@shop.com", "admin123", "Quản Trị Viên", "SUPER_ADMIN", true,null));
+        data.put(2, new Admin(2, "manager", "manager@shop.com", "manager123", "Nguyễn Văn Manager", "MANAGER", true,null));
+        data.put(3, new Admin(3, "staff", "staff@shop.com", "staff123", "Trần Thị Staff", "STAFF", true,null));
+    }
 
-    // Danh sách admin theo id
-    @SqlQuery("SELECT id, username, email, password, full_name, role, is_active, created_at " +
-            "FROM admins WHERE id = :id")
-    Optional<Admin> getById(@Bind("id") int id);
+    public List<Admin> getListAdmin() {
+        return new ArrayList<>(data.values());
+    }
 
-    // Danh sách admin theo username
-    @SqlQuery("SELECT id, username, email, password, full_name, role, is_active, created_at " +
-            "FROM admins WHERE username = :username")
-    Optional<Admin> getByUsername(@Bind("username") String username);
+    public Admin getAdmin(int id) {
+        return data.get(id);
+    }
 
-    // Danh sách admin theo email
-    @SqlQuery("SELECT id, username, email, password, full_name, role, is_active, created_at " +
-            "FROM admins WHERE email = :email")
-    Optional<Admin> getByEmail(@Bind("email") String email);
+    public List<Admin> getList() {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins ORDER BY created_at DESC")
+                        .mapToBean(Admin.class)
+                        .list()
+        );
+    }
 
-    // Đăng nhập
-    @SqlQuery("SELECT id, username, email, password, full_name, role, is_active, created_at " +
-            "FROM admins WHERE username = :username AND password = :password AND is_active = 1")
-    Optional<Admin> login(@Bind("username") String username, @Bind("password") String password);
+    public Admin getAdminById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(Admin.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    // Insert
-    @SqlUpdate("INSERT INTO admins (username, email, password, full_name, role, is_active) " +
-            "VALUES (:username, : email, :password, :fullName, :role, : isActive)")
-    @GetGeneratedKeys
-    int insert(@BindBean Admin admin);
+    public Admin getByUsername(String username) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE username = :username")
+                        .bind("username", username)
+                        .mapToBean(Admin.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    // Update
-    @SqlUpdate("UPDATE admins SET email = :email, full_name = :fullName, role = :role, is_active = :isActive " +
-            "WHERE id = : id")
-    void update(@BindBean Admin admin);
+    public Admin getByEmail(String email) {
+        return get().withHandle(h ->
+                h. createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE email = : email")
+                        .bind("email", email)
+                        .mapToBean(Admin.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    // Update mật khẩu
-    @SqlUpdate("UPDATE admins SET password = :password WHERE id = :id")
-    void updatePassword(@Bind("id") int id, @Bind("password") String password);
+    public Admin login(String username, String password) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE username = :username AND password = :password AND is_active = 1")
+                        .bind("username", username)
+                        .bind("password", password)
+                        .mapToBean(Admin.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    // Thay đổi trạng thái
-    @SqlUpdate("UPDATE admins SET is_active = :isActive WHERE id = :id")
-    void toggleActive(@Bind("id") int id, @Bind("isActive") boolean isActive);
+    public List<Admin> getByRole(String role) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE role = :role ORDER BY created_at DESC")
+                        .bind("role", role)
+                        .mapToBean(Admin.class)
+                        .list()
+        );
+    }
 
-    // Delete
-    @SqlUpdate("DELETE FROM admins WHERE id = :id")
-    void delete(@Bind("id") int id);
+    public void insert(List<Admin> admins) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO admins (id, username, email, password, full_name, role, is_active) VALUES (:id, :username, :email, :password, :fullName, :role, :isActive)"
+            );
+            admins.forEach(a -> batch. bindBean(a).add());
+            batch.execute();
+        });
+    }
 
-    // Danh sách admin theo vai trò
-    @SqlQuery("SELECT id, username, email, password, full_name, role, is_active, created_at " +
-            "FROM admins WHERE role = :role ORDER BY created_at DESC")
-    List<Admin> getByRole(@Bind("role") String role);
+    public void insertAdmin(Admin admin) {
+        get().useHandle(h -> {
+            h.createUpdate("INSERT INTO admins (username, email, password, full_name, role, is_active) VALUES (:username, :email, :password, : fullName, :role, :isActive)")
+                    .bindBean(admin)
+                    .execute();
+        });
+    }
 
-    // Đếm số lượng admin(đang active)
-    @SqlQuery("SELECT COUNT(*) FROM admins WHERE is_active = 1")
-    int countActive();
+    public void updateAdmin(Admin admin) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE admins SET email = :email, full_name = :fullName, role = :role, is_active = :isActive WHERE id = :id")
+                    .bindBean(admin)
+                    .execute();
+        });
+    }
+
+    public void updatePassword(int id, String password) {
+        get().useHandle(h -> {
+            h. createUpdate("UPDATE admins SET password = :password WHERE id = :id")
+                    .bind("id", id)
+                    .bind("password", password)
+                    .execute();
+        });
+    }
+
+    public void toggleActive(int id, boolean isActive) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE admins SET is_active = :isActive WHERE id = :id")
+                    .bind("id", id)
+                    .bind("isActive", isActive)
+                    .execute();
+        });
+    }
+
+    public void deleteAdmin(int id) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM admins WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
+
+    public int countActive() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT COUNT(*) FROM admins WHERE is_active = 1")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public static void main(String[] args) {
+        AdminDAO dao = new AdminDAO();
+        List<Admin> admins = dao.getListAdmin();
+        dao.insert(admins);
+        System.out.println(" Inserted " + admins.size() + " admins");
+
+        Admin admin = dao.login("admin", "admin123");
+        System.out.println(admin != null ? " Login success:  " + admin :  " Login failed");
+    }
 }
