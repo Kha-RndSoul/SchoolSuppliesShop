@@ -29,7 +29,6 @@ CREATE TABLE products (
                           sale_price DECIMAL(10, 2),
                           stock_quantity INT DEFAULT 0,
                           sold_count INT DEFAULT 0,
-                          image_url VARCHAR(500),
                           is_active BOOLEAN DEFAULT TRUE,
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
