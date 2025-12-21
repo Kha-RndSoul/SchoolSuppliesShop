@@ -1,65 +1,153 @@
 package com.shop.dao.product;
 
-import com.shop.model. ProductReview;
-import org. jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org.jdbi. v3.sqlobject.customizer.Bind;
-import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org.jdbi.v3.sqlobject. statement.GetGeneratedKeys;
-import org.jdbi.v3.sqlobject.statement.SqlQuery;
-import org.jdbi.v3.sqlobject. statement.SqlUpdate;
+import com.shop.dao.support.BaseDao;
+import com.shop.model.ProductReview;
+import org.jdbi. v3.core.statement.PreparedBatch;
 
-import java.util.List;
-import java.util.Optional;
+import java. util.*;
 
-@RegisterBeanMapper(ProductReview. class)
-public interface ProductReviewDAO {
+public class ProductReviewDAO extends BaseDao {
 
-    // Danh sách tất cả đánh giá
-    @SqlQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews")
-    List<ProductReview> getAll();
+    static Map<Integer, ProductReview> data = new HashMap<>();
+    static {
+        data.put(1, new ProductReview(1, 1, 1, 5, "Sản phẩm rất tốt, chất lượng cao", true));
+        data.put(2, new ProductReview(2, 1, 2, 4, "Giao hàng nhanh, đóng gói cẩn thận", true));
+        data.put(3, new ProductReview(3, 2, 1, 5, "Bút viết trơn, giá rẻ", true));
+        data.put(4, new ProductReview(4, 3, 3, 4, "Balo đẹp, nhiều ngăn tiện dụng", true));
+        data.put(5, new ProductReview(5, 2, 2, 3, "Tạm được, giá hơi cao", false));
+    }
 
-    // Danh sách đánh giá theo id
-    @SqlQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE review_id = :id")
-    Optional<ProductReview> getById(@Bind("id") int id);
+    public List<ProductReview> getListReview() {
+        return new ArrayList<>(data.values());
+    }
 
-    // Danh sách đánh giá đã duyệt
-    @SqlQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE status = 1")
-    List<ProductReview> getApproved();
+    public ProductReview getReview(int id) {
+        return data.get(id);
+    }
 
-    // Danh sách đánh giá theo sản phẩm
-    @SqlQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE product_id = :productId ORDER BY created_at DESC")
-    List<ProductReview> getByProductId(@Bind("productId") int productId);
+    public List<ProductReview> getList() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews")
+                        .mapToBean(ProductReview.class)
+                        .list()
+        );
+    }
 
-    // Danh sách đánh giá đã duyệt theo sản phẩm
-    @SqlQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE product_id = :productId AND status = 1 ORDER BY created_at DESC")
-    List<ProductReview> getApprovedByProductId(@Bind("productId") int productId);
+    public ProductReview getReviewById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE review_id = : id")
+                        .bind("id", id)
+                        .mapToBean(ProductReview.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    // Danh sách đánh giá theo khách hàng
-    @SqlQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE customer_id = :customerId ORDER BY created_at DESC")
-    List<ProductReview> getByCustomerId(@Bind("customerId") int customerId);
+    public List<ProductReview> getApproved() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE status = 1")
+                        .mapToBean(ProductReview.class)
+                        .list()
+        );
+    }
 
-    // Lấy rating trung bình
-    @SqlQuery("SELECT AVG(rating) FROM product_reviews WHERE product_id = :productId AND status = 1")
-    Double getAverageRating(@Bind("productId") int productId);
+    public List<ProductReview> getByProductId(int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE product_id = : productId ORDER BY created_at DESC")
+                        .bind("productId", productId)
+                        .mapToBean(ProductReview.class)
+                        .list()
+        );
+    }
 
-    // Insert
-    @SqlUpdate("INSERT INTO product_reviews (product_id, customer_id, rating, comment, status) VALUES (:productId, :customerId, :rating, : comment, :status)")
-    @GetGeneratedKeys
-    int insert(@BindBean ProductReview review);
+    public List<ProductReview> getApprovedByProductId(int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE product_id = : productId AND status = 1 ORDER BY created_at DESC")
+                        .bind("productId", productId)
+                        .mapToBean(ProductReview.class)
+                        .list()
+        );
+    }
 
-    // Update
-    @SqlUpdate("UPDATE product_reviews SET rating = :rating, comment = :comment, status = :status WHERE review_id = :reviewId")
-    void update(@BindBean ProductReview review);
+    public List<ProductReview> getByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT review_id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE customer_id = :customerId ORDER BY created_at DESC")
+                        .bind("customerId", customerId)
+                        .mapToBean(ProductReview.class)
+                        .list()
+        );
+    }
 
-    // Thay đổi trạng thái duyệt
-    @SqlUpdate("UPDATE product_reviews SET status = : status WHERE review_id = :id")
-    void toggleStatus(@Bind("id") int id, @Bind("status") boolean status);
+    public double getAverageRating(int productId) {
+        Double avg = get().withHandle(h ->
+                h.createQuery("SELECT AVG(rating) FROM product_reviews WHERE product_id = : productId AND status = 1")
+                        .bind("productId", productId)
+                        .mapTo(Double. class)
+                        .one()
+        );
+        return avg != null ? avg : 0.0;
+    }
 
-    // Delete
-    @SqlUpdate("DELETE FROM product_reviews WHERE review_id = :id")
-    void delete(@Bind("id") int id);
+    public void insert(List<ProductReview> reviews) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO product_reviews (review_id, product_id, customer_id, rating, comment, status) VALUES (:reviewId, :productId, :customerId, :rating, : comment, :status)"
+            );
+            reviews.forEach(r -> batch.bindBean(r).add());
+            batch.execute();
+        });
+    }
 
-    // Đếm số đánh giá của sản phẩm
-    @SqlQuery("SELECT COUNT(review_id) FROM product_reviews WHERE product_id = :productId AND status = 1")
-    int countByProduct(@Bind("productId") int productId);
+    public void insertReview(ProductReview review) {
+        get().useHandle(h -> {
+            h.createUpdate("INSERT INTO product_reviews (product_id, customer_id, rating, comment, status) VALUES (:productId, :customerId, : rating, :comment, :status)")
+                    .bindBean(review)
+                    .execute();
+        });
+    }
+
+    public void updateReview(ProductReview review) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE product_reviews SET rating = :rating, comment = :comment, status = :status WHERE review_id = :reviewId")
+                    .bindBean(review)
+                    .execute();
+        });
+    }
+
+    public void toggleStatus(int id, boolean status) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE product_reviews SET status = :status WHERE review_id = :id")
+                    .bind("id", id)
+                    .bind("status", status)
+                    .execute();
+        });
+    }
+
+    public void deleteReview(int id) {
+        get().useHandle(h -> {
+            h. createUpdate("DELETE FROM product_reviews WHERE review_id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
+
+    public int countByProduct(int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(review_id) FROM product_reviews WHERE product_id = :productId AND status = 1")
+                        .bind("productId", productId)
+                        .mapTo(Integer. class)
+                        .one()
+        );
+    }
+
+    public static void main(String[] args) {
+        ProductReviewDAO dao = new ProductReviewDAO();
+        System.out.println("=== INSERT DUMMY DATA ===");
+        List<ProductReview> reviews = dao.getListReview();
+        dao.insert(reviews);
+        System.out.println("✅ Inserted " + reviews.size() + " reviews");
+
+        System.out.println("\n=== GET FROM DB ===");
+        dao.getList().forEach(System.out::println);
+    }
 }

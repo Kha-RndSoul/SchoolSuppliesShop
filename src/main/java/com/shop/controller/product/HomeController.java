@@ -60,7 +60,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("topCoupons", topCoupons);
 
             // Forward to index.jsp
-            request.getRequestDispatcher("/index. jsp").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();

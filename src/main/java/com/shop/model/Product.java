@@ -9,7 +9,7 @@ public class Product {
     private int categoryId;
     private int brandId;
     private double price;
-    private Double salePrice;
+    private double salePrice;
     private int stockQuantity;
     private int soldCount;
     private boolean isActive;
@@ -21,7 +21,7 @@ public class Product {
     }
     // Constructor CƠ BẢN
     public Product(int productId, String productName, String description, int categoryId,
-                   int brandId, double price, Double salePrice, int stockQuantity,
+                   int brandId, double price, double salePrice, int stockQuantity,
                    int soldCount, boolean isActive) {
         this.productId = productId;
         this.productName = productName;
@@ -88,7 +88,7 @@ public class Product {
         return salePrice;
     }
 
-    public void setSalePrice(Double salePrice) {
+    public void setSalePrice(double salePrice) {
         this.salePrice = salePrice;
     }
 
