@@ -1,12 +1,12 @@
 package com.shop.model;
 
-public class Brand {
+import java.sql.Timestamp;
 
-    // Attributes
+public class Brand {
     private int brandId;
     private String brandName;
     private String logoUrl;
-    // Constructors
+    private Timestamp createdAt;
 
     // Constructor rỗng
     public Brand() {
@@ -18,6 +18,15 @@ public class Brand {
         this.brandName = brandName;
         this.logoUrl = logoUrl;
     }
+
+    // Constructor với timestamp
+    public Brand(int brandId, String brandName, String logoUrl, Timestamp createdAt) {
+        this.brandId = brandId;
+        this.brandName = brandName;
+        this. logoUrl = logoUrl;
+        this.createdAt = createdAt;
+    }
+
     // Getters and Setters
     public int getBrandId() {
         return brandId;
@@ -38,16 +47,26 @@ public class Brand {
     public String getLogoUrl() {
         return logoUrl;
     }
+
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
     }
-    // toString
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
-        return "Brands{" +
+        return "Brand{" +
                 "brandId=" + brandId +
                 ", brandName='" + brandName + '\'' +
                 ", logoUrl='" + logoUrl + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
