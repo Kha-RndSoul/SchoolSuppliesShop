@@ -3,89 +3,77 @@ package com.shop.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-
 public class OrderCoupon {
 
     // Fields matching database columns
-    private Long orderCouponId;
-    private Long orderId;
-    private Long couponId;
-    private String couponCode;
-    private double discountAmount;
-    private Timestamp appliedAt;
+    private int orderCouponId;               // ✅ Đổi từ Long sang int
+    private int orderId;                     // ✅ Đổi từ Long sang int
+    private int couponId;                    // ✅ Đổi từ Long sang int
+    private BigDecimal discountAmount;
+    private Timestamp createdAt;
 
     // Constructors
-
 
     public OrderCoupon() {
     }
 
-
-    public OrderCoupon(Long orderId, Long couponId, String couponCode, double discountAmount) {
+    // Constructor for creating new order coupon (without ID and timestamp)
+    public OrderCoupon(int orderId, int couponId, BigDecimal discountAmount) {
         this.orderId = orderId;
         this.couponId = couponId;
-        this.couponCode = couponCode;
-        this. discountAmount = discountAmount;
+        this.discountAmount = discountAmount;
     }
 
-
-    public OrderCoupon(Long orderCouponId, Long orderId, Long couponId,
-                       String couponCode, double discountAmount, Timestamp appliedAt) {
+    // Full constructor
+    public OrderCoupon(int orderCouponId, int orderId, int couponId,
+                       BigDecimal discountAmount, Timestamp createdAt) {
         this.orderCouponId = orderCouponId;
         this.orderId = orderId;
         this.couponId = couponId;
-        this.couponCode = couponCode;
         this.discountAmount = discountAmount;
-        this. appliedAt = appliedAt;
+        this.createdAt = createdAt;
     }
 
+    // Getters and Setters
 
-    public Long getOrderCouponId() {
+    public int getOrderCouponId() {
         return orderCouponId;
     }
 
-    public void setOrderCouponId(Long orderCouponId) {
+    public void setOrderCouponId(int orderCouponId) {
         this.orderCouponId = orderCouponId;
     }
 
-    public Long getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public Long getCouponId() {
+    public int getCouponId() {
         return couponId;
     }
 
-    public void setCouponId(Long couponId) {
+    public void setCouponId(int couponId) {
         this.couponId = couponId;
     }
 
-    public String getCouponCode() {
-        return couponCode;
-    }
-
-    public void setCouponCode(String couponCode) {
-        this.couponCode = couponCode;
-    }
-
-    public double getDiscountAmount() {
+    public BigDecimal getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(double discountAmount) {
+    public void setDiscountAmount(BigDecimal discountAmount) {
         this.discountAmount = discountAmount;
     }
 
-    public Timestamp getAppliedAt() {
-        return appliedAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAppliedAt(Timestamp appliedAt) {
-        this. appliedAt = appliedAt;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -94,9 +82,8 @@ public class OrderCoupon {
                 "orderCouponId=" + orderCouponId +
                 ", orderId=" + orderId +
                 ", couponId=" + couponId +
-                ", couponCode='" + couponCode + '\'' +
                 ", discountAmount=" + discountAmount +
-                ", appliedAt=" + appliedAt +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
