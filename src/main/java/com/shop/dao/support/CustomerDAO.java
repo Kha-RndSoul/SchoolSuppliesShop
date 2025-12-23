@@ -25,7 +25,7 @@ public class CustomerDAO extends BaseDao {
 
     public List<Customer> getList() {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, email, password, full_name, phone, address, created_at, updated_at FROM customers ORDER BY created_at DESC")
+                h.createQuery("SELECT id, email, password_hash, full_name, phone, address, created_at, updated_at FROM customers ORDER BY created_at DESC")
                         .mapToBean(Customer.class)
                         .list()
         );
@@ -33,7 +33,7 @@ public class CustomerDAO extends BaseDao {
 
     public Customer getCustomerById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, email, password, full_name, phone, address, created_at, updated_at FROM customers WHERE id = :id")
+                h.createQuery("SELECT id, email, password_hash, full_name, phone, address, created_at, updated_at FROM customers WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(Customer.class)
                         .findOne()
@@ -43,7 +43,7 @@ public class CustomerDAO extends BaseDao {
 
     public Customer getByEmail(String email) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, email, password, full_name, phone, address, created_at, updated_at FROM customers WHERE email = :email")
+                h.createQuery("SELECT id, email, password_hash, full_name, phone, address, created_at, updated_at FROM customers WHERE email = :email")
                         .bind("email", email)
                         .mapToBean(Customer.class)
                         .findOne()
@@ -51,11 +51,11 @@ public class CustomerDAO extends BaseDao {
         );
     }
 
-    public Customer login(String email, String password) {
+    public Customer login(String email, String password_hash) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, email, password, full_name, phone, address, created_at, updated_at FROM customers WHERE email = :email AND password = :password")
+                h.createQuery("SELECT id, email, password_hash, full_name, phone, address, created_at, updated_at FROM customers WHERE email = :email AND password = :password")
                         .bind("email", email)
-                        .bind("password", password)
+                        .bind("password_hash", password_hash)
                         .mapToBean(Customer.class)
                         .findOne()
                         .orElse(null)
@@ -64,7 +64,7 @@ public class CustomerDAO extends BaseDao {
 
     public List<Customer> search(String keyword) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, email, password, full_name, phone, address, created_at, updated_at FROM customers WHERE full_name LIKE CONCAT('%', :keyword, '%') OR email LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC")
+                h.createQuery("SELECT id, email, password_hash, full_name, phone, address, created_at, updated_at FROM customers WHERE full_name LIKE CONCAT('%', :keyword, '%') OR email LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC")
                         .bind("keyword", keyword)
                         .mapToBean(Customer. class)
                         .list()
@@ -74,7 +74,7 @@ public class CustomerDAO extends BaseDao {
     public void insert(List<Customer> customers) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO customers (id, email, password, full_name, phone, address) VALUES (:id, :email, :password, :fullName, : phone, :address)"
+                    "INSERT INTO customers (id, email, password_hash, full_name, phone, address) VALUES (:id, :email, :password, :fullName, : phone, :address)"
             );
             customers.forEach(c -> batch.bindBean(c).add());
             batch.execute();
@@ -83,7 +83,7 @@ public class CustomerDAO extends BaseDao {
 
     public void insertCustomer(Customer customer) {
         get().useHandle(h -> {
-            h.createUpdate("INSERT INTO customers (email, password, full_name, phone, address) VALUES (:email, :password, :fullName, :phone, :address)")
+            h.createUpdate("INSERT INTO customers (email, password_hash, full_name, phone, address) VALUES (:email, :password, :fullName, :phone, :address)")
                     .bindBean(customer)
                     .execute();
         });
@@ -97,11 +97,11 @@ public class CustomerDAO extends BaseDao {
         });
     }
 
-    public void updatePassword(int id, String password) {
+    public void updatePassword(int id, String password_hash) {
         get().useHandle(h -> {
-            h. createUpdate("UPDATE customers SET password = :password, updated_at = CURRENT_TIMESTAMP WHERE id = : id")
+            h. createUpdate("UPDATE customers SET password_hash = :password_hash, updated_at = CURRENT_TIMESTAMP WHERE id = : id")
                     .bind("id", id)
-                    .bind("password", password)
+                    .bind("password_hash", password_hash)
                     .execute();
         });
     }

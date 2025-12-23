@@ -1,96 +1,174 @@
-package com.shop.dao. order;
+package com.shop.dao.order;
 
-import com.shop.model. OrderCoupon;
-import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org. jdbi.v3.sqlobject. customizer.Bind;
-import org. jdbi.v3.sqlobject. customizer.BindBean;
-import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
-import org.jdbi. v3.sqlobject.statement.SqlQuery;
-import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import com.shop.dao.support.BaseDao;
+import com.shop.model.OrderCoupon;
+import org.jdbi.v3.core.statement.PreparedBatch;
+import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.util.*;
 
-import java. util.List;
-import java.util. Optional;
+public class OrderCouponDAO extends BaseDao {
 
-@RegisterBeanMapper(OrderCoupon.class)
-public interface OrderCouponDAO {
+    static Map<Integer, OrderCoupon> data = new HashMap<>();
+    static {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
 
-    /// Lấy all order_coupon
-    @SqlQuery("Select id, order_id, coupon_id, coupon_code, discount_amount, created_at " +
-            "From order_coupons")
-    List<OrderCoupon> getAll();
+        data.put(1, new OrderCoupon(1, 1, 1, new BigDecimal("50000"), now));
+        data.put(2, new OrderCoupon(2, 3, 2, new BigDecimal("50000"), now));
+    }
 
-    /// Lấy order_coupon theo ID
-    @SqlQuery("Select id, order_id, coupon_id, coupon_code, discount_amount, created_at " +
-            "From order_coupons " +
-            "Where id = :id")
-    Optional<OrderCoupon> getById(@Bind("id") int id);
+    public List<OrderCoupon> getListOrderCoupon() {
+        return new ArrayList<>(data.values());
+    }
 
-    /// Thêm order_coupon mới - áp dụng coupon cho đơn hàng
-    @SqlUpdate("Insert into order_coupons " +
-            "(order_id, coupon_id, coupon_code, discount_amount, created_at) " +
-            "Values (:orderId, :couponId, :couponCode, :discountAmount, NOW())")
-    @GetGeneratedKeys
-    int insert(@BindBean OrderCoupon orderCoupon);
+    public OrderCoupon getOrderCoupon(int id) {
+        return data.get(id);
+    }
 
-    /// Cập nhật order_coupon
-    @SqlUpdate("Update order_coupons " +
-            "Set discount_amount = :discountAmount " +
-            "Where id = :id")
-    boolean update(@BindBean OrderCoupon orderCoupon);
+    public List<OrderCoupon> getList() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT id, order_id, coupon_id, coupon_code, discount_amount, created_at FROM order_coupons")
+                        .mapToBean(OrderCoupon.class)
+                        .list()
+        );
+    }
 
-    /// Xóa order_coupon
-    @SqlUpdate("Delete From order_coupons Where id = : id")
-    boolean delete(@Bind("id") int id);
+    public OrderCoupon getOrderCouponById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, coupon_id, coupon_code, discount_amount, created_at FROM order_coupons WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(OrderCoupon.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
+    public OrderCoupon getByOrderId(int orderId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, coupon_id, coupon_code, discount_amount, created_at FROM order_coupons WHERE order_id = :orderId")
+                        .bind("orderId", orderId)
+                        .mapToBean(OrderCoupon.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Lấy order_coupon theo order_id
-    @SqlQuery("Select id, order_id, coupon_id, coupon_code, discount_amount, created_at " +
-            "From order_coupons " +
-            "Where order_id = :orderId")
-    Optional<OrderCoupon> getByOrderId(@Bind("orderId") int orderId);
+    public List<OrderCoupon> getByCouponId(int couponId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, order_id, coupon_id, coupon_code, discount_amount, created_at FROM order_coupons WHERE coupon_id = :couponId")
+                        .bind("couponId", couponId)
+                        .mapToBean(OrderCoupon.class)
+                        .list()
+        );
+    }
 
-    /// Lấy all đơn hàng đã sử dụng 1 coupon
-    @SqlQuery("Select id, order_id, coupon_id, coupon_code, discount_amount, created_at " +
-            "From order_coupons " +
-            "Where coupon_id = :couponId")
-    List<OrderCoupon> getByCouponId(@Bind("couponId") int couponId);
+    public List<OrderCoupon> getByCouponCode(String couponCode) {
+        return get().withHandle(h ->
+                h. createQuery("SELECT id, order_id, coupon_id, coupon_code, discount_amount, created_at FROM order_coupons WHERE coupon_code = : couponCode")
+                        .bind("couponCode", couponCode)
+                        .mapToBean(OrderCoupon.class)
+                        .list()
+        );
+    }
 
-    /// Check đơn hàng đã áp dụng coupon chưa
-    @SqlQuery("Select Count(id) > 0 " +
-            "From order_coupons " +
-            "Where order_id = :orderId")
-    boolean hasOrderUsedCoupon(@Bind("orderId") int orderId);
+    public boolean hasOrderUsedCoupon(int orderId) {
+        return get().withHandle(h ->
+                h. createQuery("SELECT COUNT(id) > 0 FROM order_coupons WHERE order_id = :orderId")
+                        .bind("orderId", orderId)
+                        .mapTo(Boolean.class)
+                        .one()
+        );
+    }
 
-    /// Check coupon đã được sử dụng cho đơn hàng này chưa
-    @SqlQuery("Select Count(id) > 0 " +
-            "From order_coupons " +
-            "Where order_id = :orderId And coupon_id = :couponId")
-    boolean isCouponAppliedToOrder(@Bind("orderId") int orderId, @Bind("couponId") int couponId);
+    public boolean isCouponAppliedToOrder(int orderId, int couponId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) > 0 FROM order_coupons WHERE order_id = :orderId AND coupon_id = :couponId")
+                        .bind("orderId", orderId)
+                        .bind("couponId", couponId)
+                        .mapTo(Boolean. class)
+                        .one()
+        );
+    }
 
-    /// Xóa coupon khỏi đơn hàng
-    @SqlUpdate("Delete From order_coupons Where order_id = :orderId")
-    boolean deleteByOrderId(@Bind("orderId") int orderId);
+    public boolean hasCustomerUsedCoupon(int customerId, int couponId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(oc.id) > 0 FROM order_coupons oc JOIN orders o ON oc.order_id = o.id WHERE o. customer_id = :customerId AND oc.coupon_id = :couponId")
+                        .bind("customerId", customerId)
+                        .bind("couponId", couponId)
+                        .mapTo(Boolean.class)
+                        .one()
+        );
+    }
 
-    /// Đếm số lần coupon đã được sử dụng
-    @SqlQuery("Select Count(id) From order_coupons Where coupon_id = : couponId")
-    int countUsagesByCouponId(@Bind("couponId") int couponId);
+    public void insert(List<OrderCoupon> orderCoupons) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO order_coupons (id, order_id, coupon_id, coupon_code, discount_amount, created_at) VALUES (:id, :orderId, :couponId, :couponCode, : discountAmount, NOW())"
+            );
+            orderCoupons.forEach(oc -> batch.bindBean(oc).add());
+            batch.execute();
+        });
+    }
 
-    /// Tính tổng số tiền đã giảm giá bởi 1 coupon
-    @SqlQuery("Select Coalesce(Sum(discount_amount), 0) " +
-            "From order_coupons " +
-            "Where coupon_id = : couponId")
-    double getTotalDiscountByCouponId(@Bind("couponId") int couponId);
+    public void insertOrderCoupon(OrderCoupon orderCoupon) {
+        get().useHandle(h -> {
+            h.createUpdate("INSERT INTO order_coupons (order_id, coupon_id, coupon_code, discount_amount, created_at) VALUES (:orderId, :couponId, :couponCode, :discountAmount, NOW())")
+                    .bindBean(orderCoupon)
+                    .execute();
+        });
+    }
 
-    /// Lấy order_coupon theo coupon_code
-    @SqlQuery("Select id, order_id, coupon_id, coupon_code, discount_amount, created_at " +
-            "From order_coupons " +
-            "Where coupon_code = :couponCode")
-    List<OrderCoupon> getByCouponCode(@Bind("couponCode") String couponCode);
+    public void updateOrderCoupon(OrderCoupon orderCoupon) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE order_coupons SET discount_amount = :discountAmount WHERE id = :id")
+                    .bindBean(orderCoupon)
+                    .execute();
+        });
+    }
 
-    /// Check khách hàng đã sử dụng coupon này chưa - thông qua order
-    @SqlQuery("Select Count(oc.id) > 0 " +
-            "From order_coupons oc " +
-            "Join orders o On oc.order_id = o.id " +
-            "Where o.customer_id = :customerId And oc.coupon_id = :couponId")
-    boolean hasCustomerUsedCoupon(@Bind("customerId") int customerId, @Bind("couponId") int couponId);
+    public void deleteOrderCoupon(int id) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM order_coupons WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
+
+    public void deleteByOrderId(int orderId) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM order_coupons WHERE order_id = :orderId")
+                    .bind("orderId", orderId)
+                    .execute();
+        });
+    }
+
+    public int countUsagesByCouponId(int couponId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) FROM order_coupons WHERE coupon_id = :couponId")
+                        .bind("couponId", couponId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public double getTotalDiscountByCouponId(int couponId) {
+        Double total = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(discount_amount), 0) FROM order_coupons WHERE coupon_id = :couponId")
+                        .bind("couponId", couponId)
+                        .mapTo(Double.class)
+                        .one()
+        );
+        return total != null ? total : 0.0;
+    }
+
+    public static void main(String[] args) {
+        OrderCouponDAO dao = new OrderCouponDAO();
+        System.out.println("=== INSERT DUMMY DATA ===");
+        List<OrderCoupon> orderCoupons = dao.getListOrderCoupon();
+        dao.insert(orderCoupons);
+        System.out.println("✅ Inserted " + orderCoupons.size() + " order coupons");
+
+        System.out.println("\n=== GET FROM DB ===");
+        dao.getList().forEach(System.out::println);
+    }
 }

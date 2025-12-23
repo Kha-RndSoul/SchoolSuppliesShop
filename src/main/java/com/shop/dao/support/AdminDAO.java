@@ -9,7 +9,7 @@ public class AdminDAO extends BaseDao {
 
     static Map<Integer, Admin> data = new HashMap<>();
     static {
-        data. put(1, new Admin(1, "admin", "admin@shop.com", "admin123", "Quản Trị Viên", "SUPER_ADMIN", true,null));
+        data.put(1, new Admin(1, "admin", "admin@shop.com", "admin123", "Quản Trị Viên", "SUPER_ADMIN", true,null));
         data.put(2, new Admin(2, "manager", "manager@shop.com", "manager123", "Nguyễn Văn Manager", "MANAGER", true,null));
         data.put(3, new Admin(3, "staff", "staff@shop.com", "staff123", "Trần Thị Staff", "STAFF", true,null));
     }
@@ -24,7 +24,7 @@ public class AdminDAO extends BaseDao {
 
     public List<Admin> getList() {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins ORDER BY created_at DESC")
+                h.createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins ORDER BY created_at DESC")
                         .mapToBean(Admin.class)
                         .list()
         );
@@ -32,7 +32,7 @@ public class AdminDAO extends BaseDao {
 
     public Admin getAdminById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE id = :id")
+                h.createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(Admin.class)
                         .findOne()
@@ -42,7 +42,7 @@ public class AdminDAO extends BaseDao {
 
     public Admin getByUsername(String username) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE username = :username")
+                h.createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE username = :username")
                         .bind("username", username)
                         .mapToBean(Admin.class)
                         .findOne()
@@ -52,7 +52,7 @@ public class AdminDAO extends BaseDao {
 
     public Admin getByEmail(String email) {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE email = : email")
+                h. createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE email = : email")
                         .bind("email", email)
                         .mapToBean(Admin.class)
                         .findOne()
@@ -62,7 +62,7 @@ public class AdminDAO extends BaseDao {
 
     public Admin login(String username, String password) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE username = :username AND password = :password AND is_active = 1")
+                h.createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE username = :username AND password = :password AND is_active = 1")
                         .bind("username", username)
                         .bind("password", password)
                         .mapToBean(Admin.class)
@@ -73,7 +73,7 @@ public class AdminDAO extends BaseDao {
 
     public List<Admin> getByRole(String role) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, username, email, password, full_name, role, is_active, created_at FROM admins WHERE role = :role ORDER BY created_at DESC")
+                h.createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE role = :role ORDER BY created_at DESC")
                         .bind("role", role)
                         .mapToBean(Admin.class)
                         .list()
@@ -83,7 +83,7 @@ public class AdminDAO extends BaseDao {
     public void insert(List<Admin> admins) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO admins (id, username, email, password, full_name, role, is_active) VALUES (:id, :username, :email, :password, :fullName, :role, :isActive)"
+                    "INSERT INTO admins (id, username, email, password_hash, full_name, role, is_active) VALUES (:id, :username, :email, :password, :fullName, :role, :isActive)"
             );
             admins.forEach(a -> batch. bindBean(a).add());
             batch.execute();
@@ -92,7 +92,7 @@ public class AdminDAO extends BaseDao {
 
     public void insertAdmin(Admin admin) {
         get().useHandle(h -> {
-            h.createUpdate("INSERT INTO admins (username, email, password, full_name, role, is_active) VALUES (:username, :email, :password, : fullName, :role, :isActive)")
+            h.createUpdate("INSERT INTO admins (username, email, password_hash, full_name, role, is_active) VALUES (:username, :email, :password, : fullName, :role, :isActive)")
                     .bindBean(admin)
                     .execute();
         });
@@ -106,11 +106,11 @@ public class AdminDAO extends BaseDao {
         });
     }
 
-    public void updatePassword(int id, String password) {
+    public void updatePassword(int id, String password_hash) {
         get().useHandle(h -> {
-            h. createUpdate("UPDATE admins SET password = :password WHERE id = :id")
+            h. createUpdate("UPDATE admins SET password_hash = :password_hash WHERE id = :id")
                     .bind("id", id)
-                    .bind("password", password)
+                    .bind("password_hash", password_hash)
                     .execute();
         });
     }
@@ -134,7 +134,7 @@ public class AdminDAO extends BaseDao {
 
     public int countActive() {
         return get().withHandle(h ->
-                h. createQuery("SELECT COUNT(*) FROM admins WHERE is_active = 1")
+                h.createQuery("SELECT COUNT(*) FROM admins WHERE is_active = 1")
                         .mapTo(Integer.class)
                         .one()
         );

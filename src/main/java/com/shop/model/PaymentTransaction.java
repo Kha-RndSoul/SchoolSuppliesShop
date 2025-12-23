@@ -1,65 +1,61 @@
-package com. shop.model;
+package com.shop.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-
 public class PaymentTransaction {
 
-    // Fields matching database columns
-    private Long transactionId;
-    private Long orderId;
-    private String paymentMethod; // COD, BANK_TRANSFER, MOMO, VNPAY, etc.
-    private String transactionCode;
+    private int id;
+    private int orderId;
+    private String paymentMethod;
+    private String paymentStatus;
     private BigDecimal amount;
-    private String status; // PENDING, SUCCESS, FAILED, REFUNDED
+    private String transactionNote;
+    private Timestamp paidAt;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
-
-    // Constructors
-
 
     public PaymentTransaction() {
     }
 
-
-    public PaymentTransaction(Long orderId, String paymentMethod, String transactionCode,
-                              BigDecimal amount, String status) {
+    public PaymentTransaction(int orderId, String paymentMethod, String paymentStatus,
+                              BigDecimal amount, String transactionNote) {
         this.orderId = orderId;
         this.paymentMethod = paymentMethod;
-        this. transactionCode = transactionCode;
+        this.paymentStatus = paymentStatus;
         this.amount = amount;
-        this. status = status;
+        this.transactionNote = transactionNote;
     }
 
-    public PaymentTransaction(Long transactionId, Long orderId, String paymentMethod,
-                              String transactionCode, BigDecimal amount, String status,
-                              Timestamp createdAt, Timestamp updatedAt) {
-        this.transactionId = transactionId;
-        this. orderId = orderId;
-        this. paymentMethod = paymentMethod;
-        this.transactionCode = transactionCode;
+
+    public PaymentTransaction(int id, int orderId, String paymentMethod,
+                              String paymentStatus, BigDecimal amount, String transactionNote,
+                              Timestamp paidAt, Timestamp createdAt) {
+        this.id = id;
+        this.orderId = orderId;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
         this.amount = amount;
-        this.status = status;
-        this. createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.transactionNote = transactionNote;
+        this.paidAt = paidAt;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
 
-    public Long getTransactionId() {
-        return transactionId;
+    public int getId() {
+        return id;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Long getOrderId() {
+
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
@@ -71,12 +67,12 @@ public class PaymentTransaction {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getTransactionCode() {
-        return transactionCode;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setTransactionCode(String transactionCode) {
-        this.transactionCode = transactionCode;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public BigDecimal getAmount() {
@@ -87,12 +83,20 @@ public class PaymentTransaction {
         this.amount = amount;
     }
 
-    public String getStatus() {
-        return status;
+    public String getTransactionNote() {
+        return transactionNote;
     }
 
-    public void setStatus(String status) {
-        this. status = status;
+    public void setTransactionNote(String transactionNote) {
+        this.transactionNote = transactionNote;
+    }
+
+    public Timestamp getPaidAt() {
+        return paidAt;
+    }
+
+    public void setPaidAt(Timestamp paidAt) {
+        this.paidAt = paidAt;
     }
 
     public Timestamp getCreatedAt() {
@@ -103,25 +107,17 @@ public class PaymentTransaction {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this. updatedAt = updatedAt;
-    }
-
     @Override
     public String toString() {
         return "PaymentTransaction{" +
-                "transactionId=" + transactionId +
+                "id=" + id +
                 ", orderId=" + orderId +
                 ", paymentMethod='" + paymentMethod + '\'' +
-                ", transactionCode='" + transactionCode + '\'' +
+                ", paymentStatus='" + paymentStatus + '\'' +
                 ", amount=" + amount +
-                ", status='" + status + '\'' +
+                ", transactionNote='" + transactionNote + '\'' +
+                ", paidAt=" + paidAt +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 }
