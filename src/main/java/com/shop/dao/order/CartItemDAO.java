@@ -1,8 +1,9 @@
 package com.shop.dao.order;
 
 import com.shop.dao.support.BaseDao;
-import com. shop.model.CartItem;
+import com.shop.model.CartItem;
 import org.jdbi.v3.core.statement.PreparedBatch;
+import java.sql.Timestamp;
 
 import java.util.*;
 
@@ -10,13 +11,13 @@ public class CartItemDAO extends BaseDao {
 
     static Map<Integer, CartItem> data = new HashMap<>();
     static {
-        data.put(1, new CartItem(1L, 1L, 1L, 2));
-        data.put(2, new CartItem(2L, 1L, 2L, 5));
-        data.put(3, new CartItem(3L, 2L, 3L, 1));
-        data.put(4, new CartItem(4L, 2L, 4L, 3));
-        data.put(5, new CartItem(5L, 3L, 5L, 2));
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        data.put(1, new CartItem(1, 1, 1, 2, now, now));
+        data.put(2, new CartItem(2, 1, 2, 5, now, now));
+        data.put(3, new CartItem(3, 2, 3, 1, now, now));
+        data.put(4, new CartItem(4, 2, 4, 3, now, now));
+        data.put(5, new CartItem(5, 3, 5, 2, now, now));
     }
-
     public List<CartItem> getListCartItem() {
         return new ArrayList<>(data.values());
     }
@@ -121,7 +122,7 @@ public class CartItemDAO extends BaseDao {
 
     public void decrementQuantity(int customerId, int productId, int amount) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE cart_items SET quantity = quantity - : amount, updated_at = NOW() WHERE customer_id = :customerId AND product_id = :productId AND quantity > :amount")
+            h.createUpdate("UPDATE cart_items SET quantity = quantity - :amount, updated_at = NOW() WHERE customer_id = :customerId AND product_id = :productId AND quantity > :amount")
                     .bind("customerId", customerId)
                     .bind("productId", productId)
                     .bind("amount", amount)

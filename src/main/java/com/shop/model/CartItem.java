@@ -3,16 +3,14 @@ package com.shop.model;
 import java.sql.Timestamp;
 
 public class CartItem {
-    private int cartItemId;
+    private int id;
     private int customerId;
     private int productId;
     private int quantity;
     private Timestamp addedAt;
     private Timestamp updatedAt;
 
-
     public CartItem() {}
-
 
     public CartItem(int customerId, int productId, int quantity) {
         this.customerId = customerId;
@@ -20,9 +18,8 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public CartItem(int cartItemId, int customerId, int productId, int quantity,
-                    Timestamp addedAt, Timestamp updatedAt) {
-        this.cartItemId = cartItemId;
+    public CartItem(int id, int customerId, int productId, int quantity, Timestamp addedAt, Timestamp updatedAt) {
+        this.id = id;
         this.customerId = customerId;
         this.productId = productId;
         this.quantity = quantity;
@@ -30,13 +27,12 @@ public class CartItem {
         this.updatedAt = updatedAt;
     }
 
-
-    public int getCartItemId() {
-        return cartItemId;
+    public int getId() {
+        return id;
     }
 
-    public void setCartItemId(int cartItemId) {
-        this.cartItemId = cartItemId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCustomerId() {
@@ -82,7 +78,7 @@ public class CartItem {
     @Override
     public String toString() {
         return "CartItem{" +
-                "cartItemId=" + cartItemId +
+                "id=" + id +
                 ", customerId=" + customerId +
                 ", productId=" + productId +
                 ", quantity=" + quantity +

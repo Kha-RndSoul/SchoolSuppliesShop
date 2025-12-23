@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Order {
-    private int orderId;
+    private int id;
     private int customerId;
     private String orderCode;
     private String orderStatus;
@@ -35,12 +35,11 @@ public class Order {
         this.note = note;
     }
 
-    //constructor
-    public Order(int orderId, int customerId, String orderCode, String orderStatus,
+    public Order(int id, int customerId, String orderCode, String orderStatus,
                  String paymentMethod, String paymentStatus, BigDecimal totalAmount,
                  String shippingName, String shippingPhone, String shippingAddress,
                  String note, Timestamp createdAt, Timestamp updatedAt) {
-        this.orderId = orderId;
+        this.id = id;
         this.customerId = customerId;
         this.orderCode = orderCode;
         this.orderStatus = orderStatus;
@@ -56,18 +55,16 @@ public class Order {
     }
 
     // Getters and Setters
-    public int getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCustomerId() {
         return customerId;
     }
-
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
@@ -75,7 +72,6 @@ public class Order {
     public String getOrderCode() {
         return orderCode;
     }
-
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
     }
@@ -83,7 +79,6 @@ public class Order {
     public String getOrderStatus() {
         return orderStatus;
     }
-
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
@@ -91,7 +86,6 @@ public class Order {
     public String getPaymentMethod() {
         return paymentMethod;
     }
-
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
@@ -99,7 +93,6 @@ public class Order {
     public String getPaymentStatus() {
         return paymentStatus;
     }
-
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
@@ -107,7 +100,6 @@ public class Order {
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }
-
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
@@ -115,7 +107,6 @@ public class Order {
     public String getShippingName() {
         return shippingName;
     }
-
     public void setShippingName(String shippingName) {
         this.shippingName = shippingName;
     }
@@ -123,7 +114,6 @@ public class Order {
     public String getShippingPhone() {
         return shippingPhone;
     }
-
     public void setShippingPhone(String shippingPhone) {
         this.shippingPhone = shippingPhone;
     }
@@ -131,7 +121,6 @@ public class Order {
     public String getShippingAddress() {
         return shippingAddress;
     }
-
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
@@ -139,7 +128,6 @@ public class Order {
     public String getNote() {
         return note;
     }
-
     public void setNote(String note) {
         this.note = note;
     }
@@ -147,7 +135,6 @@ public class Order {
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
@@ -155,7 +142,6 @@ public class Order {
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -163,7 +149,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "orderId=" + orderId +
+                "id=" + id +   // Đổi tên
                 ", customerId=" + customerId +
                 ", orderCode='" + orderCode + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +

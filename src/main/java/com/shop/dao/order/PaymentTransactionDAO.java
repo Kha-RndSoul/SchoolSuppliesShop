@@ -9,54 +9,13 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class PaymentTransactionDAO extends BaseDao {
-
     static Map<Integer, PaymentTransaction> data = new HashMap<>();
     static {
-        data.put(1, new PaymentTransaction(
-                1L,                     // transactionId
-                1L,                     // orderId
-                "BANK_TRANSFER",        // paymentMethod
-                "TXN001",               // transactionCode
-                BigDecimal.valueOf(500000),
-                "SUCCESS",
-                Timestamp.valueOf("2023-10-27 10:30:00"),
-                Timestamp.valueOf("2023-10-27 10:35:00")
-        ));
-
-        data.put(2, new PaymentTransaction(
-                2L,
-                2L,
-                "VNPAY",
-                "TXN002",
-                BigDecimal.valueOf(350000),
-                "SUCCESS",
-                Timestamp.valueOf("2023-10-28 09:15:00"),
-                Timestamp.valueOf("2023-10-28 09:16:00")
-        ));
-
-        data.put(3, new PaymentTransaction(
-                3L,
-                3L,
-                "COD",
-                "TXN003",
-                BigDecimal.valueOf(750000),
-                "PENDING",
-                Timestamp.valueOf("2023-10-29 14:00:00"),
-                null                    // COD chưa cập nhật
-        ));
-
-        data.put(4, new PaymentTransaction(
-                4L,
-                4L,
-                "MOMO",
-                "TXN004",
-                BigDecimal.valueOf(220000),
-                "FAILED",
-                Timestamp.valueOf("2023-10-30 16:20:00"),
-                Timestamp.valueOf("2023-10-30 16:21:30")
-        ));
+        data.put(1, new PaymentTransaction(1, 1, "BANK_TRANSFER", "SUCCESS", new BigDecimal("500000"), "TXN001", Timestamp.valueOf("2023-10-27 10:35:00"), Timestamp.valueOf("2023-10-27 10:30:00")));
+        data.put(2, new PaymentTransaction(2, 2, "VNPAY", "SUCCESS", new BigDecimal("350000"), "TXN002", Timestamp.valueOf("2023-10-28 09:16:00"), Timestamp.valueOf("2023-10-28 09:15:00")));
+        data.put(3, new PaymentTransaction(3, 3, "COD", "PENDING", new BigDecimal("750000"), "TXN003", null, Timestamp.valueOf("2023-10-29 14:00:00")));
+        data.put(4, new PaymentTransaction(4, 4, "MOMO", "FAILED", new BigDecimal("220000"), "TXN004", Timestamp.valueOf("2023-10-30 16:21:30"), Timestamp.valueOf("2023-10-30 16:20:00")));
     }
-
 
     public List<PaymentTransaction> getListPaymentTransaction() {
         return new ArrayList<>(data.values());

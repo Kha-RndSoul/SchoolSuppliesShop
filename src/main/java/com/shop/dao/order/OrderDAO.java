@@ -11,37 +11,11 @@ public class OrderDAO extends BaseDao {
 
     static Map<Integer, Order> data = new HashMap<>();
     static {
-        data.put(1, new Order(
-                1L,                     // orderId
-                1L,                     // customerId
-                "ORD-001",              // orderCode
-                "PENDING",              // orderStatus
-                BigDecimal.valueOf(500000)
-        ));
-
-        data.put(2, new Order(
-                2L,
-                2L,
-                "ORD-002",
-                "PROCESSING",
-                BigDecimal.valueOf(350000)
-        ));
-
-        data.put(3, new Order(
-                3L,
-                1L,
-                "ORD-003",
-                "COMPLETED",
-                BigDecimal.valueOf(750000)
-        ));
-
-        data.put(4, new Order(
-                4L,
-                3L,
-                "ORD-004",
-                "CANCELLED",
-                BigDecimal.valueOf(220000)
-        ));
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        data.put(1, new Order(1, 1, "ORD-001", "PENDING", "COD", "PENDING", new BigDecimal("500000"), "Nguyễn Văn A", "0983123123", "123 Đường ABC, TP.XYZ", "", now, now));
+        data.put(2, new Order(2, 2, "ORD-002", "PROCESSING", "BANKING", "PAID", new BigDecimal("350000"), "Trần Thị B", "0905999999", "456 Đường DEF, TP.XYZ", "Không lấy túi nhựa", now, now));
+        data.put(3, new Order(3, 1, "ORD-003", "COMPLETED", "COD", "PAID", new BigDecimal("750000"), "Nguyễn Văn A", "0983123123", "123 Đường ABC, TP.XYZ", "Giao nhanh", now, now));
+        data.put(4, new Order(4, 3, "ORD-004", "CANCELLED", "COD", "FAILED", new BigDecimal("220000"), "Lê Minh C", "0912999888", "789 Đường GHI, TP.XYZ", "Khách hủy do không liên lạc", now, now));
     }
 
     public List<Order> getListOrder() {

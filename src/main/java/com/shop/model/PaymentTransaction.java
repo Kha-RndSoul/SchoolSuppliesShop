@@ -5,22 +5,21 @@ import java.sql.Timestamp;
 
 public class PaymentTransaction {
 
-    // Fields matching database columns
-    private int transactionId;               // ✅ Đổi từ Long sang int
-    private int orderId;                     // ✅ Đổi từ Long sang int
-    private String paymentMethod;            // COD, BANK_TRANSFER, MOMO, VNPAY, etc.
-    private String paymentStatus;            // ✅ Đổi từ 'status' thành 'paymentStatus'
+    private int id;
+    private int orderId;
+    private String paymentMethod;
+    private String paymentStatus;
     private BigDecimal amount;
-    private String transactionNote;          // ✅ Đổi từ 'transactionCode' (không có trong ERD)
-    private Timestamp paidAt;                // ✅ Thêm field mới
+    private String transactionNote;
+    private Timestamp paidAt;
     private Timestamp createdAt;
 
-    // Constructors
+
 
     public PaymentTransaction() {
     }
 
-    // Constructor for creating new transaction (without ID and timestamps)
+
     public PaymentTransaction(int orderId, String paymentMethod, String paymentStatus,
                               BigDecimal amount, String transactionNote) {
         this.orderId = orderId;
@@ -30,11 +29,11 @@ public class PaymentTransaction {
         this.transactionNote = transactionNote;
     }
 
-    // Full constructor
-    public PaymentTransaction(int transactionId, int orderId, String paymentMethod,
+
+    public PaymentTransaction(int id, int orderId, String paymentMethod,
                               String paymentStatus, BigDecimal amount, String transactionNote,
                               Timestamp paidAt, Timestamp createdAt) {
-        this.transactionId = transactionId;
+        this.id = id;
         this.orderId = orderId;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
@@ -46,13 +45,14 @@ public class PaymentTransaction {
 
     // Getters and Setters
 
-    public int getTransactionId() {
-        return transactionId;
+    public int getId() {
+        return id;
     }
 
-    public void setTransactionId(int transactionId) {
-        this.transactionId = transactionId;
+    public void setId(int id) {
+        this.id = id;
     }
+
 
     public int getOrderId() {
         return orderId;
@@ -113,7 +113,7 @@ public class PaymentTransaction {
     @Override
     public String toString() {
         return "PaymentTransaction{" +
-                "transactionId=" + transactionId +
+                "id=" + id +
                 ", orderId=" + orderId +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +

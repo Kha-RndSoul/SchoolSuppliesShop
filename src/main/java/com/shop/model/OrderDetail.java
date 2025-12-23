@@ -4,19 +4,18 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class OrderDetail {
-    private int orderDetailId;               // ✅ Đổi từ Long sang int
-    private int orderId;                     // ✅ Đổi từ Long sang int
-    private int productId;                   // ✅ Đổi từ Long sang int
-    private String productName;              // ✅ Thêm field mới - lưu tên sản phẩm tại thời điểm đặt
-    private BigDecimal price;                // ✅ Thêm field mới - giá tại thời điểm đặt
-    private int quantity;                    // ✅ Đổi từ Integer sang int
+    private int id;
+    private int orderId;
+    private int productId;
+    private String productName;
+    private BigDecimal price;
+    private int quantity;
     private BigDecimal subtotal;
-    private Timestamp createdAt;             // ✅ Thêm field mới
+    private Timestamp createdAt;
 
-    // Default constructor
+
     public OrderDetail() {}
 
-    // Constructor for creating new order detail (without ID and timestamp)
     public OrderDetail(int orderId, int productId, String productName,
                        BigDecimal price, int quantity, BigDecimal subtotal) {
         this.orderId = orderId;
@@ -27,10 +26,9 @@ public class OrderDetail {
         this.subtotal = subtotal;
     }
 
-    // Full constructor
-    public OrderDetail(int orderDetailId, int orderId, int productId, String productName,
+    public OrderDetail(int id, int orderId, int productId, String productName,
                        BigDecimal price, int quantity, BigDecimal subtotal, Timestamp createdAt) {
-        this.orderDetailId = orderDetailId;
+        this.id = id;
         this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
@@ -41,12 +39,12 @@ public class OrderDetail {
     }
 
     // Getters and Setters
-    public int getOrderDetailId() {
-        return orderDetailId;
+    public int getId() {   // cập nhật getter/setter cho id
+        return id;
     }
 
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getOrderId() {
@@ -108,7 +106,7 @@ public class OrderDetail {
     @Override
     public String toString() {
         return "OrderDetail{" +
-                "orderDetailId=" + orderDetailId +
+                "id=" + id +
                 ", orderId=" + orderId +
                 ", productId=" + productId +
                 ", productName='" + productName + '\'' +

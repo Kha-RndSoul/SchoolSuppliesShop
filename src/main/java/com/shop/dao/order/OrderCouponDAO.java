@@ -10,10 +10,12 @@ public class OrderCouponDAO extends BaseDao {
 
     static Map<Integer, OrderCoupon> data = new HashMap<>();
     static {
-        data.put(1, new OrderCoupon(1L, 1L, "WELCOME10", 50000.0));
+        Timestamp now = new Timestamp(System.currentTimeMillis());
 
-        data.put(2, new OrderCoupon(3L, 2L, "SUMMER50K", 50000.0));
+        data.put(1, new OrderCoupon(1, 1, 1, new BigDecimal("50000"), now));
+        data.put(2, new OrderCoupon(2, 3, 2, new BigDecimal("50000"), now));
     }
+
 
 
     public List<OrderCoupon> getListOrderCoupon() {

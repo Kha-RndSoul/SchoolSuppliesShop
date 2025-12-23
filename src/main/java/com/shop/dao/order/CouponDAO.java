@@ -10,11 +10,12 @@ public class CouponDAO extends BaseDao {
 
     static Map<Integer, Coupon> data = new HashMap<>();
     static {
-        // Chỉ truyền 4 tham số: ID (Long), Code (String), Type (String), Value (Double)
-        data.put(1, new Coupon(1L, "WELCOME10", "PERCENT", 10.0));
-        data.put(2, new Coupon(2L, "SUMMER50K", "FIXED", 50000.0));
-        data.put(3, new Coupon(3L, "FREESHIP", "FIXED", 30000.0));
-    }
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+
+        data.put(1, new Coupon(1, "WELCOME10", "PERCENT", new BigDecimal("10"), new BigDecimal("0"), 100, 0, now, null, true, now));
+        data.put(2, new Coupon(2, "SUMMER50K", "FIXED", new BigDecimal("50000"), new BigDecimal("200000"), 50, 0, now, null, true, now));
+        data.put(3, new Coupon(3, "FREESHIP", "FIXED", new BigDecimal("30000"), new BigDecimal("100000"), 200, 0, now, null, true, now));
+    }    }
 
     public List<Coupon> getListCoupon() {
         return new ArrayList<>(data.values());

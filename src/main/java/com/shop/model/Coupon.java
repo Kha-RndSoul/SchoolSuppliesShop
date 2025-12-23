@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Coupon {
-    private int couponId;
+    private int id;                   // Đổi từ couponId thành id cho chuẩn với DB
     private String couponCode;
     private String discountType;
     private BigDecimal discountValue;
@@ -16,9 +16,7 @@ public class Coupon {
     private boolean isActive;
     private Timestamp createdAt;
 
-
     public Coupon() {}
-
 
     public Coupon(String couponCode, String discountType, BigDecimal discountValue,
                   BigDecimal minOrderAmount, int maxUses, Timestamp startDate,
@@ -34,12 +32,11 @@ public class Coupon {
         this.isActive = isActive;
     }
 
-    //constructor
-    public Coupon(int couponId, String couponCode, String discountType,
+    public Coupon(int id, String couponCode, String discountType,
                   BigDecimal discountValue, BigDecimal minOrderAmount, int maxUses,
                   int usedCount, Timestamp startDate, Timestamp endDate,
                   boolean isActive, Timestamp createdAt) {
-        this.couponId = couponId;
+        this.id = id;
         this.couponCode = couponCode;
         this.discountType = discountType;
         this.discountValue = discountValue;
@@ -53,12 +50,12 @@ public class Coupon {
     }
 
     // Getters and Setters
-    public int getCouponId() {
-        return couponId;
+    public int getId() {              // Sửa lại getter/setter cho đủ đồng bộ
+        return id;
     }
 
-    public void setCouponId(int couponId) {
-        this.couponId = couponId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCouponCode() {
@@ -144,7 +141,7 @@ public class Coupon {
     @Override
     public String toString() {
         return "Coupon{" +
-                "couponId=" + couponId +
+                "id=" + id +
                 ", couponCode='" + couponCode + '\'' +
                 ", discountType='" + discountType + '\'' +
                 ", discountValue=" + discountValue +

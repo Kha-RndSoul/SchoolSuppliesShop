@@ -11,46 +11,15 @@ public class OrderDetailDAO extends BaseDao {
 
     static Map<Integer, OrderDetail> data = new HashMap<>();
     static {
-        data.put(1, new OrderDetail(
-                1L,                 // orderDetailId
-                1L,                 // orderId
-                1L,                 // productId
-                2,                  // quantity
-                BigDecimal.valueOf(24000)
-        ));
+        Timestamp now = new Timestamp(System.currentTimeMillis());
 
-        data.put(2, new OrderDetail(
-                2L,
-                1L,
-                2L,
-                10,
-                BigDecimal.valueOf(40000)
-        ));
-
-        data.put(3, new OrderDetail(
-                3L,
-                2L,
-                3L,
-                1,
-                BigDecimal.valueOf(299000)
-        ));
-
-        data.put(4, new OrderDetail(
-                4L,
-                3L,
-                4L,
-                5,
-                BigDecimal.valueOf(40000)
-        ));
-
-        data.put(5, new OrderDetail(
-                5L,
-                3L,
-                5L,
-                3,
-                BigDecimal.valueOf(66000)
-        ));
+        data.put(1, new OrderDetail(1, 1, 1, "Product 1", new BigDecimal("12000"), 2, new BigDecimal("24000"), now));
+        data.put(2, new OrderDetail(2, 1, 2, "Product 2", new BigDecimal("4000"), 10, new BigDecimal("40000"), now));
+        data.put(3, new OrderDetail(3, 2, 3, "Product 3", new BigDecimal("299000"), 1, new BigDecimal("299000"), now));
+        data.put(4, new OrderDetail(4, 3, 4, "Product 4", new BigDecimal("8000"), 5, new BigDecimal("40000"), now));
+        data.put(5, new OrderDetail(5, 3, 5, "Product 5", new BigDecimal("22000"), 3, new BigDecimal("66000"), now));
     }
+
 
     public List<OrderDetail> getListOrderDetail() {
         return new ArrayList<>(data.values());
