@@ -3,7 +3,7 @@ package com.shop.model;
 import java.sql.Timestamp;
 
 public class ProductReview {
-    private int reviewId;
+    private int id;
     private int productId;
     private int customerId;
     private int rating;
@@ -16,8 +16,8 @@ public class ProductReview {
     }
 
     // Constructor cơ bản
-    public ProductReview(int reviewId, int productId, int customerId, int rating, String comment, boolean status) {
-        this.reviewId = reviewId;
+    public ProductReview(int id, int productId, int customerId, int rating, String comment, boolean status) {
+        this.id = id;
         this.productId = productId;
         this.customerId = customerId;
         this.rating = rating;
@@ -26,9 +26,9 @@ public class ProductReview {
     }
 
     // Constructor đầy đủ
-    public ProductReview(int reviewId, int productId, int customerId, int rating,
+    public ProductReview(int id, int productId, int customerId, int rating,
                          String comment, boolean status, Timestamp createdAt) {
-        this.reviewId = reviewId;
+        this.id = id;
         this.productId = productId;
         this. customerId = customerId;
         this.rating = rating;
@@ -38,12 +38,14 @@ public class ProductReview {
     }
 
     // Getters and Setters
-    public int getReviewId() {
-        return reviewId;
+
+
+    public int getId() {
+        return id;
     }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getProductId() {
@@ -97,7 +99,7 @@ public class ProductReview {
     @Override
     public String toString() {
         return "ProductReview{" +
-                "reviewId=" + reviewId +
+                "id=" + id +
                 ", productId=" + productId +
                 ", customerId=" + customerId +
                 ", rating=" + rating +
