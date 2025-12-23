@@ -29,11 +29,12 @@ public class Banner {
 
     // Getters and Setters
 
-    public int getBannerId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setBannerId(int bannerId) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -42,7 +43,7 @@ public class Banner {
     }
 
     public void setTitle(String title) {
-        this. title = title;
+        this.title = title;
     }
 
     public String getImageUrl() {
@@ -53,14 +54,13 @@ public class Banner {
         this.imageUrl = imageUrl;
     }
 
-    public boolean getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
     public void setStatus(boolean status) {
         this.status = status;
     }
-
 
     // Kiểm tra banner có đang hoạt động hay không
     public boolean isActive() {

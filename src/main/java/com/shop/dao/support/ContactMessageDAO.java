@@ -24,7 +24,7 @@ public class ContactMessageDAO extends BaseDao {
 
     public List<ContactMessage> getList() {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages ORDER BY created_at DESC")
+                h. createQuery("SELECT id, customer_id AS customerId, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages ORDER BY created_at DESC")
                         .mapToBean(ContactMessage. class)
                         .list()
         );
@@ -32,7 +32,7 @@ public class ContactMessageDAO extends BaseDao {
 
     public ContactMessage getContactMessageById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages WHERE id = :id")
+                h.createQuery("SELECT id, customer_id AS customerId, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(ContactMessage.class)
                         .findOne()
@@ -42,7 +42,7 @@ public class ContactMessageDAO extends BaseDao {
 
     public List<ContactMessage> getByStatus(String status) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages WHERE status = :status ORDER BY created_at DESC")
+                h.createQuery("SELECT id, customer_id AS customerId, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages WHERE status = :status ORDER BY created_at DESC")
                         .bind("status", status)
                         .mapToBean(ContactMessage.class)
                         .list()
@@ -51,7 +51,7 @@ public class ContactMessageDAO extends BaseDao {
 
     public List<ContactMessage> getByCustomer(int customerId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages WHERE customer_id = :customerId ORDER BY created_at DESC")
+                h.createQuery("SELECT id, customer_id AS customerId, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages WHERE customer_id = :customerId ORDER BY created_at DESC")
                         .bind("customerId", customerId)
                         .mapToBean(ContactMessage.class)
                         .list()
@@ -61,7 +61,7 @@ public class ContactMessageDAO extends BaseDao {
     public void insert(List<ContactMessage> messages) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO contact_messages (id, customer_id, full_name, email, phone, subject, message, ip_address) VALUES (:id, :customerId, :fullName, :email, :phone, :subject, :message, :ipAddress)"
+                    "INSERT INTO contact_messages (id, customer_id AS customerId, full_name, email, phone, subject, message, ip_address) VALUES (:id, :customerId, :fullName, :email, :phone, :subject, :message, :ipAddress)"
             );
             messages.forEach(m -> batch.bindBean(m).add());
             batch.execute();
@@ -70,7 +70,7 @@ public class ContactMessageDAO extends BaseDao {
 
     public void insertContactMessage(ContactMessage message) {
         get().useHandle(h -> {
-            h.createUpdate("INSERT INTO contact_messages (customer_id, full_name, email, phone, subject, message, ip_address) VALUES (:customerId, :fullName, :email, : phone, :subject, :message, :ipAddress)")
+            h.createUpdate("INSERT INTO contact_messages (customer_id AS customerId, full_name, email, phone, subject, message, ip_address) VALUES (:customerId, :fullName, :email, : phone, :subject, :message, :ipAddress)")
                     .bindBean(message)
                     .execute();
         });
