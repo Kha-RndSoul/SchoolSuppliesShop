@@ -1,62 +1,90 @@
 package com.shop.model;
 
-public class CartItem {
-    private Long cartItemId;
-    private Long customerId;
-    private Long productId;
-    private Integer quantity;
+import java.sql.Timestamp;
 
-    // Default constructor
+public class CartItem {
+    private int id;
+    private int customerId;
+    private int productId;
+    private int quantity;
+    private Timestamp addedAt;
+    private Timestamp updatedAt;
+
     public CartItem() {}
 
-    // Parameterized constructor
-    public CartItem(Long cartItemId, Long customerId, Long productId, Integer quantity) {
-        this.cartItemId = cartItemId;
+    public CartItem(int customerId, int productId, int quantity) {
         this.customerId = customerId;
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    // Getters and Setters
-    public Long getCartItemId() {
-        return cartItemId;
+    public CartItem(int id, int customerId, int productId, int quantity, Timestamp addedAt, Timestamp updatedAt) {
+        this.id = id;
+        this.customerId = customerId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.addedAt = addedAt;
+        this.updatedAt = updatedAt;
     }
 
-    public void setCartItemId(Long cartItemId) {
-        this.cartItemId = cartItemId;
+    public int getId() {
+        return id;
     }
 
-    public Long getCustomerId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
-    public Long getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public Timestamp getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(Timestamp addedAt) {
+        this.addedAt = addedAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
 
     @Override
     public String toString() {
         return "CartItem{" +
-                "cartItemId=" + cartItemId +
+                "id=" + id +
                 ", customerId=" + customerId +
                 ", productId=" + productId +
                 ", quantity=" + quantity +
+                ", addedAt=" + addedAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

@@ -1,56 +1,88 @@
 package com.shop.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class OrderDetail {
-    private Long orderDetailId;
-    private Long orderId;
-    private Long productId;
-    private Integer quantity;
+    private int id;
+    private int orderId;
+    private int productId;
+    private String productName;
+    private BigDecimal price;
+    private int quantity;
     private BigDecimal subtotal;
+    private Timestamp createdAt;
 
-    // Default constructor
     public OrderDetail() {}
 
-    // Parameterized constructor
-    public OrderDetail(Long orderDetailId, Long orderId, Long productId, Integer quantity, BigDecimal subtotal) {
-        this.orderDetailId = orderDetailId;
+    public OrderDetail(int orderId, int productId, String productName,
+                       BigDecimal price, int quantity, BigDecimal subtotal) {
         this.orderId = orderId;
         this.productId = productId;
+        this.productName = productName;
+        this.price = price;
         this.quantity = quantity;
         this.subtotal = subtotal;
     }
 
+    public OrderDetail(int id, int orderId, int productId, String productName,
+                       BigDecimal price, int quantity, BigDecimal subtotal, Timestamp createdAt) {
+        this.id = id;
+        this.orderId = orderId;
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
+        this.createdAt = createdAt;
+    }
+
     // Getters and Setters
-    public Long getOrderDetailId() {
-        return orderDetailId;
+    public int getId() {   // cập nhật getter/setter cho id
+        return id;
     }
 
-    public void setOrderDetailId(Long orderDetailId) {
-        this.orderDetailId = orderDetailId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Long getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public Long getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
-    public Integer getQuantity() {
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -62,14 +94,25 @@ public class OrderDetail {
         this.subtotal = subtotal;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "OrderDetail{" +
-                "orderDetailId=" + orderDetailId +
+                "id=" + id +
                 ", orderId=" + orderId +
                 ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
                 ", quantity=" + quantity +
                 ", subtotal=" + subtotal +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

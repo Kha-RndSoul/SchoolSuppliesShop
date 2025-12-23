@@ -1,136 +1,197 @@
-package com.shop.dao. order;
+package com.shop.dao.order;
 
-import com. shop.model.CartItem;
-import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.customizer.Bind;
-import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org. jdbi.v3.sqlobject. statement.GetGeneratedKeys;
-import org.jdbi.v3.sqlobject.statement. SqlQuery;
-import org.jdbi. v3.sqlobject.statement.SqlUpdate;
+import com.shop.dao.support.BaseDao;
+import com.shop.model.CartItem;
+import org.jdbi.v3.core.statement.PreparedBatch;
+import java.sql.Timestamp;
 
-import java.util. List;
-import java.util. Optional;
+import java.util.*;
 
-@RegisterBeanMapper(CartItem.class)
-public interface CartItemDAO {
+public class CartItemDAO extends BaseDao {
 
-    /// Lấy all cart items
-    @SqlQuery("Select id, customer_id, product_id, quantity, created_at, updated_at " +
-            "From cart_items")
-    List<CartItem> getAll();
+    static Map<Integer, CartItem> data = new HashMap<>();
+    static {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        data.put(1, new CartItem(1, 1, 1, 2, now, now));
+        data.put(2, new CartItem(2, 1, 2, 5, now, now));
+        data.put(3, new CartItem(3, 2, 3, 1, now, now));
+        data.put(4, new CartItem(4, 2, 4, 3, now, now));
+        data.put(5, new CartItem(5, 3, 5, 2, now, now));
+    }
 
-    /// Lấy cart item theo ID
-    @SqlQuery("Select id, customer_id, product_id, quantity, created_at, updated_at " +
-            "From cart_items " +
-            "Where id = :id")
-    Optional<CartItem> getById(@Bind("id") int id);
+    public List<CartItem> getListCartItem() {
+        return new ArrayList<>(data.values());
+    }
 
-    /// Thêm sản phẩm vào cart
-    @SqlUpdate("Insert into cart_items " +
-            "(customer_id, product_id, quantity, created_at, updated_at) " +
-            "Values (:customerId, : productId, :quantity, NOW(), NOW())")
-    @GetGeneratedKeys
-    int insert(@BindBean CartItem cartItem);
+    public CartItem getCartItem(int id) {
+        return data.get(id);
+    }
 
-    /// Cập nhật cart item
-    @SqlUpdate("Update cart_items " +
-            "Set quantity = : quantity, updated_at = NOW() " +
-            "Where id = :id")
-    boolean update(@BindBean CartItem cartItem);
+    public List<CartItem> getList() {
+        return get().withHandle(h ->
+                h. createQuery("SELECT id, customer_id, product_id, quantity, created_at, updated_at FROM cart_items")
+                        .mapToBean(CartItem.class)
+                        .list()
+        );
+    }
 
-    /// Xóa cart item theo ID
-    @SqlUpdate("Delete From cart_items Where id = :id")
-    boolean delete(@Bind("id") int id);
+    public CartItem getCartItemById(int id) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, product_id, quantity, created_at, updated_at FROM cart_items WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(CartItem.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
+    public List<CartItem> getByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, product_id, quantity, created_at, updated_at FROM cart_items WHERE customer_id = :customerId ORDER BY created_at DESC")
+                        .bind("customerId", customerId)
+                        .mapToBean(CartItem.class)
+                        .list()
+        );
+    }
 
-    /// Lấy all sản phẩm trong giỏ hàng của 1 khách hàng
-    @SqlQuery("Select id, customer_id, product_id, quantity, created_at, updated_at " +
-            "From cart_items " +
-            "Where customer_id = :customerId " +
-            "Order by created_at Desc")
-    List<CartItem> getByCustomerId(@Bind("customerId") int customerId);
+    public CartItem getByCustomerIdAndProductId(int customerId, int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, customer_id, product_id, quantity, created_at, updated_at FROM cart_items WHERE customer_id = :customerId AND product_id = :productId")
+                        .bind("customerId", customerId)
+                        .bind("productId", productId)
+                        .mapToBean(CartItem.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
-    /// Lấy cart item theo customer_id và product_id
-    @SqlQuery("Select id, customer_id, product_id, quantity, created_at, updated_at " +
-            "From cart_items " +
-            "Where customer_id = :customerId And product_id = : productId")
-    Optional<CartItem> getByCustomerIdAndProductId(@Bind("customerId") int customerId, @Bind("productId") int productId);
+    public boolean existsInCart(int customerId, int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) > 0 FROM cart_items WHERE customer_id = :customerId AND product_id = :productId")
+                        .bind("customerId", customerId)
+                        .bind("productId", productId)
+                        .mapTo(Boolean.class)
+                        .one()
+        );
+    }
 
-    /// Kiểm tra sản phẩm đã có trong giỏ hàng chưa
-    @SqlQuery("Select Count(id) > 0 " +
-            "From cart_items " +
-            "Where customer_id = :customerId And product_id = : productId")
-    boolean existsInCart(@Bind("customerId") int customerId, @Bind("productId") int productId);
+    public void insert(List<CartItem> cartItems) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch(
+                    "INSERT INTO cart_items (id, customer_id, product_id, quantity, created_at, updated_at) VALUES (:id, :customerId, :productId, :quantity, NOW(), NOW())"
+            );
+            cartItems.forEach(item -> batch.bindBean(item).add());
+            batch.execute();
+        });
+    }
 
-    /// Cập nhật số lượng sản phẩm trong giỏ hàng
-    @SqlUpdate("Update cart_items " +
-            "Set quantity = :quantity, updated_at = NOW() " +
-            "Where customer_id = : customerId And product_id = :productId")
-    boolean updateQuantity(@Bind("customerId") int customerId, @Bind("productId") int productId, @Bind("quantity") int quantity);
+    public void insertCartItem(CartItem cartItem) {
+        get().useHandle(h -> {
+            h.createUpdate("INSERT INTO cart_items (customer_id, product_id, quantity, created_at, updated_at) VALUES (:customerId, :productId, :quantity, NOW(), NOW())")
+                    .bindBean(cartItem)
+                    .execute();
+        });
+    }
 
-    /// Tăng số lượng sản phẩm trong giỏ hàng
-    @SqlUpdate("Update cart_items " +
-            "Set quantity = quantity + :amount, updated_at = NOW() " +
-            "Where customer_id = :customerId And product_id = :productId")
-    boolean incrementQuantity(@Bind("customerId") int customerId, @Bind("productId") int productId, @Bind("amount") int amount);
+    public void updateCartItem(CartItem cartItem) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE cart_items SET quantity = :quantity, updated_at = NOW() WHERE id = :id")
+                    .bindBean(cartItem)
+                    .execute();
+        });
+    }
 
-    /// Giảm số lượng sản phẩm trong giỏ hàng
-    @SqlUpdate("Update cart_items " +
-            "Set quantity = quantity - : amount, updated_at = NOW() " +
-            "Where customer_id = :customerId And product_id = :productId And quantity > :amount")
-    boolean decrementQuantity(@Bind("customerId") int customerId, @Bind("productId") int productId, @Bind("amount") int amount);
+    public void updateQuantity(int customerId, int productId, int quantity) {
+        get().useHandle(h -> {
+            h. createUpdate("UPDATE cart_items SET quantity = :quantity, updated_at = NOW() WHERE customer_id = :customerId AND product_id = :productId")
+                    .bind("customerId", customerId)
+                    .bind("productId", productId)
+                    .bind("quantity", quantity)
+                    .execute();
+        });
+    }
 
-    /// Xóa sản phẩm khỏi giỏ hàng theo customer_id và product_id
-    @SqlUpdate("Delete From cart_items " +
-            "Where customer_id = : customerId And product_id = :productId")
-    boolean deleteByCustomerIdAndProductId(@Bind("customerId") int customerId, @Bind("productId") int productId);
+    public void incrementQuantity(int customerId, int productId, int amount) {
+        get().useHandle(h -> {
+            h. createUpdate("UPDATE cart_items SET quantity = quantity + :amount, updated_at = NOW() WHERE customer_id = :customerId AND product_id = :productId")
+                    .bind("customerId", customerId)
+                    .bind("productId", productId)
+                    .bind("amount", amount)
+                    .execute();
+        });
+    }
 
-    /// Xóa toàn bộ giỏ hàng của khách hàng - khi checkout xong
-    @SqlUpdate("Delete From cart_items Where customer_id = : customerId")
-    boolean clearCart(@Bind("customerId") int customerId);
+    public void decrementQuantity(int customerId, int productId, int amount) {
+        get().useHandle(h -> {
+            h.createUpdate("UPDATE cart_items SET quantity = quantity - :amount, updated_at = NOW() WHERE customer_id = :customerId AND product_id = :productId AND quantity > :amount")
+                    .bind("customerId", customerId)
+                    .bind("productId", productId)
+                    .bind("amount", amount)
+                    .execute();
+        });
+    }
 
-    /// Đếm số loại sản phẩm trong giỏ hàng
-    @SqlQuery("Select Count(id) " +
-            "From cart_items " +
-            "Where customer_id = :customerId")
-    int countItemsByCustomerId(@Bind("customerId") int customerId);
+    public void deleteCartItem(int id) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM cart_items WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
 
-    /// Tính tổng số lượng sản phẩm trong giỏ hàng
-    @SqlQuery("Select Coalesce(Sum(quantity), 0) " +
-            "From cart_items " +
-            "Where customer_id = :customerId")
-    int getTotalQuantityByCustomerId(@Bind("customerId") int customerId);
+    public void deleteByCustomerIdAndProductId(int customerId, int productId) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM cart_items WHERE customer_id = :customerId AND product_id = :productId")
+                    .bind("customerId", customerId)
+                    .bind("productId", productId)
+                    .execute();
+        });
+    }
 
-    /// Lấy giỏ hàng kèm thông tin sản phẩm - JOIN với bảng products
-    @SqlQuery("Select ci.id, ci. customer_id, ci. product_id, ci.quantity, " +
-            "ci.created_at, ci. updated_at, " +
-            "p.name as product_name, p.price as product_price, p.image_url as product_image " +
-            "From cart_items ci " +
-            "Join products p On ci.product_id = p.id " +
-            "Where ci.customer_id = :customerId " +
-            "Order by ci.created_at Desc")
-    List<CartItem> getCartWithProductInfo(@Bind("customerId") int customerId);
+    public void clearCart(int customerId) {
+        get().useHandle(h -> {
+            h.createUpdate("DELETE FROM cart_items WHERE customer_id = :customerId")
+                    .bind("customerId", customerId)
+                    .execute();
+        });
+    }
 
-    /// Tính tổng tiền giỏ hàng - JOIN với bảng products
-    @SqlQuery("Select Coalesce(Sum(ci.quantity * p.price), 0) " +
-            "From cart_items ci " +
-            "Join products p On ci.product_id = p.id " +
-            "Where ci.customer_id = :customerId")
-    double getCartTotal(@Bind("customerId") int customerId);
+    public int countItemsByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) FROM cart_items WHERE customer_id = :customerId")
+                        .bind("customerId", customerId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
 
-    /// Xóa các cart items có sản phẩm không còn tồn tại
-    @SqlUpdate("Delete From cart_items " +
-            "Where product_id Not In (Select id From products)")
-    int removeInvalidItems();
+    public int getTotalQuantityByCustomerId(int customerId) {
+        Integer total = get().withHandle(h ->
+                h.createQuery("SELECT COALESCE(SUM(quantity), 0) FROM cart_items WHERE customer_id = :customerId")
+                        .bind("customerId", customerId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+        return total != null ? total : 0;
+    }
 
-    /// Xóa các cart items đã quá hạn - ví dụ sau 30 ngày không hoạt động
-    @SqlUpdate("Delete From cart_items " +
-            "Where updated_at < Date_sub(NOW(), Interval : days Day)")
-    int removeExpiredItems(@Bind("days") int days);
+    public boolean isCartEmpty(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(id) = 0 FROM cart_items WHERE customer_id = :customerId")
+                        .bind("customerId", customerId)
+                        .mapTo(Boolean.class)
+                        .one()
+        );
+    }
 
-    /// Kiểm tra giỏ hàng có trống không
-    @SqlQuery("Select Count(id) = 0 " +
-            "From cart_items " +
-            "Where customer_id = :customerId")
-    boolean isCartEmpty(@Bind("customerId") int customerId);
+    public static void main(String[] args) {
+        CartItemDAO dao = new CartItemDAO();
+        System.out.println("=== INSERT DUMMY DATA ===");
+        List<CartItem> items = dao.getListCartItem();
+        dao.insert(items);
+        System.out.println("✅ Inserted " + items.size() + " cart items");
+
+        System. out.println("\n=== GET BY CUSTOMER ID 1 ===");
+        dao.getByCustomerId(1).forEach(System.out::println);
+    }
 }
