@@ -3,7 +3,7 @@ package com.shop.model;
 import java.sql.Timestamp;
 
 public class Brand {
-    private int brandId;
+    private int id;
     private String brandName;
     private String logoUrl;
     private Timestamp createdAt;
@@ -13,27 +13,28 @@ public class Brand {
     }
 
     // Constructor đầy đủ
-    public Brand(int brandId, String brandName, String logoUrl) {
-        this.brandId = brandId;
+    public Brand(int id, String brandName, String logoUrl) {
+        this.id = id;
         this.brandName = brandName;
         this.logoUrl = logoUrl;
     }
 
     // Constructor với timestamp
-    public Brand(int brandId, String brandName, String logoUrl, Timestamp createdAt) {
-        this.brandId = brandId;
+    public Brand(int id, String brandName, String logoUrl, Timestamp createdAt) {
+        this.id = id;
         this.brandName = brandName;
-        this. logoUrl = logoUrl;
+        this.logoUrl = logoUrl;
         this.createdAt = createdAt;
     }
 
     // Getters and Setters
-    public int getBrandId() {
-        return brandId;
+
+    public int getId() {
+        return id;
     }
 
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBrandName() {
@@ -63,7 +64,7 @@ public class Brand {
     @Override
     public String toString() {
         return "Brand{" +
-                "brandId=" + brandId +
+                "id=" + id +
                 ", brandName='" + brandName + '\'' +
                 ", logoUrl='" + logoUrl + '\'' +
                 ", createdAt=" + createdAt +

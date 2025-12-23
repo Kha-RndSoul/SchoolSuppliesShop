@@ -3,7 +3,7 @@ package com.shop.model;
 import java.sql.Timestamp;
 
 public class ProductImage {
-    private int imageId;
+    private int id;
     private int productId;
     private String imageUrl;
     private boolean isPrimary;
@@ -14,16 +14,16 @@ public class ProductImage {
     }
 
     // Constructor cơ bản
-    public ProductImage(int imageId, int productId, String imageUrl, boolean isPrimary) {
-        this.imageId = imageId;
+    public ProductImage(int id, int productId, String imageUrl, boolean isPrimary) {
+        this.id = id;
         this.productId = productId;
         this.imageUrl = imageUrl;
         this.isPrimary = isPrimary;
     }
 
     // Constructor đầy đủ
-    public ProductImage(int imageId, int productId, String imageUrl, boolean isPrimary, Timestamp createdAt) {
-        this.imageId = imageId;
+    public ProductImage(int id, int productId, String imageUrl, boolean isPrimary, Timestamp createdAt) {
+        this.id = id;
         this.productId = productId;
         this.imageUrl = imageUrl;
         this.isPrimary = isPrimary;
@@ -31,12 +31,13 @@ public class ProductImage {
     }
 
     // Getters and Setters
-    public int getImageId() {
-        return imageId;
+
+    public int getId() {
+        return id;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getProductId() {
@@ -74,7 +75,7 @@ public class ProductImage {
     @Override
     public String toString() {
         return "ProductImage{" +
-                "imageId=" + imageId +
+                "id=" + id +
                 ", productId=" + productId +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", isPrimary=" + isPrimary +

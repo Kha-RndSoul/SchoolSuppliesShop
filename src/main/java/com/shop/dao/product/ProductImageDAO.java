@@ -2,7 +2,6 @@ package com.shop.dao.product;
 
 import com.shop.dao.support.BaseDao;
 import com.shop.model.ProductImage;
-import org.jdbi.v3.core.statement.PreparedBatch;
 
 import java.util.*;
 
@@ -18,33 +17,23 @@ public class ProductImageDAO extends BaseDao {
     }
 
     public List<ProductImage> getListProductImage() {
-        return new ArrayList<>(data. values());
+        return new ArrayList<>(data.values());
     }
 
     public ProductImage getProductImage(int id) {
         return data.get(id);
     }
-
+// Lấy danh sách hình ảnh của một sản phẩm theo productId
     public List<ProductImage> getByProductId(int productId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT image_id, product_id, image_url, is_primary, created_at FROM product_images " +
+                                "SELECT id, product_id AS productId, image_url, is_primary, created_at FROM product_images " +
                                         "WHERE product_id = :productId ORDER BY is_primary DESC, created_at ASC"
                         )
                         .bind("productId", productId)
                         .mapToBean(ProductImage.class)
                         .list()
         );
-    }
-
-    public void insert(List<ProductImage> images) {
-        get().useHandle(h -> {
-            PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO product_images (image_id, product_id, image_url, is_primary) VALUES (:imageId, :productId, :imageUrl, :isPrimary)"
-            );
-            images.forEach(img -> batch.bindBean(img).add());
-            batch.execute();
-        });
     }
 
     public void insertImage(ProductImage image) {
@@ -57,7 +46,7 @@ public class ProductImageDAO extends BaseDao {
 
     public void updateImage(ProductImage image) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE product_images SET image_url = :imageUrl, is_primary = :isPrimary WHERE image_id = :imageId")
+            h.createUpdate("UPDATE product_images SET image_url = :imageUrl, is_primary = :isPrimary WHERE id = :id")
                     .bindBean(image)
                     .execute();
         });
@@ -65,7 +54,7 @@ public class ProductImageDAO extends BaseDao {
 
     public void togglePrimary(int id, boolean isPrimary) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE product_images SET is_primary = :isPrimary WHERE image_id = :id")
+            h.createUpdate("UPDATE product_images SET is_primary = :isPrimary WHERE id = :id")
                     .bind("id", id)
                     .bind("isPrimary", isPrimary)
                     .execute();
@@ -82,7 +71,7 @@ public class ProductImageDAO extends BaseDao {
 
     public void deleteImage(int id) {
         get().useHandle(h -> {
-            h.createUpdate("DELETE FROM product_images WHERE image_id = :id")
+            h.createUpdate("DELETE FROM product_images WHERE id = :id")
                     .bind("id", id)
                     .execute();
         });
@@ -90,7 +79,7 @@ public class ProductImageDAO extends BaseDao {
 
     public int countByProduct(int productId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(image_id) FROM product_images WHERE product_id = :productId")
+                h.createQuery("SELECT COUNT(id) FROM product_images WHERE product_id = :productId")
                         .bind("productId", productId)
                         .mapTo(Integer.class)
                         .one()
@@ -99,10 +88,10 @@ public class ProductImageDAO extends BaseDao {
 
     public static void main(String[] args) {
         ProductImageDAO dao = new ProductImageDAO();
-        System.out.println("=== INSERT DUMMY DATA ===");
+        System.out.println(" INSERT DUMMY DATA ");
         List<ProductImage> images = dao. getListProductImage();
-        dao.insert(images);
-        System.out.println("✅ Inserted " + images.size() + " product images");
+        dao.insertImage(images.get(0));
+        System.out.println(" Inserted " + images.size() + " product images");
 
         System.out.println("\n=== GET BY PRODUCT ID 1 ===");
         dao.getByProductId(1).forEach(System.out::println);

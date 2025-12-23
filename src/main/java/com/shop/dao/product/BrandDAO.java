@@ -23,37 +23,27 @@ public class BrandDAO extends BaseDao {
     }
 
     public Brand getBrand(int id) {
-        return data. get(id);
+        return data.get(id);
     }
-
+// Lấy tất cả brand từ DB
     public List<Brand> getList() {
         return get().withHandle(h ->
-                h. createQuery("SELECT brand_id, brand_name, logo_url, created_at FROM brands")
+                h.createQuery("SELECT id, brand_name AS brandName, logo_url AS logoUrl, created_at FROM brands")
                         .mapToBean(Brand.class)
                         .list()
         );
     }
-
+// Lấy brand theo ID
     public Brand getBrandById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT brand_id, brand_name, logo_url, created_at FROM brands WHERE brand_id = : id")
+                h.createQuery("SELECT id, brand_name AS brandName, logo_url AS logoUrl, created_at FROM brands WHERE id = : id")
                         .bind("id", id)
                         .mapToBean(Brand.class)
                         .findOne()
                         .orElse(null)
         );
     }
-
-    public void insert(List<Brand> brands) {
-        get().useHandle(h -> {
-            PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO brands (brand_id, brand_name, logo_url) VALUES (:brandId, :brandName, :logoUrl)"
-            );
-            brands. forEach(b -> batch.bindBean(b).add());
-            batch.execute();
-        });
-    }
-
+// Thêm thương hiệu
     public void insertBrand(Brand brand) {
         get().useHandle(h -> {
             h.createUpdate("INSERT INTO brands (brand_name, logo_url) VALUES (:brandName, :logoUrl)")
@@ -61,7 +51,7 @@ public class BrandDAO extends BaseDao {
                     .execute();
         });
     }
-
+// Cập nhập thương hiệu
     public void updateBrand(Brand brand) {
         get().useHandle(h -> {
             h.createUpdate("UPDATE brands SET brand_name = :brandName, logo_url = :logoUrl WHERE brand_id = :brandId")
@@ -69,27 +59,27 @@ public class BrandDAO extends BaseDao {
                     .execute();
         });
     }
-
+// Xóa thương hiệu
     public void deleteBrand(int id) {
         get().useHandle(h -> {
-            h.createUpdate("DELETE FROM brands WHERE brand_id = :id")
+            h.createUpdate("DELETE FROM brands WHERE id = :id")
                     .bind("id", id)
                     .execute();
         });
     }
-
+// Đếm số lượng thương hiệu
     public int count() {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(brand_id) FROM brands")
+                h.createQuery("SELECT COUNT(id) FROM brands")
                         .mapTo(Integer.class)
                         .one()
         );
     }
-
-    public int countProducts(int brandId) {
+// Đếm số lượng sản phẩm theo thương hiệu
+    public int countProducts(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(product_id) FROM products WHERE brand_id = :brandId")
-                        .bind("brandId", brandId)
+                h.createQuery("SELECT COUNT(id) FROM products WHERE id = :id")
+                        .bind("id", id)
                         .mapTo(Integer.class)
                         .one()
         );
@@ -99,7 +89,7 @@ public class BrandDAO extends BaseDao {
         BrandDAO dao = new BrandDAO();
         System.out.println(" Thêm DUMMY DATA ");
         List<Brand> brands = dao.getListBrand();
-        dao.insert(brands);
+        dao.insertBrand(brands.get(0));
         System.out.println(" Inserted " + brands.size() + " brands");
 
         System.out.println("Hiên thị tất cả brands từ DB:");

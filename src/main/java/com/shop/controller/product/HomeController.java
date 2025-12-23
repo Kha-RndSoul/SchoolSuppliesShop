@@ -3,15 +3,15 @@ package com.shop.controller.product;
 import com.shop.dao.product.CategoryDAO;
 import com.shop.dao.product.ProductDAO;
 import com.shop.dao.order.CouponDAO;
-import com.shop.dao.support.BannerDAO;
-import com.shop.model.*;
+import com. shop.dao.support.BannerDAO;
+import com. shop.model.*;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "HomeController", urlPatterns = {"", "/index", "/home"})
 public class HomeController extends HttpServlet {
@@ -34,37 +34,32 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            // 1. Lấy banners cho slider
+            // 1. Lấy banners
             List<Banner> listBan = bannerDAO.getActive();
             request.setAttribute("listBan", listBan);
 
-            // 2. Lấy tất cả categories cho navigation menu
+            // 2. Lấy categories
             List<Category> listCategory = categoryDAO.getList();
             request.setAttribute("listCategory", listCategory);
 
-            // 3. Lấy featured categories (top 4 cho section Danh Mục Nổi Bật)
-            List<Category> featuredCategories = listCategory.stream()
-                    .limit(4)
-                    .toList();
+            // 3. Featured categories
+            List<Category> featuredCategories = listCategory.stream().limit(4).toList();
             request.setAttribute("featuredCategories", featuredCategories);
 
-            // 4. Lấy sản phẩm bán chạy (top 10)
-            List<Product> bestSellingProducts = productDAO.getBestSellers(10);
-            request. setAttribute("bestSellingProducts", bestSellingProducts);
+            // 4. Best sellers - TRẢ VỀ Map<String, Object>
+            List<Map<String, Object>> bestSellingProducts = productDAO.getBestSellersWithImage(10);
+            request.setAttribute("bestSellingProducts", bestSellingProducts);
 
-            // 5. Lấy active coupons (top 4)
-            List<Coupon> activeCoupons = couponDAO.getActiveCoupons();
-            List<Coupon> topCoupons = activeCoupons.stream()
-                    . limit(4)
-                    . toList();
+            // 5. Active coupons
+            List<Coupon> activeCoupons = couponDAO. getActiveCoupons();
+            List<Coupon> topCoupons = activeCoupons.stream().limit(4).toList();
             request.setAttribute("topCoupons", topCoupons);
 
-            // Forward to index.jsp
             request.getRequestDispatcher("/index.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Có lỗi xảy ra khi tải trang chủ:  " + e.getMessage());
+            request.setAttribute("errorMessage", "Có lỗi xảy ra:  " + e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
