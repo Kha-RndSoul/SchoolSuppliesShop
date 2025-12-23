@@ -11,7 +11,7 @@ public class ContactMessageDAO extends BaseDao {
     static {
         data.put(1, new ContactMessage(1, 1, "Nguyễn Văn A", "customer1@email.com", "0901234567", "Hỏi về sản phẩm", "Sản phẩm balo có màu xanh không?", "NEW", null, "192.168.1.1",null,null));
         data.put(2, new ContactMessage(2, 2, "Trần Thị B", "customer2@email.com", "0912345678", "Vấn đề giao hàng", "Đơn hàng của tôi chưa nhận được", "PROCESSING", null, "192.168.1.2",null,null));
-        data.put(3, new ContactMessage(3, null, "Lê Văn C", "guest@email.com", "0923456789", "Yêu cầu hợp tác", "Tôi muốn trở thành đối tác", "NEW", null, "192.168.1.3",null,null));
+        data.put(3, new ContactMessage(3, 3, "Lê Văn C", "guest@email.com", "0923456789", "Yêu cầu hợp tác", "Tôi muốn trở thành đối tác", "NEW", null, "192.168.1.3",null,null));
     }
 
     public List<ContactMessage> getListContactMessage() {

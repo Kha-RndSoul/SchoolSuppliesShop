@@ -3,7 +3,7 @@ package com.shop.model;
 
 public class Banner {
 
-    private int bannerId;
+    private int id;
     private String title;
     private String imageUrl;
     private boolean status; // true = active, false = inactive
@@ -20,8 +20,8 @@ public class Banner {
         this.status = status;
     }
 
-    public Banner(int bannerId, String title, String imageUrl, boolean status) {
-        this.bannerId = bannerId;
+    public Banner(int id, String title, String imageUrl, boolean status) {
+        this.id = id;
         this. title = title;
         this. imageUrl = imageUrl;
         this.status = status;
@@ -30,11 +30,11 @@ public class Banner {
     // Getters and Setters
 
     public int getBannerId() {
-        return bannerId;
+        return id;
     }
 
     public void setBannerId(int bannerId) {
-        this.bannerId = bannerId;
+        this.id = id;
     }
 
     public String getTitle() {
@@ -70,7 +70,7 @@ public class Banner {
     @Override
     public String toString() {
         return "Banner{" +
-                "bannerId=" + bannerId +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", status=" + status +
