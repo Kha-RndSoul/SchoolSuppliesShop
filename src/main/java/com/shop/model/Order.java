@@ -2,7 +2,6 @@ package com.shop.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 public class Order {
     private int id;
     private int customerId;

@@ -3,7 +3,8 @@ package com.shop.dao.order;
 import com.shop.dao.support.BaseDao;
 import com.shop.model.OrderCoupon;
 import org.jdbi.v3.core.statement.PreparedBatch;
-
+import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class OrderCouponDAO extends BaseDao {
@@ -15,8 +16,6 @@ public class OrderCouponDAO extends BaseDao {
         data.put(1, new OrderCoupon(1, 1, 1, new BigDecimal("50000"), now));
         data.put(2, new OrderCoupon(2, 3, 2, new BigDecimal("50000"), now));
     }
-
-
 
     public List<OrderCoupon> getListOrderCoupon() {
         return new ArrayList<>(data.values());

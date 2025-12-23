@@ -13,7 +13,6 @@ public class OrderDetail {
     private BigDecimal subtotal;
     private Timestamp createdAt;
 
-
     public OrderDetail() {}
 
     public OrderDetail(int orderId, int productId, String productName,

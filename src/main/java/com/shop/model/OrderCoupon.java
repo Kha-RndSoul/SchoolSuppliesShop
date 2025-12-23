@@ -11,8 +11,6 @@ public class OrderCoupon {
     private BigDecimal discountAmount;
     private Timestamp createdAt;
 
-
-
     public OrderCoupon() { }
 
 

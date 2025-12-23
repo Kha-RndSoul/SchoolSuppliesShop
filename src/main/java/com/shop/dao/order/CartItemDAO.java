@@ -18,6 +18,7 @@ public class CartItemDAO extends BaseDao {
         data.put(4, new CartItem(4, 2, 4, 3, now, now));
         data.put(5, new CartItem(5, 3, 5, 2, now, now));
     }
+
     public List<CartItem> getListCartItem() {
         return new ArrayList<>(data.values());
     }

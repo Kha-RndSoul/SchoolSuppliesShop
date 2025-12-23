@@ -14,11 +14,8 @@ public class PaymentTransaction {
     private Timestamp paidAt;
     private Timestamp createdAt;
 
-
-
     public PaymentTransaction() {
     }
-
 
     public PaymentTransaction(int orderId, String paymentMethod, String paymentStatus,
                               BigDecimal amount, String transactionNote) {
