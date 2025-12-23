@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 public class Admin {
 
     // Fields matching database columns
-    private int adminId;
+    private int id;
     private String username;
     private String email;
-    private String password;
+    private String passwordHash;
     private String fullName;
     private String role; // SUPER_ADMIN, ADMIN, STAFF
     private boolean isActive;
@@ -22,10 +22,10 @@ public class Admin {
     /**
      * Constructor for creating new admin (without ID)
      */
-    public Admin(String username, String email, String password, String fullName, String role) {
+    public Admin(String username, String email, String passwordHash, String fullName, String role) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.fullName = fullName;
         this.role = role;
         this.isActive = true; // Default active
@@ -34,12 +34,12 @@ public class Admin {
     /**
      * Full constructor with all fields
      */
-    public Admin(int adminId, String username, String email, String password,
+    public Admin(int id, String username, String email, String passwordHash,
                  String fullName, String role, boolean isActive, Timestamp createdAt) {
-        this. adminId = adminId;
+        this. id = id;
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.fullName = fullName;
         this.role = role;
         this.isActive = isActive;
@@ -48,12 +48,12 @@ public class Admin {
 
     // Getters and Setters
 
-    public int getAdminId() {
-        return adminId;
+    public int getId() {
+        return id;
     }
 
-    public void setAdminId(int adminId) {
-        this. adminId = adminId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -73,11 +73,11 @@ public class Admin {
     }
 
     public String getPasswordHash() {
-        return password;
+        return passwordHash;
     }
 
     public void setPasswordHash(String passwordHash) {
-        this.password = passwordHash;
+        this.passwordHash = passwordHash;
     }
 
     public String getFullName() {
@@ -93,7 +93,7 @@ public class Admin {
     }
 
     public void setRole(String role) {
-        this. role = role;
+        this.role = role;
     }
 
     public boolean isActive() {
@@ -112,12 +112,13 @@ public class Admin {
         this.createdAt = createdAt;
     }
 
+
     // Utility methods
 
     @Override
     public String toString() {
         return "Admin{" +
-                "adminId=" + adminId +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +

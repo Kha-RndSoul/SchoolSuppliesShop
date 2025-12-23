@@ -9,9 +9,9 @@ import java.sql.Timestamp;
 public class Customer {
 
     // Fields matching database columns
-    private int customerId;
+    private int id;
     private String email;
-    private String password;
+    private String passwordHash;
     private String fullName;
     private String phone;
     private String address;
@@ -29,9 +29,9 @@ public class Customer {
     /**
      * Constructor for new customer registration (without ID)
      */
-    public Customer(String email, String password, String fullName, String phone, String address) {
+    public Customer(String email, String passwordHash, String fullName, String phone, String address) {
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.fullName = fullName;
         this.phone = phone;
         this.address = address;
@@ -40,11 +40,11 @@ public class Customer {
     /**
      * Full constructor with all fields
      */
-    public Customer(int customerId, String email, String password, String fullName,
+    public Customer(int id, String email, String passwordHash, String fullName,
                     String phone, String address, Timestamp createdAt, Timestamp updatedAt) {
-        this.customerId = customerId;
+        this.id = id;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.fullName = fullName;
         this. phone = phone;
         this. address = address;
@@ -54,12 +54,12 @@ public class Customer {
 
     // Getters and Setters
 
-    public int getCustomerId() {
-        return customerId;
+    public int getId() {
+        return id;
     }
 
-    public void setCustomerId(int customerId) {
-        this. customerId = customerId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -70,12 +70,12 @@ public class Customer {
         this.email = email;
     }
 
-    public String getpassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setpassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getFullName() {
@@ -99,7 +99,7 @@ public class Customer {
     }
 
     public void setAddress(String address) {
-        this. address = address;
+        this.address = address;
     }
 
     public Timestamp getCreatedAt() {
@@ -118,12 +118,13 @@ public class Customer {
         this.updatedAt = updatedAt;
     }
 
+
     // Utility methods
 
     @Override
     public String toString() {
         return "Customer{" +
-                "customerId=" + customerId +
+                "id=" + id +
                 ", email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", phone='" + phone + '\'' +

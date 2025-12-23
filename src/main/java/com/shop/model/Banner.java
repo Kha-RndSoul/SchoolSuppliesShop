@@ -3,7 +3,7 @@ package com.shop.model;
 
 public class Banner {
 
-    private int bannerId;
+    private int id;
     private String title;
     private String imageUrl;
     private boolean status; // true = active, false = inactive
@@ -20,8 +20,8 @@ public class Banner {
         this.status = status;
     }
 
-    public Banner(int bannerId, String title, String imageUrl, boolean status) {
-        this.bannerId = bannerId;
+    public Banner(int id, String title, String imageUrl, boolean status) {
+        this.id = id;
         this. title = title;
         this. imageUrl = imageUrl;
         this.status = status;
@@ -29,12 +29,13 @@ public class Banner {
 
     // Getters and Setters
 
-    public int getBannerId() {
-        return bannerId;
+
+    public int getId() {
+        return id;
     }
 
-    public void setBannerId(int bannerId) {
-        this.bannerId = bannerId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -42,7 +43,7 @@ public class Banner {
     }
 
     public void setTitle(String title) {
-        this. title = title;
+        this.title = title;
     }
 
     public String getImageUrl() {
@@ -53,14 +54,13 @@ public class Banner {
         this.imageUrl = imageUrl;
     }
 
-    public boolean getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
     public void setStatus(boolean status) {
         this.status = status;
     }
-
 
     // Kiểm tra banner có đang hoạt động hay không
     public boolean isActive() {
@@ -70,7 +70,7 @@ public class Banner {
     @Override
     public String toString() {
         return "Banner{" +
-                "bannerId=" + bannerId +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", status=" + status +

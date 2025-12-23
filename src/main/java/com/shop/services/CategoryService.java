@@ -2,7 +2,6 @@ package com.shop.services;
 
 import com.shop.dao.product.CategoryDAO;
 import com. shop.model.Category;
-import com.shop.util.JdbiConnection;
 import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;

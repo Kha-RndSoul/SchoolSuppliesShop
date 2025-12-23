@@ -9,8 +9,8 @@ import java.sql.Timestamp;
 public class ContactMessage {
 
     // Fields matching database columns
-    private int messageId;
-    private Integer customerId; // Nullable - guest can send message
+    private int id;
+    private int customerId; // Nullable - guest can send message
     private String fullName;
     private String email;
     private String phone;
@@ -33,7 +33,7 @@ public class ContactMessage {
     /**
      * Constructor for new message from form (without ID)
      */
-    public ContactMessage(Integer customerId, String fullName, String email, String phone,
+    public ContactMessage(int customerId, String fullName, String email, String phone,
                           String subject, String message, String ipAddress) {
         this.customerId = customerId;
         this.fullName = fullName;
@@ -48,10 +48,10 @@ public class ContactMessage {
     /**
      * Full constructor with all fields
      */
-    public ContactMessage(int messageId, Integer customerId, String fullName, String email,
+    public ContactMessage(int id, int customerId, String fullName, String email,
                           String phone, String subject, String message, String status,
                           String adminReply, String ipAddress, Timestamp createdAt, Timestamp repliedAt) {
-        this.messageId = messageId;
+        this.id = id;
         this.customerId = customerId;
         this.fullName = fullName;
         this. email = email;
@@ -67,20 +67,20 @@ public class ContactMessage {
 
     // Getters and Setters
 
-    public int getMessageId() {
-        return messageId;
+    public int getId() {
+        return id;
     }
 
-    public void setMessageId(int messageId) {
-        this. messageId = messageId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Integer getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this. customerId = customerId;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getFullName() {
@@ -88,7 +88,7 @@ public class ContactMessage {
     }
 
     public void setFullName(String fullName) {
-        this. fullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -163,12 +163,13 @@ public class ContactMessage {
         this.repliedAt = repliedAt;
     }
 
+
     // Utility methods
 
     @Override
     public String toString() {
         return "ContactMessage{" +
-                "messageId=" + messageId +
+                "id=" + id +
                 ", customerId=" + customerId +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
