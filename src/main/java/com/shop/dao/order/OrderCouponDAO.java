@@ -163,12 +163,12 @@ public class OrderCouponDAO extends BaseDao {
 
     public static void main(String[] args) {
         OrderCouponDAO dao = new OrderCouponDAO();
-        System.out.println("=== INSERT DUMMY DATA ===");
+        System.out.println("INSERT DUMMY DATA");
         List<OrderCoupon> orderCoupons = dao.getListOrderCoupon();
         dao.insert(orderCoupons);
         System.out.println("Inserted " + orderCoupons.size() + " order coupons");
 
-        System.out.println("\n=== GET FROM DB ===");
+        System.out.println("\nGET FROM DB ");
         dao.getList().forEach(System.out::println);
     }
 }

@@ -5,7 +5,6 @@ import com. shop.model.PaymentTransaction;
 import org.jdbi.v3.core.statement.PreparedBatch;
 import java.sql.Timestamp;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class PaymentTransactionDAO extends BaseDao {
@@ -200,12 +199,12 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public static void main(String[] args) {
         PaymentTransactionDAO dao = new PaymentTransactionDAO();
-        System.out.println("=== INSERT DUMMY DATA ===");
+        System.out.println("INSERT DUMMY DATA");
         List<PaymentTransaction> transactions = dao.getListPaymentTransaction();
         dao.insert(transactions);
         System.out.println("Inserted " + transactions.size() + " payment transactions");
 
-        System.out.println("\n=== GET SUCCESS TRANSACTIONS ===");
+        System.out.println("\nGET SUCCESS TRANSACTIONS");
         dao.getByStatus("SUCCESS").forEach(System.out::println);
     }
 }

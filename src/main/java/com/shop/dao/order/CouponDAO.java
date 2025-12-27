@@ -150,12 +150,12 @@ public class CouponDAO extends BaseDao {
 
     public static void main(String[] args) {
         CouponDAO dao = new CouponDAO();
-        System.out.println("=== INSERT DUMMY DATA ===");
+        System.out.println("INSERT DUMMY DATA");
         List<Coupon> coupons = dao.getListCoupon();
         dao.insert(coupons);
         System.out.println("Inserted " + coupons.size() + " coupons");
 
-        System.out.println("\n=== GET ACTIVE COUPONS ===");
+        System.out.println("\nGET ACTIVE COUPONS ");
         dao.getActiveCoupons().forEach(System.out::println);
     }
 }

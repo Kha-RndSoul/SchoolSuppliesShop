@@ -186,12 +186,12 @@ public class CartItemDAO extends BaseDao {
 
     public static void main(String[] args) {
         CartItemDAO dao = new CartItemDAO();
-        System.out.println("=== INSERT DUMMY DATA ===");
+        System.out.println(" INSERT DUMMY DATA ");
         List<CartItem> items = dao.getListCartItem();
         dao.insert(items);
         System.out.println("Inserted " + items.size() + " cart items");
 
-        System. out.println("\n=== GET BY CUSTOMER ID 1 ===");
+        System. out.println("\n GET BY CUSTOMER ID 1");
         dao.getByCustomerId(1).forEach(System.out::println);
     }
 }
