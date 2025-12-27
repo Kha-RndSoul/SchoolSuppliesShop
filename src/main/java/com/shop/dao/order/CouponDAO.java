@@ -142,7 +142,7 @@ public class CouponDAO extends BaseDao {
 
     public int countActive() {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(id) FROM coupons WHERE is_active = true AND expiry_date >= CURDATE()")
+                h.createQuery("SELECT COUNT(id) FROM coupons WHERE is_active = true and expiry_date >= CURDATE()")
                         .mapTo(Integer.class)
                         .one()
         );
