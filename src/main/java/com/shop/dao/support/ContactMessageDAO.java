@@ -121,10 +121,18 @@ public class ContactMessageDAO extends BaseDao {
 
     public static void main(String[] args) {
         ContactMessageDAO dao = new ContactMessageDAO();
-        List<ContactMessage> messages = dao. getListContactMessage();
-        dao.insert(messages);
-        System.out.println(" Inserted " + messages.size() + " contact messages");
+        try {
+            // Test: Lấy tất cả contact messages
+            System.out.println("=== TEST 1: Lấy tất cả contact messages ===");
+            List<ContactMessage> allMessages = dao.getList();
+            System.out.println("Tổng số messages: " + allMessages.size());
+            allMessages.forEach(System.out::println);
 
-        dao.getByStatus("NEW").forEach(System.out::println);
+            System.out.println("\n✅ Kết nối database thành công!");
+
+        } catch (Exception e) {
+            System.out.println("\n❌ Lỗi kết nối database:");
+            e.printStackTrace();
+        }
     }
 }
