@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 public class Brand {
     private int id;
     private String brandName;
-    private String logoUrl;
     private Timestamp createdAt;
 
     // Constructor rỗng
@@ -13,17 +12,15 @@ public class Brand {
     }
 
     // Constructor đầy đủ
-    public Brand(int id, String brandName, String logoUrl) {
+    public Brand(int id, String brandName) {
         this.id = id;
         this.brandName = brandName;
-        this.logoUrl = logoUrl;
     }
 
     // Constructor với timestamp
-    public Brand(int id, String brandName, String logoUrl, Timestamp createdAt) {
+    public Brand(int id, String brandName, Timestamp createdAt) {
         this.id = id;
         this.brandName = brandName;
-        this.logoUrl = logoUrl;
         this.createdAt = createdAt;
     }
 
@@ -45,14 +42,6 @@ public class Brand {
         this.brandName = brandName;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
-
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -66,7 +55,6 @@ public class Brand {
         return "Brand{" +
                 "id=" + id +
                 ", brandName='" + brandName + '\'' +
-                ", logoUrl='" + logoUrl + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

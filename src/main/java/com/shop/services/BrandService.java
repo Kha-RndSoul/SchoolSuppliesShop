@@ -26,7 +26,6 @@ public class BrandService {
     public void createBrand(Brand brand) {
         if (brand == null) throw new IllegalArgumentException("Brand không được null");
         if (brand.getBrandName() == null || brand.getBrandName().trim().isEmpty()) throw new IllegalArgumentException("Tên thương hiệu không được rỗng");
-        if (brand.getLogoUrl() == null || brand.getLogoUrl().trim().isEmpty()) throw new IllegalArgumentException("URL logo không được rỗng");
         brandDAO.insertBrand(brand);
     }
 // Cập nhật thương hiệu
@@ -36,7 +35,6 @@ public class BrandService {
         Brand existing = brandDAO.getBrandById(brand.getId());
         if (existing == null) throw new IllegalArgumentException("Không tìm thấy thương hiệu với ID: " + brand.getId());
         if (brand.getBrandName() == null || brand.getBrandName().trim().isEmpty()) throw new IllegalArgumentException("Tên thương hiệu không được rỗng");
-        if (brand.getLogoUrl() == null || brand.getLogoUrl().trim().isEmpty()) throw new IllegalArgumentException("URL logo không được rỗng");
         brandDAO.updateBrand(brand);
     }
 // Xóa thương hiệu

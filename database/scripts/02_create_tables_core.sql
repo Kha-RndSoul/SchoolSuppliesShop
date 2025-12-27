@@ -13,7 +13,6 @@ CREATE TABLE categories (
 CREATE TABLE brands (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         brand_name VARCHAR(100) NOT NULL,
-                        logo_url VARCHAR(500),
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_brand_name (brand_name)
 );
