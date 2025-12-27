@@ -162,7 +162,7 @@ public class OrderDetailDAO extends BaseDao {
         System.out.println("=== INSERT DUMMY DATA ===");
         List<OrderDetail> details = dao.getListOrderDetail();
         dao.insert(details);
-        System.out.println("✅ Inserted " + details.size() + " order details");
+        System.out.println("Inserted " + details.size() + " order details");
 
         System.out. println("\n=== GET BY ORDER ID 1 ===");
         dao.getByOrderId(1).forEach(System.out::println);

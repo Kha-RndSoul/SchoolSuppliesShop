@@ -166,7 +166,7 @@ public class OrderCouponDAO extends BaseDao {
         System.out.println("=== INSERT DUMMY DATA ===");
         List<OrderCoupon> orderCoupons = dao.getListOrderCoupon();
         dao.insert(orderCoupons);
-        System.out.println("✅ Inserted " + orderCoupons.size() + " order coupons");
+        System.out.println("Inserted " + orderCoupons.size() + " order coupons");
 
         System.out.println("\n=== GET FROM DB ===");
         dao.getList().forEach(System.out::println);

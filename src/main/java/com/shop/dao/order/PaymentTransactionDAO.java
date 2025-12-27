@@ -203,7 +203,7 @@ public class PaymentTransactionDAO extends BaseDao {
         System.out.println("=== INSERT DUMMY DATA ===");
         List<PaymentTransaction> transactions = dao.getListPaymentTransaction();
         dao.insert(transactions);
-        System.out.println("✅ Inserted " + transactions.size() + " payment transactions");
+        System.out.println("Inserted " + transactions.size() + " payment transactions");
 
         System.out.println("\n=== GET SUCCESS TRANSACTIONS ===");
         dao.getByStatus("SUCCESS").forEach(System.out::println);
