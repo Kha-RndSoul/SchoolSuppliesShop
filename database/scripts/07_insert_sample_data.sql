@@ -1,4 +1,11 @@
 USE school_supplies_db;
+-- Chèn dữ liệu mẫu vào bảng contact_messages
+INSERT INTO contact_messages (id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at)
+VALUES
+    (1, 1, 'Nguyễn Văn A', 'customer1@email.com', '0901234567', 'Hỏi về sản phẩm', 'Sản phẩm balo có màu xanh không?', 'NEW', NULL, '192.168.1.1', NOW(), NULL),
+    (2, 2, 'Trần Thị B', 'customer2@email.com', '0912345678', 'Vấn đề giao hàng', 'Đơn hàng của tôi chưa nhận được', 'PROCESSING', NULL, '192.168.1.2', NOW(), NULL),
+    (3, 3, 'Lê Văn C', 'guest@email.com', '0923456789', 'Yêu cầu hợp tác', 'Tôi muốn trở thành đối tác', 'NEW', NULL, '192.168.1.3', NOW(), NULL)
+;
 -- Chèn dữ liệu mẫu vào bảng products
 INSERT INTO products (
     id,
@@ -12,84 +19,6 @@ INSERT INTO products (
     sold_count,
     is_active
 ) VALUES
-      (
-          1,
-          'Combo Bút chì gỗ Flexoffice',
-          'Nét đậm, lướt rất nhẹ nhàng trên bề mặt viết, dùng để đánh bóng các bức vẽ, đạt đến nhiều mức độ sáng tối khác nhau.',
-          1,
-          1,
-          60000.00,
-          48000.00,
-          12,
-          50,
-          'https://cdn.hstatic.net/products/1000230347/fo-gp009_xk_47ef83928c914bbaad101ed556a2340e.jpg',
-          TRUE
-      ),
-      (
-          2,
-          'Bút lông dầu Flexoffice',
-          'Màu mực đậm tươi, mực ra đều và liên tục, Độ bám dính của mực tốt trên các vật liệu:  Giấy, gỗ, da, nhựa, thủy tinh, kim loại, gốm.',
-          1,
-          1,
-          13000.00,
-          9000.00,
-          10,
-          30,
-          'https://cdn.hstatic.net/products/1000230347/fo-pm06_xk_88ba3eb9333848b4a320c854d2ed683a.jpg',
-          TRUE
-      ),
-      (
-          3,
-          'Bút gel Fasgel Thiên Long',
-          'Nét viết êm trơn, mực ra đều, liên tục. Ngòi bút cao cấp, sang trọng. Thiết kế tinh vi, nghệ thuật.',
-          1,
-          2,
-          7000.00,
-          6000.00,
-          20,
-          20,
-          'https://cdn.hstatic.net/products/1000230347/artboard_1_copy_dc035789d53b4ef48cc60a0f39eca851.jpg',
-          TRUE
-      ),
-      (
-          4,
-          'Combo Bút lông dầu Flexoffice',
-          'Màu mực đậm tươi, mực ra đều và liên tục, Độ bám dính của mực tốt trên các vật liệu:  Giấy, gỗ, da, nhựa, thủy tinh, kim loại, gốm.',
-          1,
-          1,
-          30000.00,
-          27000.00,
-          3,
-          10,
-          'https://cdn.hstatic.net/products/1000230347/fo-pm06_xk_e33fa07b6bd545fab5e2f01dfc1880db.jpg',
-          TRUE
-      ),
-      (
-          5,
-          'Combo Bút gel Fasgel Thiên Long',
-          'Bộ combo bút gel Fasgel với nhiều màu sắc, viết êm trơn, mực ra đều.',
-          1,
-          2,
-          21000.00,
-          18000.00,
-          3,
-          15,
-          'https://cdn.hstatic.net/products/1000230347/artboard_1_copy_dc035789d53b4ef48cc60a0f39eca851.jpg',
-          TRUE
-      ),
-      (
-          6,
-          'Bút chì gỗ Flexoffice',
-          'Nét đậm, lướt rất nhẹ nhàng trên bề mặt viết, dùng để đánh bóng các bức vẽ, đạt đến nhiều mức độ sáng tối khác nhau.',
-          1,
-          1,
-          5000.00,
-          4000.00,
-          50,
-          100,
-          'https://cdn.hstatic.net/products/1000230347/fo-gp009_xk_47ef83928c914bbaad101ed556a2340e.jpg',
-          TRUE
-      ),
       (81, 'Balo mẫu giáo khủng long tím Miti', 'Balo mẫu giáo khủng long tím kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 360, 36,TRUE),
       (82, 'Balo mẫu giáo phi hành gia Miti', 'Balo mẫu giáo phi hành gia kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 420, 69, TRUE),
       (83, 'Balo học sinh Miti01', 'Balo học sinh Miti cấp 1 xanh xám, kích thước 29 x 15 x 40 cm, 500gram', 4, 9, 350000.00, 300000.00, 458, 354, TRUE),
