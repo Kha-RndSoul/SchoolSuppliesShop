@@ -9,13 +9,13 @@ public class BrandDAO extends BaseDao {
 
     static Map<Integer, Brand> data = new HashMap<>();
     static {
-        data.put(1, new Brand(1, "Thiên Long", "/images/brands/thien-long.png"));
-        data.put(2, new Brand(2, "Bitis", "/images/brands/bitis.png"));
-        data.put(3, new Brand(3, "Campus", "/images/brands/campus. png"));
-        data.put(4, new Brand(4, "Điểm 10", "/images/brands/diem10.png"));
-        data.put(5, new Brand(5, "Hồng Hà", "/images/brands/hong-ha.png"));
-        data.put(6, new Brand(6, "Bizner", "/images/brands/bizner.png"));
-        data.put(7, new Brand(7, "Stabilo", "/images/brands/stabilo.png"));
+        data.put(1, new Brand(1, "Thiên Long"));
+        data.put(2, new Brand(2, "Bitis"));
+        data.put(3, new Brand(3, "Campus"));
+        data.put(4, new Brand(4, "Điểm 10"));
+        data.put(5, new Brand(5, "Hồng Hà"));
+        data.put(6, new Brand(6, "Bizner"));
+        data.put(7, new Brand(7, "Stabilo"));
     }
 
     public List<Brand> getListBrand() {
@@ -28,7 +28,7 @@ public class BrandDAO extends BaseDao {
 // Lấy tất cả brand từ DB
     public List<Brand> getList() {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, brand_name AS brandName, logo_url AS logoUrl, created_at FROM brands")
+                h.createQuery("SELECT id, brand_name AS brandName, created_at FROM brands")
                         .mapToBean(Brand.class)
                         .list()
         );
@@ -36,7 +36,7 @@ public class BrandDAO extends BaseDao {
 // Lấy brand theo ID
     public Brand getBrandById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, brand_name AS brandName, logo_url AS logoUrl, created_at FROM brands WHERE id = : id")
+                h.createQuery("SELECT id, brand_name AS brandName, created_at FROM brands WHERE id = : id")
                         .bind("id", id)
                         .mapToBean(Brand.class)
                         .findOne()
@@ -46,15 +46,23 @@ public class BrandDAO extends BaseDao {
 // Thêm thương hiệu
     public void insertBrand(Brand brand) {
         get().useHandle(h -> {
-            h.createUpdate("INSERT INTO brands (brand_name, logo_url) VALUES (:brandName, :logoUrl)")
+            h.createUpdate("INSERT INTO brands (brand_name) VALUES (:brandName)")
                     .bindBean(brand)
                     .execute();
+        });
+    }
+    // Thêm nhiều thương hiệu
+    public void insert(List<Brand> brands) {
+        get().useHandle(h -> {
+            PreparedBatch batch = h.prepareBatch("INSERT INTO brands (brand_name) VALUES (:brandName)");
+            brands.forEach(b -> batch.bindBean(b).add());
+            batch.execute();
         });
     }
 // Cập nhập thương hiệu
     public void updateBrand(Brand brand) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE brands SET brand_name = :brandName, logo_url = :logoUrl WHERE brand_id = :brandId")
+            h.createUpdate("UPDATE brands SET brand_name = :brandName WHERE brand_id = :brandId")
                     .bindBean(brand)
                     .execute();
         });

@@ -18,7 +18,7 @@ public class CategoryDAO extends BaseDao {
 
     public List<Category> getListCategory() { return new ArrayList<>(data.values()); }
     public Category getCategory(int id) { return data.get(id); }
-
+// Lấy tất cả category từ DB
     public List<Category> getList() {
         return get().withHandle(h ->
                 h.createQuery("SELECT id, category_name AS categoryName, image_url AS imageUrl, created_at AS createdAt FROM categories")
@@ -26,7 +26,7 @@ public class CategoryDAO extends BaseDao {
                         .list()
         );
     }
-
+// Lấy category theo ID
     public Category getCategoryById(int id) {
         return get().withHandle(h ->
                 h. createQuery("SELECT id, category_name AS categoryName, image_url AS imageUrl, created_at AS createdAt FROM categories WHERE id = :id")
@@ -36,7 +36,7 @@ public class CategoryDAO extends BaseDao {
                         . orElse(null)
         );
     }
-
+// Thêm nhiều category
     public void insert(List<Category> categories) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch("INSERT INTO categories (id, category_name, image_url) VALUES (:id, :categoryName, : imageUrl)");
@@ -44,7 +44,7 @@ public class CategoryDAO extends BaseDao {
             batch.execute();
         });
     }
-
+// Thêm category
     public void insertCategory(Category category) {
         get().useHandle(h -> h.createUpdate("INSERT INTO categories (category_name, image_url) VALUES (:categoryName, :imageUrl)")
                 .bindBean(category).execute());
