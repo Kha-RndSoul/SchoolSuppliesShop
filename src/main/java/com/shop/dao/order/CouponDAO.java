@@ -1,11 +1,12 @@
 package com.shop.dao.order;
 
 import com.shop.dao.support.BaseDao;
-import com. shop.model.Coupon;
+import com.shop.model.Coupon;
 import org.jdbi.v3.core.statement.PreparedBatch;
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.List;
 
 public class CouponDAO extends BaseDao {
 
@@ -16,7 +17,7 @@ public class CouponDAO extends BaseDao {
         data.put(1, new Coupon(1, "WELCOME10", "PERCENT", new BigDecimal("10"), new BigDecimal("0"), 100, 0, now, null, true, now));
         data.put(2, new Coupon(2, "SUMMER50K", "FIXED", new BigDecimal("50000"), new BigDecimal("200000"), 50, 0, now, null, true, now));
         data.put(3, new Coupon(3, "FREESHIP", "FIXED", new BigDecimal("30000"), new BigDecimal("100000"), 200, 0, now, null, true, now));
-    }    }
+    }
 
     public List<Coupon> getListCoupon() {
         return new ArrayList<>(data.values());
@@ -56,7 +57,7 @@ public class CouponDAO extends BaseDao {
 
     public boolean existsByCode(String code) {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(id) > 0 FROM coupons WHERE code = : code")
+                h.createQuery("SELECT COUNT(id) > 0 FROM coupons WHERE code = :code")
                         .bind("code", code)
                         .mapTo(Boolean.class)
                         .one()
@@ -71,12 +72,11 @@ public class CouponDAO extends BaseDao {
         );
     }
 
-
     public boolean isValidCoupon(String code) {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) > 0 FROM coupons WHERE code = :code AND is_active = true AND start_date <= CURDATE() AND expiry_date >= CURDATE() AND (max_uses IS NULL OR used_count < max_uses)")
                         .bind("code", code)
-                        .mapTo(Boolean. class)
+                        .mapTo(Boolean.class)
                         .one()
         );
     }
@@ -109,7 +109,7 @@ public class CouponDAO extends BaseDao {
 
     public void updateActiveStatus(int id, boolean isActive) {
         get().useHandle(h -> {
-            h. createUpdate("UPDATE coupons SET is_active = :isActive, updated_at = NOW() WHERE id = :id")
+            h.createUpdate("UPDATE coupons SET is_active = :isActive, updated_at = NOW() WHERE id = :id")
                     .bind("id", id)
                     .bind("isActive", isActive)
                     .execute();
@@ -134,15 +134,15 @@ public class CouponDAO extends BaseDao {
 
     public int countAll() {
         return get().withHandle(h ->
-                h. createQuery("SELECT COUNT(id) FROM coupons")
-                        .mapTo(Integer. class)
+                h.createQuery("SELECT COUNT(id) FROM coupons")
+                        .mapTo(Integer.class)
                         .one()
         );
     }
 
     public int countActive() {
         return get().withHandle(h ->
-                h. createQuery("SELECT COUNT(id) FROM coupons WHERE is_active = true AND expiry_date >= CURDATE()")
+                h.createQuery("SELECT COUNT(id) FROM coupons WHERE is_active = true AND expiry_date >= CURDATE()")
                         .mapTo(Integer.class)
                         .one()
         );
@@ -153,9 +153,9 @@ public class CouponDAO extends BaseDao {
         System.out.println("=== INSERT DUMMY DATA ===");
         List<Coupon> coupons = dao.getListCoupon();
         dao.insert(coupons);
-        System.out.println("✅ Inserted " + coupons. size() + " coupons");
+        System.out.println("Inserted " + coupons.size() + " coupons");
 
-        System.out. println("\n=== GET ACTIVE COUPONS ===");
+        System.out.println("\n=== GET ACTIVE COUPONS ===");
         dao.getActiveCoupons().forEach(System.out::println);
     }
 }

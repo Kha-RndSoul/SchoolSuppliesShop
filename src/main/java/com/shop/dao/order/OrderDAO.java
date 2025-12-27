@@ -169,7 +169,7 @@ public class OrderDAO extends BaseDao {
         System.out. println("=== INSERT DUMMY DATA ===");
         List<Order> orders = dao.getListOrder();
         dao.insert(orders);
-        System.out.println("✅ Inserted " + orders.size() + " orders");
+        System.out.println("Inserted " + orders.size() + " orders");
 
         System.out. println("\n=== GET BY STATUS PENDING ===");
         dao.getByStatus("PENDING").forEach(System.out::println);
