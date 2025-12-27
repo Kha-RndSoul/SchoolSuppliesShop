@@ -9,7 +9,7 @@ public class DBProperties {
     static {
         try {
             prop.load(DBProperties.class.getClassLoader()
-                    .getResourceAsStream("db. properties"));
+                    .getResourceAsStream("db.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

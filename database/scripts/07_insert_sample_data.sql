@@ -1,4 +1,18 @@
 USE school_supplies_db;
+
+-- Chèn dữ liệu mẫu vào bảng banners
+INSERT INTO banners (id, title, image_url, status)
+VALUES
+    (1, 'Cùng sáng tạo với WONDERLINE', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner1.png', TRUE),
+    (2, 'Tự tin học tốt cùng SCHOOLLINE', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner2.png', TRUE),
+    (3, 'Giấy in cao cấp, giá hời quá xịn', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner3.png', TRUE),
+    (4, 'Học cụ xinh-Rinh Deal xịn', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner4.png', TRUE),
+    (5, 'VIP AVAKIDS', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner5.png', TRUE),
+    (6, 'Trao quà tặng-Gửi yêu thương', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner6.png', TRUE),
+    (7, 'Tết Việt', 'D:\LTW\WebDDHT\Project_CK\SchoolSuppliesShop\src\main\webapp\assets\images\banners\banner7.png', TRUE)
+;
+
+
 -- Chèn dữ liệu mẫu vào bảng contact_messages
 INSERT INTO contact_messages (id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at)
 VALUES
