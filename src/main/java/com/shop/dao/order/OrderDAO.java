@@ -7,7 +7,6 @@ import org.jdbi.v3.core.statement.PreparedBatch;
 import java.math.BigDecimal;
 import java.util.*;
 import java.sql.Timestamp;
-import java.math.BigDecimal;
 public class OrderDAO extends BaseDao {
 
     static Map<Integer, Order> data = new HashMap<>();
@@ -166,12 +165,12 @@ public class OrderDAO extends BaseDao {
 
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
-        System.out. println("=== INSERT DUMMY DATA ===");
+        System.out. println("INSERT DUMMY DATA");
         List<Order> orders = dao.getListOrder();
         dao.insert(orders);
         System.out.println("Inserted " + orders.size() + " orders");
 
-        System.out. println("\n=== GET BY STATUS PENDING ===");
+        System.out. println("\nGET BY STATUS PENDING");
         dao.getByStatus("PENDING").forEach(System.out::println);
     }
 }
