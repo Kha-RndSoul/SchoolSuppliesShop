@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!-- 1. APPLICATION INFORMATION                 -->
+    <display-name>School Supplies Shop</display-name>
+    <description>
+        Website bán đồ dùng học tập - DPK Shop
+        Dự án cuối kỳ môn Lập trình Web
+    </description>
+
+    <!-- 2. CONTEXT PARAMETERS                      -->
+    <context-param>
+        <param-name>app.version</param-name>
+        <param-value>1.0.0</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>app.maintenance-mode</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+    <!-- 3. SESSION CONFIGURATION                   -->
+    <!-- Timeout:  30 phút -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <name>DPKSHOP_SESSION</name>
+            <http-only>true</http-only>
+            <secure>false</secure> <!-- true khi deploy production với HTTPS -->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!-- 4. WELCOME FILE LIST                       -->
+    <!-- Thứ tự ưu tiên khi truy cập root (/) -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- 5. ERROR PAGES                             -->
+    <!-- Error 404 - Not Found -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/error/404.jsp</location>
+    </error-page>
+
+    <!-- Error 500 - Internal Server Error -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/error/500.jsp</location>
+    </error-page>
+
+    <!-- Error 403 - Forbidden -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jsp/error/403.jsp</location>
+    </error-page>
+
+    <!-- Java Exception -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/jsp/error/error.jsp</location>
+    </error-page>
+
+</web-app>
