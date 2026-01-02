@@ -30,7 +30,7 @@ public class ProductReview {
                          String comment, boolean status, Timestamp createdAt) {
         this.id = id;
         this.productId = productId;
-        this. customerId = customerId;
+        this.customerId = customerId;
         this.rating = rating;
         this.comment = comment;
         this.status = status;

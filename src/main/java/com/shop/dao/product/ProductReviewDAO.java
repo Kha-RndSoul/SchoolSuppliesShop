@@ -35,7 +35,7 @@ public class ProductReviewDAO extends BaseDao {
 // Lấy đánh giá sản phẩm theo ID
     public ProductReview getReviewById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE id = : id")
+                h.createQuery("SELECT id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(ProductReview.class)
                         .findOne()
@@ -61,7 +61,7 @@ public class ProductReviewDAO extends BaseDao {
 // Lấy đánh giá sản phẩm theo productId
     public List<ProductReview> getByProductId(int productId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE product_id = : productId ORDER BY created_at DESC")
+                h.createQuery("SELECT id, product_id, customer_id, rating, comment, status, created_at FROM product_reviews WHERE product_id = :productId ORDER BY created_at DESC")
                         .bind("productId", productId)
                         .mapToBean(ProductReview.class)
                         .list()
@@ -79,7 +79,7 @@ public class ProductReviewDAO extends BaseDao {
 // Thêm đánh giá sản phẩm
     public void insertReview(ProductReview review) {
         get().useHandle(h -> {
-            h.createUpdate("INSERT INTO product_reviews (product_id, customer_id, rating, comment, status) VALUES (:productId, :customerId, : rating, :comment, :status)")
+            h.createUpdate("INSERT INTO product_reviews (product_id, customer_id, rating, comment, status) VALUES (:productId, :customerId, :rating, :comment, :status)")
                     .bindBean(review)
                     .execute();
         });
@@ -95,7 +95,7 @@ public class ProductReviewDAO extends BaseDao {
 // Cập nhập đánh giá sản phẩm
     public void updateReview(ProductReview review) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE product_reviews SET rating = :rating, comment = :comment, status = :status WHERE id = :id")
+            h.createUpdate("UPDATE product_reviews SET rating = :rating, comment = :comment, status =:status WHERE id = :id")
                     .bindBean(review)
                     .execute();
         });
@@ -103,7 +103,7 @@ public class ProductReviewDAO extends BaseDao {
 // Chuyển đổi trạng thái duyệt đánh giá
     public void toggleStatus(int id, boolean status) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE product_reviews SET status = :status WHERE id = :id")
+            h.createUpdate("UPDATE product_reviews SET status =:status WHERE id = :id")
                     .bind("id", id)
                     .bind("status", status)
                     .execute();
@@ -112,7 +112,7 @@ public class ProductReviewDAO extends BaseDao {
 // Xóa đánh giá sản phẩm
     public void deleteReview(int id) {
         get().useHandle(h -> {
-            h. createUpdate("DELETE FROM product_reviews WHERE id = :id")
+            h.createUpdate("DELETE FROM product_reviews WHERE id = :id")
                     .bind("id", id)
                     .execute();
         });
@@ -122,7 +122,7 @@ public class ProductReviewDAO extends BaseDao {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) FROM product_reviews WHERE product_id = :productId AND status = 1")
                         .bind("productId", productId)
-                        .mapTo(Integer. class)
+                        .mapTo(Integer.class)
                         .one()
         );
     }
@@ -130,7 +130,7 @@ public class ProductReviewDAO extends BaseDao {
     public int count() {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) FROM product_reviews")
-                        .mapTo(Integer. class)
+                        .mapTo(Integer.class)
                         .one()
         );
     }
@@ -138,7 +138,7 @@ public class ProductReviewDAO extends BaseDao {
     public int countPending() {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) FROM product_reviews WHERE status = 0")
-                        .mapTo(Integer. class)
+                        .mapTo(Integer.class)
                         .one()
         );
     }
@@ -146,7 +146,7 @@ public class ProductReviewDAO extends BaseDao {
     public int countApproved() {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) FROM product_reviews WHERE status = 1")
-                        .mapTo(Integer. class)
+                        .mapTo(Integer.class)
                         .one()
         );
     }

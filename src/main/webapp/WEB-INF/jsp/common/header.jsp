@@ -13,7 +13,7 @@
             <input type="text"
                    name="keyword"
                    placeholder="Tìm kiếm sản phẩm..."
-                   value="${param. keyword}">
+                   value="${param.keyword}">
             <button type="submit" class="search-button">🔍</button>
         </form>
 

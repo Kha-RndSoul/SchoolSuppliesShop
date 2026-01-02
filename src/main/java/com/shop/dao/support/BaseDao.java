@@ -1,10 +1,10 @@
 package com.shop.dao.support;
 import com.mysql.cj.jdbc.MysqlDataSource;
-import com. shop.util.DBProperties;  // ← Import từ util
+import com.shop.util.DBProperties;  // ← Import từ util
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
-import java.sql. SQLException;
+import java.sql.SQLException;
 public abstract class BaseDao {
     private static Jdbi jdbi;
 
@@ -33,7 +33,7 @@ public abstract class BaseDao {
             throw new RuntimeException(e);
         }
 
-        jdbi = Jdbi. create(src);
+        jdbi = Jdbi.create(src);
         jdbi.installPlugin(new SqlObjectPlugin());
     }
 

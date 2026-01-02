@@ -20,11 +20,11 @@ public class DBProperties {
     }
 
     public static String port() {
-        return prop. getProperty("db.port", "3307");
+        return prop.getProperty("db.port", "3307");
     }
 
     public static String username() {
-        return prop.getProperty("db. username", "root");
+        return prop.getProperty("db.username", "root");
     }
 
     public static String password() {

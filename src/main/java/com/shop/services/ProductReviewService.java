@@ -1,6 +1,6 @@
 package com.shop.services;
 
-import com.shop.dao. product.ProductReviewDAO;
+import com.shop.dao.product.ProductReviewDAO;
 import com.shop.model.ProductReview;
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class ProductReviewService {
     public void updateReview(ProductReview review) {
         if (review == null) throw new IllegalArgumentException("ProductReview không được null");
         if (review.getId() <= 0) throw new IllegalArgumentException("Review ID không hợp lệ");
-        ProductReview existing = productReviewDAO.getReviewById(review. getId());
+        ProductReview existing = productReviewDAO.getReviewById(review.getId());
         if (existing == null) throw new IllegalArgumentException("Không tìm thấy đánh giá với ID:  " + review.getId());
         if (review.getRating() < 1 || review.getRating() > 5) throw new IllegalArgumentException("Rating phải từ 1-5");
         productReviewDAO.updateReview(review);
@@ -84,5 +84,9 @@ public class ProductReviewService {
     public int getReviewCount(int productId) {
         if (productId <= 0) throw new IllegalArgumentException("Product ID không hợp lệ");
         return productReviewDAO.countByProduct(productId);
+    }
+    // Lấy đánh giá đã duyệt theo Product ID
+    public List<ProductReview> getByProductId(int productId) {
+        return productReviewDAO.getByProductId(productId);
     }
 }

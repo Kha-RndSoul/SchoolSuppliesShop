@@ -25,7 +25,7 @@ public class ProductDAO extends BaseDao {
         return get().withHandle(h ->
                 h.createQuery(
                                 "SELECT id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p. sold_count AS soldCount, p.is_active AS isActive, " +
+                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
                                         "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, c.category_name AS categoryName, " +
                                         "COALESCE(AVG(pr.rating), 0) AS averageRating, pi.image_url AS imageUrl " +
                                         "FROM products p " +
@@ -51,11 +51,11 @@ public class ProductDAO extends BaseDao {
                                         "FROM products p " +
                                         "LEFT JOIN brands b ON p.brand_id = b.id " +
                                         "LEFT JOIN categories c ON p.category_id = c.id " +
-                                        "LEFT JOIN product_reviews pr ON p.id = pr. product_id AND pr.status = 1 " +
+                                        "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
                                         "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
                                         "WHERE p.is_active = 1 " +
                                         "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url " +
-                                        "ORDER BY p.sold_count DESC LIMIT : limit"
+                                        "ORDER BY p.sold_count DESC LIMIT :limit"
                         )
                         .bind("limit", limit)
                         .mapToMap()
@@ -67,11 +67,11 @@ public class ProductDAO extends BaseDao {
         return get().withHandle(h ->
                 h.createQuery(
                                 "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p. sold_count AS soldCount, p.is_active AS isActive, " +
+                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
                                         "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, pi.image_url AS imageUrl " +
                                         "FROM products p " +
                                         "LEFT JOIN brands b ON p.brand_id = b.id " +
-                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi. is_primary = 1 " +
+                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
                                         "WHERE p.category_id = :categoryId AND p.is_active = 1"
                         )
                         .bind("categoryId", categoryId)
@@ -84,12 +84,12 @@ public class ProductDAO extends BaseDao {
         return get().withHandle(h ->
                 h.createQuery(
                                 "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p. stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
+                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
                                         "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, pi.image_url AS imageUrl " +
                                         "FROM products p " +
-                                        "LEFT JOIN brands b ON p. brand_id = b.id " +
+                                        "LEFT JOIN brands b ON p.brand_id = b.id " +
                                         "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE p.brand_id = :brandId AND p. is_active = 1"
+                                        "WHERE p.brand_id = :brandId AND p.is_active = 1"
                         )
                         .bind("brandId", brandId)
                         .mapToMap()
@@ -101,7 +101,7 @@ public class ProductDAO extends BaseDao {
         return get().withHandle(h ->
                 h.createQuery(
                                 "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p. price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p. sold_count AS soldCount, p.is_active AS isActive, " +
+                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
                                         "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, pi.image_url AS imageUrl " +
                                         "FROM products p " +
                                         "LEFT JOIN brands b ON p.brand_id = b.id " +
@@ -118,9 +118,9 @@ public class ProductDAO extends BaseDao {
     public Map<String, Object> getProductByIdWithImage(int id) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT p.id, p.product_name AS productName, p.description, p. category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p. is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p. updated_at AS updatedAt, b.brand_name AS brandName, c.category_name AS categoryName, pi.image_url AS imageUrl " +
+                                "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
+                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, c.category_name AS categoryName, pi.image_url AS imageUrl " +
                                         "FROM products p " +
                                         "LEFT JOIN brands b ON p.brand_id = b.id " +
                                         "LEFT JOIN categories c ON p.category_id = c.id " +
@@ -135,14 +135,14 @@ public class ProductDAO extends BaseDao {
 
     public void insert(List<Product> products) {
         get().useHandle(h -> {
-            PreparedBatch batch = h.prepareBatch("INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES (:id, :productName, :description, :categoryId, : brandId, :price, :salePrice, :stockQuantity, :soldCount, :isActive)");
+            PreparedBatch batch = h.prepareBatch("INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES (:id, :productName, :description, :categoryId, :brandId, :price, :salePrice, :stockQuantity, :soldCount, :isActive)");
             products.forEach(p -> batch.bindBean(p).add());
             batch.execute();
         });
     }
 
     public void insertProduct(Product product) {
-        get().useHandle(h -> h.createUpdate("INSERT INTO products (product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES (:productName, :description, :categoryId, :brandId, :price, : salePrice, :stockQuantity, :soldCount, :isActive)")
+        get().useHandle(h -> h.createUpdate("INSERT INTO products (product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES (:productName, :description, :categoryId, :brandId, :price, :salePrice, :stockQuantity, :soldCount, :isActive)")
                 .bindBean(product).execute());
     }
 
@@ -161,7 +161,7 @@ public class ProductDAO extends BaseDao {
     }
 
     public void decreaseStock(int id, int quantity) {
-        get().useHandle(h -> h.createUpdate("UPDATE products SET stock_quantity = stock_quantity - :quantity, sold_count = sold_count + : quantity WHERE id = :id")
+        get().useHandle(h -> h.createUpdate("UPDATE products SET stock_quantity = stock_quantity - :quantity, sold_count = sold_count + :quantity WHERE id = :id")
                 .bind("id", id).bind("quantity", quantity).execute());
     }
 

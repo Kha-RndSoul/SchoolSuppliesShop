@@ -40,7 +40,7 @@ public class ProductImageDAO extends BaseDao {
 // Thêm hình ảnh sản phẩm
     public void insertImage(ProductImage image) {
         get().useHandle(h -> {
-            h.createUpdate("INSERT INTO product_images (product_id, image_url, is_primary) VALUES (:productId, :imageUrl, : isPrimary)")
+            h.createUpdate("INSERT INTO product_images (product_id, image_url, is_primary) VALUES (:productId, :imageUrl, :isPrimary)")
                     .bindBean(image)
                     .execute();
         });
@@ -99,7 +99,7 @@ public class ProductImageDAO extends BaseDao {
     public static void main(String[] args) {
         ProductImageDAO dao = new ProductImageDAO();
         System.out.println(" INSERT DUMMY DATA ");
-        List<ProductImage> images = dao. getListProductImage();
+        List<ProductImage> images = dao.getListProductImage();
         dao.insertImage(images.get(0));
         System.out.println(" Inserted " + images.size() + " product images");
 
