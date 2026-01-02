@@ -1,65 +1,58 @@
 package com.shop.controller.product;
 
-import com.shop.dao.product.CategoryDAO;
-import com.shop.dao.product.ProductDAO;
-import com.shop.dao.order.CouponDAO;
-import com. shop.dao.support.BannerDAO;
-import com. shop.model.*;
-
-import jakarta.servlet.*;
+import com.shop.services.*;
+import com.shop.model.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(name = "HomeController", urlPatterns = {"", "/index", "/home"})
+@WebServlet(name = "HomeController", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
 
-    private BannerDAO bannerDAO;
-    private CategoryDAO categoryDAO;
-    private ProductDAO productDAO;
-    private CouponDAO couponDAO;
+    private BannerService bannerService;
+    private ProductService productService;
+    private CategoryService categoryService;
 
     @Override
     public void init() throws ServletException {
-        bannerDAO = new BannerDAO();
-        categoryDAO = new CategoryDAO();
-        productDAO = new ProductDAO();
-        couponDAO = new CouponDAO();
+        bannerService = new BannerService();
+        productService = new ProductService();
+        categoryService = new CategoryService();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
-            // 1. Lấy banners
-            List<Banner> listBan = bannerDAO.getActive();
-            request.setAttribute("listBan", listBan);
+            // Load banners
+            List<Banner> banners = bannerService.getActiveBanners();
+            request. setAttribute("listBan", banners);
 
-            // 2. Lấy categories
-            List<Category> listCategory = categoryDAO.getList();
-            request.setAttribute("listCategory", listCategory);
+            // Load categories
+            List<Category> allCategories = categoryService.getAllCategories();
+            request.setAttribute("listCategory", allCategories);
 
-            // 3. Featured categories
-            List<Category> featuredCategories = listCategory.stream().limit(4).toList();
+            List<Category> featuredCategories = allCategories.size() > 6
+                    ? allCategories.subList(0, 6)
+                    : allCategories;
             request.setAttribute("featuredCategories", featuredCategories);
 
-            // 4. Best sellers - TRẢ VỀ Map<String, Object>
-            List<Map<String, Object>> bestSellingProducts = productDAO.getBestSellersWithImage(10);
-            request.setAttribute("bestSellingProducts", bestSellingProducts);
+            // Load best sellers
+            List<Map<String, Object>> bestSellers = productService.getBestSellers(8);
+            request.setAttribute("bestSellingProducts", bestSellers);
 
-            // 5. Active coupons
-            List<Coupon> activeCoupons = couponDAO. getActiveCoupons();
-            List<Coupon> topCoupons = activeCoupons.stream().limit(4).toList();
+            // Load coupons (tạm thời empty)
+            List<Object> topCoupons = new ArrayList<>();
             request.setAttribute("topCoupons", topCoupons);
 
+            // Forward to index.jsp
             request.getRequestDispatcher("/index.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Có lỗi xảy ra:  " + e.getMessage());
+            request.setAttribute("errorMessage", "Lỗi khi tải trang chủ:  " + e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -72,16 +73,16 @@
                         <a href="${pageContext.request.contextPath}/products" class="btn-primary">Mua Ngay</a>
                     </div>
                 </div>
+            </c:forEach>
+
+            <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
+            <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
+
+            <div class="slider-controls">
+                <c:forEach var="banner" items="${listBan}" varStatus="status">
+                    <span class="slider-dot ${status.first ?  'active' : ''}" onclick="goToSlide(${status.index})"></span>
                 </c:forEach>
-
-                <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
-                <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
-
-                <div class="slider-controls">
-                    <c:forEach var="banner" items="${listBan}" varStatus="status">
-                        <span class="slider-dot ${status.first ?  'active' : ''}" onclick="goToSlide(${status.index})"></span>
-                    </c:forEach>
-                </div>
+            </div>
         </div>
     </section>
 
@@ -129,7 +130,7 @@
                                     <span class="product-price">
                                             <fmt:formatNumber value="${product.sale_price}" pattern="#,###"/>đ
                                         </span>
-                                    <span class="product-price-old">
+                                        <span class="product-price-old">
                                             <fmt:formatNumber value="${product.price}" pattern="#,###"/>đ
                                         </span>
                                     </c:when>
@@ -166,31 +167,31 @@
             </div>
             <div class="categories-grid">
                 <c:forEach var="coupon" items="${topCoupons}">
-                <div class="category-card">
-                    <div class="promo-visual">
-                        <img class="promo-icon" src="${pageContext.request.contextPath}/assets/images/icons/coupon-icon.png"
-                             onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                    <div class="category-card">
+                        <div class="promo-visual">
+                            <img class="promo-icon" src="${pageContext.request.contextPath}/assets/images/icons/coupon-icon.png"
+                                 onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                        </div>
+                        <div class="category-info">
+                            <h3>${coupon.code}</h3>
+                            <p>${coupon.description}</p>
+
+                            <c:choose>
+                                <c:when test="${coupon.discountType == 'PERCENT'}">
+                                    <p class="promo-detail">Giảm ${coupon.discountValue}%</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="promo-detail">Giảm <fmt:formatNumber value="${coupon.discountValue}" pattern="#,###"/>đ</p>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <p class="promo-usage">👥 <fmt:formatNumber value="${coupon.usedCount}" pattern="#,###"/> đã dùng</p>
+
+                            <button class="btn-primary" onclick="copyCouponCode('${coupon.code}')">
+                                🛒 Sử dụng ngay
+                            </button>
+                        </div>
                     </div>
-                    <div class="category-info">
-                        <h3>${coupon.code}</h3>
-                        <p>${coupon.description}</p>
-
-                        <c:choose>
-                            <c:when test="${coupon.discountType == 'PERCENT'}">
-                                <p class="promo-detail">Giảm ${coupon.discountValue}%</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p class="promo-detail">Giảm <fmt:formatNumber value="${coupon.discountValue}" pattern="#,###"/>đ</p>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <p class="promo-usage">👥 <fmt:formatNumber value="${coupon.usedCount}" pattern="#,###"/> đã dùng</p>
-
-                        <button class="btn-primary" onclick="copyCouponCode('${coupon.code}')">
-                            🛒 Sử dụng ngay
-                        </button>
-                    </div>
-                </div>
                 </c:forEach>
             </div>
             <a href="${pageContext.request.contextPath}/promotions" class="promo-view-all">Xem tất cả →</a>
@@ -247,3 +248,4 @@
 </script>
 </body>
 </html>
+
