@@ -24,11 +24,6 @@ public class ProductReviewService {
         if (productId <= 0) throw new IllegalArgumentException("Product ID không hợp lệ");
         return productReviewDAO.getByProductId(productId);
     }
-// Lấy đánh giá đã duyệt theo Product ID
-    public List<ProductReview> getApprovedReviewsByProductId(int productId) {
-        if (productId <= 0) throw new IllegalArgumentException("Product ID không hợp lệ");
-        return productReviewDAO.getApprovedByProductId(productId);
-    }
 // Lấy đánh giá theo Customer ID
     public List<ProductReview> getReviewsByCustomerId(int customerId) {
         if (customerId <= 0) throw new IllegalArgumentException("Customer ID không hợp lệ");

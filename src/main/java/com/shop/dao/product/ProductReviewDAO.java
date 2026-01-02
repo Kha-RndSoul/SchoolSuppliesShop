@@ -150,10 +150,20 @@ public class ProductReviewDAO extends BaseDao {
                         .one()
         );
     }
+    // Tính điểm đánh giá trung bình cho sản phẩm
+    public double getAverageRating(int productId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT AVG(rating) FROM product_reviews WHERE product_id = :productId AND status = 1")
+                        .bind("productId", productId)
+                        .mapTo(Double.class)
+                        .one()
+        );
+    }
     public static void main(String[] args) {
         ProductReviewDAO dao = new ProductReviewDAO();
         System.out.println(" INSERT DUMMY DATA ");
         System.out.println("\n GET FROM DB ");
         dao.getList().forEach(System.out::println);
     }
+
 }
