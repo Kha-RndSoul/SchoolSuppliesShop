@@ -1,106 +1,72 @@
-(() => {
-    const CART_KEY = 'cart';
-    const listEl = document.getElementById('list');
-    const emptyBlock = document.getElementById('emptyBlock');
-    const subTotalEl = document.getElementById('subTotal');
-    const demoBtn = document.getElementById('demoAdd');
-    const checkoutBtn = document.getElementById('checkoutBtn');
-
-    const fmt = n => (Number(n)||0).toLocaleString('vi-VN') + '₫';
-
-    // utils đơn giản
-    const load = () => {
-        try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
-        catch { return []; }
-    };
-    const save = arr => { localStorage.setItem(CART_KEY, JSON.stringify(arr)); };
-
-    const genId = (base='demo') => `${base}-${Date.now().toString(36)}-${Math.floor(Math.random()*9000+1000).toString(36)}`;
-
-    function render() {
-        const cart = load();
-        if (!cart.length) {
-            emptyBlock && (emptyBlock.hidden = false);
-            if (listEl) listEl.innerHTML = '';
-            if (subTotalEl) subTotalEl.textContent = fmt(0);
-            if (checkoutBtn) checkoutBtn.disabled = true;
-            return;
-        }
-        emptyBlock && (emptyBlock.hidden = true);
-        listEl.innerHTML = '';
-        cart.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'cart-item';
-            row.dataset.id = item.id;
-            row.innerHTML = `
-        <div class="item-left">
-          <div class="title">${item.name}</div>
-          <div class="price">${fmt(item.price)}</div>
-        </div>
-        <div class="item-right">
-          <div class="qty">
-            <button class="dec">-</button>
-            <span class="qty-val">${item.qty}</span>
-            <button class="inc">+</button>
-          </div>
-          <div class="line-total">${fmt(item.price * item.qty)}</div>
-          <button class="remove">X</button>
-        </div>
-      `;
-            row.querySelector('.inc').addEventListener('click', () => changeQty(item.id, +1));
-            row.querySelector('.dec').addEventListener('click', () => changeQty(item.id, -1));
-            row.querySelector('.remove').addEventListener('click', () => removeItem(item.id));
-            listEl.appendChild(row);
-        });
-
-        const subtotal = cart.reduce((s, it) => s + (Number(it.price)||0) * (Number(it.qty)||0), 0);
-        if (subTotalEl) subTotalEl.textContent = fmt(subtotal);
-        if (checkoutBtn) checkoutBtn.disabled = false;
+function updateQuantity(productId, change) {
+    if (!productId) {
+        console.error('Invalid productId');
+        return;
     }
 
-    function changeQty(id, delta) {
-        const cart = load();
-        const i = cart.findIndex(x => String(x.id) === String(id));
-        if (i === -1) return;
-        cart[i].qty = Math.max(1, (Number(cart[i].qty)||1) + delta);
-        save(cart);
-        render();
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `${getContextPath()}/cart`;
+
+    // Tạo hidden inputs
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'update';
+    form.appendChild(actionInput);
+
+    const productIdInput = document.createElement('input');
+    productIdInput.type = 'hidden';
+    productIdInput.name = 'productId';
+    productIdInput.value = productId;
+    form.appendChild(productIdInput);
+
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'hidden';
+    quantityInput.name = 'quantity';
+    quantityInput.value = change;  // Gửi change (+1 hoặc -1)
+    form.appendChild(quantityInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function removeItem(productId) {
+    if (!productId) {
+        console.error('Invalid productId');
+        return;
     }
 
-    function removeItem(id) {
-        const cart = load().filter(x => String(x.id) !== String(id));
-        save(cart);
-        render();
+    if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+        return;
     }
 
-    function addDemoItem() {
-        const id = genId('demo-pencil');
-        const item = { id, name: `Bút chì HB (demo)`, price: 12000, qty: 1 };
-        const cart = load();
-        cart.push(item); // mỗi lần push 1 dòng mới (id khác)
-        save(cart);
-        render();
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `${getContextPath()}/cart`;
+
+    // Tạo hidden inputs
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'remove';
+    form.appendChild(actionInput);
+
+    const productIdInput = document.createElement('input');
+    productIdInput.type = 'hidden';
+    productIdInput.name = 'productId';
+    productIdInput.value = productId;
+    form.appendChild(productIdInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Hàm helper lấy context path
+function getContextPath() {
+    let paths = location.pathname.split('/');
+    if (paths.length > 1 && paths[1]) {
+        return '/' + paths[1];
     }
-
-    // checkout button: chuyển sang checkout nếu có hàng
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            const cart = load();
-            if (!cart.length) {
-                alert('Giỏ hàng trống — không thể thanh toán.');
-                return;
-            }
-            // lưu canonical cart và chuyển trang
-            save(cart);
-            window.location.href = 'checkout.html';
-        });
-    }
-
-    demoBtn && demoBtn.addEventListener('click', addDemoItem);
-
-    // init
-    render();
-
-    // exposed for debug
-    window.appCart = { load, save, addDemoItem, render };
-})();
+    return '';
+}
