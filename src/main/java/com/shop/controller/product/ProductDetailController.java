@@ -3,7 +3,7 @@ package com.shop.controller.product;
 import com.shop.services.*;
 import com.shop.model.*;
 import jakarta.servlet.ServletException;
-import jakarta. servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
@@ -76,7 +76,7 @@ public class ProductDetailController extends HttpServlet {
             }
 
             // Forward to JSP
-            request.getRequestDispatcher("/product-detail. jsp").forward(request,response);
+            request.getRequestDispatcher("/product-detail.jsp").forward(request,response);
 
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage", "ID sản phẩm không hợp lệ");

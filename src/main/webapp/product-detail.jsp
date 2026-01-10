@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${product.product_name} - DPK Shop</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-common.css">
-    <link rel="stylesheet" href="${pageContext. request.contextPath}/assets/css/style-product-detail.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-product-detail.css">
 </head>
 <body>
 <header class="header">
@@ -17,7 +17,7 @@
         <a href="${pageContext.request.contextPath}/home" class="logo">
             <span>DPK Shop</span>
         </a>
-        <form action="${pageContext.request. contextPath}/products" method="GET" class="search-bar">
+        <form action="${pageContext.request.contextPath}/products" method="GET" class="search-bar">
             <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm...">
             <button type="submit" class="search-button">🔍</button>
         </form>
@@ -65,7 +65,7 @@
                         <c:if test="${productImages.size() > 1}">
                             <div class="image-thumbnails">
                                 <c:forEach var="img" items="${productImages}" varStatus="status">
-                                    <img src="${pageContext.request. contextPath}${img.imageUrl}"
+                                    <img src="${pageContext.request.contextPath}${img.imageUrl}"
                                          alt="Ảnh ${status.index + 1}"
                                          class="thumbnail ${status.first ? 'active' : ''}"
                                          onclick="changeImage('${pageContext.request.contextPath}${img.imageUrl}', this)">
@@ -102,8 +102,8 @@
 
                 <div class="detail-price-section">
                     <c:choose>
-                        <c:when test="${not empty product. sale_price && product.sale_price > 0}">
-                            <div class="detail-price"><fmt:formatNumber value="${product. sale_price}" pattern="#,###"/>₫</div>
+                        <c:when test="${not empty product.sale_price && product.sale_price > 0}">
+                            <div class="detail-price"><fmt:formatNumber value="${product.sale_price}" pattern="#,###"/>₫</div>
                             <div class="detail-old-price"><fmt:formatNumber value="${product.price}" pattern="#,###"/>₫</div>
                             <div class="detail-discount">-${discountPercent}%</div>
                         </c:when>
