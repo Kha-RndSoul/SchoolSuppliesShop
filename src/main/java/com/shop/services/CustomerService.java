@@ -2,18 +2,27 @@ package com.shop.services;
 
 import com.shop.dao.support.CustomerDAO;
 import com.shop.model.Customer;
+import com.shop.util.PasswordUtil;
 
 import java.util.List;
 
+/**
+ * Service class for Customer business logic
+ */
 public class CustomerService {
 
     private final CustomerDAO customerDAO;
 
+    /**
+     * Constructor - khởi tạo CustomerDAO
+     */
     public CustomerService() {
         this.customerDAO = new CustomerDAO();
     }
 
-    //Lấy danh sách tất cả khách hàng
+    /**
+     * Lấy danh sách tất cả khách hàng
+     */
     public List<Customer> getAllCustomers() {
         return customerDAO.getList();
     }
@@ -47,8 +56,12 @@ public class CustomerService {
 
     /**
      * Đăng ký khách hàng mới
+     * Hash password với BCrypt trước khi lưu
      */
     public void registerCustomer(Customer customer) {
+        System.out.println(" CustomerService.registerCustomer() called");
+
+        // Validation
         if (customer == null) {
             throw new IllegalArgumentException("Thông tin khách hàng không được null");
         }
@@ -71,40 +84,85 @@ public class CustomerService {
             throw new IllegalArgumentException("Email đã được sử dụng");
         }
 
+        // Hash password với BCrypt
+        System.out.println("→ Hashing password with BCrypt...");
+        String plainPassword = customer.getPasswordHash();
+        String hashedPassword = PasswordUtil.hashPassword(plainPassword);
+        customer.setPasswordHash(hashedPassword);
+        System.out.println(" Password hashed successfully");
+        System.out.println("   Plain password length: " + plainPassword.length() + " chars");
+        System.out.println("   Hashed password length: " + hashedPassword.length() + " chars");
+
         customerDAO.insertCustomer(customer);
+        System.out.println(" Customer registered successfully");
     }
 
     /**
-     * Thêm nhiều khách hàng cùng lúc
+     * Thêm nhiều khách hàng cùng lúc (batch insert)
      */
     public void createCustomers(List<Customer> customers) {
         if (customers == null || customers.isEmpty()) {
             throw new IllegalArgumentException("Danh sách khách hàng không được rỗng");
         }
-        customerDAO.insert(customers);
+        customerDAO.insertBatch(customers);
     }
 
     /**
      * Đăng nhập khách hàng
      */
-    public Customer login(String email, String passwordHash) {
+    public Customer login(String email, String plainPassword) {
+        System.out.println("================================");
+        System.out.println(" CustomerService.login() called");
+        System.out.println("   Email: " + email);
+        System.out.println("   Password length: " + (plainPassword != null ? plainPassword.length() + " chars" : "null"));
+
+        // Validation
         if (email == null || email.trim().isEmpty()) {
+            System.out.println(" Validation failed: Email is empty");
             throw new IllegalArgumentException("Email không được rỗng");
         }
-        if (passwordHash == null || passwordHash.trim().isEmpty()) {
+        if (plainPassword == null || plainPassword.trim().isEmpty()) {
+            System.out.println(" Validation failed: Password is empty");
             throw new IllegalArgumentException("Mật khẩu không được rỗng");
         }
 
-        Customer customer = customerDAO.login(email, passwordHash);
+        // Get customer by email
+        System.out.println("→ Looking up customer by email...");
+        Customer customer = customerDAO.getByEmail(email.trim());
+
         if (customer == null) {
+            System.out.println(" Customer not found with email: " + email);
             throw new IllegalArgumentException("Email hoặc mật khẩu không đúng");
         }
+
+        System.out.println(" Customer found:");
+        System.out.println("   ID: " + customer.getId());
+        System.out.println("   Name: " + customer.getFullName());
+        System.out.println("   Email: " + customer.getEmail());
+
+        // Get hashed password from database
+        String hashedPasswordFromDB = customer.getPasswordHash();
+        System.out.println("   Password hash from DB: " + hashedPasswordFromDB.substring(0, Math.min(20, hashedPasswordFromDB.length())) + "...");
+        System.out.println("   Hash length: " + hashedPasswordFromDB.length() + " chars");
+
+        // Verify password với BCrypt
+        System.out.println("→ Verifying password with BCrypt...");
+        boolean isPasswordCorrect = PasswordUtil.verifyPassword(plainPassword, hashedPasswordFromDB);
+
+        if (!isPasswordCorrect) {
+            System.out.println(" Password verification FAILED");
+            System.out.println("================================");
+            throw new IllegalArgumentException("Email hoặc mật khẩu không đúng");
+        }
+
+        System.out.println(" Password verification SUCCESSFUL");
+        System.out.println("================================");
 
         return customer;
     }
 
     /**
-     * Cập nhật thông tin khách hàng
+     * Cập nhật thông tin khách hàng (không update password)
      */
     public void updateCustomer(Customer customer) {
         if (customer == null) {
@@ -129,12 +187,21 @@ public class CustomerService {
     /**
      * Cập nhật mật khẩu khách hàng
      */
-    public void updatePassword(int id, String oldPasswordHash, String newPasswordHash) {
+    public void updatePassword(int id, String oldPassword, String newPassword) {
+        System.out.println(" CustomerService.updatePassword() called for customer ID: " + id);
+
+        // Validation
         if (id <= 0) {
             throw new IllegalArgumentException("ID khách hàng không hợp lệ");
         }
-        if (newPasswordHash == null || newPasswordHash.trim().isEmpty()) {
+        if (oldPassword == null || oldPassword.trim().isEmpty()) {
+            throw new IllegalArgumentException("Mật khẩu cũ không được rỗng");
+        }
+        if (newPassword == null || newPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("Mật khẩu mới không được rỗng");
+        }
+        if (newPassword.length() < 8) {
+            throw new IllegalArgumentException("Mật khẩu mới phải có ít nhất 8 ký tự");
         }
 
         Customer existingCustomer = customerDAO.getCustomerById(id);
@@ -142,23 +209,41 @@ public class CustomerService {
             throw new IllegalArgumentException("Không tìm thấy khách hàng với ID: " + id);
         }
 
-        // Kiểm tra mật khẩu cũ
-        if (!existingCustomer.getPasswordHash().equals(oldPasswordHash)) {
+        // Verify old password
+        System.out.println("→ Verifying old password...");
+        boolean isOldPasswordCorrect = PasswordUtil.verifyPassword(oldPassword, existingCustomer.getPasswordHash());
+
+        if (!isOldPasswordCorrect) {
+            System.out.println(" Old password verification failed");
             throw new IllegalArgumentException("Mật khẩu cũ không đúng");
         }
 
-        customerDAO.updatePassword(id, newPasswordHash);
+        System.out.println(" Old password verified");
+
+        // Hash new password
+        System.out.println("→ Hashing new password...");
+        String hashedNewPassword = PasswordUtil.hashPassword(newPassword);
+        System.out.println(" New password hashed");
+
+        customerDAO.updatePassword(id, hashedNewPassword);
+        System.out.println(" Password updated successfully");
     }
 
     /**
      * Đặt lại mật khẩu (không cần mật khẩu cũ - dùng cho admin hoặc quên mật khẩu)
      */
-    public void resetPassword(int id, String newPasswordHash) {
+    public void resetPassword(int id, String newPassword) {
+        System.out.println(" CustomerService.resetPassword() called for customer ID: " + id);
+
+        // Validation
         if (id <= 0) {
             throw new IllegalArgumentException("ID khách hàng không hợp lệ");
         }
-        if (newPasswordHash == null || newPasswordHash.trim().isEmpty()) {
+        if (newPassword == null || newPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("Mật khẩu mới không được rỗng");
+        }
+        if (newPassword.length() < 8) {
+            throw new IllegalArgumentException("Mật khẩu mới phải có ít nhất 8 ký tự");
         }
 
         Customer existingCustomer = customerDAO.getCustomerById(id);
@@ -166,7 +251,13 @@ public class CustomerService {
             throw new IllegalArgumentException("Không tìm thấy khách hàng với ID: " + id);
         }
 
-        customerDAO.updatePassword(id, newPasswordHash);
+        // Hash new password
+        System.out.println("→ Hashing new password...");
+        String hashedNewPassword = PasswordUtil.hashPassword(newPassword);
+        System.out.println(" New password hashed");
+
+        customerDAO.updatePassword(id, hashedNewPassword);
+        System.out.println(" Password reset successfully");
     }
 
     /**
@@ -212,9 +303,9 @@ public class CustomerService {
     /**
      * Xác thực thông tin đăng nhập
      */
-    public boolean validateLogin(String email, String passwordHash) {
+    public boolean validateLogin(String email, String plainPassword) {
         try {
-            Customer customer = login(email, passwordHash);
+            Customer customer = login(email, plainPassword);
             return customer != null;
         } catch (Exception e) {
             return false;

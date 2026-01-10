@@ -31,7 +31,7 @@
                     <span>Liên hệ</span>
                 </div>
             </a>
-            <a href="${pageContext.request.contextPath}/login.jsp" class="action-item">
+            <a href="${pageContext.request.contextPath}/WEB-INF/jsp/auth/login.jsp" class="action-item">
                 <div class="action-text">
                     <button class="user-button">👤</button>
                     <span>Đăng nhập</span>

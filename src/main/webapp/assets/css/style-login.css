@@ -97,6 +97,8 @@ main {
     font-weight: 600;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-primary {
@@ -167,3 +169,37 @@ main {
 .social-btn span {
     font-size: 1.2rem;
 }
+/* Alert Messages */
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom:  1.5rem;
+    font-size: 0.95rem;
+    line-height:  1.5;
+    font-weight: 500;
+}
+
+.alert-success {
+    background:  #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Checkbox styling */
+.helper-line label {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: normal;
+}
+
+.helper-line input[type="checkbox"] {
+    width: auto;
+    margin:  0;
+}
+
