@@ -13,7 +13,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background:  linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background:  #2563eb;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -32,7 +32,7 @@
         .error-code {
             font-size: 8rem;
             font-weight:  bold;
-            color: #667eea;
+            color: #2563eb;
             line-height: 1;
             margin-bottom: 1rem;
         }
@@ -62,21 +62,12 @@
             display: inline-block;
         }
         .btn-primary {
-            background: #667eea;
+            background: #2563eb;
             color:  white;
         }
         .btn-primary:hover {
-            background: #5568d3;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-        .btn-secondary:hover {
-            background: #e0e0e0;
-            transform:  translateY(-2px);
         }
         .icon {
             font-size: 4rem;
@@ -95,9 +86,6 @@
     <div class="error-actions">
         <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
             ← Về Trang Chủ
-        </a>
-        <a href="${pageContext.request.contextPath}/products" class="btn btn-secondary">
-            🔍 Xem Sản Phẩm
         </a>
     </div>
 </div>
