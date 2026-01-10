@@ -14,7 +14,7 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        System.out.println("✅ EncodingFilter initialized - Encoding: " + ENCODING);
+        System.out.println(" EncodingFilter initialized - Encoding: " + ENCODING);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class EncodingFilter implements Filter {
             throws IOException, ServletException {
 
         // Set request encoding (cho form data, parameters)
-        if (request. getCharacterEncoding() == null) {
+        if (request.getCharacterEncoding() == null) {
             request.setCharacterEncoding(ENCODING);
         }
 
@@ -35,6 +35,6 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out. println("❌ EncodingFilter destroyed");
+        System.out.println(" EncodingFilter destroyed");
     }
 }

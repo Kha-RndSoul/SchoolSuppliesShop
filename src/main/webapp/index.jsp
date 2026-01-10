@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -15,7 +14,7 @@
 
 <header class="header">
     <nav class="navbar">
-        <a href="${pageContext.request.contextPath}/index" class="logo">
+        <a href="${pageContext.request.contextPath}/" class="logo">
             <span>DPK Shop</span>
         </a>
 
@@ -67,7 +66,7 @@
         <div class="slider-container">
             <c:forEach var="banner" items="${listBan}" varStatus="status">
                 <div class="slide ${status.first ? 'active' : ''}"
-                     style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('${pageContext.request.contextPath}${banner.imageUrl}');">
+                     style="background-image:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('${pageContext.request.contextPath}${banner.imageUrl}');">
                     <div class="slide-content">
                         <h1>${banner.title}</h1>
                         <a href="${pageContext.request.contextPath}/products" class="btn-primary">Mua Ngay</a>
@@ -151,7 +150,7 @@
                                         </c:choose>
                                     </c:forEach>
                                 </span>
-                                <span>(<fmt:formatNumber value="${product.averageRating}" pattern="#. #"/>)</span>
+                                <span>(<fmt:formatNumber value="${product.averageRating}" pattern="#.#"/>)</span>
                             </div>
                         </div>
                     </a>
@@ -218,8 +217,8 @@
             <div class="footer-section">
                 <h3>Hỗ Trợ</h3>
                 <a href="${pageContext.request.contextPath}/guide.jsp">Hướng dẫn mua hàng</a>
-                <a href="${pageContext. request.contextPath}/return-policy.jsp">Chính sách đổi trả</a>
-                <a href="${pageContext. request.contextPath}/shipping.jsp">Vận chuyển</a>
+                <a href="${pageContext.request.contextPath}/return-policy.jsp">Chính sách đổi trả</a>
+                <a href="${pageContext.request.contextPath}/shipping.jsp">Vận chuyển</a>
                 <a href="${pageContext.request.contextPath}/payment.jsp">Thanh toán</a>
             </div>
             <div class="footer-section">
@@ -231,7 +230,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
+            <p>&copy; 2025 DPK Shop.Tất cả bản quyền được bảo lưu.</p>
         </div>
     </div>
 </footer>

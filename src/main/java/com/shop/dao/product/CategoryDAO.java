@@ -1,4 +1,4 @@
-package com.shop.dao. product;
+package com.shop.dao.product;
 
 import com.shop.dao.support.BaseDao;
 import com.shop.model.Category;
@@ -11,8 +11,8 @@ public class CategoryDAO extends BaseDao {
     static {
         data.put(1, new Category(1, "Vở & Sổ", "/images/categories/vo-so.jpg"));
         data.put(2, new Category(2, "Bút & Viết", "/images/categories/but-viet.jpg"));
-        data.put(3, new Category(3, "Balo & Túi", "/images/categories/balo. jpg"));
-        data.put(4, new Category(4, "Dụng cụ học tập", "/images/categories/dung-cu. jpg"));
+        data.put(3, new Category(3, "Balo & Túi", "/images/categories/balo.jpg"));
+        data.put(4, new Category(4, "Dụng cụ học tập", "/images/categories/dung-cu.jpg"));
         data.put(5, new Category(5, "Đồ dùng văn phòng", "/images/categories/van-phong.jpg"));
     }
 
@@ -29,17 +29,17 @@ public class CategoryDAO extends BaseDao {
 // Lấy category theo ID
     public Category getCategoryById(int id) {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, category_name AS categoryName, image_url AS imageUrl, created_at AS createdAt FROM categories WHERE id = :id")
+                h.createQuery("SELECT id, category_name AS categoryName, image_url AS imageUrl, created_at AS createdAt FROM categories WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(Category.class)
                         .findOne()
-                        . orElse(null)
+                        .orElse(null)
         );
     }
 // Thêm nhiều category
     public void insert(List<Category> categories) {
         get().useHandle(h -> {
-            PreparedBatch batch = h.prepareBatch("INSERT INTO categories (id, category_name, image_url) VALUES (:id, :categoryName, : imageUrl)");
+            PreparedBatch batch = h.prepareBatch("INSERT INTO categories (id, category_name, image_url) VALUES (:id, :categoryName, :imageUrl)");
             categories.forEach(c -> batch.bindBean(c).add());
             batch.execute();
         });
@@ -76,7 +76,7 @@ public class CategoryDAO extends BaseDao {
             System.out.println(" Hiện tại: " + count);
             if (count == 0) {
                 dao.insert(dao.getListCategory());
-                System.out. println(" Inserted " + dao.count());
+                System.out.println(" Inserted " + dao.count());
             }
             dao.getList().forEach(System.out:: println);
         } catch (Exception e) {

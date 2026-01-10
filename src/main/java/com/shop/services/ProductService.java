@@ -21,6 +21,11 @@ public class ProductService {
         if (limit <= 0) throw new IllegalArgumentException("Limit phải lớn hơn 0");
         return productDAO.getBestSellersWithImage(limit);
     }
+    // Lấy sản phẩm theo danh mục
+    public List<Map<String, Object>> getByCategory(int categoryId) {
+        if (categoryId <= 0) throw new IllegalArgumentException("Category ID không hợp lệ");
+        return productDAO.getByCategoryIdWithImage(categoryId);
+    }
 // Lấy sản phẩm theo thương hiệu
     public List<Map<String, Object>> getByBrand(int brandId) {
         if (brandId <= 0) throw new IllegalArgumentException("Brand ID không hợp lệ");
