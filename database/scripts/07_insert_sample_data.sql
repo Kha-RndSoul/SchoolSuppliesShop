@@ -68,86 +68,85 @@ INSERT INTO products (
     is_active
 ) VALUES
       --Insert sản phẩm của Dũng
-      (1, 'Bút gel Doraemon TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học. Thân bút bằng nhựa trắng đục, in transfer fllm hình nhân vật Doraemon rất thu hút. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục', 1, 1, 10000.00, 8000.00, 50, 100, TRUE),
-      (2, 'Bút gel B TL', 'Kiểu dáng hiện đại, dắt bút bằng kim loại sáng bóng sang trọng rất phù hợp với khách hàng là nhân viên văn phòng.', 1, 1, 13000.00, 11000.00, 40, 50, TRUE),
-      (3, 'Bút gel Fasgel TL', 'Nét viết êm tru,mực ra đều,liên tục.Ngòi bút cao cấp,sang trọng.Thiết Kế tinh vi,nghệ thuật', 1, 1, 7000.00, 6000.00, 2, 20, TRUE),
-      (4, 'Bút gel Yoyee TL', 'Bút viết mượt, nét đều, mực khô nhanh — lý tưởng cho học sinh, sinh viên và nhân viên văn phòng muốn chữ rõ ràng, không lem.', 1, 1, 6000.00, 5000.00, 9, 10, TRUE),
-      (5, 'Bút gel Demon Slayer TL', 'Đầu bút bền, viết êm, phù hợp học sinh đam mê truyện tranh demon slayer', 1, 1, 12000.00, 10000.00, 50, 80, TRUE),
-      (6, 'Bút gel 028 TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học. Thân bút bằng nhựa trong đục, in viền kim loại. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục.', 1, 1, 10000.00, 9000.00, 80, 200, TRUE),
-      (7, 'Bút chì Gỗ 2B TL', 'Thiết kế nhỏ gọn, cầm vừa tay, chất liệu gỗ bền đẹp, ruột chì khó gãy, dễ dàng gọt.', 1, 1, 4000.00, 3000.00, 12, 6, TRUE),
-      (8, 'Bút chì gỗ điểm 10', 'Khi sử dụng, ngòi không bị gãy vụn, ít hao, dễ xóa sạch bằng gôm, đặc biệt hạn chế làm bẩn tay và quần áo. Được thiết kế 1 đầu gôm tròn tiện lợi khi sử dụng, đầu gôm được bảo vệ bởi nắp nhựa trong giúp bạn cố định ngòi bút, bảo vệ đầu gôm không bị bẩn.', 1, 3, 5000.00, 4000.00, 500, 400, TRUE),
-      (9, 'Bút chì gỗ Neon CLK', 'Nét đậm, độ lướt siêu êm phù hợp với việc tô trắc nghiệm hay vẽ phác thảo.', 1, 7, 3000.00, 2000.00, 100, 50, TRUE),
-      (10, 'Bút chì gỗ HB Huvellou', 'Nét đậm, lướt rất nhẹ nhàng trên bề mặt giấy dùng để đánh bóng các bức vẽ, đạt đến nhiều mức độ sáng tối khác nhau.', 1, 7, 5000.00, 4000.00, 48, 100, TRUE),
-      (11, 'Vở 4 ô ly 48 trang Hồng Hà', 'Sản phẩm được sản xuất theo công nghệ mới, độ trắng tự nhiên, không gây lóa mắt, mỏi mắt khi đọc viết. Bìa vở thiết kế sinh động, phù hợp với lứa tuổi học sinh.', 2, 5, 8000.00, 7000.00, 100, 50, TRUE),
-      (12, 'Vở 4 ô ly 80 trang Hồng Hà', 'Sản phẩm được sản xuất theo công nghệ mới, độ trắng tự nhiên, không gây lóa mắt, mỏi mắt khi đọc viết. Bìa vở thiết kế sinh động, phù hợp với lứa tuổi học sinh.', 2, 5, 12000.00, 10000.00, 150, 70, TRUE),
-      (13, 'Vở 4 ô ly 48 trang Campus', 'Giấy mịn, viết êm tay, không thấm mực. Bìa vở được thiết kế trẻ trung, bắt mắt.', 2, 4, 10000.00, 9000.00, 200, 120, TRUE),
-      (14, 'Vở 4 ô ly 80 trang Campus', 'Giấy mịn, viết êm tay, không thấm mực. Bìa vở được thiết kế trẻ trung, bắt mắt.', 2, 4, 15000.00, 13000.00, 180, 90, TRUE),
-      (15, 'Vở 4 ô ly 48 trang Hải Tiến', 'Chất lượng giấy cao cấp, dòng kẻ rõ nét, giúp học sinh viết chữ đẹp hơn.', 2, 6, 7000.00, 6000.00, 120, 60, TRUE),
-      (16, 'Vở 4 ô ly 80 trang Hải Tiến', 'Chất lượng giấy cao cấp, dòng kẻ rõ nét, giúp học sinh viết chữ đẹp hơn.', 2, 6, 11000.00, 9000.00, 160, 80, TRUE),
-      (17, 'Sổ tay lò xo A5 Hồng Hà', 'Sổ tay tiện lợi, bìa cứng cáp, giấy trắng mịn, thích hợp ghi chép cá nhân hoặc công việc.', 2, 5, 20000.00, 18000.00, 50, 30, TRUE),
-      (18, 'Sổ tay lò xo A5 Campus', 'Thiết kế lò xo kép chắc chắn, giấy chất lượng cao, dễ dàng lật trang.', 2, 4, 25000.00, 22000.00, 60, 40, TRUE),
-      (19, 'Sổ tay lò xo A5 Hải Tiến', 'Sổ tay nhỏ gọn, bìa in hình đẹp mắt, giấy viết không lem.', 2, 6, 18000.00, 16000.00, 40, 20, TRUE),
-      (20, 'Bút Sáp màu 12 màu Doraemon CLK', 'Gồm có các màu thông dụng, mang đến sự tiện dụng cho các bé khi tô màu. Độ mịn cao, màu sắc tươi sáng, sinh động, an toàn cho bé.', 3, 7, 35000.00, 32000.00, 50, 30, TRUE),
-      (21, 'Bút Sáp màu 24 màu Doraemon CLK', 'Bộ sáp màu đa dạng, giúp bé thỏa sức sáng tạo. Màu sắc chuẩn, bền màu theo thời gian.', 3, 7, 65000.00, 60000.00, 40, 25, TRUE),
-      (22, 'Bút Sáp màu 12 màu Điểm 10', 'Màu sắc tươi sáng, tô êm, độ phủ màu tốt. An toàn cho sức khỏe người sử dụng.', 3, 3, 30000.00, 28000.00, 60, 40, TRUE),
-      (23, 'Bút Sáp màu 24 màu Điểm 10', 'Hộp sáp màu tiện dụng, màu sắc rực rỡ, giúp các bức tranh thêm phần sinh động.', 3, 3, 58000.00, 54000.00, 45, 35, TRUE),
-      (24, 'Màu nước 12 màu Thiên Long', 'Màu nước dạng hũ, dễ pha màu, độ loang màu tốt, thích hợp cho học sinh học vẽ.', 3, 1, 45000.00, 40000.00, 30, 15, TRUE),
-      (25, 'Màu nước 12 màu Colokit', 'Màu nước chất lượng cao, màu sắc tươi tắn, không độc hại. Kèm cọ vẽ tiện lợi.', 3, 7, 50000.00, 46000.00, 35, 20, TRUE),
-      (26, 'Balo học sinh Miti', 'Balo siêu nhẹ, chống gù lưng, chất liệu bền bỉ, nhiều ngăn chứa đồ tiện dụng.', 4, 9, 350000.00, 320000.00, 20, 10, TRUE),
-      (27, 'Balo học sinh Mr. Vui', 'Thiết kế thời trang, đệm lưng êm ái, quai đeo chắc chắn, phù hợp cho học sinh các cấp.', 4, 10, 380000.00, 350000.00, 15, 8, TRUE),
-      (28, 'Balo chống gù Miti', 'Công nghệ chống gù hiện đại, bảo vệ cột sống của trẻ. Họa tiết hoạt hình ngộ nghĩnh.', 4, 9, 450000.00, 410000.00, 12, 5, TRUE),
-      (29, 'Balo chống gù Mr. Vui', 'Chất liệu trượt nước, dễ dàng vệ sinh. Khóa kéo cao cấp, bền bỉ.', 4, 10, 480000.00, 440000.00, 10, 4, TRUE),
-      (30, 'Cặp táp học sinh Miti', 'Cặp táp truyền thống, form cứng cáp, bảo vệ sách vở không bị quăn góc.', 4, 9, 250000.00, 230000.00, 18, 9, TRUE),
-      (31, 'Cặp táp học sinh Mr. Vui', 'Cặp táp gọn nhẹ, có ngăn đựng laptop, phù hợp cho học sinh trung học.', 4, 10, 280000.00, 260000.00, 16, 7, TRUE),
-      (32, 'Máy tính cầm tay Casio FX-570VN Plus', 'Máy tính khoa học, hỗ trợ giải phương trình, bất phương trình, tích phân, thống kê...', 5, 12, 550000.00, 520000.00, 25, 100, TRUE),
-      (33, 'Máy tính cầm tay Casio FX-580VN X', 'Tốc độ xử lý nhanh, màn hình độ phân giải cao, hỗ trợ tiếng Việt, được phép mang vào phòng thi.', 5, 12, 750000.00, 710000.00, 30, 150, TRUE),
-      (34, 'Máy tính cầm tay Flexio', 'Thiết kế trẻ trung, màu sắc đa dạng, đầy đủ chức năng tính toán cơ bản và nâng cao.', 5, 11, 400000.00, 370000.00, 20, 40, TRUE),
-      (35, 'Máy tính để bàn Casio', 'Màn hình lớn, phím bấm êm, sử dụng năng lượng mặt trời và pin, thích hợp cho kế toán, văn phòng.', 5, 12, 300000.00, 280000.00, 15, 20, TRUE),
-      (36, 'Đèn học để bàn Rạng Đông', 'Ánh sáng trung thực, bảo vệ thị lực, không nhấp nháy, tiết kiệm điện năng.', 6, 13, 250000.00, 230000.00, 25, 60, TRUE),
-      (37, 'Đèn học để bàn Panasonic', 'Thiết kế hiện đại, điều chỉnh độ sáng linh hoạt, tuổi thọ bóng đèn cao.', 6, 14, 450000.00, 420000.00, 20, 40, TRUE),
-      (38, 'Đèn học kẹp bàn Rạng Đông', 'Tiết kiệm diện tích, cần đèn linh hoạt xoay nhiều góc độ.', 6, 13, 220000.00, 200000.00, 18, 30, TRUE),
-      (39, 'Đèn học chống cận Điện Quang', 'Chip LED cao cấp, ánh sáng dịu nhẹ, giảm mỏi mắt khi học tập và làm việc lâu.', 6, 13, 300000.00, 280000.00, 22, 50, TRUE),
-      (40, 'Giấy A4 Double A 70gsm', 'Giấy trắng, dày, bề mặt láng mịn, in 2 mặt không bị kẹt giấy.', 7, 15, 80000.00, 75000.00, 100, 200, TRUE),
-      (41, 'Giấy A4 Double A 80gsm', 'Định lượng cao, giấy cứng cáp, thích hợp in các văn bản quan trọng, hợp đồng.', 7, 15, 95000.00, 90000.00, 80, 150, TRUE),
-      (42, 'Giấy A4 IK Plus 70gsm', 'Độ trắng sáng cao, in sắc nét, thân thiện với môi trường.', 7, 16, 70000.00, 65000.00, 120, 180, TRUE),
-      (43, 'Giấy A4 Bãi Bằng', 'Sản phẩm Việt Nam chất lượng cao, giá thành hợp lý, phù hợp in ấn tài liệu thông thường.', 7, 5, 60000.00, 55000.00, 150, 220, TRUE),
-      (44, 'Thước kẻ 20cm Thiên Long', 'Nhựa trong suốt, vạch chia rõ ràng, độ chính xác cao.', 8, 1, 5000.00, 4000.00, 200, 100, TRUE),
-      (45, 'Thước kẻ 30cm Thiên Long', 'Dài 30cm, nhựa dẻo, khó gãy, tiện dụng cho học sinh, sinh viên.', 8, 1, 7000.00, 6000.00, 150, 80, TRUE),
-      (46, 'Bộ compa chì kim Deli', 'Thiết kế chắc chắn, quay êm, đi kèm hộp ngòi chì kim thay thế.', 8, 8, 25000.00, 22000.00, 40, 20, TRUE),
-      (47, 'Gôm tẩy Thiên Long', 'Tẩy sạch, không làm rách giấy, ít tạo bụi gôm.', 8, 1, 3000.00, 2000.00, 300, 150, TRUE),
-      (48, 'Gôm tẩy Pentel', 'Chất lượng Nhật Bản, tẩy siêu sạch, gôm mềm, không bị cứng theo thời gian.', 8, 1, 8000.00, 7000.00, 100, 80, TRUE),
-      (49, 'Bút máy điểm 10 FT-02 Plus', 'Ngòi mài nông FPN-06 bằng thép không rỉ, siêu bền, nét viết trơn, êm, mượt mà, mực ra đều và liên tục.', 1, 3, 20000.00, 18000.00, 120, 20, TRUE),
-      (50, 'Bút máy chuyên luyện chữ đẹp điểm 10', 'Ngòi mài nông FPN-06 bằng thép không rỉ, siêu bền, nét viết trơn, êm, mượt mà, mực ra đều và liên tục.', 1, 3, 20000.00, 18000.00, 120, 20, TRUE),
-      (51, 'Bút máy điểm 10 FT-03', 'Bút máy bơm mực, ngòi mài nông, viết trơn, phù hợp cho học sinh tiểu học luyện chữ.', 1, 3, 22000.00, 20000.00, 100, 40, TRUE),
-      (52, 'Bút máy điểm 10 FT-04', 'Thiết kế thân bút nhỏ gọn, dễ cầm, màu sắc bắt mắt, ngòi bút bền bỉ.', 1, 3, 25000.00, 23000.00, 90, 35, TRUE),
-      (53, 'Bút lông bảng Thiên Long WB-03', 'Bút viết bảng trắng, mực đậm, dễ xóa, không để lại vết mờ trên bảng.', 1, 1, 8000.00, 7000.00, 200, 300, TRUE),
-      (54, 'Bút lông bảng Thiên Long WB-02', 'Đầu bút tròn, nét viết to rõ, mực bơm được, tiết kiệm chi phí.', 1, 1, 10000.00, 9000.00, 180, 250, TRUE),
-      (55, 'Bút lông dầu Thiên Long PM-09', 'Viết được trên nhiều bề mặt: giấy, gỗ, nhựa, kim loại... Mực không trôi, mau khô.', 1, 1, 9000.00, 8000.00, 150, 100, TRUE),
-      (56, 'Bút dạ quang Thiên Long HL-03', 'Màu sắc tươi sáng, làm nổi bật nội dung quan trọng, không làm lem chữ in.', 1, 1, 7000.00, 6000.00, 250, 400, TRUE),
-      (57, 'Bút dạ quang Flexoffice HL-06', 'Thiết kế 2 đầu tiện lợi, màu mực pastel dịu mắt, phù hợp trang trí sổ tay.', 1, 2, 12000.00, 10000.00, 100, 80, TRUE),
-      (58, 'Bìa còng 7cm Kingjim', 'Bìa còng bật, khổ A4, gáy 7cm, lưu trữ lượng lớn tài liệu văn phòng.', 2, 8, 45000.00, 42000.00, 50, 20, TRUE),
-      (59, 'Bìa lá A4 Thiên Long', 'Bìa nhựa trong, dẻo, bảo quản giấy tờ không bị nhăn, bẩn.', 2, 1, 3000.00, 2500.00, 500, 600, TRUE),
-      (60, 'Bìa nút A4 My Clear', 'Bìa nút bấm tiện lợi, nhựa PP bền đẹp, đựng vừa giấy A4.', 2, 1, 4000.00, 3500.00, 400, 550, TRUE),
-      (61, 'Kẹp bướm 19mm (Hộp 12 cái)', 'Kẹp giấy chắc chắn, chất liệu thép không gỉ, dùng kẹp tài liệu mỏng.', 2, 8, 5000.00, 4000.00, 100, 200, TRUE),
-      (62, 'Kẹp bướm 25mm (Hộp 12 cái)', 'Kích thước trung bình, kẹp được khoảng 80 tờ giấy, lực kẹp khỏe.', 2, 8, 8000.00, 7000.00, 100, 180, TRUE),
-      (63, 'Kim bấm số 10 Thiên Long', 'Kim bấm sắc nhọn, không bị gãy, dùng cho các loại bấm kim số 10 thông dụng.', 2, 1, 3000.00, 2000.00, 300, 400, TRUE),
-      (64, 'Bấm kim số 10 Thiên Long ST-02', 'Thiết kế nhỏ gọn, bấm nhẹ tay, độ bền cao, màu sắc đa dạng.', 2, 1, 18000.00, 16000.00, 80, 100, TRUE),
-      (65, 'Bấm kim số 10 Deli', 'Thân kim loại bọc nhựa, chịu lực tốt, bấm êm, lò xo đàn hồi tốt.', 2, 8, 20000.00, 18000.00, 70, 90, TRUE),
-      (66, 'Băng keo trong 2cm (Cây 10 cuộn)', 'Băng keo dán dính tốt, không bị đứt quãng, dùng dán thùng, gói quà.', 2, 1, 25000.00, 22000.00, 50, 60, TRUE),
-      (67, 'Hồ dán nước Thiên Long', 'Keo dán giấy dạng lỏng, đầu bôi trơn, dính tốt, không làm nhăn giấy.', 2, 1, 5000.00, 4000.00, 150, 200, TRUE),
-      (68, 'Dao rọc giấy Deli nhỏ', 'Lưỡi dao thép SK5 sắc bén, có khóa tự động, an toàn khi sử dụng.', 2, 8, 10000.00, 9000.00, 100, 80, TRUE),
-      (69, 'Dao rọc giấy Deli lớn', 'Cán dao chắc chắn, lưỡi to, dùng cắt bìa carton, rọc giấy dày.', 2, 8, 25000.00, 22000.00, 60, 40, TRUE),
-      (70, 'Kéo văn phòng Deli', 'Kéo thép không gỉ, tay cầm bọc nhựa êm ái, cắt giấy ngọt, bén.', 2, 8, 30000.00, 28000.00, 50, 70, TRUE),
-      (71, 'Bảng mica trắng treo tường 80x120', 'Mặt bảng từ tính, chống lóa, viền nhôm chắc chắn, dễ dàng lau sạch.', 2, 8, 350000.00, 320000.00, 10, 5, TRUE),
-      (72, 'Phấn viết bảng không bụi Thiên Long', 'Hộp 10 viên, phấn mịn, ít bụi, an toàn cho sức khỏe giáo viên và học sinh.', 2, 1, 5000.00, 4000.00, 200, 300, TRUE),
-      (73, 'Khay đựng tài liệu 3 ngăn Deli', 'Khay nhựa cứng, lắp ráp dễ dàng, giúp bàn làm việc gọn gàng, ngăn nắp.', 2, 8, 65000.00, 60000.00, 30, 20, TRUE),
-      (74, 'Hộp cắm bút để bàn Deli', 'Thiết kế nhiều ngăn, xoay 360 độ, đựng bút, thước, tẩy tiện lợi.', 2, 8, 45000.00, 40000.00, 40, 25, TRUE),
-      (75, 'Giấy note vàng 3x3 Pronoti', 'Giấy ghi chú có keo dính, màu vàng nổi bật, nhắc nhở công việc hiệu quả.', 7, 15, 8000.00, 7000.00, 120, 150, TRUE),
-      (76, 'Giấy note 5 màu Pronoti', 'Tệp giấy note phân trang 5 màu nhựa, giúp đánh dấu tài liệu dễ dàng.', 7, 15, 12000.00, 10000.00, 100, 120, TRUE),
-      (77, 'Sổ lò xo B5 200 trang Campus', 'Sổ dày, bìa nhựa chống thấm, giấy kẻ ngang, thích hợp ghi chép bài học.', 2, 4, 35000.00, 32000.00, 60, 40, TRUE),
-      (78, 'Vở vẽ A4 Hồng Hà', 'Giấy vẽ chuyên dụng, định lượng 100gsm, bám màu tốt, không kỵ tẩy.', 3, 5, 15000.00, 13000.00, 80, 60, TRUE),
-      (79, 'Cọ vẽ đầu tròn Colokit (Bộ 5 cây)', 'Lông cọ mềm, giữ dáng tốt, nhiều kích cỡ phù hợp vẽ chi tiết và tô mảng.', 3, 7, 25000.00, 22000.00, 50, 30, TRUE),
-      (80, 'Palet pha màu nhựa', 'Khay pha màu hình oval, có lỗ xỏ ngón tay, nhựa trắng dễ vệ sinh.', 3, 7, 10000.00, 9000.00, 100, 50, TRUE),
+INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES
+    (1, 'Bút gel Doraemon TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học.Thân bút bằng nhựa trắng đục, in transfer fllm hình nhân vật Doraemon rất thu hút. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục', 1, 1, 10000.00, 8000.00, 50, 100, TRUE),
+    (2, 'Bút gel B TL', 'Kiểu dáng hiện đại, dắt bút bằng kim loại sáng bóng sang trọng rất phù hợp với khách hàng là nhân viên văn phòng. ', 1, 1, 13000.00, 11000.00, 40, 50, TRUE),
+    (3, 'Bút gel Fasgel TL', 'Nét viết êm tru,mực ra đều,liên tục. Ngòi bút cao cấp,sang trọng. Thiết Kế tinh vi,nghệ thuật', 1, 1, 7000.00, 6000.00, 2, 20, TRUE),
+    (4, 'Bút gel Yoyee TL', 'Bút viết mượt, nét đều, mực khô nhanh — lý tưởng cho học sinh, sinh viên và nhân viên văn phòng muốn chữ rõ ràng, không lem.', 1, 1, 6000.00, 5000.00, 9, 10, TRUE),
+    (5, 'Bút gel Demon Slayer TL', 'Đầu bút bền, viết êm, phù hợp học sinh đam mê truyện tranh demon slayer', 1, 1, 12000.00, 10000.00, 15, 15, TRUE),
+    (6, 'Bút gel g1 TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học.  Thân và nắp bút bằng nhựa trắng đục, in nhũ kim loại.  Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục.', 1, 1, 11000.00, 10000.00, 50, 70, TRUE),
+    (7, 'Bút gel Akola TL', 'Thiết kế gọn nhẹ, cầm êm với grip chống trượt;đầu bi bền, thay ruột dễ dàng giúp sử dụng lâu dài và tiết kiệm.', 1, 1, 8000.00, 7000.00, 12, 5, TRUE),
+    (8, 'Bút chì gỗ điểm 10', 'Khi sử dụng, ngòi không bị gãy vụn, ít hao, dễ xóa sạch bằng gôm, đặc biệt hạn chế làm bẩn tay và quần áo.được thiết kế nhỏ gọn thân thẳng tròn giúp bạn dễ dàng cầm nắm và điều chỉnh nét vẽ, đồng thời, bút còn dễ cất giữ trong bóp,giỏ xách khi đi học,tiện dùng khi cần.', 1, 3, 4000.00, 3000.00, 300, 400, TRUE),
+    (9, 'Bút chì gỗ Neon CLK', 'Nét đậm, để lại nhiều than chì trên giấy,lướt rất nhẹ nhàng trên bề mặt viết', 1, 7, 2500.00, 2000.00, 100, 50, TRUE),
+    (10, 'Bút chì gỗ HB Flexoffice', 'Nét đậm, lướt rất nhẹ nhàng trên bề mặt viết,dùng để đánh bóng các bức vẽ, đạt đến nhiều mức độ sáng tối khác nhau.', 1, 1, 5000.00, 4000.00, 48, 100, TRUE),
+    (11, 'Bút chì mỹ thuật TL', 'Bút chì mỹ thuật Thiên Long thích hợp cho các hoạt động như ghi chép, vẽ nháp, học tập.', 1, 3, 5000.00, 4000.00, 100, 50, TRUE),
+    (12, 'Bút chì bấm điểm 10', 'Cơ chế bấm rất nhạy, rất nhẹ tay,sử dụng min chì thông dụng trên thị trường, thay ruột chì dễ dàng', 1, 3, 8000.00, 7000.00, 100, 88, TRUE),
+    (15, 'Bút chì nhựa TL', 'Được sử dụng phổ biến tại các văn phòng, công sở và hữu ích cho học sinh, sinh viên.  Bút chì nhỏ gọn, có tính ứng dụng cao và màu viết đẹp nên được tin dùng trong thời gian vừa qua.  Ruột bút HB với ưu điểm cho nét đậm, ngòi mềm, là loại ruột chì khá phổ biến.', 1, 1, 2000.00, 1500.00, 100, 200, TRUE),
+    (16, 'Ống mực điểm 10', 'Được làm từ nhựa trong, mềm, dễ sử dụng, phù hợp cho các loại bút máy chuyên sử dụng ống mực và một số loại bút chuyên sử dụng ống mực khác có trên thị trường.', 1, 3, 5000.00, 4000.00, 6, 2, TRUE),
+    (17, 'Mực bút máy điểm 10', 'Mực không lem trên giấy,thích hợp cho các loại bút máy', 1, 3, 6000.00, 5000.00, 20, 5, TRUE),
+    (18, 'Bút máy luyện chữ điểm 10', 'Hộp bút được thiết kế sang trọng và tinh tế,đầu bút nghệ thuật cho nét viết siêu đẹp', 1, 3, 30000.00, 24000.00, 50, 100, TRUE),
+    (19, 'Bộ ngòi bút máy Iridium điểm 10', 'Ngòi viết được cấu tạo bằng vật liệu thép cao cấp, không gỉ và xi mạ màu vàng sang trọng. ', 1, 3, 14000.00, 12000.00, 6, 5, TRUE),
+    (20, 'Bút xóa 12ml TL', 'Kiểu dáng thân dẹp, vừa tầm tay, thuận tiện khi sử dụng.  Cán bằng nhựa màu xanh lá thể hiện sự trẻ trung, năng động.  Đầu bút bằng kim loại có lò xo đàn hồi tốt. ', 1, 1, 26000.00, 24000.00, 70, 100, TRUE),
+    (21, 'Bút xóa 7ml TL', 'Có kiểu dáng thân trụ tròn, vừa tầm tay, thuận tiện khi sử dụng.  Cán bằng nhựa màu xanh lá thể hiện sự trẻ trung, năng động. Đầu bút bằng kim loại có lò xo đàn hồi tốt.', 1, 1, 19000.00, 17000.00, 50, 70, TRUE),
+    (22, 'Bút xóa FO FL', 'Xóa nhanh khô,bút ít bị tắc mực, độ che phủ bề mặt tốt hơn và mau khô, giúp cho chữ viết rõ ràng, không bị lem, nhòe. ', 1, 1, 24000.00, 22000.00, 50, 100, TRUE),
+    (23, 'Bút xóa kéo FO FL', 'Là kết hợp của sự tiện lợi, nhanh chóng, vô cùng an toàn và thân thiện với môi trường. Sản phẩm được thiết kế trẻ trung, năng động, màu sắc tươi sáng, đây là sản phẩm rất phù hợp cho giới văn phòng hiện đại.', 1, 1, 17000.00, 15000.00, 40, 50, TRUE),
+    (24, 'Bút xóa Plus FL', 'Có kiểu dáng thân dẹp, vừa tầm tay, thuận tiện khi sử dụng. Cán bằng nhựa màu xanh dương thể hiện sự trẻ trung, năng động. Đầu bút bằng kim loại có lò xo đàn hồi tốt.', 1, 1, 20000.00, 18000.00, 30, 20, TRUE),
+    (25, 'Bút xóa điểm 10', 'Có kiểu dáng thân tròn, vừa tầm tay, thuận tiện khi sử dụng.  Cán bằng nhựa đủ màu thể hiện sự trẻ trung, năng động.  Đầu bút bằng kim loại có lò xo đàn hồi tốt.', 1, 3, 15000.00, 14000.00, 50, 50, TRUE),
+    (26, 'Bút bi Buddies TL','Bút viết mượt, nét đều, mực khô nhanh,hình ãnh chú chó đáng yêu đồng hành cùng các học sinh', 1, 1, 5000.00, 4500.00, 50, 100, TRUE),
+    (27, 'Bút bi b2 TL','Bút viết mượt, nét đều, mực khô nhanh — lý tưởng cho học sinh, sinh viên và nhân viên văn phòng muốn chữ rõ ràng, không lem. ', 1, 1, 6000.00, 5000.00, 900, 1500, TRUE),
+    (28, 'Bút bi 1. 0mm TL','Bút viết mượt, nét đều, mực khô nhanh — lý tưởng cho học sinh, sinh viên và nhân viên văn phòng muốn chữ rõ ràng, không lem. ', 1, 1, 6000.00, 5000.00, 400, 500, TRUE),
+    (29, 'Bút bi điểm 10','Bút có thiết kế tối giản, nhưng tinh tế và ấn tượng. Toàn bộ thân bút làm từ nhựa màu trong, phối hợp hoàn hảo với màu ruột bút bên trong.', 1, 3, 6000.00, 5000.00, 500, 1000, TRUE),
+    (30, 'Bút bi eco g1 TL','Thành phần từ vỏ cám trấu, sử dụng bút ECO Style là góp phần đồng hành cùng Thiên Long bảo vệ môi trường xanh. ', 1, 1, 13000.00, 11000.00, 100, 200, TRUE),
+    (31, 'Bút bi eco g2 TL','Bản nâng cấp từ g1, thành phần từ vỏ cám trấu, sử dụng bút ECO Style là góp phần đồng hành cùng Thiên Long bảo vệ môi trường xanh.', 1, 1, 14000.00, 12000.00, 70, 100, TRUE),
+    (32, 'Bút bi đế cắm eco TL','Thành phần từ vỏ cám trấu, sử dụng bút ECO Style là góp phần đồng hành cùng Thiên Long bảo vệ môi trường xanh. ', 1, 1, 22000.00, 20000.00, 50, 50, TRUE),
+    (33, 'Bút bi đế cắm vp TL','Bút chuyên để trên bàn làm việc nơi đông người như bàn tiếp tân, bưu điện, ngân hàng, siêu thị…,có băng keo 2 mặt phía dưới đế cắm, giúp giữ sản phẩm không xê dịch khi viết.', 1, 1, 25000.00, 23000.00, 50, 100, TRUE),
+    (34, 'Hộp 7 bút lông bảng ak TL','Thiết kế thông minh, dễ dàng cố định trên mặt phẳng.  Mực ra đều, màu sắc tươi sáng, nhanh khô và dễ dàng xóa sạch. Có thể sử dụng trên bảng trắng, thuỷ tinh và những bề mặt nhẵn bóng. ', 1, 1, 40000.00, 36000.00, 40, 30, TRUE),
+    (35, 'Hộp 2 bút lông vườn xanh TL','là dòng bút đánh dấu cây trồng chuyên dụng dành cho nông nghiệp, mang đến giải pháp tối ưu cho người làm vườn, nông dân và những người yêu cây cảnh.  Với sứ mệnh hỗ trợ nhà vườn quản lý và phân loại cây trồng hiệu quả, Bút Vườn Xanh giải quyết hoàn toàn các vấn đề thường gặp như mực dễ phai, dễ lem, khó bám dính trên một số bề mặt. ', 1, 1, 30000.00, 26000.00, 20, 20, TRUE),
+    (36, 'Bút lông dầu Flexoffice','Màu mực đậm tươi, mực ra đều và liên tục,độ bám dính của mực tốt trên các vật liệu:  Giấy, gỗ, da, nhựa, thủy tinh, kim loại, gốm,..', 1, 2, 13000.00, 9000.00, 9, 30, TRUE),
+    (37, 'Combo 3 màu bút lông dầu Flexoffice','Màu mực đậm tươi, mực ra đều và liên tục,độ bám dính của mực tốt trên các vật liệu: Giấy, gỗ, da, nhựa, thủy tinh, kim loại, gốm,..', 1, 2, 30000.00, 27000.00, 50, 70, TRUE),
+    (38, 'Combo 5 bút dạ quang G1 TL','Kiểu dáng thon gọn, trẻ trung Màu dạ quang mạnh, không làm lem nét chữ của mực khi viết chồng lên và không để lại vết khi qua photocopy đây là đặt điểm vượt trội của bút dạ quang. ', 1, 1, 45000.00, 40000.00, 45, 44, TRUE),
+    (39, 'Combo 5 bút dạ quang G2 TL','Sản phẩm được sản xuất theo công nghệ hiện đại, đạt tiêu chuẩn chất lượng quốc tế.Lượng mực nhiều, tăng thời gian sử dụng.', 1, 1, 55000.00, 50000.00, 75, 50, TRUE),
+    (40, 'Vở 4 ô ly 80 trang Funny HH','Thiết kế vui nhộn, màu sắc tươi sáng và hình nhân vật ngộ nghĩnh, đáng yêu, phù hợp với học sinh tiểu học. Giấy viết không cợn, không nhòe, không thấm mực sang trang sau, tốt cho người sử dụng đặc biệt là trẻ nhỏ.', 2, 5, 15000.00, 12000.00, 200, 123, TRUE),
+    (41, 'Vở 4 ô ly 80 trang Trạng Nguyên HH', 'Thiết kế vui nhộn, màu sắc tươi sáng và hình nhân vật ngộ nghĩnh, đáng yêu, phù hợp với học sinh tiểu học. Giấy viết không cợn, không nhòe, không thấm mực sang trang sau, tốt cho người sử dụng đặc biệt là trẻ nhỏ.', 2, 5, 15000.00, 12000.00, 122, 88, TRUE),
+    (42, 'Vở 4 ô ly 80 trang Nhân Tài Đất Việt HH','Thiết kế vui nhộn, màu sắc tươi sáng và hình nhân vật ngộ nghĩnh, đáng yêu, phù hợp với học sinh tiểu học. Giấy viết không cợn, không nhòe, không thấm mực sang trang sau, tốt cho người sử dụng đặc biệt là trẻ nhỏ.', 2, 5, 15000.00, 12000.00, 100, 25, TRUE),
+    (43, 'Vở 4 ô ly 48 trang Tuổi Teen HH', 'Là sản phẩm mới đầy sáng tạo, mang đến câu chuyện cuộc sống đầy màu sắc, một hành trình với những khoảng thời gian tươi đẹp. Sản phẩm được sản xuất trên dây truyền hiện đại, chất lượng tốt. ', 2, 5, 13000.00, 11000.00, 78, 44, TRUE),
+    (44, 'Vở 4 ô ly 48 trang Funny HH', 'Là sản phẩm mới đầy sáng tạo, mang đến câu chuyện cuộc sống đầy màu sắc, một hành trình với những khoảng thời gian tươi đẹp.  Sản phẩm được sản xuất trên dây truyền hiện đại, chất lượng tốt.', 2, 5, 13000.00, 11000.00, 55, 46, TRUE),
+    (45, 'Vở 4 ô ly 48 trang Ếch HH', 'Là sản phẩm mới đầy sáng tạo, mang đến câu chuyện cuộc sống đầy màu sắc, một hành trình với những khoảng thời gian tươi đẹp. Sản phẩm được sản xuất trên dây truyền hiện đại, chất lượng tốt.', 2, 5, 13000.00, 11000.00, 42, 35, TRUE),
+    (46, 'Vở 4 ô ly 120 trang Nuna HH', 'Được lấy cảm hứng từ hành trình khám phá vẻ đẹp của thế giới xung quanh. Thiết kế tạo cảm giác hứng thú để các bạn học sinh có những sáng tạo độc đáo.Sản phẩm được sản xuất trên dây chuyền công nghệ hiện đại, dòng kẻ in ấn sắc nét.', 2, 5, 25000.00, 23000.00, 46, 19, TRUE),
+    (47, 'Vở 4 ô ly 120 trang Điểm A HH', 'Được lấy cảm hứng từ hành trình khám phá vẻ đẹp của thế giới xung quanh. Thiết kế tạo cảm giác hứng thú để các bạn học sinh có những sáng tạo độc đáo.Sản phẩm được sản xuất trên dây chuyền công nghệ hiện đại, dòng kẻ in ấn sắc nét.', 2, 5, 25000.00, 23000.00, 20, 55, TRUE),
+    (48, 'Vở 4 ô ly 200 trang Gấu HH', 'Phù hợp cho học sinh tiểu học, tập viết chữ. Giấy trắng tự nhiên, bề mặt giấy láng mịn, viết êm tay, tạo nét chữ đẹp. Giấy viết không nhòe, không thấm mực sang trang sau.Tốt cho người sử dụng đặc biệt là trẻ nhỏ.', 2, 5, 28000.00, 26000.00, 23, 76, TRUE),
+    (49, 'Vở 4 ô ly 200 trang Cáo HH', 'Phù hợp cho học sinh tiểu học, tập viết chữ. Giấy trắng tự nhiên, bề mặt giấy láng mịn, viết êm tay, tạo nét chữ đẹp. Giấy viết không nhòe, không thấm mực sang trang sau.Tốt cho người sử dụng đặc biệt là trẻ nhỏ.', 2, 5, 28000.00, 26000.00, 45, 56, TRUE),
+    (50, 'Vở kẻ ngang 48 trang School CP', 'Với thiết kế trang bìa là Hình ảnh school – Thiết kế bìa mô phỏng khung cảnh trường học Nhật Bản quen thuộc như lớp học, sân bóng, cổng trường.. ., được thể hiện bằng nét vẽ manga đậm chất thanh xuân vườn trường – mỗi quyển vở như một khung truyện tranh, mang đến cảm giác trong trẻo, dịu dàng và đầy cảm xúc.', 2, 4, 14000.00, 12000.00, 98, 127, TRUE),
+    (51, 'Vở kẻ ngang 80 trang Cake CP', 'Được làm từ chất liệu giấy ngoại nhập chất lượng cao, bề mặt giấy trơn láng, viết đẹp, mượt mà. Gáy vở được đóng theo công nghệ ép keo đa lớp của Nhật Bản, giúp vở luôn mở phẳng đẹp trên bàn học, dễ dàng lật và viết từ trang đầu tiên đến trang cuối cùng.', 2, 4, 15000.00, 12000.00, 54, 121, TRUE),
+    (52, 'Vở kẻ ngang 120 trang Food CP', 'Được làm từ chất liệu giấy ngoại nhập chất lượng cao, bề mặt giấy trơn láng, viết đẹp, mượt mà.Gáy vở được đóng theo công nghệ ép keo đa lớp của Nhật Bản, giúp vở luôn mở phẳng đẹp trên bàn học, dễ dàng lật và viết từ trang đầu tiên đến trang cuối cùng. ', 2, 4, 13000.00, 11000.00, 56, 44, TRUE),
+    (53, 'Vở kẻ ngang 200 trang Food CP', 'Được làm từ chất liệu giấy ngoại nhập chất lượng cao, bề mặt giấy trơn láng, viết đẹp, mượt mà.Gáy vở được đóng theo công nghệ ép keo đa lớp của Nhật Bản, giúp vở luôn mở phẳng đẹp trên bàn học, dễ dàng lật và viết từ trang đầu tiên đến trang cuối cùng. ', 2, 4, 28000.00, 26000.00, 56, 43, TRUE),
+    (54, 'Nhãn vở cp1 CP', 'Được sử dụng loại giấy in chuyên dụng, có độ bán giấy tốt, bám mực tốt, có thể viết tất cả các loại mực mà không bị nhòe.', 2, 4, 5000.00, 4000.00, 78, 100, TRUE),
+    (55, 'Vở ô ly 48 trang Hải Ly HT', 'ở ô ly Tiny là người bạn đồng hành lý tưởng cho các bé trong hành trình học tập mỗi ngày. Với chất lượng giấy dày mịn, dòng kẻ rõ nét và thiết kế bìa siêu dễ thương, Tiny giúp việc học của bé trở nên thật vui vẻ và đầy cảm hứng. ', 2, 6, 14000.00, 12000.00, 120, 78, TRUE),
+    (56, 'Vở ô ly 80 trang Mặt Trời HT', 'Vở ô ly Mặt Trời Nhỏ mang đến cho bé cuốn vở rực rỡ sắc màu, gợi nên cảm hứng học tập tươi sáng như ánh nắng đầu ngày. Với giấy trắng tự nhiên, dòng kẻ sắc nét, bìa vở sinh động – Mặt Trời Nhỏ không chỉ là người bạn đồng hành trên bàn học mà còn là nguồn động lực để bé thêm yêu việc viết và luyện chữ mỗi ngày.', 2, 6, 15000.00, 13000.00, 78, 120, TRUE),
+    (57, 'Vở ô ly 48 Ban Mai HT', 'Mùa tựu trường luôn mang đến những cảm xúc hân hoan: tiếng cười của bạn bè, những bài học mới mẻ và những người bạn đồng hành thân thiết. Trong hành trình ấy, Vở ô ly cao cấp Ban Mai của Giấy Hải Tiến chính là món quà nhỏ nhưng đầy ý nghĩa – giúp các em lưu giữ từng kiến thức và kỷ niệm học trò một cách trọn vẹn.', 2, 6, 14000.00, 12000.00, 98, 77, TRUE),
+    (58, 'Vở kẻ ngang 80 trang Grow HT', 'Trong hành trình học tập và trưởng thành, một cuốn vở không chỉ là nơi ghi chép kiến thức mà còn là người bạn đồng hành, truyền cảm hứng để bạn theo đuổi mục tiêu. ', 2, 6, 15000.00, 13000.00, 98, 111, TRUE),
+    (59, 'Vở kẻ ngang 200 trang Cornell HT', 'Thiết kế thanh lịch, màu sắc pastel nhẹ nhàng cùng chất giấy cao cấp của Hải Tiến tạo nên một cuốn vở vừa hiện đại vừa tinh tế — người bạn đồng hành lý tưởng trên hành trình học tập và làm việc.', 2, 6, 28000.00, 26000.00, 82, 56, TRUE),
+    (60, 'Sổ lò xo kẻ ngang 7mm B5 TL', 'Bìa cứng phủ màng mờ sang trọng, cùng ruột giấy vàng kem tự nhiên giúp bạn ghi chép thoải mái, sketch note dễ dàng mà không lo lóa mắt hay lem mực. ', 2, 1, 50000.00, 25000.00, 100, 45, TRUE),
+    (61, 'Sổ lò xo kẻ ngang Easy B5 HT', 'Mang tinh thần tích cực và hiện đại, dòng sổ lò xo E.A.S.Y được thiết kế dành cho học sinh, sinh viên, người đi làm và những ai yêu thích phong cách tối giản nhưng đầy tinh tế.', 2, 6, 40000.00, 27000.00, 121, 71, TRUE),
+    (62, 'Sổ lò xo kẻ ngang B5 DemonSlayer TL', 'Bìa cứng phủ màng mờ sang trọng, cùng ruột giấy vàng kem tự nhiên giúp bạn ghi chép thoải mái,phù hợp cho những ai thích thể loại anime DemonSlayer. ', 2, 1, 47000.00, 38000.00, 100, 153, TRUE),
+    (63, 'Sổ lò xo kẻ ngang kẻ caro B5 TL', 'Một cuốn sổ không chỉ để ghi chép – nó còn mang theo cảm xúc tích cực và nguồn năng lượng sáng tạo. Với thiết kế gọn đẹp, hình ảnh vui tươi và chất liệu giấy cao cấp, Smile giúp bạn thoải mái viết mỗi ngày mà vẫn giữ được nét cá tính riêng', 2, 1, 44000.00, 27000.00, 120, 78, TRUE),
+    (64, 'Sổ bìa cứng Tree A5 TL', 'Sổ dán gáy vuông,khổ A5,in nhiều màu, in theo file thiết kế, cán màn PVC mờ chống thấm, bồi carton cứng, gấp mí góc tròn. ', 2, 1, 50000.00, 42000.00, 99, 100, TRUE),
+    (65, 'Màu nước 8 màu A CLK', 'Gồm có các màu thông dụng, mang đến trải nghiệm vẽ màu nước tốt nhất và tươi sáng nhất. Bộ có 08 màu sắc tươi sáng, cường độ màu đậm, độ phủ màu tốt, dễ dàng pha trộn màu.rên khay màu có 01 muỗng để lấy màu và 01 cọ vẽ, thuận tiện khi sử dụng.', 3, 7, 45000.00, 32000.00, 120, 100, TRUE),
+    (66, 'Bộ 12 màu nước Doreamon CLK', 'gồm có các màu thông dụng, mang đến trải nghiệm vẽ màu nước tốt nhất và tươi sáng nhất. Bộ có 12 màu sắc tươi sáng, cường độ màu đậm, độ phủ màu tốt, dễ dàng pha trộn màu. Nhãn khay được thiết kế với hình ảnh nhân vật Doreamon trong phim Nobita Và Câu Chuyện Thế Giới Trong Tranh', 3, 7, 48000.00, 37000.00, 35, 97, TRUE),
+    (67, 'Màu nước nén 24 màu A CLK', 'Màu sắc tươi sáng,thuộc loại nén thuận tiện cho việc bảo quản. Nhãn khay được thiết kế với hình ảnh nhân vật Doreamon trong phim Nobita Và Câu Chuyện Thế Giới Trong Tranh', 3, 7, 80000.00, 67000.00, 68, 86, TRUE),
+    (68, 'Màu nước 14 màu Waco CLK', 'dạng màu nước được đựng trong mỗi lọ nhựa dung tích 15ml trong suốt nhận diện được màu bên trong. Màu sắc tươi sáng, đúng chuẩn màu mỹ thuật. Màu mềm mịn và đều.  Độ hòa tan khi phối màu cao.', 3, 7, 67000.00, 59000.00, 76, 78, TRUE),
+    (69, 'Sáp nhựa 12 màu Futy CLK', 'Màu tươi sáng,tô mịn êm. Dễ dàng xóa được. Thách thức trí tưởng tượng và tay nghề mỹ thuật của bé', 3, 7, 52000.00, 41000.00, 78, 89, TRUE),
+    (70, 'Sáp 24 màu Doraemon CLK', 'Bộ sáp có 24 cây, 24 màu (khác nhau) thông dụng trên thị trường, được cố định trong khay định hình, tránh trường hợp bị lẫn màu khi tô.phiên bản Nobitas Little Star Wars 2022 được Thiên Long độc quyền theo hình ảnh từ bộ phim cùng tên.', 3, 7, 46000.00, 36000.00, 112, 63, TRUE),
+    (71, 'Sáp 18 màu Jumbo CLK', 'Thân sáp hình trụ tròn, nhỏ vừa tay cầm của các bé. Màu sắc tươi sáng đúng chuẩn màu mỹ thuật.  Tô êm, ít bụi. Màu phủ đều và bền màu. Đặc biệt có thêm màu gold và silver hoàn toàn mới. Sáp màu Jumbo có kích thước siêu lớn, giúp dễ cầm hơn ít gãy và tiết kiệm. ', 3, 7, 68000.00, 60000.00, 123, 78, TRUE),
+    (72, 'Túi cọ vẽ thẳng và tròn CLK', 'Dùng để vẽ màu nước, màu Acrylic. Cọ được phủ keo gia cố lông cọ. ', 3, 7, 15000.00, 12000.00, 200, 198, TRUE),
+    (73, 'Tranh tập tô màu dạng nén Water CLK', 'Bộ gồm có: 10 tờ tranh tô màu A5, 05 tờ màu nước nén A6 (có 08 màu), 01 cây cọ. Giấy dày dặn với định lượng 300gsm có thể tô màu nước mà không lo lem sang mặt sau, không thấm màu, kèm cọ đầu nhỏ, tờ màu nước nén tách riêng với tranh tô, nên không bị lem khi tô màu.', 3, 7, 25000.00, 20000.00, 78, 23, TRUE),
+    (74, 'Tập tô màu Book CLK', 'Tập tô màu 12 trang Coloring Book Thiên Long Colokit dành cho bé 3-6 tuổi, định lượng giấy 100 gsm dày dặn không lem, dùng được với nhiều loại màu khác nhau, có chủ đề đa dạng giúp bé phát triển tư duy. ', 3, 7, 19000.00, 16000.00, 57, 23, TRUE),
+    (75, 'Tập tô màu Doraemon CLK', 'Tập tô màu 12 trang Doraemon Colokit dành cho bé 3-6 tuổi, định lượng giấy 100 gsm dày dặn không lem, dùng được với nhiều loại màu khác nhau, có chủ đề đa dạng giúp bé phát triển tư duy.', 3, 7, 18000.00, 14000.00, 78, 35, TRUE),
+    (76, 'Bột nặn Claver CLK', 'Mềm hơn, mịn hơn, không dính tay.Dễ tạo hình với khuôn, không dính khuôn.Có thể phối trộn màu với nhau.', 3, 7, 14000.00, 12000.00, 42, 21, TRUE),
+    (77, 'Bộ sáp nặn và Khuôn CLK', 'Bộ sản phẩm bao gồm 8 màu sáp nặn, dao cắt sáp, rulo cán nặn và bộ khuôn tạo hình 6 nhân vật trong truyện Doraemon giúp các bé thỏa sức sáng tạo. ', 3, 7, 55000.00, 49000.00, 123, 45, TRUE),
+    (78, 'Sáp nặn MC CLK', '8 màu tươi sáng,sáp mịn, mềm, dẻo, không bở, không chai cứng, dễ dàng tạo hình, không dính tay khi nặn sáp.', 3, 7, 20000.00, 15000.00, 134, 98, TRUE),
+    (79, 'Sáp nặn Sáng Tạo CLK', 'Màu sắc tươi sáng, theo đúng chuẩn màu mỹ thuật cơ bản.  Đặc biệt sáp nặn Thiên Long MC-021 có thể dễ dàng pha trộn với nhau để tạo ra các màu mới theo mong muốn của bé.', 3, 7, 30000.00, 27000.00, 100, 74, TRUE),
+    (80, 'Bộ 16 khuôn nặn sáp CLK', 'Bộ sản phẩm bao gồm:  bộ khuôn tạo hình 6 nhân vật trong truyện Doraemon, 8 khuôn hình trái cây, 1 dao cắt, 1 rulo lăn sáp. ', 3, 7, 25000.00, 21000.00, 120, 69, TRUE),
 --Insert thêm sản phẩm của Kha
       (81, 'Balo mẫu giáo khủng long tím Miti', 'Balo mẫu giáo khủng long tím kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 360, 36,TRUE),
       (82, 'Balo mẫu giáo phi hành gia Miti', 'Balo mẫu giáo phi hành gia kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 420, 69, TRUE),
@@ -227,5 +226,355 @@ INSERT INTO products (
       (199, 'Kéo học sinh Kẹo CLK', 'Loại kéo nhỏ dành cho học sinh làm thủ công, được làm bằng kim loại không gỉ, mũi kéo tròn để bảo vệ an toàn cho trẻ khi sử dụng. Tay cầm bằng nhựa giúp cắt nhẹ nhàng', 3, 7, 20000.00, 18000.00, 47, 52, TRUE),
       (200, 'Bao gồm: 6 mẫu lưỡi cắt và 1 cán kéo.Có cán làm từ nhựa ABS, thân làm bằng thép không gỉ, dễ dàng tháo lắp. Bộ kéo thủ công Colokit SC-C05 phù hơp cho học sinh tiểu học. Kiểu dáng trang nhã, màu sắc phong phú.', 3, 7, 80000.00, 75000.00, 34, 23, TRUE)
       ;
+--Insert hình ảnh sản phẩm
+INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VALUES
+    -- Bút viết
+    (1,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-1.jpg', FALSE, NOW()),
+    (2,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-2.jpg', FALSE, NOW()),
+    (3,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-pri.jpg', TRUE,NOW()),
+
+    (4,2, 'src/main/webapp/assets/images/products/ButViet/2-butgel-1.jpg', FALSE, NOW()),
+    (5,2, 'src/main/webapp/assets/images/products/ButViet/2-butgel-2.jpg', FALSE, NOW()),
+    (6,2, 'src/main/webapp/assets/images/products/ButViet/2-butgel-pri.jpg', TRUE,NOW()),
+
+    (7,3, 'src/main/webapp/assets/images/products/ButViet/3-butgel-1.jpg', FALSE, NOW()),
+    (8,3, 'src/main/webapp/assets/images/products/ButViet/3-butgel-pri.jpg', TRUE,NOW()),
+
+    (9,4, 'src/main/webapp/assets/images/products/ButViet/4-butgel-1.jpg', FALSE, NOW()),
+    (10,4, 'src/main/webapp/assets/images/products/ButViet/4-butgel-2.jpg', FALSE, NOW()),
+    (11,4, 'src/main/webapp/assets/images/products/ButViet/4-butgel-pri.jpg', TRUE,NOW()),
+
+    (13,5, 'src/main/webapp/assets/images/products/ButViet/5-butgel-1.jpg', FALSE, NOW()),
+    (14,5, 'src/main/webapp/assets/images/products/ButViet/5-butgel-2.jpg', FALSE, NOW()),
+    (15,5, 'src/main/webapp/assets/images/products/ButViet/5-butgel-pri.jpg', TRUE,NOW()),
+
+    (16,6, 'src/main/webapp/assets/images/products/ButViet/6-butgel-1.jpg', FALSE, NOW()),
+    (17,6, 'src/main/webapp/assets/images/products/ButViet/6-butgel-2.jpg', FALSE, NOW()),
+    (18,6, 'src/main/webapp/assets/images/products/ButViet/6-butgel-pri.jpg', TRUE,NOW()),
+
+    (19,7, 'src/main/webapp/assets/images/products/ButViet/7-butgel-1.jpg', FALSE, NOW()),
+    (20,7, 'src/main/webapp/assets/images/products/ButViet/7-butgel-2.jpg', FALSE, NOW()),
+    (21,7, 'src/main/webapp/assets/images/products/ButViet/7-butgel-pri.jpg', TRUE,NOW()),
+
+    (22,8, 'src/main/webapp/assets/images/products/ButViet/8-butchi-1.jpg', FALSE, NOW()),
+    (23,8, 'src/main/webapp/assets/images/products/ButViet/8-butchi-2.jpg', FALSE, NOW()),
+    (24,8, 'src/main/webapp/assets/images/products/ButViet/8-butchi-pri.jpg', TRUE,NOW()),
+
+    (25,9, 'src/main/webapp/assets/images/products/ButViet/9-butchi-1.jpg', FALSE, NOW()),
+    (26,9, 'src/main/webapp/assets/images/products/ButViet/9-butchi-2.jpg', FALSE, NOW()),
+    (27,9, 'src/main/webapp/assets/images/products/ButViet/9-butchi-pri.jpg', TRUE,NOW()),
+
+    (28,10, 'src/main/webapp/assets/images/products/ButViet/10-butchi-1.jpg', FALSE, NOW()),
+    (29,10, 'src/main/webapp/assets/images/products/ButViet/10-butchi-2.jpg', FALSE, NOW()),
+    (30,10, 'src/main/webapp/assets/images/products/ButViet/10-butchi-pri.jpg', TRUE,NOW()),
+
+    (31,11, 'src/main/webapp/assets/images/products/ButViet/11-butchi-1.jpg', FALSE, NOW()),
+    (32,11, 'src/main/webapp/assets/images/products/ButViet/11-butchi-2.jpg', FALSE, NOW()),
+    (33,11, 'src/main/webapp/assets/images/products/ButViet/11-butchi-pri.jpg', TRUE,NOW()),
+
+    (34,12, 'src/main/webapp/assets/images/products/ButViet/12-butchi-1.jpg', FALSE, NOW()),
+    (35,12, 'src/main/webapp/assets/images/products/ButViet/12-butchi-2.jpg', FALSE, NOW()),
+    (36,12, 'src/main/webapp/assets/images/products/ButViet/12-butchi-pri.jpg', TRUE,NOW()),
+
+    (37,13, 'src/main/webapp/assets/images/products/ButViet/13-butchi-1.jpg', FALSE, NOW()),
+    (38,13, 'src/main/webapp/assets/images/products/ButViet/13-butchi-2.jpg', FALSE, NOW()),
+    (39,13, 'src/main/webapp/assets/images/products/ButViet/13-butchi-pri.jpg', TRUE,NOW()),
+
+    (40,14, 'src/main/webapp/assets/images/products/ButViet/14-butchi-1.jpg', FALSE, NOW()),
+    (41,14, 'src/main/webapp/assets/images/products/ButViet/14-butchi-2.jpg', FALSE, NOW()),
+    (42,14, 'src/main/webapp/assets/images/products/ButViet/14-butchi-pri.jpg', TRUE,NOW()),
+
+    (43,15, 'src/main/webapp/assets/images/products/ButViet/15-butchi-1.jpg', FALSE, NOW()),
+    (44,15, 'src/main/webapp/assets/images/products/ButViet/15-butchi-pri.jpg', TRUE,NOW()),
+
+    (45,16, 'src/main/webapp/assets/images/products/ButViet/16-ongmuc-1.jpg', FALSE, NOW()),
+    (46,16, 'src/main/webapp/assets/images/products/ButViet/16-ongmuc-pri.jpg', TRUE, NOW()),
+
+    (47,17, 'src/main/webapp/assets/images/products/ButViet/17-mucbutmay-1.jpg', FALSE, NOW()),
+    (48,17, 'src/main/webapp/assets/images/products/ButViet/17-mucbutmay-pri.jpg', TRUE,NOW()),
+
+    (49,18, 'src/main/webapp/assets/images/products/ButViet/18-butmay-1.jpg', FALSE, NOW()),
+    (50,18, 'src/main/webapp/assets/images/products/ButViet/18-butmay-pri.jpg', TRUE,NOW()),
+
+    (51,19, 'src/main/webapp/assets/images/products/ButViet/19-bongoi-1.jpg', FALSE, NOW()),
+    (52,19, 'src/main/webapp/assets/images/products/ButViet/19-bongoi-pri.jpg', TRUE,NOW()),
+
+    (53,20, 'src/main/webapp/assets/images/products/ButViet/20-butxoa-1.jpg', FALSE, NOW()),
+    (54,20, 'src/main/webapp/assets/images/products/ButViet/20-butxoa-2.jpg', FALSE, NOW()),
+    (55,20, 'src/main/webapp/assets/images/products/ButViet/20-butxoa-pri.jpg', TRUE,NOW()),
+
+    (56,21, 'src/main/webapp/assets/images/products/ButViet/21-butxoa-1.jpg', FALSE, NOW()),
+    (57,21, 'src/main/webapp/assets/images/products/ButViet/21-butxoa-2.jpg', FALSE, NOW()),
+    (58,21, 'src/main/webapp/assets/images/products/ButViet/21-butxoa-pri.jpg', TRUE,NOW()),
+
+    (59,22, 'src/main/webapp/assets/images/products/ButViet/22-butxoa-1.jpg', FALSE, NOW()),
+    (60,22, 'src/main/webapp/assets/images/products/ButViet/22-butxoa-2.jpg', FALSE, NOW()),
+    (61,22, 'src/main/webapp/assets/images/products/ButViet/22-butxoa-pri.jpg', TRUE,NOW()),
+
+    (62,23, 'src/main/webapp/assets/images/products/ButViet/23-butxoa-1.jpg', FALSE, NOW()),
+    (63,23, 'src/main/webapp/assets/images/products/ButViet/23-butxoa-2.jpg', FALSE, NOW()),
+    (64,23, 'src/main/webapp/assets/images/products/ButViet/23-butxoa-pri.jpg', TRUE,NOW()),
+
+    (65,24, 'src/main/webapp/assets/images/products/ButViet/24-butxoa-1.jpg', FALSE, NOW()),
+    (66,24, 'src/main/webapp/assets/images/products/ButViet/24-butxoa-2.jpg', FALSE, NOW()),
+    (67,24, 'src/main/webapp/assets/images/products/ButViet/24-butxoa-pri.jpg', TRUE,NOW()),
+
+    (68,25, 'src/main/webapp/assets/images/products/ButViet/25-butxoa-1.jpg', FALSE, NOW()),
+    (69,25, 'src/main/webapp/assets/images/products/ButViet/25-butxoa-2.jpg', FALSE, NOW()),
+    (70,25, 'src/main/webapp/assets/images/products/ButViet/25-butxoa-pri.jpg', TRUE,NOW()),
+
+    (71,26, 'src/main/webapp/assets/images/products/ButViet/26-butbi-1.jpg', FALSE, NOW()),
+    (72,26, 'src/main/webapp/assets/images/products/ButViet/26-butbi-pri.jpg', TRUE,NOW()),
+
+    (73,27, 'src/main/webapp/assets/images/products/ButViet/27-butbi-1.jpg', FALSE, NOW()),
+    (74,27, 'src/main/webapp/assets/images/products/ButViet/27-butbi-2.jpg', FALSE, NOW()),
+    (75,27, 'src/main/webapp/assets/images/products/ButViet/27-butbi-pri.jpg', TRUE,NOW()),
+
+    (76,28, 'src/main/webapp/assets/images/products/ButViet/28-butbi-1.jpg', FALSE, NOW()),
+    (77,28, 'src/main/webapp/assets/images/products/ButViet/28-butbi-pri.jpg', TRUE,NOW()),
+
+    (78,29, 'src/main/webapp/assets/images/products/ButViet/29-butbi-1.jpg', FALSE, NOW()),
+    (79,29, 'src/main/webapp/assets/images/products/ButViet/29-butbi-2.jpg', FALSE, NOW()),
+    (80,29, 'src/main/webapp/assets/images/products/ButViet/29-butbi-pri.jpg', TRUE,NOW()),
+
+    (81,30, 'src/main/webapp/assets/images/products/ButViet/30-butbi-1.jpg', FALSE, NOW()),
+    (82,30, 'src/main/webapp/assets/images/products/ButViet/30-butbi-2.jpg', FALSE, NOW()),
+    (83,30, 'src/main/webapp/assets/images/products/ButViet/30-butbi-pri.jpg', TRUE,NOW()),
+
+    (84,31, 'src/main/webapp/assets/images/products/ButViet/31-butbi-1.jpg', FALSE, NOW()),
+    (85,31, 'src/main/webapp/assets/images/products/ButViet/31-butbi-pri.jpg', TRUE,NOW()),
+
+    (86,32, 'src/main/webapp/assets/images/products/ButViet/32-butbi-1.jpg', FALSE, NOW()),
+    (87,32, 'src/main/webapp/assets/images/products/ButViet/32-butbi-2.jpg', FALSE, NOW()),
+    (88,32, 'src/main/webapp/assets/images/products/ButViet/32-butbi-pri.jpg', TRUE,NOW()),
+
+    (89,33, 'src/main/webapp/assets/images/products/ButViet/33-butbi-1.jpg', FALSE, NOW()),
+    (90,33, 'src/main/webapp/assets/images/products/ButViet/33-butbi-pri.jpg', TRUE,NOW()),
+
+    (91,34, 'src/main/webapp/assets/images/products/ButViet/34-butlong-1.jpg', FALSE, NOW()),
+    (92,34, 'src/main/webapp/assets/images/products/ButViet/34-butlong-2.jpg', FALSE, NOW()),
+    (93,34, 'src/main/webapp/assets/images/products/ButViet/34-butlong-pri.jpg', TRUE,NOW()),
+
+    (94,35, 'src/main/webapp/assets/images/products/ButViet/35-butbi-1.jpg', FALSE, NOW()),
+    (95,35, 'src/main/webapp/assets/images/products/ButViet/35-butbi-2.jpg', FALSE, NOW()),
+    (96,35, 'src/main/webapp/assets/images/products/ButViet/35-butbi-pri.jpg', TRUE,NOW()),
+
+    (97,36, 'src/main/webapp/assets/images/products/ButViet/36-butlong-1.jpg', FALSE, NOW()),
+    (98,36, 'src/main/webapp/assets/images/products/ButViet/36-butlong-pri.jpg', TRUE,NOW()),
+
+    (99,37, 'src/main/webapp/assets/images/products/ButViet/37-butlong-1.jpg', FALSE, NOW()),
+    (100,37, 'src/main/webapp/assets/images/products/ButViet/37-butlong-pri.jpg', TRUE,NOW()),
+
+    (101,38, 'src/main/webapp/assets/images/products/ButViet/38-butdaquang-1.jpg', FALSE, NOW()),
+    (102,38, 'src/main/webapp/assets/images/products/ButViet/38-butdaquang-pri.jpg', TRUE,NOW()),
+
+    (103,39, 'src/main/webapp/assets/images/products/ButViet/39-butdaquang-1.jpg', FALSE, NOW()),
+    (104,39, 'src/main/webapp/assets/images/products/ButViet/39-butdaquang-pri.jpg', TRUE,NOW()),
+    --Sổ vở
+    (105,40, 'src/main/webapp/assets/images/products/SoVo/40-vo-1.jpg', FALSE, NOW()),
+    (106,40, 'src/main/webapp/assets/images/products/SoVo/40-vo-2.jpg', FALSE, NOW()),
+    (107,40, 'src/main/webapp/assets/images/products/SoVo/40-vo-pri.jpg', TRUE,NOW()),
+
+    (108,41, 'src/main/webapp/assets/images/products/SoVo/41-vo-1.jpg', FALSE, NOW()),
+    (109,41, 'src/main/webapp/assets/images/products/SoVo/41-vo-2.jpg', FALSE, NOW()),
+    (110,41, 'src/main/webapp/assets/images/products/SoVo/41-vo-pri.jpg', TRUE,NOW()),
+
+    (111,42, 'src/main/webapp/assets/images/products/SoVo/42-vo-1.jpg', FALSE, NOW()),
+    (112,42, 'src/main/webapp/assets/images/products/SoVo/42-vo-2.jpg', FALSE, NOW()),
+    (113,42, 'src/main/webapp/assets/images/products/SoVo/42-vo-pri.jpg', TRUE,NOW()),
+
+    (114,43, 'src/main/webapp/assets/images/products/SoVo/43-vo-1.jpg', FALSE, NOW()),
+    (115,43, 'src/main/webapp/assets/images/products/SoVo/43-vo-2.jpg', FALSE, NOW()),
+    (116,43, 'src/main/webapp/assets/images/products/SoVo/43-vo-pri.jpg', TRUE,NOW()),
+
+    (117,44, 'src/main/webapp/assets/images/products/SoVo/44-vo-1.jpg', FALSE, NOW()),
+    (118,44, 'src/main/webapp/assets/images/products/SoVo/44-vo-2.jpg', FALSE, NOW()),
+    (119,44, 'src/main/webapp/assets/images/products/SoVo/44-vo-pri.jpg', TRUE,NOW()),
+
+    (120,45, 'src/main/webapp/assets/images/products/SoVo/45-vo-1.jpg', FALSE, NOW()),
+    (121,45, 'src/main/webapp/assets/images/products/SoVo/45-vo-2.jpg', FALSE, NOW()),
+    (122,45, 'src/main/webapp/assets/images/products/SoVo/45-vo-pri.jpg', TRUE,NOW()),
+
+    (123,46, 'src/main/webapp/assets/images/products/SoVo/46-vo-1.jpg', FALSE, NOW()),
+    (124,46, 'src/main/webapp/assets/images/products/SoVo/46-vo-2.jpg', FALSE, NOW()),
+    (125,46, 'src/main/webapp/assets/images/products/SoVo/46-vo-pri.jpg', TRUE,NOW()),
+
+    (126,47, 'src/main/webapp/assets/images/products/SoVo/47-vo-1.jpg', FALSE, NOW()),
+    (127,47, 'src/main/webapp/assets/images/products/SoVo/47-vo-pri.jpg', TRUE,NOW()),
+
+    (128,48, 'src/main/webapp/assets/images/products/SoVo/48-vo-1.jpg', FALSE, NOW()),
+    (129,48, 'src/main/webapp/assets/images/products/SoVo/48-vo-2.jpg', FALSE, NOW()),
+    (130,48, 'src/main/webapp/assets/images/products/SoVo/48-vo-pri.jpg', TRUE,NOW()),
+
+    (131,49, 'src/main/webapp/assets/images/products/SoVo/49-vo-1.jpg', FALSE, NOW()),
+    (132,49, 'src/main/webapp/assets/images/products/SoVo/49-vo-pri.jpg', TRUE,NOW()),
+
+    (133,50, 'src/main/webapp/assets/images/products/SoVo/50-vo-1.jpg', FALSE, NOW()),
+    (134,50, 'src/main/webapp/assets/images/products/SoVo/50-vo-pri.jpg', TRUE,NOW()),
+
+    (135,51, 'src/main/webapp/assets/images/products/SoVo/51-vo-1.jpg', FALSE, NOW()),
+    (136,51, 'src/main/webapp/assets/images/products/SoVo/51-vo-pri.jpg', TRUE,NOW()),
+
+    (137,52, 'src/main/webapp/assets/images/products/SoVo/52-vo-1.jpg', FALSE, NOW()),
+    (138,52, 'src/main/webapp/assets/images/products/SoVo/52-vo-pri.jpg', TRUE,NOW()),
+
+    (139,53, 'src/main/webapp/assets/images/products/SoVo/53-vo-1.jpg', FALSE, NOW()),
+    (140,53, 'src/main/webapp/assets/images/products/SoVo/53-vo-pri.jpg', TRUE,NOW()),
+
+    (141,54, 'src/main/webapp/assets/images/products/SoVo/54-vo-1.jpg', FALSE, NOW()),
+    (142,54, 'src/main/webapp/assets/images/products/SoVo/54-vo-pri.jpg', TRUE,NOW()),
+
+    (143,55, 'src/main/webapp/assets/images/products/SoVo/55-vo-1.jpg', FALSE, NOW()),
+    (144,55, 'src/main/webapp/assets/images/products/SoVo/55-vo-2.jpg', FALSE, NOW()),
+    (145,55, 'src/main/webapp/assets/images/products/SoVo/55-vo-pri.jpg', TRUE,NOW()),
+
+    (147,56, 'src/main/webapp/assets/images/products/SoVo/56-vo-1.jpg', FALSE, NOW()),
+    (148,56, 'src/main/webapp/assets/images/products/SoVo/56-vo-pri.jpg', TRUE,NOW()),
+
+    (149,57, 'src/main/webapp/assets/images/products/SoVo/57-vo-1.jpg', FALSE, NOW()),
+    (150,57, 'src/main/webapp/assets/images/products/SoVo/57-vo-2.jpg', FALSE, NOW()),
+    (151,57, 'src/main/webapp/assets/images/products/SoVo/57-vo-pri.jpg', TRUE,NOW()),
+
+    (152,58, 'src/main/webapp/assets/images/products/SoVo/58-vo-1.jpg', FALSE, NOW()),
+    (153,58, 'src/main/webapp/assets/images/products/SoVo/58-vo-pri.jpg', TRUE,NOW()),
+
+    (154,59, 'src/main/webapp/assets/images/products/SoVo/59-vo-1.jpg', FALSE, NOW()),
+    (155,59, 'src/main/webapp/assets/images/products/SoVo/59-vo-pri.jpg', TRUE,NOW()),
+
+    (156,60, 'src/main/webapp/assets/images/products/SoVo/60-so-1.jpg', FALSE, NOW()),
+    (157,60, 'src/main/webapp/assets/images/products/SoVo/60-so-2.jpg', FALSE,NOW()),
+    (158,60, 'src/main/webapp/assets/images/products/SoVo/60-so-pri.jpg', TRUE, NOW()),
+
+    (159,61, 'src/main/webapp/assets/images/products/SoVo/61-so-1.jpg', FALSE, NOW()),
+    (160,61, 'src/main/webapp/assets/images/products/SoVo/61-so-pri.jpg', TRUE,NOW()),
+
+    (161,62, 'src/main/webapp/assets/images/products/SoVo/62-so-1.jpg', FALSE, NOW()),
+    (162,62, 'src/main/webapp/assets/images/products/SoVo/62-so-2.jpg', FALSE,NOW()),
+    (163,62, 'src/main/webapp/assets/images/products/SoVo/62-so-3.jpg', FALSE,NOW()),
+    (163,62, 'src/main/webapp/assets/images/products/SoVo/62-so-pri.jpg', TRUE,NOW()),
+
+    (164,63, 'src/main/webapp/assets/images/products/SoVo/63-so-1.jpg', FALSE, NOW()),
+    (165,63, 'src/main/webapp/assets/images/products/SoVo/63-so-2.jpg', FALSE, NOW()),
+    (166,63, 'src/main/webapp/assets/images/products/SoVo/63-so-pri.jpg', TRUE,NOW()),
+
+    (167,64, 'src/main/webapp/assets/images/products/SoVo/64-so-1.jpg', FALSE, NOW()),
+    (168,64, 'src/main/webapp/assets/images/products/SoVo/64-so-pri.jpg', TRUE,NOW()),
+    --Dụng cụ vẽ
+    (169,65, 'src/main/webapp/assets/images/products/DungCuVe/65-dcv-1.jpg', FALSE, NOW()),
+    (170,65, 'src/main/webapp/assets/images/products/DungCuVe/65-dcv-pri.jpg', TRUE,NOW()),
+
+    (171,66, 'src/main/webapp/assets/images/products/DungCuVe/66-dcv-1.jpg', FALSE, NOW()),
+    (172,66, 'src/main/webapp/assets/images/products/DungCuVe/66-dcv-2.jpg', FALSE,NOW()),
+    (173,66, 'src/main/webapp/assets/images/products/DungCuVe/66-dcv-3.jpg', FALSE, NOW()),
+    (174,66, 'src/main/webapp/assets/images/products/DungCuVe/66-dcv-4.jpg', FALSE, NOW()),
+    (175,66, 'src/main/webapp/assets/images/products/DungCuVe/66-dcv-5.jpg', FALSE, NOW()),
+    (176,66, 'src/main/webapp/assets/images/products/DungCuVe/66-dcv-pri.jpg', TRUE,NOW()),
+
+    (177,67, 'src/main/webapp/assets/images/products/DungCuVe/67-dcv-1.jpg', FALSE, NOW()),
+    (178,67, 'src/main/webapp/assets/images/products/DungCuVe/67-dcv-pri.jpg', TRUE,NOW()),
+    (179,67, 'src/main/webapp/assets/images/products/DungCuVe/67-dcv-2.jpg', FALSE, NOW()),
+
+    (180,68, 'src/main/webapp/assets/images/products/DungCuVe/68-dcv-1.jpg', FALSE, NOW()),
+    (181,68, 'src/main/webapp/assets/images/products/DungCuVe/68-dcv-2.jpg', FALSE, NOW()),
+    (182,68, 'src/main/webapp/assets/images/products/DungCuVe/68-dcv-pri.jpg', TRUE,NOW()),
+
+    (183,69, 'src/main/webapp/assets/images/products/DungCuVe/69-dcv-1.jpg', FALSE, NOW()),
+    (184,69, 'src/main/webapp/assets/images/products/DungCuVe/69-dcv-2.jpg', FALSE, NOW()),
+    (185,69, 'src/main/webapp/assets/images/products/DungCuVe/69-dcv-pri.jpg', TRUE,NOW()),
+
+    (186,70, 'src/main/webapp/assets/images/products/DungCuVe/70-dcv-1.jpg', FALSE, NOW()),
+    (187,70, 'src/main/webapp/assets/images/products/DungCuVe/70-dcv-2.jpg', FALSE, NOW()),
+    (188,70, 'src/main/webapp/assets/images/products/DungCuVe/70-dcv-pri.jpg', TRUE,NOW()),
+
+    (189,71, 'src/main/webapp/assets/images/products/DungCuVe/71-dcv-1.jpg', FALSE, NOW()),
+    (190,71, 'src/main/webapp/assets/images/products/DungCuVe/71-dcv-2.jpg', FALSE, NOW()),
+    (191,71, 'src/main/webapp/assets/images/products/DungCuVe/71-dcv-3.jpg', FALSE, NOW()),
+    (192,71, 'src/main/webapp/assets/images/products/DungCuVe/71-dcv-pri.jpg', TRUE,NOW()),
+
+    (193,72, 'src/main/webapp/assets/images/products/DungCuVe/72-dcv-1.jpg', FALSE, NOW()),
+    (194,72, 'src/main/webapp/assets/images/products/DungCuVe/72-dcv-2.jpg', FALSE, NOW()),
+    (195,72, 'src/main/webapp/assets/images/products/DungCuVe/72-dcv-pri.jpg', TRUE,NOW()),
+
+    (196,73, 'src/main/webapp/assets/images/products/DungCuVe/73-dcv-1.jpg', FALSE, NOW()),
+    (197,73, 'src/main/webapp/assets/images/products/DungCuVe/73-dcv-pri.jpg', TRUE,NOW()),
+
+    (198,74, 'src/main/webapp/assets/images/products/DungCuVe/74-dcv-1.jpg', FALSE, NOW()),
+    (199,74, 'src/main/webapp/assets/images/products/DungCuVe/74-dcv-2.jpg', FALSE, NOW()),
+    (200,74, 'src/main/webapp/assets/images/products/DungCuVe/74-dcv-pri.jpg', TRUE,NOW()),
+
+    (201,75, 'src/main/webapp/assets/images/products/DungCuVe/75-dcv-1.jpg', FALSE, NOW()),
+    (202,75, 'src/main/webapp/assets/images/products/DungCuVe/75-dcv-pri.jpg', TRUE,NOW()),
+
+    (203,76, 'src/main/webapp/assets/images/products/DungCuVe/76-dcv-1.jpg', FALSE, NOW()),
+    (204,76, 'src/main/webapp/assets/images/products/DungCuVe/76-dcv-2.jpg', FALSE, NOW()),
+    (205,76, 'src/main/webapp/assets/images/products/DungCuVe/76-dcv-pri.jpg', TRUE,NOW()),
+
+    (206,77, 'src/main/webapp/assets/images/products/DungCuVe/77-dcv-1.jpg', FALSE, NOW()),
+    (207,77, 'src/main/webapp/assets/images/products/DungCuVe/77-dcv-2.jpg', FALSE, NOW()),
+    (208,77, 'src/main/webapp/assets/images/products/DungCuVe/77-dcv-pri.jpg', TRUE,NOW()),
+
+    (209,78, 'src/main/webapp/assets/images/products/DungCuVe/78-dcv-1.jpg', FALSE, NOW()),
+    (210,78, 'src/main/webapp/assets/images/products/DungCuVe/78-dcv-2.jpg', FALSE, NOW()),
+    (211,78, 'src/main/webapp/assets/images/products/DungCuVe/78-dcv-pri.jpg', TRUE,NOW()),
+
+    (212,79, 'src/main/webapp/assets/images/products/DungCuVe/79-dcv-1.jpg', FALSE, NOW()),
+    (213,79, 'src/main/webapp/assets/images/products/DungCuVe/79-dcv-2.jpg', FALSE, NOW()),
+    (214,79, 'src/main/webapp/assets/images/products/DungCuVe/79-dcv-pri.jpg', TRUE,NOW()),
+
+    (215,80, 'src/main/webapp/assets/images/products/DungCuVe/80-dcv-1.jpg', FALSE, NOW()),
+    (216,80, 'src/main/webapp/assets/images/products/DungCuVe/80-dcv-2.jpg', FALSE, NOW()),
+    (217,80, 'src/main/webapp/assets/images/products/DungCuVe/80-dcv-pri.jpg', TRUE,NOW()),
+
+    (218,190, 'src/main/webapp/assets/images/products/DungCuVe/190-dcv-1.jpg', FALSE, NOW()),
+    (219,190, 'src/main/webapp/assets/images/products/DungCuVe/190-dcv-2.jpg', FALSE, NOW()),
+    (220,190, 'src/main/webapp/assets/images/products/DungCuVe/190-dcv-pri.jpg', TRUE,NOW()),
+
+    (221,191, 'src/main/webapp/assets/images/products/DungCuVe/191-dcv-1.jpg', FALSE, NOW()),
+    (222,191, 'src/main/webapp/assets/images/products/DungCuVe/191-dcv-2.jpg', FALSE, NOW()),
+    (223,191, 'src/main/webapp/assets/images/products/DungCuVe/191-dcv-pri.jpg', TRUE,NOW()),
+
+    (224,192, 'src/main/webapp/assets/images/products/DungCuVe/192-dcv-1.jpg', FALSE, NOW()),
+    (225,192, 'src/main/webapp/assets/images/products/DungCuVe/192-dcv-2.jpg', FALSE, NOW()),
+    (226,192, 'src/main/webapp/assets/images/products/DungCuVe/192-dcv-pri.jpg', TRUE,NOW()),
+
+    (227,193, 'src/main/webapp/assets/images/products/DungCuVe/193-dcv-1.jpg', FALSE, NOW()),
+    (228,193, 'src/main/webapp/assets/images/products/DungCuVe/193-dcv-2.jpg', FALSE, NOW()),
+    (229,193, 'src/main/webapp/assets/images/products/DungCuVe/193-dcv-pri.jpg', TRUE,NOW()),
+
+    (230,194, 'src/main/webapp/assets/images/products/DungCuVe/194-dcv-1.jpg', FALSE, NOW()),
+    (231,194, 'src/main/webapp/assets/images/products/DungCuVe/194-dcv-2.jpg', FALSE, NOW()),
+    (232,194, 'src/main/webapp/assets/images/products/DungCuVe/194-dcv-pri.jpg', TRUE,NOW()),
+
+    (233,195, 'src/main/webapp/assets/images/products/DungCuVe/195-dcv-1.jpg', FALSE, NOW()),
+    (234,195, 'src/main/webapp/assets/images/products/DungCuVe/195-dcv-2.jpg', FALSE, NOW()),
+    (235,195, 'src/main/webapp/assets/images/products/DungCuVe/195-dcv-pri.jpg', TRUE,NOW()),
+
+    (236,196, 'src/main/webapp/assets/images/products/DungCuVe/196-dcv-1.jpg', FALSE, NOW()),
+    (237,196, 'src/main/webapp/assets/images/products/DungCuVe/196-dcv-pri.jpg', TRUE,NOW()),
+
+    (238,197, 'src/main/webapp/assets/images/products/DungCuVe/197-dcv-1.jpg', FALSE, NOW()),
+    (239,197, 'src/main/webapp/assets/images/products/DungCuVe/197-dcv-pri.jpg', TRUE,NOW()),
+
+    (240,198, 'src/main/webapp/assets/images/products/DungCuVe/198-dcv-1.jpg', FALSE, NOW()),
+    (241,198, 'src/main/webapp/assets/images/products/DungCuVe/198-dcv-1.jpg', FALSE, NOW()),
+    (242,198, 'src/main/webapp/assets/images/products/DungCuVe/198-dcv-pri.jpg', TRUE,NOW()),
+
+    (243,199, 'src/main/webapp/assets/images/products/DungCuVe/199-dcv-1.jpg', FALSE, NOW()),
+    (244,199, 'src/main/webapp/assets/images/products/DungCuVe/199-dcv-1.jpg', FALSE, NOW()),
+    (245,199, 'src/main/webapp/assets/images/products/DungCuVe/199-dcv-pri.jpg', TRUE,NOW()),
+
+    (246,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
+    (247,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
+    (248,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-pri.jpg', TRUE,NOW()),
+
+
+
+
+
+
+
+
+
+
 -- Tin nhắn xác nhận
 SELECT 'Dữ liệu sản phẩm đã tải thành công' AS message;
