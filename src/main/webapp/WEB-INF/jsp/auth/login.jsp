@@ -79,10 +79,10 @@
             <div style="margin-top: 1.5rem;">
                 <div class="social-row">
                     <button type="button" class="social-btn social-google" aria-label="Sign in with Google">
-                        <span>🔍</span> Google
+                        <span></span> Google
                     </button>
                     <button type="button" class="social-btn social-facebook" aria-label="Sign in with Facebook">
-                        <span>📘</span> Facebook
+                        <span></span> Facebook
                     </button>
                 </div>
             </div>
