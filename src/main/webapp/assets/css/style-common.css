@@ -127,11 +127,12 @@ body {
     white-space: nowrap;
 }
 
-/* Action Buttons - Gộp chung */
+/* Action Buttons - Gộp chung TẤT CẢ các buttons */
 .phone-button,
 .user-button,
 .cart-button,
-.admin-button{
+.admin-button,
+.logout-button {
     background: rgba(255, 255, 255, 0.15);
     border: none;
     border-radius: 50%;
@@ -148,7 +149,8 @@ body {
 .phone-button:hover,
 .user-button:hover,
 .cart-button:hover,
-.admin-button:hover {
+.admin-button:hover,
+.logout-button:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: scale(1.05);
 }
@@ -279,25 +281,7 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.6);
 }
-.footer .text-link{
+
+.footer .text-link {
     text-decoration: underline;
 }
-.logout-button {
-    background: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.logout-button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.05);
-}
-
