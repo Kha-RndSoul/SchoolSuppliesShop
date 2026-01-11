@@ -1,6 +1,6 @@
 package com.shop.dao.support;
 
-import com. shop.model.ContactMessage;
+import com.shop.model.ContactMessage;
 import org.jdbi.v3.core.statement.PreparedBatch;
 
 import java.util.*;
@@ -15,7 +15,7 @@ public class ContactMessageDAO extends BaseDao {
     }
 
     public List<ContactMessage> getListContactMessage() {
-        return new ArrayList<>(data. values());
+        return new ArrayList<>(data.values());
     }
 
     public ContactMessage getContactMessage(int id) {
@@ -24,8 +24,8 @@ public class ContactMessageDAO extends BaseDao {
 
     public List<ContactMessage> getList() {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, customer_id AS customerId, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages ORDER BY created_at DESC")
-                        .mapToBean(ContactMessage. class)
+                h.createQuery("SELECT id, customer_id AS customerId, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at FROM contact_messages ORDER BY created_at DESC")
+                        .mapToBean(ContactMessage.class)
                         .list()
         );
     }
@@ -113,7 +113,7 @@ public class ContactMessageDAO extends BaseDao {
 
     public int countNew() {
         return get().withHandle(h ->
-                h. createQuery("SELECT COUNT(*) FROM contact_messages WHERE status = 'NEW'")
+                h.createQuery("SELECT COUNT(*) FROM contact_messages WHERE status = 'NEW'")
                         .mapTo(Integer.class)
                         .one()
         );
