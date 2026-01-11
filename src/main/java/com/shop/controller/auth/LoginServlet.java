@@ -141,7 +141,7 @@ public class LoginServlet extends HttpServlet {
 
         } catch (Exception e) {
             // Unexpected error
-            System.err.println(" UNEXPECTED ERROR in LoginServlet. doPost() ");
+            System.err.println(" UNEXPECTED ERROR in LoginServlet.doPost() ");
             System.err.println("Exception: " + e.getClass().getName());
             System.err.println("Message: " + e.getMessage());
             e.printStackTrace();
@@ -149,7 +149,7 @@ public class LoginServlet extends HttpServlet {
 
             request.setAttribute("error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.");
             request.setAttribute("email", email);
-            request.getRequestDispatcher("/WEB-INF/jsp/auth/login. jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/auth/login.jsp").forward(request, response);
         }
     }
 
