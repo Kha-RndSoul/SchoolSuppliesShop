@@ -1,5 +1,60 @@
 USE school_supplies_db;
 
+
+
+-- chen dữ liệu mẫu vào bảng coupons
+INSERT INTO coupons (
+    id,
+    coupon_code,
+    image_url,
+    discount_type,
+    discount_value,
+    min_order_amount,
+    max_uses,
+    used_count,
+    start_date,
+    end_date,
+    is_active,
+    created_at
+) VALUES
+-- 1. Giảm 10% cho đơn hàng đầu tiên
+(1, 'HELLOSALE', 'src/main/webapp/assets/images/coupon/shocksale.jpg', 'PERCENTAGE', 10.00, 0.00, 100, 5, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1, NOW()),
+
+-- 2. Giảm 20k cho đơn từ 200k
+(2, 'GIAM20K', 'src/main/webapp/assets/images/coupon/voucher.jpg', 'FIXED_AMOUNT', 20000.00, 200000.00, 50, 12, '2026-01-15 00:00:00', '2026-02-15 23:59:59', 1, NOW()),
+
+-- 3. Mã tri ân khách hàng cũ (15%)
+(3, 'THANKS15', 'src/main/webapp/assets/images/coupon/funThousand.jpg', 'PERCENTAGE', 15.00, 500000.00, 200, 45, '2026-01-01 00:00:00', '2026-06-30 23:59:59', 1, NOW()),
+
+-- 4. Mã Flash Sale
+(4, 'FLASH99', 'src/main/webapp/assets/images/coupon/flashsale.jpg', 'FIXED_AMOUNT', 99000.00, 100000.00, 10, 10, '2025-12-31 20:00:00', '2026-12-31 23:59:59', 1, '2025-12-31 10:00:00'),
+
+-- 5. Mã giảm giá Valentine sắp tới
+(5, 'LOVE2026', 'src/main/webapp/assets/images/coupon/chirismat.jpg', 'PERCENTAGE', 14.00, 140000.00, 500, 0, '2026-02-10 00:00:00', '2026-02-15 23:59:59', 1, NOW()),
+
+-- 6. Mã giảm giá tiểu vương quốc Raumania
+(6, 'RAUMA36', 'src/main/webapp/assets/images/coupon/gachasale.jpg', 'FIXED_AMOUNT', 36000.00, 0.00, 3600, 36, '2026-01-17 00:00:00', '2026-12-31 23:59:59', 1, NOW());
+-- Chèn dữ liệu mẫu vào bảng admins
+INSERT INTO admins (
+    id,
+    username,
+    email,
+    password_hash,
+    full_name,
+    role,
+    is_active,
+    created_at
+) VALUES (
+             1,
+             'admin',
+             'admin@shop.com',
+             '$2a$12$sQMl7PEeVK6QNG2x2ICd1.baC0eBgreX9KCA87QyX7mM5JZNWI9su',
+             'Nguyễn Tuấn Kha',
+             'SUPER_ADMIN',
+             1,
+             '2026-01-17 17:46:03'
+         );
+
 -- Chèn dữ liệu mẫu vào bảng banners
 INSERT INTO banners (id, title, image_url, status)
 VALUES
@@ -47,11 +102,11 @@ INSERT INTO brands (id, brand_name, created_at) VALUES
     (11, 'Flexio', NOW()),
     (12, 'Casio', NOW()),
     (13, 'Rạng Đông', NOW()),
-    (12, 'Panasonic', NOW()),
-    (13, 'Double A', NOW()),
-    (14, 'IK Plus', NOW()),
-    (15, 'Jamlos', NOW()),
-    (16, 'King Jim', NOW())
+    (14, 'Panasonic', NOW()),
+    (15, 'Double A', NOW()),
+    (16, 'IK Plus', NOW()),
+    (17, 'Jamlos', NOW()),
+    (18, 'King Jim', NOW())
 ;
 
 -- Chèn dữ liệu  vào bảng products
@@ -68,7 +123,6 @@ INSERT INTO products (
     is_active
 ) VALUES
       --Insert sản phẩm của Dũng
-INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES
     (1, 'Bút gel Doraemon TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học.Thân bút bằng nhựa trắng đục, in transfer fllm hình nhân vật Doraemon rất thu hút. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục', 1, 1, 10000.00, 8000.00, 50, 100, TRUE),
     (2, 'Bút gel B TL', 'Kiểu dáng hiện đại, dắt bút bằng kim loại sáng bóng sang trọng rất phù hợp với khách hàng là nhân viên văn phòng. ', 1, 1, 13000.00, 11000.00, 40, 50, TRUE),
     (3, 'Bút gel Fasgel TL', 'Nét viết êm tru,mực ra đều,liên tục. Ngòi bút cao cấp,sang trọng. Thiết Kế tinh vi,nghệ thuật', 1, 1, 7000.00, 6000.00, 2, 20, TRUE),
@@ -234,18 +288,18 @@ INSERT INTO products (id, product_name, description, category_id, brand_id, pric
       (164, 'Bóng đèn học RẠNG ĐÔNG đui xoáy E27 bóng LED chip SAMSUNG chống cận bảo vệ thị lực bảo hành 12 tháng', 'Bóng đèn led lắp đui đèn trang trí ngoài trời, đèn thả trang trí, đèn ngủ, đèn bàn trang điểm...\n+Bóng đèn Led tiết kiệm điện dùng để trang trí và chiếu sáng, được sử dụng phổ biến khắp mọi nơi từ trong nhà đến ngoài trời, sân vườn, hàng quán, đường phố\n+Tiết kiệm điện đến 80% so với bóng đèn thông thường\n+Ánh sáng giống như ánh sáng tự nhiên, nên không hại mắt, có thể dùng để chiếu sáng cho cây xanh tốt', 6, 13, 39499.00, 31204.21, 313, 184, TRUE),
       (165, 'Bóng đèn học 11w ánh sáng trắng, vàng (bóng đèn Trung Quốc) thay thế cho đèn RẠNG ĐÔNG (loại tốt)', '#Tuổi thọ, độ bền:\n+Led có tuổi thọ cao từ 15000-20000 giờ, với điều kiện sử dụng đêm bật ngày tắt thì đến vài năm mới có thể hỏng\n+Chất liệu bóng đèn bằng nhựa kỹ thuật nên không sợ va chạm hay rơi vỡ\n#Hướng dẫn chọn công suất phù hợp:\n+3-5w: Làm đèn trang trí, đèn tường, đèn góc, đèn gương, đèn ở khu vực nhỏ cần sáng ít\n+7-12w: Chiếu sáng và trang trí, đèn cầu thang, đèn học, đèn nhà tắm, vệ sinh, khu vực nhỏ cần sáng vừa\n+15-28w: Chiếu sáng phòng nhỏ, nhà bếp, hành lang, ban công, khu vực nhỏ và vừa cần sáng rõ ràng\n+30-50w: Chiếu sáng phòng lớn, sân vườn, khu vực rộng cần ánh sáng mạnh\n+Ước tính khoảng 20-30w chiếu sáng đủ cho 10m2', 6, 13, 42000.00, 42000.00, 397, 182, TRUE),
       (166, 'Bóng đèn huỳnh quang thay thế bóng đèn học Rạng Đông', 'Bóng đèn ánh sáng trắng và ánh sáng vàng (Bóng đèn Trung Quốc) - Sản phẩm dùng để thay thế cho bóng đèn học Rạng Đông.\nNguồn điện: 220v.\nCông suất: 11 w.\nChiều dài bóng vàng: 22,5cm.\nChiều dài bóng trắng: 23.2cm.\nXuất xứ: Trung Quốc.', 6, 13, 40000.00, 40000.00, 349, 1, TRUE),
-   /*   (167, 'Bút kí cao cấp Pentel energel nét 0.5, 0.7, 1.0mm màu mực Xanh/ Đỏ/ Đen. Ruột thay thế cho bút- Chính Hãng', 'Bút mực gel Pentel energel ( Liquid Gel Ink ):\n- Xuất xứ: Pentel Nhật Bản\nBút gel Pentel ENERGEL thiết kế sang trọng, thân nhựa cao cấp. Bút dạng lắp rút, tháo rời hoặc dạng bấm với thanh cài chắc chắn giúp bạn có thể cài lên túi áo, khuy áo, cặp tài liệu... rất tiện dụng. Đặc biệt với cấu tạo thân nhựa cao cấp bền, đẹp nên có thể tái sử dụng nhiều lần ( khi hết mực bạn chỉ cần mua ruột bút về thay thế), giúp tối ưu chi phí.', 1, 15, 20000.00, 19200.00, 482, 188, TRUE),
-      (168, 'Hôp 12 cây Bút bi Double A Tritouch 0.7mm chính hãng Double A, nét đậm ( đủ màu )', 'Xuất xứ: Thái Lan\n- Giúp cho nét chữ đẹp, rõ ràng.\n- Khi viết, đầu bi lăn mượt mà, mực xuống đều không bị đứt nét, viết êm tay kể cả khi viết nhanh.\n- Bút cầm vừa tay, chống trơn, giúp bạn không bị mỏi tay khi viết lâu.\n- Màu mực đậm, tươi sáng.\n- Dung lượng mực nhiều, thời hạn sử dụng dài lâu.\n- Chất liệu thân thiện với môi trường và an toàn cho sức khoẻ người dùng.', 1, 15, 55000.00, 52800.00, 456, 26, TRUE),
-      (169, 'Hộp bút bi Double A BLISS 0.7mm (12 cây) - Viết siêu nhẹ, siêu êm,đều mực, công nghệ chống mỏi tay tiên tiến', 'Bút Bi Double A Bliss – Viết Sướng Tay, Ký Lẹ Lúa!\n✒️ Mực Sắc Nét, Viết Mượt Mà\nVới bút bi Double A Bliss, bạn sẽ trải nghiệm cảm giác viết mượt mà, không bị tắc mực. Mực đậm, sắc nét giúp mỗi chữ viết rõ ràng, dễ đọc và chuyên nghiệp. Đặc biệt, bút cho phép viết lâu dài mà không cần lo lắng về việc bị mờ hay nhòe mực.', 1, 15, 24750.00, 24007.50, 456, 13, TRUE),
-      (170, 'Combo 10 Ruột Bút Nước LINC EXECUTIVE 0.5mm - Dùng thay ruột được cho tất cả các loại bút Linc', 'Túi 10 ruột bút nước LINC EXECUTIVE, Mỗi ruột đóng trong một túi riêng bảo quản dễ dàng.\nRuột bút có kích cỡ tiêu chuẩn, có thể lắp được cho tất cả các dòng bút nước trên thị trường như Executive, Thiên Long, M&G Q7, Deli, Aihao (bút chữ A).v.v.', 1, 15, 28800.00, 21024.00, 491, 277, TRUE),
-      (171, '[RẺ VÔ ĐỊCH] Hộp 50 cây bút SPEED BALL PEN 0,7mm, Bút bi chính hãng Double A - Sự mượt mà tạo nên khác biệt', 'Hộp 50 CÂY bút bi Double A SPEED BALL  0,7mm NGÒI SIÊU ÊM\nThương hiệu: Double A\nMade in India\n- Giúp cho nét chữ đẹp, rõ ràng.\n- Khi viết, đầu bi lăn mượt mà, mực xuống đều không bị đứt nét, viết êm tay kể cả khi viết nhanh.\n- Bút cầm vừa tay, chống trơn, giúp bạn không bị mỏi tay khi viết lâu.\n- Màu mực đậm, tươi sáng.\n- Dung lượng mực nhiều, thời hạn sử dụng dài lâu.\n- Chất liệu thân thiện với môi trường và an toàn cho sức khoẻ người dùng.', 1, 15, 62100.00, 42849.00, 403, 202, TRUE),
-      (172, 'Combo 10 Ruột Bút Nước LINC EXECUTIVE 0.5mm - Dùng thay ruột được cho tất cả các loại bút Linc', 'Túi 10 ruột bút nước LINC EXECUTIVE, Mỗi ruột đóng trong một túi riêng bảo quản dễ dàng.\nRuột bút có kích cỡ tiêu chuẩn, có thể lắp được cho tất cả các dòng bút nước trên thị trường như Executive, Thiên Long, M&G Q7, Deli, Aihao (bút chữ A).v.v.', 1, 15, 28800.00, 25632.00, 424, 47, TRUE),
-      (173, 'Hộp bút bi Double A BLISS 0.7mm (12 cây) - Viết siêu nhẹ, siêu êm,đều mực, công nghệ chống mỏi tay tiên tiến', 'hiết Kế Hiện Đại, Tiện Dụng\nĐược thiết kế với kiểu dáng sang trọng, bút bi Double A Bliss phù hợp cho mọi đối tượng sử dụng, từ học sinh, sinh viên cho đến nhân viên văn phòng. Thiết kế nhỏ gọn, nhẹ nhàng giúp bạn dễ dàng mang theo bên mình mọi lúc mọi nơi.', 1, 15, 24750.00, 17820.00, 409, 116, TRUE),
-      (174, 'Hộp 50 cây bút SPEED BALL PEN 0,7mm, Bút bi chính hãng Double A - Sự mượt mà tạo nên khác biệt', 'Hộp 50 CÂY bút bi Double A SPEED BALL  0,7mm NGÒI SIÊU ÊM\nThương hiệu: Double A\nMade in India\n- Giúp cho nét chữ đẹp, rõ ràng.\n- Khi viết, đầu bi lăn mượt mà, mực xuống đều không bị đứt nét, viết êm tay kể cả khi viết nhanh.\n- Bút cầm vừa tay, chống trơn, giúp bạn không bị mỏi tay khi viết lâu.\n- Màu mực đậm, tươi sáng.\n- Dung lượng mực nhiều, thời hạn sử dụng dài lâu.\n- Chất liệu thân thiện với môi trường và an toàn cho sức khoẻ người dùng.', 1, 15, 62100.00, 39744.00, 300, 31, TRUE),
-      (175, 'Hôp 12 cây Bút bi Double A Tritouch 0.7mm chính hãng Double A, nét đậm ( đủ màu )', 'Thương hiệu: Double A\nXuất xứ: Thái Lan\n- Giúp cho nét chữ đẹp, rõ ràng.\n- Khi viết, đầu bi lăn mượt mà, mực xuống đều không bị đứt nét, viết êm tay kể cả khi viết nhanh.\n- Bút cầm vừa tay, chống trơn, giúp bạn không bị mỏi tay khi viết lâu.\n- Màu mực đậm, tươi sáng.\n- Dung lượng mực nhiều, thời hạn sử dụng dài lâu.\n- Chất liệu thân thiện với môi trường và an toàn cho sức khoẻ người dùng.\nĐơn vị tính: 12 cây', 1, 15, 55000.00, 53900.00, 458, 94, TRUE),
-      (176, 'Hộp bút bi Double A BLISS 0.7mm (12 cây) - Viết siêu nhẹ, siêu êm,đều mực, công nghệ chống mỏi tay tiên tiến', 'Thích Hợp Cho Mọi Tình Huống\nTừ ghi chú, ký hợp đồng, đến viết thư hay làm bài kiểm tra, Double A Bliss đều là người bạn đồng hành lý tưởng, giúp bạn hoàn thành mọi công việc một cách nhanh chóng và dễ dàng.', 1, 15, 24750.00, 19057.50, 325, 269, TRUE),
-  */  (177, 'Giấy A4 Double A 70 gsm', '🌟 Giấy In A4 Double A - Chất Lượng Cao Cấp 🌟\n\n📌 Chất Lượng Vượt Trội\n\n- Giấy A4 Double A là lựa chọn hàng đầu cho in ấn văn phòng với chất lượng cao cấp.\n\n- Định lượng giấy có sẵn: 70gsm và 80gsm, phù hợp cho nhiều mục đích sử dụng từ in hợp đồng, bản ký kết đến phác thảo thiết kế.\n\n- Độ trắng sáng và sắc nét, không gây kẹt giấy nhờ công nghệ cắt hiện đại. ', 7, 15, 106000.00, 72080.00, 167, 13, TRUE),
-    (178, 'Giấy in A4 IK Plus 70gsm 500 tờ/ream', '🌟 Đặc điểm nổi bật 🌟\n\n- Độ trắng cao 98%:  Giúp bản in sắc nét và rõ ràng, phù hợp cho mọi thiết bị văn phòng.\n\n- Bề mặt nhẵn mịn:  Tối ưu lượng mực sử dụng, in ấn mượt mà.\n\n- Công nghệ Trutone: Tạo ra hình ảnh in chân thực, sống động cả khi in trắng đen lẫn in màu. ', 7, 16, 70900.00, 42540.00, 123, 65, TRUE),
+      (167, 'Giấy kiểm tra Điểm 10', 'Thiên Long - Miền Trung | Xuất xứ : Việt Nam | Thương hiệu Điểm 10 | Model: TP-GKT02 | Kích thước 170 x 240 mm | Trọng lượng 30 gram | Quy cách 20 tờ đôi và 6 tờ đơn / xấp | Kích thước ô ly 4 ô ly vuông (2,5 x 2,5) mm | Chất liệu Bột giấy | Định lượng 100 gsm', 7, 3, 18128.00, 22500.00, 482, 188, TRUE),
+    (168, 'Giấy kiểm tra Điểm 10 TP-GKT02 (4 ô ly ) -20 tờ đôi và 6 tờ đơn', 'Xuất xứ : Việt Nam | Thương hiệu Điểm 10 | Model: TP-GKT02 | Kích thước 170 x 240 mm | Trọng lượng 30 gram | Quy cách 20 tờ đôi và 6 tờ đơn / xấp | Kích thước ô ly 4 ô ly vuông (2,5 x 2,5) mm', 7, 3, 14850.00, 22500.00, 456, 26, TRUE),
+    (169, 'Giấy ghi chú Thiên Long', 'Thông số kĩ thuật | Thương hiệu Thiên Long | Định lượng giấy 100 gsm | Tiêu chuẩn TCCS 095:2016/TL-GN | Xuất xứ Việt Nam | Sản xuất Trung Quốc | Khuyến cáo Nhiệt độ 10~55ºC, Độ ẩm 55~95% RH | Tránh xa nguồn nhiệt, dầu mỡ', 7, 1, 9240.00, 14000.00, 456, 13, TRUE),
+    (170, 'Set 100 tờ giấy ghi chú Pastel Thiên Long', 'Thông số kĩ thuật | Thương hiệu Thiên Long | Định lượng giấy 100 gsm | Tiêu chuẩn TCCS 095:2016/TL-GN | Xuất xứ Việt Nam | Sản xuất Trung Quốc', 7, 1, 16456.00, 22000.00, 491, 277, TRUE),
+    (171, 'Thẻ flashcard trắng CAO CẤP', 'Sản phẩm giấy ghi chú kích thước mini 4x7 cm | Trọng lượng 30 gram | Tiện lợi mang theo | Phù hợp ghi chép nhanh | Để bàn làm việc, túi sách hoặc ngăn kéo xe hơi', 7, 3, 8000.00, 25000.00, 403, 202, TRUE),
+    (172, 'Set 100 Giấy Note Ghi Chú, Giấy Nhớ Hình Vuông Dán Vàng', 'Tên sản phẩm: Giấy nhắn Deli | Mã sản phẩm: EA00353/EA00253 | Quy cách: 1 tệp', 7, 3, 7000.00, 15000.00, 424, 47, TRUE),
+    (173, 'Giấy Note Elephant', 'Giấy Note Elephant - Giấy ghi chú - Giấy nhớ 2x3 inch | Màu pastel 100 tờ/xấp | Màu neon 80 tờ/xấp | Hỗ trợ quản lý và tổ chức kế hoạch dài hạn', 7, 3, 15000.00, 18000.00, 409, 116, TRUE),
+    (174, 'Giấy note set ghi chú 400 tờ', 'Bộ sản phẩm 400 tờ | Phù hợp ghi chép hàng ngày | Đánh dấu nội dung quan trọng | Dùng trong học tập, họp và công việc', 7, 3, 29000.00, 39000.00, 300, 31, TRUE),
+    (175, 'Giấy ghi chú trong suốt', 'Chất liệu PET trong suốt | Bề mặt mịn dễ viết | Keo dán chắc dễ bóc không để keo | Không rách giấy | Màu pastel dịu mắt | Ghi chú rõ ràng khi dùng lâu', 7, 3, 27750.00, 34500.00, 458, 94, TRUE),
+    (176, 'Giấy nhớ note 4 màu', 'Giấy note 4 màu có dòng kẻ 100 tờ/tập | Model Baoke TZ6001 (76x102 mm) | Thương hiệu Baoke | Xuất xứ Trung Quốc | Nhà cung cấp GuangDong Baoke Stationery Co.,LTD', 7, 3, 27000.00, 26000.00, 325, 269, TRUE),
+    (177, 'Giấy A4 Double A 70 gsm', '🌟 Giấy In A4 Double A - Chất Lượng Cao Cấp 🌟\n\n📌 Chất Lượng Vượt Trội\n\n- Giấy A4 Double A là lựa chọn hàng đầu cho in ấn văn phòng với chất lượng cao cấp.\n\n- Định lượng giấy có sẵn: 70gsm và 80gsm, phù hợp cho nhiều mục đích sử dụng từ in hợp đồng, bản ký kết đến phác thảo thiết kế.\n\n- Độ trắng sáng và sắc nét, không gây kẹt giấy nhờ công nghệ cắt hiện đại. ', 7, 15, 106000.00, 72080.00, 167, 13, TRUE),
+    (178, 'Giấy in A4 IK Plus 70gsm 500 tờ/ream', '🌟 Đặc điểm nổi bật 🌟\n\n- Độ trắng cao 98%:  Giúp bản in sắc nét và rõ ràng, phù hợp cho mọi thiết bị văn phòng.\n\n- Bề mặt nhẵn mịn:  Tối ưu lượng mực sử dụng, in ấn mượt mà.\n\n- Công nghệ Trutone: Tạo ra hình ảnh in chân thực, sống động cả khi in trắng đen lẫn in màu.', 7, 16, 70900.00, 42540.00, 123, 65, TRUE),
     (179, 'Giấy A4 70 Ik Plus', '- Một trong những đặc điểm vượt bậc của giấy photocopy IK Plus chính là độ dai bền của xớ giấy, giúp giấy không bị cong vênh, không bị kẹt vào máy khi in - photocopy dưới tốc độ nhanh và nhiệt độ cao.\n\n- Phù hợp với hầu hết các loại Máy in phun, Máy in Laser, Máy Fax laser, Máy Photocopy', 7, 16, 65000.00, 63700.00, 106, 34, TRUE),
     (180, 'Giấy in văn phòng IK Plus A4 80gsm', '(1 Ream) Giấy in văn phòng IK Plus A4 80gsm\n\nThông tin chung\n\nLoại sản phẩm\n\nGiấy In Văn Phòng IK Plus A4 80gsm\n\nHãng sản xuất IK Plus\n\nChức năng In văn phản\n\nMàu sắc Trắng\n\nChất liệu Giấy láng, mịn, trắng bóng\n\nCông nghệ in In phun, in laser màu\n\nTÍNH NĂNG NỔI BẬT\n\nĐộ dày giấy 80gsm\n\nKháng nước Tương đối\n\nIn mực chính hãng >= 98% độ lên màu\n\nIn mực Inktec >=95% độ lên màu\n\nIn mực Dye UV +/- 90-95% độ lên màu\n\nIn mực Pigment UV  +/- 85 - 90% độ lên màu\n\nThông số kỹ thuật\n\nKích thước 210x297mm\n\nSố lượng mặt in 2 mặt\n\nQui cách đóng gói 500 tờ/gram\n\nBảo quản Điều kiện bảo quản tốt nhất từ 20 - 25 độ C\n\n Giấy in IK Plus A4 sở hữu độ trắng sáng tiêu chuẩn, mịn và bám màu mực tốt.  Giấy đáp ứng nhu cầu in ấn của hầu hết các loại máy in,máy', 7, 16, 82500.00, 62700.00, 140, 88, TRUE),
     (181, '50/100 tờ giấy đôi kiểm tra 4 ô ly/5 ô ly', 'Mô tả từ nhà sản xuất :\n\n- Kích thước:  155x205mm\n\n- Định lượng 80 gsm.\n\n- Giấy trắng cao cấp.\n\n- Dòng kẻ in - rõ nét', 7, 18, 25999.00, 23399.10, 162, 76, TRUE),
@@ -610,9 +664,147 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
     (247,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
     (248,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-pri.jpg', TRUE,NOW()),
 
+    (366,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg', FALSE, NOW()),
+    (367,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg', TRUE,NOW()),
 
+    (366,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg',FALSE,NOW()),
+    (367,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg',TRUE,NOW()),
 
+    (368,146,'src/main/webapp/assets/images/products/DenHoc/146-Denhoc-1.jpg',FALSE,NOW()),
+    (369,146,'src/main/webapp/assets/images/products/DenHoc/146-Denhoc-pri.jpg',TRUE,NOW()),
 
+    (370,147,'src/main/webapp/assets/images/products/DenHoc/147-Denhoc-1.jpg',FALSE,NOW()),
+    (371,147,'src/main/webapp/assets/images/products/DenHoc/147-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (372,148,'src/main/webapp/assets/images/products/DenHoc/148-Denhoc-1.jpg',FALSE,NOW()),
+    (373,148,'src/main/webapp/assets/images/products/DenHoc/148-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (374,149,'src/main/webapp/assets/images/products/DenHoc/149-Denhoc-1.jpg',FALSE,NOW()),
+    (375,149,'src/main/webapp/assets/images/products/DenHoc/149-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (376,150,'src/main/webapp/assets/images/products/DenHoc/150-Denhoc-1.jpg',FALSE,NOW()),
+    (377,150,'src/main/webapp/assets/images/products/DenHoc/150-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (378,151,'src/main/webapp/assets/images/products/DenHoc/151-Denhoc-1.jpg',FALSE,NOW()),
+    (379,151,'src/main/webapp/assets/images/products/DenHoc/151-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (380,152,'src/main/webapp/assets/images/products/DenHoc/152-Denhoc-1.jpg',FALSE,NOW()),
+    (381,152,'src/main/webapp/assets/images/products/DenHoc/152-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (382,153,'src/main/webapp/assets/images/products/DenHoc/153-Denhoc-1.jpg',FALSE,NOW()),
+    (383,153,'src/main/webapp/assets/images/products/DenHoc/153-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (384,154,'src/main/webapp/assets/images/products/DenHoc/154-Denhoc-1.jpg',FALSE,NOW()),
+    (385,154,'src/main/webapp/assets/images/products/DenHoc/154-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (386,155,'src/main/webapp/assets/images/products/DenHoc/155-Denhoc-1.jpg',FALSE,NOW()),
+    (387,155,'src/main/webapp/assets/images/products/DenHoc/155-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (388,156,'src/main/webapp/assets/images/products/DenHoc/156-Denhoc-1.jpg',FALSE,NOW()),
+    (389,156,'src/main/webapp/assets/images/products/DenHoc/156-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (390,157,'src/main/webapp/assets/images/products/DenHoc/157-Denhoc-1.jpg',FALSE,NOW()),
+    (391,157,'src/main/webapp/assets/images/products/DenHoc/157-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (392,158,'src/main/webapp/assets/images/products/DenHoc/158-Denhoc-1.jpg',FALSE,NOW()),
+    (393,158,'src/main/webapp/assets/images/products/DenHoc/158-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (394,159,'src/main/webapp/assets/images/products/DenHoc/159-Denhoc-1.jpg',FALSE,NOW()),
+    (395,159,'src/main/webapp/assets/images/products/DenHoc/159-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (396,160,'src/main/webapp/assets/images/products/DenHoc/160-Denhoc-1.jpg',FALSE,NOW()),
+    (397,160,'src/main/webapp/assets/images/products/DenHoc/160-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (398,161,'src/main/webapp/assets/images/products/DenHoc/161-Denhoc-1.jpg',FALSE,NOW()),
+    (399,161,'src/main/webapp/assets/images/products/DenHoc/161-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (400,162,'src/main/webapp/assets/images/products/DenHoc/162-Denhoc-1.jpg',FALSE,NOW()),
+    (401,162,'src/main/webapp/assets/images/products/DenHoc/162-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (402,163,'src/main/webapp/assets/images/products/DenHoc/163-Denhoc-1.jpg',FALSE,NOW()),
+    (403,163,'src/main/webapp/assets/images/products/DenHoc/163-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (404,164,'src/main/webapp/assets/images/products/DenHoc/164-Denhoc-1.jpg',FALSE,NOW()),
+    (405,164,'src/main/webapp/assets/images/products/DenHoc/164-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (406,165,'src/main/webapp/assets/images/products/DenHoc/165-Denhoc-1.jpg',FALSE,NOW()),
+    (407,165,'src/main/webapp/assets/images/products/DenHoc/165-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (408,166,'src/main/webapp/assets/images/products/DenHoc/166-Denhoc-1.jpg',FALSE,NOW()),
+    (409,166,'src/main/webapp/assets/images/products/DenHoc/166-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (410,167,'src/main/webapp/assets/images/products/Giay/167-Giay-1.jpg',FALSE,NOW()),
+    (411,167,'src/main/webapp/assets/images/products/Giay/167-Giay-pri.jpg',TRUE,NOW()),
+
+    (412,167,'src/main/webapp/assets/images/products/Giay/168-Giay-1.jpg',FALSE,NOW()),
+    (413,167,'src/main/webapp/assets/images/products/Giay/168-Giay-pri.jpg',TRUE,NOW()),
+
+    (414,168,'src/main/webapp/assets/images/products/Giay/169-Giay-1.jpg',FALSE,NOW()),
+    (415,168,'src/main/webapp/assets/images/products/Giay/169-Giay-pri.jpg',TRUE,NOW()),
+
+    (416,169,'src/main/webapp/assets/images/products/Giay/170-Giay-1.jpg',FALSE,NOW()),
+    (417,169,'src/main/webapp/assets/images/products/Giay/170-Giay-pri.jpg',TRUE,NOW()),
+
+    (418,170,'src/main/webapp/assets/images/products/Giay/171-Giay-1.jpg',FALSE,NOW()),
+    (419,170,'src/main/webapp/assets/images/products/Giay/171-Giay-pri.jpg',TRUE,NOW()),
+
+    (420,171,'src/main/webapp/assets/images/products/Giay/172-Giay-1.jpg',FALSE,NOW()),
+    (421,171,'src/main/webapp/assets/images/products/Giay/172-Giay-pri.jpg',TRUE,NOW()),
+
+    (422,172,'src/main/webapp/assets/images/products/Giay/173-Giay-1.jpg',FALSE,NOW()),
+    (423,172,'src/main/webapp/assets/images/products/Giay/173-Giay-pri.jpg',TRUE,NOW()),
+
+    (424,173,'src/main/webapp/assets/images/products/Giay/174-Giay-1.jpg',FALSE,NOW()),
+    (425,173,'src/main/webapp/assets/images/products/Giay/174-Giay-pri.jpg',TRUE,NOW()),
+
+    (426,174,'src/main/webapp/assets/images/products/Giay/175-Giay-1.jpg',FALSE,NOW()),
+    (427,174,'src/main/webapp/assets/images/products/Giay/175-Giay-pri.jpg',TRUE,NOW()),
+
+    (428,175,'src/main/webapp/assets/images/products/Giay/176-Giay-1.jpg',FALSE,NOW()),
+    (429,175,'src/main/webapp/assets/images/products/Giay/176-Giay-pri.jpg',TRUE,NOW()),
+
+    (430,176,'src/main/webapp/assets/images/products/Giay/177-Giay-1.jpg',FALSE,NOW()),
+    (431,176,'src/main/webapp/assets/images/products/Giay/177-Giay-pri.jpg',TRUE,NOW()),
+
+    (432,177,'src/main/webapp/assets/images/products/Giay/178-Giay-1.jpg',FALSE,NOW()),
+    (433,177,'src/main/webapp/assets/images/products/Giay/178-Giay-pri.jpg',TRUE,NOW()),
+
+    (434,178,'src/main/webapp/assets/images/products/Giay/179-Giay-1.jpg',FALSE,NOW()),
+    (435,178,'src/main/webapp/assets/images/products/Giay/179-Giay-pri.jpg',TRUE,NOW()),
+
+    (436,179,'src/main/webapp/assets/images/products/Giay/180-Giay-1.jpg',FALSE,NOW()),
+    (437,179,'src/main/webapp/assets/images/products/Giay/180-Giay-pri.jpg',TRUE,NOW()),
+
+    (438,180,'src/main/webapp/assets/images/products/Giay/181-Giay-1.jpg',FALSE,NOW()),
+    (439,180,'src/main/webapp/assets/images/products/Giay/181-Giay-pri.jpg',TRUE,NOW()),
+
+    (440,181,'src/main/webapp/assets/images/products/Giay/182-Giay-1.jpg',FALSE,NOW()),
+    (441,181,'src/main/webapp/assets/images/products/Giay/182-Giay-pri.jpg',TRUE,NOW()),
+
+    (442,182,'src/main/webapp/assets/images/products/Giay/183-Giay-1.jpg',FALSE,NOW()),
+    (443,182,'src/main/webapp/assets/images/products/Giay/183-Giay-pri.jpg',TRUE,NOW()),
+
+    (444,183,'src/main/webapp/assets/images/products/Giay/184-Giay-1.jpg',FALSE,NOW()),
+    (445,183,'src/main/webapp/assets/images/products/Giay/184-Giay-pri.jpg',TRUE,NOW()),
+
+    (446,184,'src/main/webapp/assets/images/products/Giay/185-Giay-1.jpg',FALSE,NOW()),
+    (447,184,'src/main/webapp/assets/images/products/Giay/185-Giay-pri.jpg',TRUE,NOW()),
+
+    (448,185,'src/main/webapp/assets/images/products/Giay/186-Giay-1.jpg',FALSE,NOW()),
+    (449,185,'src/main/webapp/assets/images/products/Giay/186-Giay-pri.jpg',TRUE,NOW()),
+
+    (450,186,'src/main/webapp/assets/images/products/Giay/187-Giay-1.jpg',FALSE,NOW()),
+    (451,186,'src/main/webapp/assets/images/products/Giay/187-Giay-pri.jpg',TRUE,NOW()),
+
+    (452,187,'src/main/webapp/assets/images/products/Giay/188-Giay-1.jpg',FALSE,NOW()),
+    (453,187,'src/main/webapp/assets/images/products/Giay/188-Giay-pri.jpg',TRUE,NOW()),
+
+    (454,188,'src/main/webapp/assets/images/products/Giay/189-Giay-1.jpg',FALSE,NOW()),
+    (455,188,'src/main/webapp/assets/images/products/Giay/189-Giay-pri.jpg',TRUE,NOW()),
+
+    (456,189,'src/main/webapp/assets/images/products/Giay/190-Giay-1.jpg',FALSE,NOW()),
+    (457,189,'src/main/webapp/assets/images/products/Giay/190-Giay-pri.jpg',TRUE,NOW())
+;
 
 
 
