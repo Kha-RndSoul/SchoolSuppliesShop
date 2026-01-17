@@ -1,60 +1,5 @@
 USE school_supplies_db;
 
-
-
--- chen dữ liệu mẫu vào bảng coupons
-INSERT INTO coupons (
-    id,
-    coupon_code,
-    image_url,
-    discount_type,
-    discount_value,
-    min_order_amount,
-    max_uses,
-    used_count,
-    start_date,
-    end_date,
-    is_active,
-    created_at
-) VALUES
--- 1. Giảm 10% cho đơn hàng đầu tiên
-(1, 'HELLOSALE', 'src/main/webapp/assets/images/coupon/shocksale.jpg', 'PERCENTAGE', 10.00, 0.00, 100, 5, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1, NOW()),
-
--- 2. Giảm 20k cho đơn từ 200k
-(2, 'GIAM20K', 'src/main/webapp/assets/images/coupon/voucher.jpg', 'FIXED_AMOUNT', 20000.00, 200000.00, 50, 12, '2026-01-15 00:00:00', '2026-02-15 23:59:59', 1, NOW()),
-
--- 3. Mã tri ân khách hàng cũ (15%)
-(3, 'THANKS15', 'src/main/webapp/assets/images/coupon/funThousand.jpg', 'PERCENTAGE', 15.00, 500000.00, 200, 45, '2026-01-01 00:00:00', '2026-06-30 23:59:59', 1, NOW()),
-
--- 4. Mã Flash Sale
-(4, 'FLASH99', 'src/main/webapp/assets/images/coupon/flashsale.jpg', 'FIXED_AMOUNT', 99000.00, 100000.00, 10, 10, '2025-12-31 20:00:00', '2026-12-31 23:59:59', 1, '2025-12-31 10:00:00'),
-
--- 5. Mã giảm giá Valentine sắp tới
-(5, 'LOVE2026', 'src/main/webapp/assets/images/coupon/chirismat.jpg', 'PERCENTAGE', 14.00, 140000.00, 500, 0, '2026-02-10 00:00:00', '2026-02-15 23:59:59', 1, NOW()),
-
--- 6. Mã giảm giá tiểu vương quốc Raumania
-(6, 'RAUMA36', 'src/main/webapp/assets/images/coupon/gachasale.jpg', 'FIXED_AMOUNT', 36000.00, 0.00, 3600, 36, '2026-01-17 00:00:00', '2026-12-31 23:59:59', 1, NOW());
--- Chèn dữ liệu mẫu vào bảng admins
-INSERT INTO admins (
-    id,
-    username,
-    email,
-    password_hash,
-    full_name,
-    role,
-    is_active,
-    created_at
-) VALUES (
-             1,
-             'admin',
-             'admin@shop.com',
-             '$2a$12$sQMl7PEeVK6QNG2x2ICd1.baC0eBgreX9KCA87QyX7mM5JZNWI9su',
-             'Nguyễn Tuấn Kha',
-             'SUPER_ADMIN',
-             1,
-             '2026-01-17 17:46:03'
-         );
-
 -- Chèn dữ liệu mẫu vào bảng banners
 INSERT INTO banners (id, title, image_url, status)
 VALUES
@@ -75,7 +20,7 @@ VALUES
     (2, 2, 'Trần Thị B', 'customer2@email.com', '0912345678', 'Vấn đề giao hàng', 'Đơn hàng của tôi chưa nhận được', 'PROCESSING', NULL, '192.168.1.2', NOW(), NULL),
     (3, 3, 'Lê Văn C', 'guest@email.com', '0923456789', 'Yêu cầu hợp tác', 'Tôi muốn trở thành đối tác', 'NEW', NULL, '192.168.1.3', NOW(), NULL)
 ;
---Chèn dữ liệu vào bảng categories
+-- Chèn dữ liệu vào bảng categories
 INSERT INTO categories (id, category_name, image_url, created_at) VALUES
     (1, 'Bút viết', 'src/main/webapp/assets/images/categories/Bút viết.png', NOW()),
     (2, 'Sổ vở', 'src/main/webapp/assets/images/categories/Sổ vở.png', NOW()),
@@ -102,11 +47,11 @@ INSERT INTO brands (id, brand_name, created_at) VALUES
     (11, 'Flexio', NOW()),
     (12, 'Casio', NOW()),
     (13, 'Rạng Đông', NOW()),
-    (14, 'Panasonic', NOW()),
-    (15, 'Double A', NOW()),
-    (16, 'IK Plus', NOW()),
-    (17, 'Jamlos', NOW()),
-    (18, 'King Jim', NOW())
+    (12, 'Panasonic', NOW()),
+    (13, 'Double A', NOW()),
+    (14, 'IK Plus', NOW()),
+    (15, 'Jamlos', NOW()),
+    (16, 'King Jim', NOW())
 ;
 
 -- Chèn dữ liệu  vào bảng products
@@ -122,7 +67,8 @@ INSERT INTO products (
     sold_count,
     is_active
 ) VALUES
-      --Insert sản phẩm của Dũng
+      -- Insert sản phẩm của Dũng
+INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES
     (1, 'Bút gel Doraemon TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học.Thân bút bằng nhựa trắng đục, in transfer fllm hình nhân vật Doraemon rất thu hút. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục', 1, 1, 10000.00, 8000.00, 50, 100, TRUE),
     (2, 'Bút gel B TL', 'Kiểu dáng hiện đại, dắt bút bằng kim loại sáng bóng sang trọng rất phù hợp với khách hàng là nhân viên văn phòng. ', 1, 1, 13000.00, 11000.00, 40, 50, TRUE),
     (3, 'Bút gel Fasgel TL', 'Nét viết êm tru,mực ra đều,liên tục. Ngòi bút cao cấp,sang trọng. Thiết Kế tinh vi,nghệ thuật', 1, 1, 7000.00, 6000.00, 2, 20, TRUE),
@@ -201,7 +147,7 @@ INSERT INTO products (
     (78, 'Sáp nặn MC CLK', '8 màu tươi sáng,sáp mịn, mềm, dẻo, không bở, không chai cứng, dễ dàng tạo hình, không dính tay khi nặn sáp.', 3, 7, 20000.00, 15000.00, 134, 98, TRUE),
     (79, 'Sáp nặn Sáng Tạo CLK', 'Màu sắc tươi sáng, theo đúng chuẩn màu mỹ thuật cơ bản.  Đặc biệt sáp nặn Thiên Long MC-021 có thể dễ dàng pha trộn với nhau để tạo ra các màu mới theo mong muốn của bé.', 3, 7, 30000.00, 27000.00, 100, 74, TRUE),
     (80, 'Bộ 16 khuôn nặn sáp CLK', 'Bộ sản phẩm bao gồm:  bộ khuôn tạo hình 6 nhân vật trong truyện Doraemon, 8 khuôn hình trái cây, 1 dao cắt, 1 rulo lăn sáp. ', 3, 7, 25000.00, 21000.00, 120, 69, TRUE),
---Insert thêm sản phẩm của Kha
+-- Insert thêm sản phẩm của Kha
       (81, 'Balo mẫu giáo khủng long tím Miti', 'Balo mẫu giáo khủng long tím kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 360, 36,TRUE),
       (82, 'Balo mẫu giáo phi hành gia Miti', 'Balo mẫu giáo phi hành gia kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 420, 69, TRUE),
       (83, 'Balo học sinh Miti01', 'Balo học sinh Miti cấp 1 xanh xám, kích thước 29 x 15 x 40 cm, 500gram', 4, 9, 350000.00, 300000.00, 458, 354, TRUE),
@@ -266,52 +212,9 @@ INSERT INTO products (
       (142, 'Gôm tẩy xóa chì Flexoffice FO-E02', 'Gôm Thiên Long - Flexoffice FO-E02 được làm từ chất liệu cao cấp, đáp ứng các chỉ tiêu an toàn cho phép, không có mùi khó chịu mang đến sự an tâm cho người sử dụng. Gôm siêu mềm và siêu dẻo, không bị cứng khi sử dụng trong thời gian dài.', 8, 2, 2500.00, 5000.00, 354, 32, TRUE),
       (143, 'Gôm tẩy xóa chì Điểm 10 E-015', 'Gôm Thiên Long - Điểm 10 E-15 được làm từ chất liệu cao cấp, đáp ứng các chỉ tiêu an toàn cho phép, không có mùi khó chịu mang đến sự an tâm cho người sử dụng. Gôm siêu mềm và siêu dẻo, không bị cứng khi sử dụng trong thời gian dài.', 8, 3, 6000.00, 8000.00, 36, 63, TRUE),
       (144, 'Gôm tẩy xóa chì Thiên Long E-06', 'Gôm Thiên Long E-06 được làm từ chất liệu cao cấp, đáp ứng các chỉ tiêu an toàn cho phép, không có mùi khó chịu mang đến sự an tâm cho người sử dụng. Gôm siêu mềm và siêu dẻo, không bị cứng khi sử dụng trong thời gian dài.', 8, 1, 5000.00, 6000.00, 65, 98, TRUE),
---Inser sản phẩm của Phước
-      (145, 'Đèn học Rạng Đông chống cận 6w 8w, cảm ứng 4 màu ánh sáng bảo vệ thị lực cho bé MODEL RD-RL-45', '-Sản phẩm: ĐÈN BÀN\n-Chất liệu: Hợp kim nhôm\n-Màu sắc:Màu đen\n-Công suất :12W\n-Tuổi thọ đèn:38000\n-Ánh sáng: Có thể điều chỉnh với 3 chế độ sáng và 10 mức độ khác nhau', 6, 13, 255999.00, 145919.43, 494, 194, TRUE),
-      (146, 'Đèn học Rạng Đông LED chống cận, bảo vệ mắt, thị lực,3 mức sáng, MODEL RD-RL-36', 'THÔNG TIN SẢN PHẨM ĐÈN HỌC ĐỂ BÀN, ĐÈN BÀN , LÀM VIỆC\n+ Điện áp đầu vào : 5V An toàn tuyệt đối không giật như điện 220V.\n+ Công suất: 12w\n+ Led: 3 màu ánh sáng/ Có thể tăng giảm độ sáng', 6, 13, 254790.00, 216571.50, 430, 279, TRUE),
-      (147, 'Đèn Học Chống Cận Cảm Ứng Rạng Đông RD-RL-21 8w– Bảo Vệ Đôi Mắt Bé Yêu', 'Công suất\t8W\nĐiện áp danh định\t220V / 50Hz\nNhiệt độ màu\t3000K – 6500K\nĐộ rọi trung bình\t1200 lux\nHệ số hoàn màu (CRI)\t95\nTuổi thọ\t25.000 giờ\nKích thước (RxC)\t162 x 386 mm', 6, 13, 399999.00, 319999.20, 330, 93, TRUE),
-      (148, 'Đèn học Rạng Đông chống cận để bàn bảo vệ thị lực cho bé RD-RL-24 5W BH 2 Năm-Himect', 'Tiết kiệm điện năng và thân thiện với môi trường\n- Công suất chỉ 5W nhưng vẫn mang lại ánh sáng trung thực, tự nhiên\n- Tiết kiệm điện năng, giảm hóa đơn tiền điện\n- Không chứa thủy ngân và hóa chất độc hại, an toàn cho sức khỏe', 6, 13, 149000.00, 101320.00, 318, 192, TRUE),
-      (149, 'Đèn học Rạng Đông chống cận 5w, đèn bàn học cho bé, học sinh, đọc sách, làm việc MODEL RD-RL-27.V2', 'Đèn học Rạng Đông chống cận 5w, đèn học để bàn cho bé, học sinh, đọc sách, làm việc RD-RL-27.V2 5W\n👉Thông số kỹ thuật:\nCông suất: 5W\nĐiện áp:\t220V/50Hz\nMàu ánh sáng: Trắng/Vàng\nĐộ rọi:700 lux', 6, 13, 175000.00, 101500.00, 312, 208, TRUE),
-      (150, 'Đèn bàn, đèn học LED, đèn chống cận Rạng Đông RD-RL24.V2 - 5W, Ánh sáng VÀNG Chống cận thị cho bé', 'THÔNG TIN SẢN PHẨM ĐÈN HỌC ĐỂ BÀN, ĐÈN BÀN , LÀM VIỆC\n+ Điện áp đầu vào : 5V An toàn tuyệt đối không giật như điện 220V.\n+ Công suất: 12w\n+ Led: 3 màu ánh sáng/ Có thể tăng giảm độ sáng', 6, 13, 152900.00, 85624.00, 332, 210, TRUE),
-      (151, 'Đèn học Rạng Đông LED chống cận để bàn bảo vệ mắt cảm ứng 3 mức ánh Sáng, 4 màu ánh sáng RD-RL-36', 'Công suất:8W\nĐiện áp danh định:220V/50Hz\nDòng điện đầu vào (Max):0.11A\nĐộ rọi trung bình:1200 lux\nNhiệt độ màu:6500/3000K\nChỉ số thể hiện màu CRI:95\nTuổi thọ:25.000 giờ\nBảo hành:2 năm', 6, 13, 249000.00, 176790.00, 312, 49, TRUE),
-      (153, 'Đèn học chống cận LED Rạng Đông, chip LED SAMSUNG (RL-19)', 'Điện áp: 170V- 250V/50\n_ Công suất: 5W\n_ Độ rọi: 600 lux\n_ Tuổi thọ của đèn có thể lên đến 15000h\n_ Phần trên thân đèn được thiết kế kiểu lò xo nên xoay được đa chiều theo nhu cầu sử dụng .\n_ Lưu ý: không tự ý tháo rời các bộ phận của đèn, không để nước rơi vào đèn hoặc để nơi có độ ẩm cao.\n_ GIAO MÀU NGẪU NHIÊN THEO ĐỢT HÀNG.', 6, 13, 145000.00, 145000.00, 461, 71, TRUE),
-      (154, 'Đèn học rạng đông 5w đèn bàn chống cận cho bé, học sinh MODEL RD-RL-24.V2', 'Thông tin chi tiết\n- Đui đèn E27 dễ dàng thay thế bóng đèn\n- Tuổi thọ lên đến 15,000 giờ\n- Bảo hành 24 tháng, an tâm sử dụng', 6, 13, 176000.00, 123200.00, 406, 138, TRUE),
-      (155, 'Đèn học Rạng Đông chống cận 5W RD-RL-01.V2, Đèn bàn học sinh Rạng Đông cho bé trai, bé gái', 'Model: RD-RL-60 8W\nCông suất:8W\nĐiện áp danh định:220V/50Hz\nNhiệt độ màu:3000K - 6500K\nĐộ rọi trung bình:700 lux\nTuổi thọ:25.000 giờ\nKích thước(RxC):(240x566)mm', 6, 13, 159345.00, 111541.50, 388, 49, TRUE),
-      (156, 'Đèn học Rạng Đông chống cận 6W, để bàn cho bé học sinh, cute, làm việc MODEL RD-RL-38.LED', 'Công suất: 6W\nĐiện áp danh định:\t(150-250)V/50Hz\nChỉ số hoàn màu:\t97\nĐộ rọi trung bình:\t700 lux\nTuổi thọ:\t25.000 giờ', 6, 13, 212000.00, 173840.00, 448, 120, TRUE),
-      (157, 'Đèn học để bàn chống cận 5W LED Rạng Đông, bảo vệ mắt, thị lực MODEL RD-RL-26.LED', 'Công suất:5W\nĐiện áp: 220V/50Hz\nMàu ánh sáng:Trắng/ Vàng\nĐộ rọi trên mặt bàn:> 700 lux:\nĐèn bàn LED Rạng Đông bảo vệ thị lực\nCần đèn linh hoạt, dễ dàng điều khiển chiều cao, góc chiếu sáng\nTuổi thọ cao 15 000 giờ', 6, 13, 183999.00, 136159.26, 305, 67, TRUE),
-      (158, 'Đèn học Rạng Đông chống cận 6W, để bàn cảm ứng 3 chế độ cho bé học sinh đọc sách,MODEL RD-RL-38.PLUS', 'Thông số kỹ thuật:\nCông suất:6W\nĐiện áp danh định:220V/50Hz\nNhiệt độ màu:3000K - 6500K\nĐộ rọi trung bình:700 lux\nHệ số trả màu:80\nTuổi thọ:25.000 giờ\nKích thước (RxC):(162x386)mm', 6, 13, 300000.00, 225000.00, 342, 118, TRUE),
-      (159, 'Đèn Học Đế Gỗ Để Bàn Dùng Bóng Đèn LED Bulb Của Rạng Đông Chống Cận Thị', '- Model: db-1006\n- Màu sắc: đen, trắng\n- Ánh sáng: tùy vào bóng đèn sử dụng\n- Nút bấm: nút công tắt on/off\n- Chuôi đèn: E27\n- Chiều dài dây cắm: 1M\n- Công suất: tùy vào bóng đèn sử dụng\n- Kích thước: chiều cao 43cm, chụp đèn đường kính 12cm, chui đèn dài 17cm, đế đèn đường kính 15cm (xem chi tiết trong hình sản phẩm)\n- Chất liệu: gỗ, kim loại, ABS\n- Điện áp đầu vào: 110-240V', 6, 13, 179000.00, 134250.00, 471, 230, TRUE),
-      (160, 'Đèn học chống cận Rạng Đông (ánh sáng vàng)', 'Đèn Bàn Bảo Vệ Thị Lực Chống Cận Cho Bé RẠNG ĐÔNG - Có Hộc Đựng Bút, Để Học và Làm Việc', 6, 13, 149000.00, 149000.00, 445, 291, TRUE),
-      (161, 'Đèn Học Để Bàn Chống Cận Rạng Đông RL45 Nút Bấm Cảm Ứng Có Ống Đựng Bút Thông Minh BH 2 năm- HIMECT', 'ĐIỂM NỔI BẬT ĐÈN HỌC ĐỂ BÀN\nĐèn sử dụng đồng thời ""4 PHƯƠNG THỨC BẢO VỆ MẮT""\n+ Sử dụng công nghệ 3 Lớp Lọc ánh sáng : lọc ánh sáng xanh + lớp lọc ánh sáng tạp + lớp phân tán đều ánh sáng.\n+ 3 chế độ ánh sáng (Trắng / Vàng / Trung tính) với ánh sáng Trung tính dễ chịu với mắt.\n+ Công nghệ đèn LED cho ánh sáng liên tục, không nhấp nháy như đèn neon.\n+ Lớp lọc tản sáng hạn chế hiện tượng nhiều bóng mờ, giúp mắt người ít phải điều tiết khi dùng.', 6, 13, 249000.00, 159360.00, 310, 138, TRUE),
-      (162, 'Bóng đèn học Rạng Đông 11w', 'Bóng đèn ánh sáng trắng và ánh sáng vàng (Bóng đèn Trung Quốc) - Sản phẩm dùng để thay thế cho bóng đèn học Rạng Đông.\nNguồn điện: 220v.\nCông suất: 11 w.\nChiều dài bóng vàng: 22,5cm.\nChiều dài bóng trắng: 23.2cm.\nXuất xứ: Trung Quốc.', 6, 13, 45999.00, 45999.00, 442, 273, TRUE),
-      (163, 'Đèn học sinh bảo vệ thị lực Rạng Đông 5w, thiết kế hình con vật nhiều màu sắc, bảo hành 2 năm', 'Bảo vệ thị lực bé yêu mỗi ngày! Đèn học LED Rạng Đông chống cận, thiết kế dành riêng cho trẻ em, giúp bảo vệ mắt hiệu quả trong quá trình học tập và làm việc. Ánh sáng LED không nhấp nháy, dịu nhẹ, giúp mắt bé không bị mỏi và tăng khả năng tập trung.', 6, 13, 156600.00, 140940.00, 446, 178, TRUE),
-      (164, 'Bóng đèn học RẠNG ĐÔNG đui xoáy E27 bóng LED chip SAMSUNG chống cận bảo vệ thị lực bảo hành 12 tháng', 'Bóng đèn led lắp đui đèn trang trí ngoài trời, đèn thả trang trí, đèn ngủ, đèn bàn trang điểm...\n+Bóng đèn Led tiết kiệm điện dùng để trang trí và chiếu sáng, được sử dụng phổ biến khắp mọi nơi từ trong nhà đến ngoài trời, sân vườn, hàng quán, đường phố\n+Tiết kiệm điện đến 80% so với bóng đèn thông thường\n+Ánh sáng giống như ánh sáng tự nhiên, nên không hại mắt, có thể dùng để chiếu sáng cho cây xanh tốt', 6, 13, 39499.00, 31204.21, 313, 184, TRUE),
-      (165, 'Bóng đèn học 11w ánh sáng trắng, vàng (bóng đèn Trung Quốc) thay thế cho đèn RẠNG ĐÔNG (loại tốt)', '#Tuổi thọ, độ bền:\n+Led có tuổi thọ cao từ 15000-20000 giờ, với điều kiện sử dụng đêm bật ngày tắt thì đến vài năm mới có thể hỏng\n+Chất liệu bóng đèn bằng nhựa kỹ thuật nên không sợ va chạm hay rơi vỡ\n#Hướng dẫn chọn công suất phù hợp:\n+3-5w: Làm đèn trang trí, đèn tường, đèn góc, đèn gương, đèn ở khu vực nhỏ cần sáng ít\n+7-12w: Chiếu sáng và trang trí, đèn cầu thang, đèn học, đèn nhà tắm, vệ sinh, khu vực nhỏ cần sáng vừa\n+15-28w: Chiếu sáng phòng nhỏ, nhà bếp, hành lang, ban công, khu vực nhỏ và vừa cần sáng rõ ràng\n+30-50w: Chiếu sáng phòng lớn, sân vườn, khu vực rộng cần ánh sáng mạnh\n+Ước tính khoảng 20-30w chiếu sáng đủ cho 10m2', 6, 13, 42000.00, 42000.00, 397, 182, TRUE),
-      (166, 'Bóng đèn huỳnh quang thay thế bóng đèn học Rạng Đông', 'Bóng đèn ánh sáng trắng và ánh sáng vàng (Bóng đèn Trung Quốc) - Sản phẩm dùng để thay thế cho bóng đèn học Rạng Đông.\nNguồn điện: 220v.\nCông suất: 11 w.\nChiều dài bóng vàng: 22,5cm.\nChiều dài bóng trắng: 23.2cm.\nXuất xứ: Trung Quốc.', 6, 13, 40000.00, 40000.00, 349, 1, TRUE),
-      (167, 'Giấy kiểm tra Điểm 10', 'Thiên Long - Miền Trung | Xuất xứ : Việt Nam | Thương hiệu Điểm 10 | Model: TP-GKT02 | Kích thước 170 x 240 mm | Trọng lượng 30 gram | Quy cách 20 tờ đôi và 6 tờ đơn / xấp | Kích thước ô ly 4 ô ly vuông (2,5 x 2,5) mm | Chất liệu Bột giấy | Định lượng 100 gsm', 7, 3, 18128.00, 22500.00, 482, 188, TRUE),
-    (168, 'Giấy kiểm tra Điểm 10 TP-GKT02 (4 ô ly ) -20 tờ đôi và 6 tờ đơn', 'Xuất xứ : Việt Nam | Thương hiệu Điểm 10 | Model: TP-GKT02 | Kích thước 170 x 240 mm | Trọng lượng 30 gram | Quy cách 20 tờ đôi và 6 tờ đơn / xấp | Kích thước ô ly 4 ô ly vuông (2,5 x 2,5) mm', 7, 3, 14850.00, 22500.00, 456, 26, TRUE),
-    (169, 'Giấy ghi chú Thiên Long', 'Thông số kĩ thuật | Thương hiệu Thiên Long | Định lượng giấy 100 gsm | Tiêu chuẩn TCCS 095:2016/TL-GN | Xuất xứ Việt Nam | Sản xuất Trung Quốc | Khuyến cáo Nhiệt độ 10~55ºC, Độ ẩm 55~95% RH | Tránh xa nguồn nhiệt, dầu mỡ', 7, 1, 9240.00, 14000.00, 456, 13, TRUE),
-    (170, 'Set 100 tờ giấy ghi chú Pastel Thiên Long', 'Thông số kĩ thuật | Thương hiệu Thiên Long | Định lượng giấy 100 gsm | Tiêu chuẩn TCCS 095:2016/TL-GN | Xuất xứ Việt Nam | Sản xuất Trung Quốc', 7, 1, 16456.00, 22000.00, 491, 277, TRUE),
-    (171, 'Thẻ flashcard trắng CAO CẤP', 'Sản phẩm giấy ghi chú kích thước mini 4x7 cm | Trọng lượng 30 gram | Tiện lợi mang theo | Phù hợp ghi chép nhanh | Để bàn làm việc, túi sách hoặc ngăn kéo xe hơi', 7, 3, 8000.00, 25000.00, 403, 202, TRUE),
-    (172, 'Set 100 Giấy Note Ghi Chú, Giấy Nhớ Hình Vuông Dán Vàng', 'Tên sản phẩm: Giấy nhắn Deli | Mã sản phẩm: EA00353/EA00253 | Quy cách: 1 tệp', 7, 3, 7000.00, 15000.00, 424, 47, TRUE),
-    (173, 'Giấy Note Elephant', 'Giấy Note Elephant - Giấy ghi chú - Giấy nhớ 2x3 inch | Màu pastel 100 tờ/xấp | Màu neon 80 tờ/xấp | Hỗ trợ quản lý và tổ chức kế hoạch dài hạn', 7, 3, 15000.00, 18000.00, 409, 116, TRUE),
-    (174, 'Giấy note set ghi chú 400 tờ', 'Bộ sản phẩm 400 tờ | Phù hợp ghi chép hàng ngày | Đánh dấu nội dung quan trọng | Dùng trong học tập, họp và công việc', 7, 3, 29000.00, 39000.00, 300, 31, TRUE),
-    (175, 'Giấy ghi chú trong suốt', 'Chất liệu PET trong suốt | Bề mặt mịn dễ viết | Keo dán chắc dễ bóc không để keo | Không rách giấy | Màu pastel dịu mắt | Ghi chú rõ ràng khi dùng lâu', 7, 3, 27750.00, 34500.00, 458, 94, TRUE),
-    (176, 'Giấy nhớ note 4 màu', 'Giấy note 4 màu có dòng kẻ 100 tờ/tập | Model Baoke TZ6001 (76x102 mm) | Thương hiệu Baoke | Xuất xứ Trung Quốc | Nhà cung cấp GuangDong Baoke Stationery Co.,LTD', 7, 3, 27000.00, 26000.00, 325, 269, TRUE),
-    (177, 'Giấy A4 Double A 70 gsm', '🌟 Giấy In A4 Double A - Chất Lượng Cao Cấp 🌟\n\n📌 Chất Lượng Vượt Trội\n\n- Giấy A4 Double A là lựa chọn hàng đầu cho in ấn văn phòng với chất lượng cao cấp.\n\n- Định lượng giấy có sẵn: 70gsm và 80gsm, phù hợp cho nhiều mục đích sử dụng từ in hợp đồng, bản ký kết đến phác thảo thiết kế.\n\n- Độ trắng sáng và sắc nét, không gây kẹt giấy nhờ công nghệ cắt hiện đại. ', 7, 15, 106000.00, 72080.00, 167, 13, TRUE),
-    (178, 'Giấy in A4 IK Plus 70gsm 500 tờ/ream', '🌟 Đặc điểm nổi bật 🌟\n\n- Độ trắng cao 98%:  Giúp bản in sắc nét và rõ ràng, phù hợp cho mọi thiết bị văn phòng.\n\n- Bề mặt nhẵn mịn:  Tối ưu lượng mực sử dụng, in ấn mượt mà.\n\n- Công nghệ Trutone: Tạo ra hình ảnh in chân thực, sống động cả khi in trắng đen lẫn in màu.', 7, 16, 70900.00, 42540.00, 123, 65, TRUE),
-    (179, 'Giấy A4 70 Ik Plus', '- Một trong những đặc điểm vượt bậc của giấy photocopy IK Plus chính là độ dai bền của xớ giấy, giúp giấy không bị cong vênh, không bị kẹt vào máy khi in - photocopy dưới tốc độ nhanh và nhiệt độ cao.\n\n- Phù hợp với hầu hết các loại Máy in phun, Máy in Laser, Máy Fax laser, Máy Photocopy', 7, 16, 65000.00, 63700.00, 106, 34, TRUE),
-    (180, 'Giấy in văn phòng IK Plus A4 80gsm', '(1 Ream) Giấy in văn phòng IK Plus A4 80gsm\n\nThông tin chung\n\nLoại sản phẩm\n\nGiấy In Văn Phòng IK Plus A4 80gsm\n\nHãng sản xuất IK Plus\n\nChức năng In văn phản\n\nMàu sắc Trắng\n\nChất liệu Giấy láng, mịn, trắng bóng\n\nCông nghệ in In phun, in laser màu\n\nTÍNH NĂNG NỔI BẬT\n\nĐộ dày giấy 80gsm\n\nKháng nước Tương đối\n\nIn mực chính hãng >= 98% độ lên màu\n\nIn mực Inktec >=95% độ lên màu\n\nIn mực Dye UV +/- 90-95% độ lên màu\n\nIn mực Pigment UV  +/- 85 - 90% độ lên màu\n\nThông số kỹ thuật\n\nKích thước 210x297mm\n\nSố lượng mặt in 2 mặt\n\nQui cách đóng gói 500 tờ/gram\n\nBảo quản Điều kiện bảo quản tốt nhất từ 20 - 25 độ C\n\n Giấy in IK Plus A4 sở hữu độ trắng sáng tiêu chuẩn, mịn và bám màu mực tốt.  Giấy đáp ứng nhu cầu in ấn của hầu hết các loại máy in,máy', 7, 16, 82500.00, 62700.00, 140, 88, TRUE),
-    (181, '50/100 tờ giấy đôi kiểm tra 4 ô ly/5 ô ly', 'Mô tả từ nhà sản xuất :\n\n- Kích thước:  155x205mm\n\n- Định lượng 80 gsm.\n\n- Giấy trắng cao cấp.\n\n- Dòng kẻ in - rõ nét', 7, 18, 25999.00, 23399.10, 162, 76, TRUE),
-    (182, 'Túi 15 Tờ Giấy Kiểm Tra 4 Ô Ly', 'THÔNG TIN SẢN PHẨM\n\n+ Kích thước: A5, 205mm x 155mm (+/-2) mm\n\n+ Số tờ:  15 tờ đôi\n\n+ Định lượng giấy: 80 gsm\n\n+ Dòng kẻ:  4 ô ly (ô vuông caro 2x2 mm) - KT814/Ô ly ngang - KT811', 7, 18, 11000.00, 8690.00, 175, 68, TRUE),
-    (183, 'Giấy Kiểm Tra 156x205mm Dày 80 Gsm', 'Mặt giấy mịn, viết êm tay, không thấm mực\n\nCác thông tin cần thiết được in rõ ràng\n\nDòng kẻ ô ly giúp các em viết chữ ngay ngắn\n\nSử dụng độ trắng không làm hại mắt\n\nĐịnh lượng 80gsm ăn mực hầu hết các loại bút\n\nLốc 200 Tờ Giấy Kiểm Tra Hòa Bình có mặt giấy láng mịn, viết êm tay, tạo nét chữ đẹp.  Với định lượng 80gsm ăn mực hầu hết các loại bút, giấy viết không nhòe, không thấm mực ra trang sau.  Chất liệu giấy không bụi, đảm bảo sức khỏe cho người sử dụng, đặc biệt là trẻ em.\n\nQuyển tập có đường kẻ ô ly rõ ràng, đều đặn giúp các em học sinh viết chữ đẹp hơn, nắn nót hơn. Tập kiểm tra giúp cho các em học sinh sử dụng để làm bài kiểm tra, các thông tin cần thiết được in rõ ràng như: trường, lớp, họ và tên, môn, thời gian... được in rõ ràng, trình bày khoa học.\n\nSản phẩm được đựng cẩn thận trong túi bóng, sẽ là người bạn đồng hành giúp các bạn nhỏ học tốt hơn, góp phần đưa các em vươn tới sức mạnh của tri thức.', 7, 18, 30001.00, 19500.65, 149, 79, TRUE),
-    (184, 'Giấy kiểm tra kẻ ngang Campus', '𝐆𝐢𝐚̂́𝐲 𝐤𝐢𝐞̂̉𝐦 𝐭𝐫𝐚 𝐂𝐚𝐦𝐩𝐮𝐬\n\n\t-NBTPBM70 :  Giấy KT cấp II có tờ đơn và đôi BM70 (20 tờ đôi - 10 tờ đơn)\n\n\t-NBTPBR70 : Giấy KT cấp II không chấm (25 tờ đôi)\n\n\t-NBTPBS70 : Giấy KT cấp II có chấm (25 tờ đôi)\n\n        -BRMEO70/25:Giấy KT cấp II  tờ đôi\n\n        -TPNB5L30 -30:Giấy KT cấp II  tờ đôi', 7, 18, 37000.00, 33300.00, 126, 11, TRUE),
-    (185, 'Lốc 200 đôi 10x20 Giấy kiểm tra học sinh - Mẫu 80gsm', '', 7, 18, 89460.00, 78724.80, 193, 7, TRUE),
-    (186, 'Combo 2 tập giấy kiểm tra cấp II, câp III, set 20 tờ đôi giấy chống lóa', 'Giấy kiểm tra cấp 2, 3 set 20 tờ đôi B5 Klong định lượng 100/76 chống lóa MS 279,280 giấy làm bài Klong\n\nĐịnh lượng\t100 g/m2\n\nĐộ trắng\t76 %ISO\n\nSố trang\t20 tờ kép/tập\n\nKích thước\t(175 x 250) mm\n\n- Giấy trắng kem tự nhiên (76% ISO) không lóa mỏi mắt khi đọc và viết;\n\n- Giấy có định lượng cao 100 g/m2 không lem nhòe với các loại mực, màu gốc nước; \n\n- Được in offset dòng kẻ ngang nét mảnh và các chấm so le sắc nét, rõ ràng thuận tiện khi làm bài kiểm tra, dựng hình kẻ bảng, vẽ đồ thị;\n\n- Giấy được gấp tự động từng tờ và cắt góc tránh quăn mép khi sử dụng;', 7, 18, 32800.00, 23288.00, 151, 10, TRUE),
-    (187, '(50 tờ) Giấy thi A3 Bộ, Sở giấy thi văn thpt giấy thi cấp 3 ĐL 70gms viết không nhòe', '𝐓𝐇𝐎̂𝐍𝐆 𝐓𝐈𝐍 𝐒𝐀̉𝐍 𝐏𝐇𝐀̂̉𝐌 𝐆𝐈𝐀̂́𝐘 𝐓𝐇𝐈\n\n\n\n-Sản phẩm có 2 mẫu :  Giấy thi Bộ Giáo Dục Đào Tạo - Giấy thi Sở Kế hoạch Hà Nội\n\n-Khổ Giấy A3 :  \n\n   +Giấy thi Bộ Giáo Dục Đào tạo :  Ngang 42.5 - Cao 30cm\n\n   +Giấy thi Sở Giáo Dục Hà Nội  : Ngang 44.8 - Cao 30cm\n\n-Định lượng giấy 70mgs \n\n-Độ trắng :  90 - Giấy mịn đẹp theo tiêu chuẩn Bãi Bằng\n\n-Mẫu tiêu chuẩn Bộ giáo dục - Sở quy định\n\n\n\n-Sản phẩm được đặt in tại xưởng\n\n-Hình ảnh shop tự chụp, mẫu giấy tối hơn so với thực tế', 7, 18, 20902.00, 15049.44, 188, 19, TRUE),
-    (188, 'Set 50 tờ giấy thi khổ A3 rọc phách- giấy viết văn giá rẻ', 'Set 50 tờ giấy thi rọc phách khổ A3 giá rẻ\n\n- Giấy đẹp , trắng sáng,\n\n- Giấy Khổ A3 chuẩn mẫu, giá rẻ\n\n- Định lượng giấy 60gsm\n\n- Giấy trắng sáng , mịn, đường kẻ, mực rõ ràng \n\n- Sản phẩm chất lượng, đóng gói cẩn thận, \n\n Quy cách đóng gói:  20 tờ/ set', 7, 18, 16727.00, 11708.90, 187, 28, TRUE),
-    (189, 'Giấy thi A3 chuẩn mẫu Bộ Giáo dục và đào tạo, giấy kỳ thi tự luận học sinh', 'Mô Tả Sản Phẩm\n\nMẫu giấy thi tự luận là mẫu giấy dùng để thi tự luận cho các thí sinh.  Mẫu được dùng nhiều trong các kỳ thi tốt nghiệp trung học phổ thông.  Mẫu có đầy đủ nội dung thông tin của thí sinh, hội đồng coi thi, chấm thi và số phá\n\nĐịnh lượng giấy:  65gms\n\nShop cố gắng giao đúng đủ hàng, nếu trong khi đếm có tàu hoả nhập ma thiếu 1-2 tờ thì các bạn thông cảm nhé.  Mà thường thì không bị thiếu đâu\n\nCAM KẾT :  GIẤY DÀY, TRẮNG, IN NÉT\n\nShop chuyên cung cấp số lượng lớn :\n\n- Hồ sơ học sinh sinh viên, hồ sơ công chức,hồ sơ đảng viên, hồ sơ xin việc\n\n- Sổ đoàn, chi đoàn ,huy hiệu, thẻ đoàn\n\n- Lý lịch đảng viên, lý lịch của người xin vào đảng\n\n- Các biểu mẫu thu, chi, xuất, nhập, hoá đơn bán lẻ\n\n- Phong bì trắng, phong bì nâu các cỡ', 7, 18, 13000.00, 12350.00, 141, 56, TRUE),
---Insert sản phẩm của Dũng
+-- Insert sản phẩm của Phước
+
+-- Insert sản phẩm của Dũng
       (191, 'Túi tote học sinh Jamlos', 'Túi tote vải canvas phong cách, đựng vừa sách vở A4, thích hợp đi học thêm hoặc dạo phố.', 4, 17, 150000.00, 130000.00, 50, 60, TRUE),
       (192, 'Túi đựng bút Jamlos', 'Túi vải canvas nhỏ gọn, thiết kế tối giản, bền đẹp.', 4, 17, 50000.00, 45000.00, 80, 40, TRUE),
       (193, 'Balo laptop Jamlos', 'Thiết kế hiện đại, ngăn chống sốc cho laptop, chất liệu trượt nước.', 4, 17, 400000.00, 380000.00, 30, 20, TRUE),
@@ -323,7 +226,7 @@ INSERT INTO products (
       (199, 'Kéo học sinh Kẹo CLK', 'Loại kéo nhỏ dành cho học sinh làm thủ công, được làm bằng kim loại không gỉ, mũi kéo tròn để bảo vệ an toàn cho trẻ khi sử dụng. Tay cầm bằng nhựa giúp cắt nhẹ nhàng', 3, 7, 20000.00, 18000.00, 47, 52, TRUE),
       (200, 'Bao gồm: 6 mẫu lưỡi cắt và 1 cán kéo.Có cán làm từ nhựa ABS, thân làm bằng thép không gỉ, dễ dàng tháo lắp. Bộ kéo thủ công Colokit SC-C05 phù hơp cho học sinh tiểu học. Kiểu dáng trang nhã, màu sắc phong phú.', 3, 7, 80000.00, 75000.00, 34, 23, TRUE)
       ;
---Insert hình ảnh sản phẩm
+-- Insert hình ảnh sản phẩm
 INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VALUES
     -- Bút viết
     (1,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-1.jpg', FALSE, NOW()),
@@ -663,148 +566,192 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
     (246,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
     (247,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
     (248,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-pri.jpg', TRUE,NOW()),
+-- Balo
+    (249,81, 'src/main/webapp/assets/images/products/Balo/81-baloMT-1.jpg', FALSE, NOW()),
+    (250,81, 'src/main/webapp/assets/images/products/Balo/81-baloMT-2.jpg', FALSE, NOW()),
+    (251,81, 'src/main/webapp/assets/images/products/Balo/81-baloMT-pri.jpg', TRUE,NOW()),
 
-    (366,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg', FALSE, NOW()),
-    (367,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg', TRUE,NOW()),
+    (252,82, 'src/main/webapp/assets/images/products/Balo/82-baloMT-1.jpg', FALSE, NOW()),
+    (253,82, 'src/main/webapp/assets/images/products/Balo/82-baloMT-2.jpg', FALSE, NOW()),
+    (254,82, 'src/main/webapp/assets/images/products/Balo/82-baloMT-pri.jpg', TRUE,NOW()),
 
-    (366,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg',FALSE,NOW()),
-    (367,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg',TRUE,NOW()),
+    (255,83, 'src/main/webapp/assets/images/products/Balo/83-baloMT-1.jpg', FALSE, NOW()),
+    (256,83, 'src/main/webapp/assets/images/products/Balo/83-baloMT-2.jpg', FALSE, NOW()),
+    (257,83, 'src/main/webapp/assets/images/products/Balo/83-baloMT-pri.jpg', TRUE,NOW()),
 
-    (368,146,'src/main/webapp/assets/images/products/DenHoc/146-Denhoc-1.jpg',FALSE,NOW()),
-    (369,146,'src/main/webapp/assets/images/products/DenHoc/146-Denhoc-pri.jpg',TRUE,NOW()),
+    (258,84, 'src/main/webapp/assets/images/products/Balo/84-baloMT-1.jpg', FALSE, NOW()),
+    (259,84, 'src/main/webapp/assets/images/products/Balo/84-baloMT-2.jpg', FALSE, NOW()),
+    (260,84, 'src/main/webapp/assets/images/products/Balo/84-baloMT-pri.jpg', TRUE,NOW()),
 
-    (370,147,'src/main/webapp/assets/images/products/DenHoc/147-Denhoc-1.jpg',FALSE,NOW()),
-    (371,147,'src/main/webapp/assets/images/products/DenHoc/147-Denhoc-pri.jpg',TRUE,NOW()),
+    (261,85, 'src/main/webapp/assets/images/products/Balo/85-baloMT-1.jpg', FALSE, NOW()),
+    (262,85, 'src/main/webapp/assets/images/products/Balo/85-baloMT-2.jpg', FALSE, NOW()),
+    (263,85, 'src/main/webapp/assets/images/products/Balo/85-baloMT-pri.jpg', TRUE,NOW()),
 
-    (372,148,'src/main/webapp/assets/images/products/DenHoc/148-Denhoc-1.jpg',FALSE,NOW()),
-    (373,148,'src/main/webapp/assets/images/products/DenHoc/148-Denhoc-pri.jpg',TRUE,NOW()),
+    (264,86, 'src/main/webapp/assets/images/products/Balo/86-baloMT-1.jpg', FALSE, NOW()),
+    (265,86, 'src/main/webapp/assets/images/products/Balo/86-baloMT-2.jpg', FALSE, NOW()),
+    (266,86, 'src/main/webapp/assets/images/products/Balo/86-baloMT-pri.jpg', TRUE,NOW()),
 
-    (374,149,'src/main/webapp/assets/images/products/DenHoc/149-Denhoc-1.jpg',FALSE,NOW()),
-    (375,149,'src/main/webapp/assets/images/products/DenHoc/149-Denhoc-pri.jpg',TRUE,NOW()),
+    (267,87, 'src/main/webapp/assets/images/products/Balo/87-baloMT-1.jpg', FALSE, NOW()),
+    (268,87, 'src/main/webapp/assets/images/products/Balo/87-baloMT-pri.jpg', TRUE,NOW()),
 
-    (376,150,'src/main/webapp/assets/images/products/DenHoc/150-Denhoc-1.jpg',FALSE,NOW()),
-    (377,150,'src/main/webapp/assets/images/products/DenHoc/150-Denhoc-pri.jpg',TRUE,NOW()),
+    (269,88, 'src/main/webapp/assets/images/products/Balo/88-baloMT-1.jpg', FALSE, NOW()),
+    (270,88, 'src/main/webapp/assets/images/products/Balo/88-baloMT-pri.jpg', TRUE,NOW()),
 
-    (378,151,'src/main/webapp/assets/images/products/DenHoc/151-Denhoc-1.jpg',FALSE,NOW()),
-    (379,151,'src/main/webapp/assets/images/products/DenHoc/151-Denhoc-pri.jpg',TRUE,NOW()),
+    (271,89, 'src/main/webapp/assets/images/products/Balo/89-baloMT-1.jpg', FALSE, NOW()),
+    (272,89, 'src/main/webapp/assets/images/products/Balo/89-baloMT-pri.jpg', TRUE,NOW()),
 
-    (380,152,'src/main/webapp/assets/images/products/DenHoc/152-Denhoc-1.jpg',FALSE,NOW()),
-    (381,152,'src/main/webapp/assets/images/products/DenHoc/152-Denhoc-pri.jpg',TRUE,NOW()),
+    (273,90, 'src/main/webapp/assets/images/products/Balo/90-baloMT-1.jpg', FALSE, NOW()),
+    (274,90, 'src/main/webapp/assets/images/products/Balo/90-baloMT-pri.jpg', TRUE,NOW()),
 
-    (382,153,'src/main/webapp/assets/images/products/DenHoc/153-Denhoc-1.jpg',FALSE,NOW()),
-    (383,153,'src/main/webapp/assets/images/products/DenHoc/153-Denhoc-pri.jpg',TRUE,NOW()),
+    (275,91, 'src/main/webapp/assets/images/products/Balo/91-baloMT-1.jpg', FALSE, NOW()),
+    (276,91, 'src/main/webapp/assets/images/products/Balo/91-baloMT-pri.jpg', TRUE,NOW()),
 
-    (384,154,'src/main/webapp/assets/images/products/DenHoc/154-Denhoc-1.jpg',FALSE,NOW()),
-    (385,154,'src/main/webapp/assets/images/products/DenHoc/154-Denhoc-pri.jpg',TRUE,NOW()),
+    (277,92, 'src/main/webapp/assets/images/products/Balo/92-baloMT-1.jpg', FALSE, NOW()),
+    (278,92, 'src/main/webapp/assets/images/products/Balo/92-baloMT-pri.jpg', TRUE,NOW()),
 
-    (386,155,'src/main/webapp/assets/images/products/DenHoc/155-Denhoc-1.jpg',FALSE,NOW()),
-    (387,155,'src/main/webapp/assets/images/products/DenHoc/155-Denhoc-pri.jpg',TRUE,NOW()),
+    (279,93, 'src/main/webapp/assets/images/products/Balo/93-baloMT-1.jpg', FALSE, NOW()),
+    (280,93, 'src/main/webapp/assets/images/products/Balo/93-baloMT-pri.jpg', TRUE,NOW()),
 
-    (388,156,'src/main/webapp/assets/images/products/DenHoc/156-Denhoc-1.jpg',FALSE,NOW()),
-    (389,156,'src/main/webapp/assets/images/products/DenHoc/156-Denhoc-pri.jpg',TRUE,NOW()),
+    (281,94, 'src/main/webapp/assets/images/products/Balo/94-baloMT-1.jpg', FALSE, NOW()),
+    (282,94, 'src/main/webapp/assets/images/products/Balo/94-baloMT-pri.jpg', TRUE,NOW()),
 
-    (390,157,'src/main/webapp/assets/images/products/DenHoc/157-Denhoc-1.jpg',FALSE,NOW()),
-    (391,157,'src/main/webapp/assets/images/products/DenHoc/157-Denhoc-pri.jpg',TRUE,NOW()),
+    (283,95, 'src/main/webapp/assets/images/products/Balo/95-baloMT-1.jpg', FALSE, NOW()),
+    (284,95, 'src/main/webapp/assets/images/products/Balo/95-baloMT-pri.jpg', TRUE,NOW()),
 
-    (392,158,'src/main/webapp/assets/images/products/DenHoc/158-Denhoc-1.jpg',FALSE,NOW()),
-    (393,158,'src/main/webapp/assets/images/products/DenHoc/158-Denhoc-pri.jpg',TRUE,NOW()),
+    (285,108, 'src/main/webapp/assets/images/products/Balo/108-baloJL-1.jpg', FALSE, NOW()),
+    (286,108, 'src/main/webapp/assets/images/products/Balo/108-baloJL-1.jpg', TRUE,NOW()),
 
-    (394,159,'src/main/webapp/assets/images/products/DenHoc/159-Denhoc-1.jpg',FALSE,NOW()),
-    (395,159,'src/main/webapp/assets/images/products/DenHoc/159-Denhoc-pri.jpg',TRUE,NOW()),
+    (287,109, 'src/main/webapp/assets/images/products/Balo/109-baloJL-1.jpg', FALSE, NOW()),
+    (288,109, 'src/main/webapp/assets/images/products/Balo/109-baloJL-pri.jpg', TRUE,NOW()),
 
-    (396,160,'src/main/webapp/assets/images/products/DenHoc/160-Denhoc-1.jpg',FALSE,NOW()),
-    (397,160,'src/main/webapp/assets/images/products/DenHoc/160-Denhoc-pri.jpg',TRUE,NOW()),
+    (289,110, 'src/main/webapp/assets/images/products/Balo/110-baloJL-1.jpg', FALSE, NOW()),
+    (290,110, 'src/main/webapp/assets/images/products/Balo/110-baloJL-pri.jpg', TRUE,NOW()),
 
-    (398,161,'src/main/webapp/assets/images/products/DenHoc/161-Denhoc-1.jpg',FALSE,NOW()),
-    (399,161,'src/main/webapp/assets/images/products/DenHoc/161-Denhoc-pri.jpg',TRUE,NOW()),
+    (291,111, 'src/main/webapp/assets/images/products/Balo/111-baloJL-1.jpg', FALSE, NOW()),
+    (292,111, 'src/main/webapp/assets/images/products/Balo/111-baloJL-pri.jpg', TRUE,NOW()),
 
-    (400,162,'src/main/webapp/assets/images/products/DenHoc/162-Denhoc-1.jpg',FALSE,NOW()),
-    (401,162,'src/main/webapp/assets/images/products/DenHoc/162-Denhoc-pri.jpg',TRUE,NOW()),
+    (293,112, 'src/main/webapp/assets/images/products/Balo/112-baloJL-1.jpg', FALSE, NOW()),
+    (294,112, 'src/main/webapp/assets/images/products/Balo/112-baloJL-pri.jpg', TRUE,NOW()),
 
-    (402,163,'src/main/webapp/assets/images/products/DenHoc/163-Denhoc-1.jpg',FALSE,NOW()),
-    (403,163,'src/main/webapp/assets/images/products/DenHoc/163-Denhoc-pri.jpg',TRUE,NOW()),
+  -- May tinh
 
-    (404,164,'src/main/webapp/assets/images/products/DenHoc/164-Denhoc-1.jpg',FALSE,NOW()),
-    (405,164,'src/main/webapp/assets/images/products/DenHoc/164-Denhoc-pri.jpg',TRUE,NOW()),
+    (295,96, 'src/main/webapp/assets/images/products/MayTinh/96-mtCS-1.jpg', FALSE, NOW()),
+    (296,96, 'src/main/webapp/assets/images/products/MayTinh/96-mtCS-pri.jpg', TRUE,NOW()),
 
-    (406,165,'src/main/webapp/assets/images/products/DenHoc/165-Denhoc-1.jpg',FALSE,NOW()),
-    (407,165,'src/main/webapp/assets/images/products/DenHoc/165-Denhoc-pri.jpg',TRUE,NOW()),
+    (297,97, 'src/main/webapp/assets/images/products/MayTinh/97-mtCS-1.jpg', FALSE, NOW()),
+    (298,97, 'src/main/webapp/assets/images/products/MayTinh/97-mtCS-pri.jpg', TRUE,NOW()),
 
-    (408,166,'src/main/webapp/assets/images/products/DenHoc/166-Denhoc-1.jpg',FALSE,NOW()),
-    (409,166,'src/main/webapp/assets/images/products/DenHoc/166-Denhoc-pri.jpg',TRUE,NOW()),
+    (299,98, 'src/main/webapp/assets/images/products/MayTinh/98-mtCS-1.jpg', FALSE, NOW()),
+    (300,98, 'src/main/webapp/assets/images/products/MayTinh/98-mtCS-pri.jpg', TRUE,NOW()),
 
-    (410,167,'src/main/webapp/assets/images/products/Giay/167-Giay-1.jpg',FALSE,NOW()),
-    (411,167,'src/main/webapp/assets/images/products/Giay/167-Giay-pri.jpg',TRUE,NOW()),
+    (301,99, 'src/main/webapp/assets/images/products/MayTinh/99-mtCS-1.jpg', FALSE, NOW()),
+    (302,99, 'src/main/webapp/assets/images/products/MayTinh/99-mtCS-pri.jpg', TRUE,NOW()),
 
-    (412,167,'src/main/webapp/assets/images/products/Giay/168-Giay-1.jpg',FALSE,NOW()),
-    (413,167,'src/main/webapp/assets/images/products/Giay/168-Giay-pri.jpg',TRUE,NOW()),
+    (303,100, 'src/main/webapp/assets/images/products/MayTinh/100-mtFL-1.jpg', FALSE, NOW()),
+    (304,100, 'src/main/webapp/assets/images/products/MayTinh/100-mtFL-pri.jpg', TRUE,NOW()),
 
-    (414,168,'src/main/webapp/assets/images/products/Giay/169-Giay-1.jpg',FALSE,NOW()),
-    (415,168,'src/main/webapp/assets/images/products/Giay/169-Giay-pri.jpg',TRUE,NOW()),
+    (305,101, 'src/main/webapp/assets/images/products/MayTinh/101-mtFL-1.jpg', FALSE, NOW()),
+    (306,101, 'src/main/webapp/assets/images/products/MayTinh/101-mtFL-pri.jpg', TRUE,NOW()),
 
-    (416,169,'src/main/webapp/assets/images/products/Giay/170-Giay-1.jpg',FALSE,NOW()),
-    (417,169,'src/main/webapp/assets/images/products/Giay/170-Giay-pri.jpg',TRUE,NOW()),
+    (307,102, 'src/main/webapp/assets/images/products/MayTinh/102-mtFL-1.jpg', FALSE, NOW()),
+    (308,102, 'src/main/webapp/assets/images/products/MayTinh/102-mtFL-pri.jpg', TRUE,NOW()),
 
-    (418,170,'src/main/webapp/assets/images/products/Giay/171-Giay-1.jpg',FALSE,NOW()),
-    (419,170,'src/main/webapp/assets/images/products/Giay/171-Giay-pri.jpg',TRUE,NOW()),
+    (309,103, 'src/main/webapp/assets/images/products/MayTinh/103-mtFL-1.jpg', FALSE, NOW()),
+    (310,103, 'src/main/webapp/assets/images/products/MayTinh/103-mtFL-pri.jpg', TRUE,NOW()),
 
-    (420,171,'src/main/webapp/assets/images/products/Giay/172-Giay-1.jpg',FALSE,NOW()),
-    (421,171,'src/main/webapp/assets/images/products/Giay/172-Giay-pri.jpg',TRUE,NOW()),
+    (311,104, 'src/main/webapp/assets/images/products/MayTinh/104-mtFL-1.jpg', FALSE, NOW()),
+    (312,104, 'src/main/webapp/assets/images/products/MayTinh/104-mtFL-pri.jpg', TRUE,NOW()),
 
-    (422,172,'src/main/webapp/assets/images/products/Giay/173-Giay-1.jpg',FALSE,NOW()),
-    (423,172,'src/main/webapp/assets/images/products/Giay/173-Giay-pri.jpg',TRUE,NOW()),
+    (313,105, 'src/main/webapp/assets/images/products/MayTinh/105-mtFL-1.jpg', FALSE, NOW()),
+    (314,105, 'src/main/webapp/assets/images/products/MayTinh/105-mtFL-pri.jpg', TRUE,NOW()),
 
-    (424,173,'src/main/webapp/assets/images/products/Giay/174-Giay-1.jpg',FALSE,NOW()),
-    (425,173,'src/main/webapp/assets/images/products/Giay/174-Giay-pri.jpg',TRUE,NOW()),
+    (315,106, 'src/main/webapp/assets/images/products/MayTinh/106-mtFL-1.jpg', FALSE, NOW()),
+    (316,106, 'src/main/webapp/assets/images/products/MayTinh/106-mtFL-pri.jpg', TRUE,NOW()),
 
-    (426,174,'src/main/webapp/assets/images/products/Giay/175-Giay-1.jpg',FALSE,NOW()),
-    (427,174,'src/main/webapp/assets/images/products/Giay/175-Giay-pri.jpg',TRUE,NOW()),
+    (317,107, 'src/main/webapp/assets/images/products/MayTinh/107-mtFL-1.jpg', FALSE, NOW()),
+    (318,107, 'src/main/webapp/assets/images/products/MayTinh/107-mtFL-pri.jpg', TRUE,NOW()),
 
-    (428,175,'src/main/webapp/assets/images/products/Giay/176-Giay-1.jpg',FALSE,NOW()),
-    (429,175,'src/main/webapp/assets/images/products/Giay/176-Giay-pri.jpg',TRUE,NOW()),
+-- Thuoc
+    (319,113, 'src/main/webapp/assets/images/products/Thuoc/113-thuoc-pri.jpg', TRUE, NOW()),
+    (320,114, 'src/main/webapp/assets/images/products/Thuoc/114-thuoc-pri.jpg', TRUE, NOW()),
+    (321,115, 'src/main/webapp/assets/images/products/Thuoc/115-thuoc-pri.jpg', TRUE, NOW()),
+    (322,116, 'src/main/webapp/assets/images/products/Thuoc/116-thuoc-pri.jpg', TRUE, NOW()),
+    (323,117, 'src/main/webapp/assets/images/products/Thuoc/117-thuoc-pri.jpg', TRUE, NOW()),
+    (324,118, 'src/main/webapp/assets/images/products/Thuoc/118-thuoc-pri.jpg', TRUE, NOW()),
 
-    (430,176,'src/main/webapp/assets/images/products/Giay/177-Giay-1.jpg',FALSE,NOW()),
-    (431,176,'src/main/webapp/assets/images/products/Giay/177-Giay-pri.jpg',TRUE,NOW()),
+    (325,119, 'src/main/webapp/assets/images/products/Thuoc/119-thuoc-1.jpg', FALSE, NOW()),
+    (326,119, 'src/main/webapp/assets/images/products/Thuoc/119-thuoc-pri.jpg', TRUE, NOW()),
 
-    (432,177,'src/main/webapp/assets/images/products/Giay/178-Giay-1.jpg',FALSE,NOW()),
-    (433,177,'src/main/webapp/assets/images/products/Giay/178-Giay-pri.jpg',TRUE,NOW()),
+    (327,120, 'src/main/webapp/assets/images/products/Thuoc/120-thuoc-pri.jpg', TRUE, NOW()),
 
-    (434,178,'src/main/webapp/assets/images/products/Giay/179-Giay-1.jpg',FALSE,NOW()),
-    (435,178,'src/main/webapp/assets/images/products/Giay/179-Giay-pri.jpg',TRUE,NOW()),
+    (328,121, 'src/main/webapp/assets/images/products/Thuoc/121-thuoc-pri.jpg', TRUE, NOW()),
 
-    (436,179,'src/main/webapp/assets/images/products/Giay/180-Giay-1.jpg',FALSE,NOW()),
-    (437,179,'src/main/webapp/assets/images/products/Giay/180-Giay-pri.jpg',TRUE,NOW()),
+    (329,122, 'src/main/webapp/assets/images/products/Thuoc/122-thuoc-pri.jpg', TRUE, NOW()),
 
-    (438,180,'src/main/webapp/assets/images/products/Giay/181-Giay-1.jpg',FALSE,NOW()),
-    (439,180,'src/main/webapp/assets/images/products/Giay/181-Giay-pri.jpg',TRUE,NOW()),
+    (330,123, 'src/main/webapp/assets/images/products/Thuoc/123-thuoc-pri.jpg', TRUE, NOW()),
 
-    (440,181,'src/main/webapp/assets/images/products/Giay/182-Giay-1.jpg',FALSE,NOW()),
-    (441,181,'src/main/webapp/assets/images/products/Giay/182-Giay-pri.jpg',TRUE,NOW()),
+    (331,124, 'src/main/webapp/assets/images/products/Thuoc/124-thuoc-pri.jpg', TRUE, NOW()),
 
-    (442,182,'src/main/webapp/assets/images/products/Giay/183-Giay-1.jpg',FALSE,NOW()),
-    (443,182,'src/main/webapp/assets/images/products/Giay/183-Giay-pri.jpg',TRUE,NOW()),
+    (332,125, 'src/main/webapp/assets/images/products/Thuoc/125-thuoc-pri.jpg', TRUE, NOW()),
 
-    (444,183,'src/main/webapp/assets/images/products/Giay/184-Giay-1.jpg',FALSE,NOW()),
-    (445,183,'src/main/webapp/assets/images/products/Giay/184-Giay-pri.jpg',TRUE,NOW()),
+    (333,126, 'src/main/webapp/assets/images/products/Thuoc/126-thuocTL-1.jpg', FALSE, NOW()),
+    (334,126, 'src/main/webapp/assets/images/products/Thuoc/126-thuocTL-pri.jpg', TRUE, NOW()),
 
-    (446,184,'src/main/webapp/assets/images/products/Giay/185-Giay-1.jpg',FALSE,NOW()),
-    (447,184,'src/main/webapp/assets/images/products/Giay/185-Giay-pri.jpg',TRUE,NOW()),
+    (335,127, 'src/main/webapp/assets/images/products/Thuoc/127-thuocTL-1.jpg', FALSE, NOW()),
+    (336,127, 'src/main/webapp/assets/images/products/Thuoc/127-thuocTL-pri.jpg', TRUE, NOW()),
 
-    (448,185,'src/main/webapp/assets/images/products/Giay/186-Giay-1.jpg',FALSE,NOW()),
-    (449,185,'src/main/webapp/assets/images/products/Giay/186-Giay-pri.jpg',TRUE,NOW()),
+    (337,128, 'src/main/webapp/assets/images/products/Thuoc/128-thuocTL-pri.jpg', TRUE, NOW()),
 
-    (450,186,'src/main/webapp/assets/images/products/Giay/187-Giay-1.jpg',FALSE,NOW()),
-    (451,186,'src/main/webapp/assets/images/products/Giay/187-Giay-pri.jpg',TRUE,NOW()),
+    (338,129, 'src/main/webapp/assets/images/products/Thuoc/128-thuocTL-pri.jpg', TRUE, NOW()),
 
-    (452,187,'src/main/webapp/assets/images/products/Giay/188-Giay-1.jpg',FALSE,NOW()),
-    (453,187,'src/main/webapp/assets/images/products/Giay/188-Giay-pri.jpg',TRUE,NOW()),
+    (339,130, 'src/main/webapp/assets/images/products/Thuoc/130-thuocTL-1.jpg', FALSE, NOW()),
+    (340,130, 'src/main/webapp/assets/images/products/Thuoc/130-thuocTL-pri.jpg', TRUE, NOW()),
 
-    (454,188,'src/main/webapp/assets/images/products/Giay/189-Giay-1.jpg',FALSE,NOW()),
-    (455,188,'src/main/webapp/assets/images/products/Giay/189-Giay-pri.jpg',TRUE,NOW()),
+    (341,131, 'src/main/webapp/assets/images/products/Thuoc/131-thuocTL-1.jpg', FALSE, NOW()),
+    (342,131, 'src/main/webapp/assets/images/products/Thuoc/131-thuocTL-pri.jpg', TRUE, NOW()),
 
-    (456,189,'src/main/webapp/assets/images/products/Giay/190-Giay-1.jpg',FALSE,NOW()),
-    (457,189,'src/main/webapp/assets/images/products/Giay/190-Giay-pri.jpg',TRUE,NOW())
-;
+    (343,132, 'src/main/webapp/assets/images/products/Tay/132-tay-pri.jpg', TRUE, NOW()),
+
+    (344,133, 'src/main/webapp/assets/images/products/Tay/133-tay-1.jpg', FALSE, NOW()),
+    (345,133, 'src/main/webapp/assets/images/products/Tay/133-tay-pri.jpg', TRUE, NOW()),
+
+    (346,134, 'src/main/webapp/assets/images/products/Tay/134-tay-1.jpg', FALSE, NOW()),
+    (347,134, 'src/main/webapp/assets/images/products/Tay/134-tay-pri.jpg', TRUE, NOW()),
+
+    (348,135, 'src/main/webapp/assets/images/products/Tay/135-tay-1.jpg', FALSE, NOW()),
+    (349,135, 'src/main/webapp/assets/images/products/Tay/135-tay-pri.jpg', TRUE, NOW()),
+
+    (350,136, 'src/main/webapp/assets/images/products/Tay/136-tay-pri.jpg', TRUE, NOW()),
+
+    (351,137, 'src/main/webapp/assets/images/products/Tay/137-tay-1.jpg', FALSE, NOW()),
+    (352,137, 'src/main/webapp/assets/images/products/Tay/137-tay-pri.jpg', TRUE, NOW()),
+
+    (353,138, 'src/main/webapp/assets/images/products/Tay/138-tay-1.jpg', FALSE, NOW()),
+    (354,138, 'src/main/webapp/assets/images/products/Tay/138-tay-pri.jpg', TRUE, NOW()),
+
+    (355,139, 'src/main/webapp/assets/images/products/Tay/139-tay-1.jpg', FALSE, NOW()),
+    (356,139, 'src/main/webapp/assets/images/products/Tay/139-tay-pri.jpg', TRUE, NOW()),
+
+    (358,140, 'src/main/webapp/assets/images/products/Tay/140-tay-1.jpg', FALSE, NOW()),
+    (359,140, 'src/main/webapp/assets/images/products/Tay/140-tay-pri.jpg', TRUE, NOW()),
+
+    (360,141, 'src/main/webapp/assets/images/products/Tay/141-tay-1.jpg', FALSE, NOW()),
+    (361,141, 'src/main/webapp/assets/images/products/Tay/141-tay-pri.jpg', TRUE, NOW()),
+
+    (362,142, 'src/main/webapp/assets/images/products/Tay/142-tay-pri.jpg', TRUE, NOW()),
+
+    (363,143, 'src/main/webapp/assets/images/products/Tay/143-tay-1.jpg', FALSE, NOW()),
+    (364,143, 'src/main/webapp/assets/images/products/Tay/143-tay-pri.jpg', TRUE, NOW()),
+
+    (365,144, 'src/main/webapp/assets/images/products/Tay/144-tay-pri.jpg', TRUE, NOW());
+
+
+
+
+
+
+
+
 
 
 

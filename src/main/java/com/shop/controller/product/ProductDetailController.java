@@ -38,7 +38,7 @@ public class ProductDetailController extends HttpServlet {
             request.setAttribute("product", product);
 
             // Tính discount percent
-            Object salePriceObj = product.get("sale_price");
+            Object salePriceObj = product.get("salePrice");
             Object priceObj = product.get("price");
             if (salePriceObj != null && priceObj != null) {
                 double salePrice = ((Number) salePriceObj).doubleValue();
@@ -55,11 +55,13 @@ public class ProductDetailController extends HttpServlet {
 
             // Load đánh giá đã được duyệt
             List<ProductReview> reviews = productReviewService.getByProductId(productId);
+            reviews.removeIf(r -> ! r.isStatus()); // Chỉ lấy reviews đã duyệt
             request.setAttribute("reviews", reviews);
 
             // Tính rating trung bình
-            double averageRating = productReviewService.getAverageRating(productId);
-            int reviewCount = productReviewService.getReviewCount(productId);
+            Object avgRatingObj = product.get("averageRating");
+            double averageRating = avgRatingObj != null ? ((Number) avgRatingObj).doubleValue() : 0;
+            int reviewCount = reviews.size();
             request.setAttribute("averageRating", averageRating);
             request.setAttribute("reviewCount", reviewCount);
 
@@ -72,25 +74,26 @@ public class ProductDetailController extends HttpServlet {
                 if (relatedProducts.size() > 4) {
                     relatedProducts = relatedProducts.subList(0, 4);
                 }
-                request.setAttribute("relatedProducts",relatedProducts);
+                request.setAttribute("relatedProducts", relatedProducts);
             }
 
-            // Forward to JSP
-            request.getRequestDispatcher("/product-detail.jsp").forward(request,response);
+            //  Forward đến WEB-INF/jsp/product/product-detail.jsp
+            request.getRequestDispatcher("/WEB-INF/jsp/products/product-detail.jsp")
+                    .forward(request, response);
 
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage", "ID sản phẩm không hợp lệ");
-            request.getRequestDispatcher("/error.jsp").forward(request,response);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Lỗi khi tải chi tiết sản phẩm: " + e.getMessage());
-            request.getRequestDispatcher("/error.jsp").forward(request,response);
+            request.setAttribute("errorMessage", "Lỗi khi tải chi tiết sản phẩm:  " + e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException,IOException {
-        doGet(request,response);
+            throws ServletException, IOException {
+        doGet(request, response);
     }
 }
