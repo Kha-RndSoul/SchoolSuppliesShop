@@ -36,14 +36,14 @@ public class Admin {
      */
     public Admin(int id, String username, String email, String passwordHash,
                  String fullName, String role, boolean isActive, Timestamp createdAt) {
-        this. id = id;
+        this.id = id;
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
         this.fullName = fullName;
         this.role = role;
         this.isActive = isActive;
-        this. createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters

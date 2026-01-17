@@ -22,8 +22,8 @@ public class Banner {
 
     public Banner(int id, String title, String imageUrl, boolean status) {
         this.id = id;
-        this. title = title;
-        this. imageUrl = imageUrl;
+        this.title = title;
+        this.imageUrl = imageUrl;
         this.status = status;
     }
 

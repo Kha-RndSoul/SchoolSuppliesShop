@@ -1,11 +1,8 @@
-package com.shop. model;
+package com.shop.model;
 
 import java.sql.Timestamp;
 
-/**
- * Model class for customers table
- * Represents a customer in the system
- */
+
 public class Customer {
 
     // Fields matching database columns
@@ -46,9 +43,9 @@ public class Customer {
         this.email = email;
         this.passwordHash = passwordHash;
         this.fullName = fullName;
-        this. phone = phone;
-        this. address = address;
-        this. createdAt = createdAt;
+        this.phone = phone;
+        this.address = address;
+        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 

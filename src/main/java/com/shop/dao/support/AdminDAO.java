@@ -1,6 +1,6 @@
 package com.shop.dao.support;
 
-import com. shop.model.Admin;
+import com.shop.model.Admin;
 import org.jdbi.v3.core.statement.PreparedBatch;
 
 import java.util.*;
@@ -52,7 +52,7 @@ public class AdminDAO extends BaseDao {
 
     public Admin getByEmail(String email) {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE email = : email")
+                h.createQuery("SELECT id, username, email, password_hash, full_name, role, is_active, created_at FROM admins WHERE email = : email")
                         .bind("email", email)
                         .mapToBean(Admin.class)
                         .findOne()
@@ -85,7 +85,7 @@ public class AdminDAO extends BaseDao {
             PreparedBatch batch = h.prepareBatch(
                     "INSERT INTO admins (id, username, email, password_hash, full_name, role, is_active) VALUES (:id, :username, :email, :password_hash, :fullName, :role, :isActive)"
             );
-            admins.forEach(a -> batch. bindBean(a).add());
+            admins.forEach(a -> batch.bindBean(a).add());
             batch.execute();
         });
     }
@@ -108,7 +108,7 @@ public class AdminDAO extends BaseDao {
 
     public void updatePassword(int id, String password_hash) {
         get().useHandle(h -> {
-            h. createUpdate("UPDATE admins SET password_hash = :password_hash WHERE id = :id")
+            h.createUpdate("UPDATE admins SET password_hash = :password_hash WHERE id = :id")
                     .bind("id", id)
                     .bind("password_hash", password_hash)
                     .execute();
