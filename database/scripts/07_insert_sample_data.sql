@@ -20,7 +20,7 @@ VALUES
     (2, 2, 'Trần Thị B', 'customer2@email.com', '0912345678', 'Vấn đề giao hàng', 'Đơn hàng của tôi chưa nhận được', 'PROCESSING', NULL, '192.168.1.2', NOW(), NULL),
     (3, 3, 'Lê Văn C', 'guest@email.com', '0923456789', 'Yêu cầu hợp tác', 'Tôi muốn trở thành đối tác', 'NEW', NULL, '192.168.1.3', NOW(), NULL)
 ;
---Chèn dữ liệu vào bảng categories
+-- Chèn dữ liệu vào bảng categories
 INSERT INTO categories (id, category_name, image_url, created_at) VALUES
     (1, 'Bút viết', 'src/main/webapp/assets/images/categories/Bút viết.png', NOW()),
     (2, 'Sổ vở', 'src/main/webapp/assets/images/categories/Sổ vở.png', NOW()),
@@ -67,7 +67,7 @@ INSERT INTO products (
     sold_count,
     is_active
 ) VALUES
-      --Insert sản phẩm của Dũng
+      -- Insert sản phẩm của Dũng
 INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES
     (1, 'Bút gel Doraemon TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học.Thân bút bằng nhựa trắng đục, in transfer fllm hình nhân vật Doraemon rất thu hút. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục', 1, 1, 10000.00, 8000.00, 50, 100, TRUE),
     (2, 'Bút gel B TL', 'Kiểu dáng hiện đại, dắt bút bằng kim loại sáng bóng sang trọng rất phù hợp với khách hàng là nhân viên văn phòng. ', 1, 1, 13000.00, 11000.00, 40, 50, TRUE),
@@ -147,7 +147,7 @@ INSERT INTO products (id, product_name, description, category_id, brand_id, pric
     (78, 'Sáp nặn MC CLK', '8 màu tươi sáng,sáp mịn, mềm, dẻo, không bở, không chai cứng, dễ dàng tạo hình, không dính tay khi nặn sáp.', 3, 7, 20000.00, 15000.00, 134, 98, TRUE),
     (79, 'Sáp nặn Sáng Tạo CLK', 'Màu sắc tươi sáng, theo đúng chuẩn màu mỹ thuật cơ bản.  Đặc biệt sáp nặn Thiên Long MC-021 có thể dễ dàng pha trộn với nhau để tạo ra các màu mới theo mong muốn của bé.', 3, 7, 30000.00, 27000.00, 100, 74, TRUE),
     (80, 'Bộ 16 khuôn nặn sáp CLK', 'Bộ sản phẩm bao gồm:  bộ khuôn tạo hình 6 nhân vật trong truyện Doraemon, 8 khuôn hình trái cây, 1 dao cắt, 1 rulo lăn sáp. ', 3, 7, 25000.00, 21000.00, 120, 69, TRUE),
---Insert thêm sản phẩm của Kha
+-- Insert thêm sản phẩm của Kha
       (81, 'Balo mẫu giáo khủng long tím Miti', 'Balo mẫu giáo khủng long tím kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 360, 36,TRUE),
       (82, 'Balo mẫu giáo phi hành gia Miti', 'Balo mẫu giáo phi hành gia kích thước 24 x 12 x 26 cm, 300gram, vải Polyester', 4, 9, 299000.00, 270000.00, 420, 69, TRUE),
       (83, 'Balo học sinh Miti01', 'Balo học sinh Miti cấp 1 xanh xám, kích thước 29 x 15 x 40 cm, 500gram', 4, 9, 350000.00, 300000.00, 458, 354, TRUE),
@@ -212,9 +212,9 @@ INSERT INTO products (id, product_name, description, category_id, brand_id, pric
       (142, 'Gôm tẩy xóa chì Flexoffice FO-E02', 'Gôm Thiên Long - Flexoffice FO-E02 được làm từ chất liệu cao cấp, đáp ứng các chỉ tiêu an toàn cho phép, không có mùi khó chịu mang đến sự an tâm cho người sử dụng. Gôm siêu mềm và siêu dẻo, không bị cứng khi sử dụng trong thời gian dài.', 8, 2, 2500.00, 5000.00, 354, 32, TRUE),
       (143, 'Gôm tẩy xóa chì Điểm 10 E-015', 'Gôm Thiên Long - Điểm 10 E-15 được làm từ chất liệu cao cấp, đáp ứng các chỉ tiêu an toàn cho phép, không có mùi khó chịu mang đến sự an tâm cho người sử dụng. Gôm siêu mềm và siêu dẻo, không bị cứng khi sử dụng trong thời gian dài.', 8, 3, 6000.00, 8000.00, 36, 63, TRUE),
       (144, 'Gôm tẩy xóa chì Thiên Long E-06', 'Gôm Thiên Long E-06 được làm từ chất liệu cao cấp, đáp ứng các chỉ tiêu an toàn cho phép, không có mùi khó chịu mang đến sự an tâm cho người sử dụng. Gôm siêu mềm và siêu dẻo, không bị cứng khi sử dụng trong thời gian dài.', 8, 1, 5000.00, 6000.00, 65, 98, TRUE),
---Inser sản phẩm của Phước
+-- Insert sản phẩm của Phước
 
---Insert sản phẩm của Dũng
+-- Insert sản phẩm của Dũng
       (191, 'Túi tote học sinh Jamlos', 'Túi tote vải canvas phong cách, đựng vừa sách vở A4, thích hợp đi học thêm hoặc dạo phố.', 4, 17, 150000.00, 130000.00, 50, 60, TRUE),
       (192, 'Túi đựng bút Jamlos', 'Túi vải canvas nhỏ gọn, thiết kế tối giản, bền đẹp.', 4, 17, 50000.00, 45000.00, 80, 40, TRUE),
       (193, 'Balo laptop Jamlos', 'Thiết kế hiện đại, ngăn chống sốc cho laptop, chất liệu trượt nước.', 4, 17, 400000.00, 380000.00, 30, 20, TRUE),
@@ -226,7 +226,7 @@ INSERT INTO products (id, product_name, description, category_id, brand_id, pric
       (199, 'Kéo học sinh Kẹo CLK', 'Loại kéo nhỏ dành cho học sinh làm thủ công, được làm bằng kim loại không gỉ, mũi kéo tròn để bảo vệ an toàn cho trẻ khi sử dụng. Tay cầm bằng nhựa giúp cắt nhẹ nhàng', 3, 7, 20000.00, 18000.00, 47, 52, TRUE),
       (200, 'Bao gồm: 6 mẫu lưỡi cắt và 1 cán kéo.Có cán làm từ nhựa ABS, thân làm bằng thép không gỉ, dễ dàng tháo lắp. Bộ kéo thủ công Colokit SC-C05 phù hơp cho học sinh tiểu học. Kiểu dáng trang nhã, màu sắc phong phú.', 3, 7, 80000.00, 75000.00, 34, 23, TRUE)
       ;
---Insert hình ảnh sản phẩm
+-- Insert hình ảnh sản phẩm
 INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VALUES
     -- Bút viết
     (1,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-1.jpg', FALSE, NOW()),
@@ -566,6 +566,188 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
     (246,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
     (247,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-1.jpg', FALSE, NOW()),
     (248,200, 'src/main/webapp/assets/images/products/DungCuVe/200-dcv-pri.jpg', TRUE,NOW()),
+-- Balo
+    (249,81, 'src/main/webapp/assets/images/products/Balo/81-baloMT-1.jpg', FALSE, NOW()),
+    (250,81, 'src/main/webapp/assets/images/products/Balo/81-baloMT-2.jpg', FALSE, NOW()),
+    (251,81, 'src/main/webapp/assets/images/products/Balo/81-baloMT-pri.jpg', TRUE,NOW()),
+
+    (252,82, 'src/main/webapp/assets/images/products/Balo/82-baloMT-1.jpg', FALSE, NOW()),
+    (253,82, 'src/main/webapp/assets/images/products/Balo/82-baloMT-2.jpg', FALSE, NOW()),
+    (254,82, 'src/main/webapp/assets/images/products/Balo/82-baloMT-pri.jpg', TRUE,NOW()),
+
+    (255,83, 'src/main/webapp/assets/images/products/Balo/83-baloMT-1.jpg', FALSE, NOW()),
+    (256,83, 'src/main/webapp/assets/images/products/Balo/83-baloMT-2.jpg', FALSE, NOW()),
+    (257,83, 'src/main/webapp/assets/images/products/Balo/83-baloMT-pri.jpg', TRUE,NOW()),
+
+    (258,84, 'src/main/webapp/assets/images/products/Balo/84-baloMT-1.jpg', FALSE, NOW()),
+    (259,84, 'src/main/webapp/assets/images/products/Balo/84-baloMT-2.jpg', FALSE, NOW()),
+    (260,84, 'src/main/webapp/assets/images/products/Balo/84-baloMT-pri.jpg', TRUE,NOW()),
+
+    (261,85, 'src/main/webapp/assets/images/products/Balo/85-baloMT-1.jpg', FALSE, NOW()),
+    (262,85, 'src/main/webapp/assets/images/products/Balo/85-baloMT-2.jpg', FALSE, NOW()),
+    (263,85, 'src/main/webapp/assets/images/products/Balo/85-baloMT-pri.jpg', TRUE,NOW()),
+
+    (264,86, 'src/main/webapp/assets/images/products/Balo/86-baloMT-1.jpg', FALSE, NOW()),
+    (265,86, 'src/main/webapp/assets/images/products/Balo/86-baloMT-2.jpg', FALSE, NOW()),
+    (266,86, 'src/main/webapp/assets/images/products/Balo/86-baloMT-pri.jpg', TRUE,NOW()),
+
+    (267,87, 'src/main/webapp/assets/images/products/Balo/87-baloMT-1.jpg', FALSE, NOW()),
+    (268,87, 'src/main/webapp/assets/images/products/Balo/87-baloMT-pri.jpg', TRUE,NOW()),
+
+    (269,88, 'src/main/webapp/assets/images/products/Balo/88-baloMT-1.jpg', FALSE, NOW()),
+    (270,88, 'src/main/webapp/assets/images/products/Balo/88-baloMT-pri.jpg', TRUE,NOW()),
+
+    (271,89, 'src/main/webapp/assets/images/products/Balo/89-baloMT-1.jpg', FALSE, NOW()),
+    (272,89, 'src/main/webapp/assets/images/products/Balo/89-baloMT-pri.jpg', TRUE,NOW()),
+
+    (273,90, 'src/main/webapp/assets/images/products/Balo/90-baloMT-1.jpg', FALSE, NOW()),
+    (274,90, 'src/main/webapp/assets/images/products/Balo/90-baloMT-pri.jpg', TRUE,NOW()),
+
+    (275,91, 'src/main/webapp/assets/images/products/Balo/91-baloMT-1.jpg', FALSE, NOW()),
+    (276,91, 'src/main/webapp/assets/images/products/Balo/91-baloMT-pri.jpg', TRUE,NOW()),
+
+    (277,92, 'src/main/webapp/assets/images/products/Balo/92-baloMT-1.jpg', FALSE, NOW()),
+    (278,92, 'src/main/webapp/assets/images/products/Balo/92-baloMT-pri.jpg', TRUE,NOW()),
+
+    (279,93, 'src/main/webapp/assets/images/products/Balo/93-baloMT-1.jpg', FALSE, NOW()),
+    (280,93, 'src/main/webapp/assets/images/products/Balo/93-baloMT-pri.jpg', TRUE,NOW()),
+
+    (281,94, 'src/main/webapp/assets/images/products/Balo/94-baloMT-1.jpg', FALSE, NOW()),
+    (282,94, 'src/main/webapp/assets/images/products/Balo/94-baloMT-pri.jpg', TRUE,NOW()),
+
+    (283,95, 'src/main/webapp/assets/images/products/Balo/95-baloMT-1.jpg', FALSE, NOW()),
+    (284,95, 'src/main/webapp/assets/images/products/Balo/95-baloMT-pri.jpg', TRUE,NOW()),
+
+    (285,108, 'src/main/webapp/assets/images/products/Balo/108-baloJL-1.jpg', FALSE, NOW()),
+    (286,108, 'src/main/webapp/assets/images/products/Balo/108-baloJL-1.jpg', TRUE,NOW()),
+
+    (287,109, 'src/main/webapp/assets/images/products/Balo/109-baloJL-1.jpg', FALSE, NOW()),
+    (288,109, 'src/main/webapp/assets/images/products/Balo/109-baloJL-pri.jpg', TRUE,NOW()),
+
+    (289,110, 'src/main/webapp/assets/images/products/Balo/110-baloJL-1.jpg', FALSE, NOW()),
+    (290,110, 'src/main/webapp/assets/images/products/Balo/110-baloJL-pri.jpg', TRUE,NOW()),
+
+    (291,111, 'src/main/webapp/assets/images/products/Balo/111-baloJL-1.jpg', FALSE, NOW()),
+    (292,111, 'src/main/webapp/assets/images/products/Balo/111-baloJL-pri.jpg', TRUE,NOW()),
+
+    (293,112, 'src/main/webapp/assets/images/products/Balo/112-baloJL-1.jpg', FALSE, NOW()),
+    (294,112, 'src/main/webapp/assets/images/products/Balo/112-baloJL-pri.jpg', TRUE,NOW()),
+
+  -- May tinh
+
+    (295,96, 'src/main/webapp/assets/images/products/MayTinh/96-mtCS-1.jpg', FALSE, NOW()),
+    (296,96, 'src/main/webapp/assets/images/products/MayTinh/96-mtCS-pri.jpg', TRUE,NOW()),
+
+    (297,97, 'src/main/webapp/assets/images/products/MayTinh/97-mtCS-1.jpg', FALSE, NOW()),
+    (298,97, 'src/main/webapp/assets/images/products/MayTinh/97-mtCS-pri.jpg', TRUE,NOW()),
+
+    (299,98, 'src/main/webapp/assets/images/products/MayTinh/98-mtCS-1.jpg', FALSE, NOW()),
+    (300,98, 'src/main/webapp/assets/images/products/MayTinh/98-mtCS-pri.jpg', TRUE,NOW()),
+
+    (301,99, 'src/main/webapp/assets/images/products/MayTinh/99-mtCS-1.jpg', FALSE, NOW()),
+    (302,99, 'src/main/webapp/assets/images/products/MayTinh/99-mtCS-pri.jpg', TRUE,NOW()),
+
+    (303,100, 'src/main/webapp/assets/images/products/MayTinh/100-mtFL-1.jpg', FALSE, NOW()),
+    (304,100, 'src/main/webapp/assets/images/products/MayTinh/100-mtFL-pri.jpg', TRUE,NOW()),
+
+    (305,101, 'src/main/webapp/assets/images/products/MayTinh/101-mtFL-1.jpg', FALSE, NOW()),
+    (306,101, 'src/main/webapp/assets/images/products/MayTinh/101-mtFL-pri.jpg', TRUE,NOW()),
+
+    (307,102, 'src/main/webapp/assets/images/products/MayTinh/102-mtFL-1.jpg', FALSE, NOW()),
+    (308,102, 'src/main/webapp/assets/images/products/MayTinh/102-mtFL-pri.jpg', TRUE,NOW()),
+
+    (309,103, 'src/main/webapp/assets/images/products/MayTinh/103-mtFL-1.jpg', FALSE, NOW()),
+    (310,103, 'src/main/webapp/assets/images/products/MayTinh/103-mtFL-pri.jpg', TRUE,NOW()),
+
+    (311,104, 'src/main/webapp/assets/images/products/MayTinh/104-mtFL-1.jpg', FALSE, NOW()),
+    (312,104, 'src/main/webapp/assets/images/products/MayTinh/104-mtFL-pri.jpg', TRUE,NOW()),
+
+    (313,105, 'src/main/webapp/assets/images/products/MayTinh/105-mtFL-1.jpg', FALSE, NOW()),
+    (314,105, 'src/main/webapp/assets/images/products/MayTinh/105-mtFL-pri.jpg', TRUE,NOW()),
+
+    (315,106, 'src/main/webapp/assets/images/products/MayTinh/106-mtFL-1.jpg', FALSE, NOW()),
+    (316,106, 'src/main/webapp/assets/images/products/MayTinh/106-mtFL-pri.jpg', TRUE,NOW()),
+
+    (317,107, 'src/main/webapp/assets/images/products/MayTinh/107-mtFL-1.jpg', FALSE, NOW()),
+    (318,107, 'src/main/webapp/assets/images/products/MayTinh/107-mtFL-pri.jpg', TRUE,NOW()),
+
+-- Thuoc
+    (319,113, 'src/main/webapp/assets/images/products/Thuoc/113-thuoc-pri.jpg', TRUE, NOW()),
+    (320,114, 'src/main/webapp/assets/images/products/Thuoc/114-thuoc-pri.jpg', TRUE, NOW()),
+    (321,115, 'src/main/webapp/assets/images/products/Thuoc/115-thuoc-pri.jpg', TRUE, NOW()),
+    (322,116, 'src/main/webapp/assets/images/products/Thuoc/116-thuoc-pri.jpg', TRUE, NOW()),
+    (323,117, 'src/main/webapp/assets/images/products/Thuoc/117-thuoc-pri.jpg', TRUE, NOW()),
+    (324,118, 'src/main/webapp/assets/images/products/Thuoc/118-thuoc-pri.jpg', TRUE, NOW()),
+
+    (325,119, 'src/main/webapp/assets/images/products/Thuoc/119-thuoc-1.jpg', FALSE, NOW()),
+    (326,119, 'src/main/webapp/assets/images/products/Thuoc/119-thuoc-pri.jpg', TRUE, NOW()),
+
+    (327,120, 'src/main/webapp/assets/images/products/Thuoc/120-thuoc-pri.jpg', TRUE, NOW()),
+
+    (328,121, 'src/main/webapp/assets/images/products/Thuoc/121-thuoc-pri.jpg', TRUE, NOW()),
+
+    (329,122, 'src/main/webapp/assets/images/products/Thuoc/122-thuoc-pri.jpg', TRUE, NOW()),
+
+    (330,123, 'src/main/webapp/assets/images/products/Thuoc/123-thuoc-pri.jpg', TRUE, NOW()),
+
+    (331,124, 'src/main/webapp/assets/images/products/Thuoc/124-thuoc-pri.jpg', TRUE, NOW()),
+
+    (332,125, 'src/main/webapp/assets/images/products/Thuoc/125-thuoc-pri.jpg', TRUE, NOW()),
+
+    (333,126, 'src/main/webapp/assets/images/products/Thuoc/126-thuocTL-1.jpg', FALSE, NOW()),
+    (334,126, 'src/main/webapp/assets/images/products/Thuoc/126-thuocTL-pri.jpg', TRUE, NOW()),
+
+    (335,127, 'src/main/webapp/assets/images/products/Thuoc/127-thuocTL-1.jpg', FALSE, NOW()),
+    (336,127, 'src/main/webapp/assets/images/products/Thuoc/127-thuocTL-pri.jpg', TRUE, NOW()),
+
+    (337,128, 'src/main/webapp/assets/images/products/Thuoc/128-thuocTL-pri.jpg', TRUE, NOW()),
+
+    (338,129, 'src/main/webapp/assets/images/products/Thuoc/128-thuocTL-pri.jpg', TRUE, NOW()),
+
+    (339,130, 'src/main/webapp/assets/images/products/Thuoc/130-thuocTL-1.jpg', FALSE, NOW()),
+    (340,130, 'src/main/webapp/assets/images/products/Thuoc/130-thuocTL-pri.jpg', TRUE, NOW()),
+
+    (341,131, 'src/main/webapp/assets/images/products/Thuoc/131-thuocTL-1.jpg', FALSE, NOW()),
+    (342,131, 'src/main/webapp/assets/images/products/Thuoc/131-thuocTL-pri.jpg', TRUE, NOW()),
+
+    (343,132, 'src/main/webapp/assets/images/products/Tay/132-tay-pri.jpg', TRUE, NOW()),
+
+    (344,133, 'src/main/webapp/assets/images/products/Tay/133-tay-1.jpg', FALSE, NOW()),
+    (345,133, 'src/main/webapp/assets/images/products/Tay/133-tay-pri.jpg', TRUE, NOW()),
+
+    (346,134, 'src/main/webapp/assets/images/products/Tay/134-tay-1.jpg', FALSE, NOW()),
+    (347,134, 'src/main/webapp/assets/images/products/Tay/134-tay-pri.jpg', TRUE, NOW()),
+
+    (348,135, 'src/main/webapp/assets/images/products/Tay/135-tay-1.jpg', FALSE, NOW()),
+    (349,135, 'src/main/webapp/assets/images/products/Tay/135-tay-pri.jpg', TRUE, NOW()),
+
+    (350,136, 'src/main/webapp/assets/images/products/Tay/136-tay-pri.jpg', TRUE, NOW()),
+
+    (351,137, 'src/main/webapp/assets/images/products/Tay/137-tay-1.jpg', FALSE, NOW()),
+    (352,137, 'src/main/webapp/assets/images/products/Tay/137-tay-pri.jpg', TRUE, NOW()),
+
+    (353,138, 'src/main/webapp/assets/images/products/Tay/138-tay-1.jpg', FALSE, NOW()),
+    (354,138, 'src/main/webapp/assets/images/products/Tay/138-tay-pri.jpg', TRUE, NOW()),
+
+    (355,139, 'src/main/webapp/assets/images/products/Tay/139-tay-1.jpg', FALSE, NOW()),
+    (356,139, 'src/main/webapp/assets/images/products/Tay/139-tay-pri.jpg', TRUE, NOW()),
+
+    (358,140, 'src/main/webapp/assets/images/products/Tay/140-tay-1.jpg', FALSE, NOW()),
+    (359,140, 'src/main/webapp/assets/images/products/Tay/140-tay-pri.jpg', TRUE, NOW()),
+
+    (360,141, 'src/main/webapp/assets/images/products/Tay/141-tay-1.jpg', FALSE, NOW()),
+    (361,141, 'src/main/webapp/assets/images/products/Tay/141-tay-pri.jpg', TRUE, NOW()),
+
+    (362,142, 'src/main/webapp/assets/images/products/Tay/142-tay-pri.jpg', TRUE, NOW()),
+
+    (363,143, 'src/main/webapp/assets/images/products/Tay/143-tay-1.jpg', FALSE, NOW()),
+    (364,143, 'src/main/webapp/assets/images/products/Tay/143-tay-pri.jpg', TRUE, NOW()),
+
+    (365,144, 'src/main/webapp/assets/images/products/Tay/144-tay-pri.jpg', TRUE, NOW());
+
+
+
+
 
 
 
