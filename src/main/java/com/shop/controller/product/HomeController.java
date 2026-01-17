@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(name = "HomeController", urlPatterns = {"/index"})
+@WebServlet(name = "HomeController", urlPatterns = {"/index", "/"})
 public class HomeController extends HttpServlet {
 
     private BannerService bannerService;
@@ -41,14 +41,22 @@ public class HomeController extends HttpServlet {
 
             // Load best sellers
             List<Map<String, Object>> bestSellers = productService.getBestSellers(8);
+            // debug
+            System.out.println("=== BEST SELLERS ===");
+            bestSellers.forEach(p -> {
+                System.out. println("ID: " + p. get("id"));
+                System.out.println("Name: " + p.get("productName"));
+                System.out. println("---");
+            });
             request.setAttribute("bestSellingProducts", bestSellers);
 
-            // Load coupons (tạm thời empty)
+            // Load coupons
             List<Object> topCoupons = new ArrayList<>();
             request.setAttribute("topCoupons", topCoupons);
 
-            // Forward to index.jsp
-            request.getRequestDispatcher("/index.jsp").forward(request,response);
+            //  Forward đến WEB-INF/jsp/product/index.jsp
+            request.getRequestDispatcher("/WEB-INF/jsp/products/index.jsp")
+                    .forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
