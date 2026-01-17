@@ -19,7 +19,7 @@ public class ValidationUtil {
         if (email == null || email.trim().isEmpty()) {
             return false;
         }
-        return EMAIL_PATTERN.matcher(email. trim()).matches();
+        return EMAIL_PATTERN.matcher(email.trim()).matches();
     }
 
     // ==================== PHONE VALIDATION ====================
@@ -150,7 +150,7 @@ public class ValidationUtil {
             return false;
         }
         try {
-            Integer.parseInt(str. trim());
+            Integer.parseInt(str.trim());
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -179,7 +179,7 @@ public class ValidationUtil {
             return false;
         }
         try {
-            Double.parseDouble(str. trim());
+            Double.parseDouble(str.trim());
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -283,10 +283,10 @@ public class ValidationUtil {
         if (str == null) {
             return "";
         }
-        return str. replace("&", "&amp;")
+        return str.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
-                . replace("\"", "&quot;")
+                .replace("\"", "&quot;")
                 .replace("'", "&#x27;")
                 .replace("/", "&#x2F;");
     }

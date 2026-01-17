@@ -36,7 +36,7 @@ public class BrandDAO extends BaseDao {
 // Lấy brand theo ID
     public Brand getBrandById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, brand_name AS brandName, created_at FROM brands WHERE id = : id")
+                h.createQuery("SELECT id, brand_name AS brandName, created_at FROM brands WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(Brand.class)
                         .findOne()

@@ -22,7 +22,7 @@
                 <p>📧 Email: contact@dpkshop.com</p>
                 <p>📞 Hotline: 1900 5678</p>
                 <p>📍 Địa chỉ: 123 Đường Học Tập, Phường 1, Quận 1, TP.HCM</p>
-                <a href="${pageContext.request. contextPath}/contact" class="text-link">
+                <a href="${pageContext.request.contextPath}/contact" class="text-link">
                     Chi tiết liên hệ
                 </a>
             </div>
@@ -31,7 +31,7 @@
             <div class="footer-section">
                 <h3>Hỗ Trợ</h3>
                 <a href="${pageContext.request.contextPath}/help/buying-guide">Hướng dẫn mua hàng</a>
-                <a href="${pageContext. request.contextPath}/help/return-policy">Chính sách đổi trả</a>
+                <a href="${pageContext.request.contextPath}/help/return-policy">Chính sách đổi trả</a>
                 <a href="${pageContext.request.contextPath}/help/shipping">Vận chuyển</a>
                 <a href="${pageContext.request.contextPath}/help/payment">Thanh toán</a>
             </div>
@@ -48,7 +48,7 @@
 
         <!-- Footer Bottom -->
         <div class="footer-bottom">
-            <p>&copy; 2025 DPK Shop. Tất cả bản quyền được bảo lưu.</p>
+            <p>&copy; 2025 DPK Shop.Tất cả bản quyền được bảo lưu.</p>
             <%-- Hiển thị app version từ web.xml context-param --%>
             <c:if test="${not empty initParam['app.version']}">
                 <p style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">

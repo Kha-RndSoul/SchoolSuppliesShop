@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
+@WebServlet(name = "HomeController", urlPatterns = {"/index"})
 public class HomeController extends HttpServlet {
 
     private BannerService bannerService;
@@ -28,7 +28,7 @@ public class HomeController extends HttpServlet {
         try {
             // Load banners
             List<Banner> banners = bannerService.getActiveBanners();
-            request. setAttribute("listBan", banners);
+            request.setAttribute("listBan", banners);
 
             // Load categories
             List<Category> allCategories = categoryService.getAllCategories();
@@ -48,7 +48,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("topCoupons", topCoupons);
 
             // Forward to index.jsp
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request,response);
 
         } catch (Exception e) {
             e.printStackTrace();

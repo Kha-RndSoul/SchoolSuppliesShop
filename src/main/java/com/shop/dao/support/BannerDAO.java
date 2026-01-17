@@ -1,4 +1,4 @@
-package com.shop.dao. support;
+package com.shop.dao.support;
 
 import com.shop.model.Banner;
 import org.jdbi.v3.core.statement.PreparedBatch;
@@ -43,7 +43,7 @@ public class BannerDAO extends BaseDao {
 
     public List<Banner> getActive() {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, title, image_url, status FROM banners WHERE status = 1")
+                h.createQuery("SELECT id, title, image_url, status FROM banners WHERE status = 1")
                         .mapToBean(Banner.class)
                         .list()
         );
@@ -94,7 +94,7 @@ public class BannerDAO extends BaseDao {
 
     public int count() {
         return get().withHandle(h ->
-                h. createQuery("SELECT COUNT(*) FROM banners")
+                h.createQuery("SELECT COUNT(*) FROM banners")
                         .mapTo(Integer.class)
                         .one()
         );
