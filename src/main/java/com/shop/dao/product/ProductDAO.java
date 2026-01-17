@@ -21,75 +21,105 @@ public class ProductDAO extends BaseDao {
     public List<Product> getListProduct() { return new ArrayList<>(data.values()); }
     public Product getProduct(int id) { return data.get(id); }
 // Lấy list sản phẩm với hình ảnh, thương hiệu, danh mục và đánh giá trung bình
-    public List<Map<String, Object>> getListWithImage() {
-        return get().withHandle(h ->
-                h.createQuery(
-                                "SELECT id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, c.category_name AS categoryName, " +
-                                        "COALESCE(AVG(pr.rating), 0) AS averageRating, pi.image_url AS imageUrl " +
-                                        "FROM products p " +
-                                        "LEFT JOIN brands b ON p.brand_id = b.id " +
-                                        "LEFT JOIN categories c ON p.category_id = c.id " +
-                                        "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
-                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE p.is_active = 1 " +
-                                        "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url"
-                        )
-                        .mapToMap()
-                        .list()
-        );
-    }
+public List<Map<String, Object>> getListWithImage() {
+    return get().withHandle(h ->
+            h.createQuery(
+                            "SELECT p.id, p.product_name AS productName, p.description, " +
+                                    "p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                    "p.price, p.sale_price AS salePrice, " +
+                                    "p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, " +
+                                    "p.is_active AS isActive, " +
+                                    "p.created_at AS createdAt, p.updated_at AS updatedAt, " +
+                                    "b.brand_name AS brandName, c.category_name AS categoryName, " +
+                                    "COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                                    "pi.image_url AS imageUrl " +
+                                    "FROM products p " +
+                                    "LEFT JOIN brands b ON p.brand_id = b.id " +
+                                    "LEFT JOIN categories c ON p.category_id = c.id " +
+                                    "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
+                                    "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
+                                    "WHERE p.is_active = 1 " +
+                                    "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url"
+                    )
+                    .mapToMap()
+                    .list()
+    );
+}
 // Lấy sản phẩm bán chạy nhất với hình ảnh, thương hiệu, danh mục và đánh giá trung bình
-    public List<Map<String, Object>> getBestSellersWithImage(int limit) {
-        return get().withHandle(h ->
-                h.createQuery(
-                                "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, c.category_name AS categoryName, " +
-                                        "COALESCE(AVG(pr.rating), 0) AS averageRating, pi.image_url AS imageUrl " +
-                                        "FROM products p " +
-                                        "LEFT JOIN brands b ON p.brand_id = b.id " +
-                                        "LEFT JOIN categories c ON p.category_id = c.id " +
-                                        "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
-                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE p.is_active = 1 " +
-                                        "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url " +
-                                        "ORDER BY p.sold_count DESC LIMIT :limit"
-                        )
-                        .bind("limit", limit)
-                        .mapToMap()
-                        .list()
-        );
-    }
+public List<Map<String, Object>> getBestSellersWithImage(int limit) {
+    return get().withHandle(h ->
+            h.createQuery(
+                            "SELECT p.id, p.product_name AS productName, p.description, " +
+                                    "p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                    "p.price, p.sale_price AS salePrice, " +
+                                    "p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, " +
+                                    "p.is_active AS isActive, " +
+                                    "p.created_at AS createdAt, p.updated_at AS updatedAt, " +
+                                    "b.brand_name AS brandName, c.category_name AS categoryName, " +
+                                    "COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                                    "pi.image_url AS imageUrl " +
+                                    "FROM products p " +
+                                    "LEFT JOIN brands b ON p.brand_id = b.id " +
+                                    "LEFT JOIN categories c ON p.category_id = c.id " +
+                                    "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
+                                    "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
+                                    "WHERE p.is_active = 1 " +
+                                    "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url " +
+                                    "ORDER BY p.sold_count DESC " +
+                                    "LIMIT :limit"
+                    )
+                    .bind("limit", limit)
+                    .mapToMap()
+                    .list()
+    );
+}
 // Lấy sản phẩm theo danh mục với hình ảnh và thương hiệu
-    public List<Map<String, Object>> getByCategoryIdWithImage(int categoryId) {
-        return get().withHandle(h ->
-                h.createQuery(
-                                "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, pi.image_url AS imageUrl " +
-                                        "FROM products p " +
-                                        "LEFT JOIN brands b ON p.brand_id = b.id " +
-                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE p.category_id = :categoryId AND p.is_active = 1"
-                        )
-                        .bind("categoryId", categoryId)
-                        .mapToMap()
-                        .list()
-        );
-    }
-// Lấy sản phẩm theo thương hiệu với hình ảnh và thương hiệu
+public List<Map<String, Object>> getByCategoryIdWithImage(int categoryId) {
+    return get().withHandle(h ->
+            h.createQuery(
+                            "SELECT p.id, p.product_name AS productName, p.description, " +
+                                    "p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                    "p.price, p.sale_price AS salePrice, " +
+                                    "p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, " +
+                                    "p.is_active AS isActive, " +
+                                    "p.created_at AS createdAt, p.updated_at AS updatedAt, " +
+                                    "b.brand_name AS brandName, c.category_name AS categoryName, " +
+                                    "COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                                    "pi.image_url AS imageUrl " +
+                                    "FROM products p " +
+                                    "LEFT JOIN brands b ON p.brand_id = b.id " +
+                                    "LEFT JOIN categories c ON p.category_id = c.id " +
+                                    "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
+                                    "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
+                                    "WHERE p.is_active = 1 AND p.category_id = : categoryId " +
+                                    "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url"
+                    )
+                    .bind("categoryId", categoryId)
+                    .mapToMap()
+                    .list()
+    );
+}
+
+    // Lấy sản phẩm theo thương hiệu với hình ảnh và thương hiệu
     public List<Map<String, Object>> getByBrandIdWithImage(int brandId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, pi.image_url AS imageUrl " +
+                                "SELECT p.id, p.product_name AS productName, p.description, " +
+                                        "p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                        "p.price, p.sale_price AS salePrice, " +
+                                        "p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, " +
+                                        "p.is_active AS isActive, " +
+                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, " +
+                                        "b.brand_name AS brandName, c.category_name AS categoryName, " +
+                                        "COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                                        "pi.image_url AS imageUrl " +
                                         "FROM products p " +
                                         "LEFT JOIN brands b ON p.brand_id = b.id " +
+                                        "LEFT JOIN categories c ON p.category_id = c.id " +
+                                        "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
                                         "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE p.brand_id = :brandId AND p.is_active = 1"
+                                        "WHERE p.is_active = 1 AND p.brand_id = :brandId " +
+                                        "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url"
                         )
                         .bind("brandId", brandId)
                         .mapToMap()
@@ -97,41 +127,58 @@ public class ProductDAO extends BaseDao {
         );
     }
 // Tìm kiếm sản phẩm với hình ảnh và thương hiệu
-    public List<Map<String, Object>> searchWithImage(String keyword) {
-        return get().withHandle(h ->
-                h.createQuery(
-                                "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, pi.image_url AS imageUrl " +
-                                        "FROM products p " +
-                                        "LEFT JOIN brands b ON p.brand_id = b.id " +
-                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE (p.product_name LIKE CONCAT('%', :keyword, '%') OR p.description LIKE CONCAT('%', :keyword, '%')) " +
-                                        "AND p.is_active = 1"
-                        )
-                        .bind("keyword", keyword)
-                        .mapToMap()
-                        .list()
-        );
-    }
+public List<Map<String, Object>> searchWithImage(String keyword) {
+    return get().withHandle(h ->
+            h.createQuery(
+                            "SELECT p.id, p.product_name AS productName, p.description, " +
+                                    "p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                    "p.price, p.sale_price AS salePrice, " +
+                                    "p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, " +
+                                    "p.is_active AS isActive, " +
+                                    "p.created_at AS createdAt, p.updated_at AS updatedAt, " +
+                                    "b.brand_name AS brandName, c.category_name AS categoryName, " +
+                                    "COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                                    "pi.image_url AS imageUrl " +
+                                    "FROM products p " +
+                                    "LEFT JOIN brands b ON p.brand_id = b.id " +
+                                    "LEFT JOIN categories c ON p.category_id = c.id " +
+                                    "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
+                                    "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
+                                    "WHERE p.is_active = 1 AND p.product_name LIKE : keyword " +
+                                    "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url"
+                    )
+                    .bind("keyword", "%" + keyword + "%")
+                    .mapToMap()
+                    .list()
+    );
+}
 // Lấy sản phẩm theo ID với hình ảnh và thương hiệu
-    public Map<String, Object> getProductByIdWithImage(int id) {
-        return get().withHandle(h ->
-                h.createQuery(
-                                "SELECT p.id, p.product_name AS productName, p.description, p.category_id AS categoryId, p.brand_id AS brandId, " +
-                                        "p.price, p.sale_price AS salePrice, p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, p.is_active AS isActive, " +
-                                        "p.created_at AS createdAt, p.updated_at AS updatedAt, b.brand_name AS brandName, c.category_name AS categoryName, pi.image_url AS imageUrl " +
-                                        "FROM products p " +
-                                        "LEFT JOIN brands b ON p.brand_id = b.id " +
-                                        "LEFT JOIN categories c ON p.category_id = c.id " +
-                                        "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
-                                        "WHERE p.id = :id"
-                        )
-                        .bind("id", id)
-                        .mapToMap()
-                        .one()
-        );
-    }
+public Map<String, Object> getProductByIdWithImage(int id) {
+    return get().withHandle(h ->
+            h.createQuery(
+                            "SELECT p.id, p.product_name AS productName, p.description, " +
+                                    "p.category_id AS categoryId, p.brand_id AS brandId, " +
+                                    "p.price, p.sale_price AS salePrice, " +
+                                    "p.stock_quantity AS stockQuantity, p.sold_count AS soldCount, " +
+                                    "p.is_active AS isActive, " +
+                                    "p.created_at AS createdAt, p.updated_at AS updatedAt, " +
+                                    "b.brand_name AS brandName, c.category_name AS categoryName, " +
+                                    "COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                                    "pi.image_url AS imageUrl " +
+                                    "FROM products p " +
+                                    "LEFT JOIN brands b ON p.brand_id = b.id " +
+                                    "LEFT JOIN categories c ON p.category_id = c.id " +
+                                    "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
+                                    "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
+                                    "WHERE p.id = :id " +
+                                    "GROUP BY p.id, b.brand_name, c.category_name, pi.image_url"
+                    )
+                    .bind("id", id)
+                    .mapToMap()
+                    .findOne()
+                    .orElse(null)
+    );
+}
 
     public void insert(List<Product> products) {
         get().useHandle(h -> {
