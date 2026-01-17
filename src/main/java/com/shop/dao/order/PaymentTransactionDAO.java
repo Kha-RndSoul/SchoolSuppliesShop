@@ -1,19 +1,42 @@
-package com.shop.dao. order;
+package com.shop.dao.order;
 
 import com.shop.dao.support.BaseDao;
-import com. shop.model.PaymentTransaction;
+import com.shop.model.PaymentTransaction;
 import org.jdbi.v3.core.statement.PreparedBatch;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.*;
 
 public class PaymentTransactionDAO extends BaseDao {
+
     static Map<Integer, PaymentTransaction> data = new HashMap<>();
+
     static {
-        data.put(1, new PaymentTransaction(1, 1, "BANK_TRANSFER", "SUCCESS", new BigDecimal("500000"), "TXN001", Timestamp.valueOf("2023-10-27 10:35:00"), Timestamp.valueOf("2023-10-27 10:30:00")));
-        data.put(2, new PaymentTransaction(2, 2, "VNPAY", "SUCCESS", new BigDecimal("350000"), "TXN002", Timestamp.valueOf("2023-10-28 09:16:00"), Timestamp.valueOf("2023-10-28 09:15:00")));
-        data.put(3, new PaymentTransaction(3, 3, "COD", "PENDING", new BigDecimal("750000"), "TXN003", null, Timestamp.valueOf("2023-10-29 14:00:00")));
-        data.put(4, new PaymentTransaction(4, 4, "MOMO", "FAILED", new BigDecimal("220000"), "TXN004", Timestamp.valueOf("2023-10-30 16:21:30"), Timestamp.valueOf("2023-10-30 16:20:00")));
+        data.put(1, new PaymentTransaction(
+                1, 1, "BANK_TRANSFER", "SUCCESS",
+                new BigDecimal("500000"), "TXN001",
+                Timestamp.valueOf("2023-10-27 10:35:00"),
+                Timestamp.valueOf("2023-10-27 10:30:00")
+        ));
+        data.put(2, new PaymentTransaction(
+                2, 2, "VNPAY", "SUCCESS",
+                new BigDecimal("350000"), "TXN002",
+                Timestamp.valueOf("2023-10-28 09:16:00"),
+                Timestamp.valueOf("2023-10-28 09:15:00")
+        ));
+        data.put(3, new PaymentTransaction(
+                3, 3, "COD", "PENDING",
+                new BigDecimal("750000"), "TXN003",
+                null,
+                Timestamp.valueOf("2023-10-29 14:00:00")
+        ));
+        data.put(4, new PaymentTransaction(
+                4, 4, "MOMO", "FAILED",
+                new BigDecimal("220000"), "TXN004",
+                Timestamp.valueOf("2023-10-30 16:21:30"),
+                Timestamp.valueOf("2023-10-30 16:20:00")
+        ));
     }
 
     public List<PaymentTransaction> getListPaymentTransaction() {
@@ -26,7 +49,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public List<PaymentTransaction> getList() {
         return get().withHandle(h ->
-                h. createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions ORDER BY created_at DESC")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions ORDER BY created_at DESC"
+                        )
                         .mapToBean(PaymentTransaction.class)
                         .list()
         );
@@ -34,7 +61,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public PaymentTransaction getPaymentTransactionById(int id) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE id = :id")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE id = :id"
+                        )
                         .bind("id", id)
                         .mapToBean(PaymentTransaction.class)
                         .findOne()
@@ -44,7 +75,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public List<PaymentTransaction> getByOrderId(int orderId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE order_id = :orderId ORDER BY created_at DESC")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE order_id = :orderId ORDER BY created_at DESC"
+                        )
                         .bind("orderId", orderId)
                         .mapToBean(PaymentTransaction.class)
                         .list()
@@ -53,7 +88,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public PaymentTransaction getByTransactionId(String transactionId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE transaction_id = :transactionId")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE transaction_id = :transactionId"
+                        )
                         .bind("transactionId", transactionId)
                         .mapToBean(PaymentTransaction.class)
                         .findOne()
@@ -63,7 +102,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public List<PaymentTransaction> getByStatus(String status) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE status = :status ORDER BY created_at DESC")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE status = :status ORDER BY created_at DESC"
+                        )
                         .bind("status", status)
                         .mapToBean(PaymentTransaction.class)
                         .list()
@@ -72,7 +115,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public List<PaymentTransaction> getByPaymentMethod(String paymentMethod) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE payment_method = :paymentMethod ORDER BY created_at DESC")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE payment_method = :paymentMethod ORDER BY created_at DESC"
+                        )
                         .bind("paymentMethod", paymentMethod)
                         .mapToBean(PaymentTransaction.class)
                         .list()
@@ -81,7 +128,11 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public List<PaymentTransaction> getByPaymentGateway(String paymentGateway) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE payment_gateway = :paymentGateway ORDER BY created_at DESC")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE payment_gateway = :paymentGateway ORDER BY created_at DESC"
+                        )
                         .bind("paymentGateway", paymentGateway)
                         .mapToBean(PaymentTransaction.class)
                         .list()
@@ -90,7 +141,10 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public boolean hasSuccessfulPayment(int orderId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(id) > 0 FROM payment_transactions WHERE order_id = :orderId AND status = 'SUCCESS'")
+                h.createQuery(
+                                "SELECT COUNT(id) > 0 FROM payment_transactions " +
+                                        "WHERE order_id = :orderId AND status = 'SUCCESS'"
+                        )
                         .bind("orderId", orderId)
                         .mapTo(Boolean.class)
                         .one()
@@ -99,7 +153,12 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public PaymentTransaction getSuccessfulPaymentByOrderId(int orderId) {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at, updated_at FROM payment_transactions WHERE order_id = :orderId AND status = 'SUCCESS' ORDER BY created_at DESC LIMIT 1")
+                h.createQuery(
+                                "SELECT id, order_id, transaction_id, payment_method, amount, currency, " +
+                                        "status, payment_gateway, gateway_response, payer_email, created_at, updated_at " +
+                                        "FROM payment_transactions WHERE order_id = :orderId AND status = 'SUCCESS' " +
+                                        "ORDER BY created_at DESC LIMIT 1"
+                        )
                         .bind("orderId", orderId)
                         .mapToBean(PaymentTransaction.class)
                         .findOne()
@@ -110,16 +169,26 @@ public class PaymentTransactionDAO extends BaseDao {
     public void insert(List<PaymentTransaction> transactions) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO payment_transactions (id, order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at) VALUES (:id, :orderId, :transactionId, :paymentMethod, :amount, :currency, :status, :paymentGateway, :gatewayResponse, :payerEmail, NOW())"
+                    "INSERT INTO payment_transactions " +
+                            "(id, order_id, transaction_id, payment_method, amount, currency, status, " +
+                            "payment_gateway, gateway_response, payer_email, created_at) " +
+                            "VALUES (:id, :orderId, :transactionId, :paymentMethod, :amount, :currency, " +
+                            ":status, :paymentGateway, :gatewayResponse, :payerEmail, NOW())"
             );
-            transactions. forEach(t -> batch.bindBean(t).add());
+            transactions.forEach(t -> batch.bindBean(t).add());
             batch.execute();
         });
     }
 
     public void insertPaymentTransaction(PaymentTransaction transaction) {
         get().useHandle(h -> {
-            h. createUpdate("INSERT INTO payment_transactions (order_id, transaction_id, payment_method, amount, currency, status, payment_gateway, gateway_response, payer_email, created_at) VALUES (:orderId, :transactionId, : paymentMethod, :amount, : currency, :status, :paymentGateway, :gatewayResponse, :payerEmail, NOW())")
+            h.createUpdate(
+                            "INSERT INTO payment_transactions " +
+                                    "(order_id, transaction_id, payment_method, amount, currency, status, " +
+                                    "payment_gateway, gateway_response, payer_email, created_at) " +
+                                    "VALUES (:orderId, :transactionId, :paymentMethod, :amount, :currency, " +
+                                    ":status, :paymentGateway, :gatewayResponse, :payerEmail, NOW())"
+                    )
                     .bindBean(transaction)
                     .execute();
         });
@@ -127,7 +196,10 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public void updatePaymentTransaction(PaymentTransaction transaction) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE payment_transactions SET status = :status, gateway_response = :gatewayResponse, updated_at = NOW() WHERE id = :id")
+            h.createUpdate(
+                            "UPDATE payment_transactions SET status = :status, " +
+                                    "gateway_response = :gatewayResponse, updated_at = NOW() WHERE id = :id"
+                    )
                     .bindBean(transaction)
                     .execute();
         });
@@ -135,7 +207,10 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public void updateStatus(int id, String status, String gatewayResponse) {
         get().useHandle(h -> {
-            h.createUpdate("UPDATE payment_transactions SET status = : status, gateway_response = :gatewayResponse, updated_at = NOW() WHERE id = :id")
+            h.createUpdate(
+                            "UPDATE payment_transactions SET status = :status, " +
+                                    "gateway_response = :gatewayResponse, updated_at = NOW() WHERE id = :id"
+                    )
                     .bind("id", id)
                     .bind("status", status)
                     .bind("gatewayResponse", gatewayResponse)
@@ -143,9 +218,15 @@ public class PaymentTransactionDAO extends BaseDao {
         });
     }
 
-    public void updateStatusByTransactionId(String transactionId, String status, String gatewayResponse) {
+    public void updateStatusByTransactionId(
+            String transactionId, String status, String gatewayResponse) {
+
         get().useHandle(h -> {
-            h. createUpdate("UPDATE payment_transactions SET status = :status, gateway_response = :gatewayResponse, updated_at = NOW() WHERE transaction_id = :transactionId")
+            h.createUpdate(
+                            "UPDATE payment_transactions SET status = :status, " +
+                                    "gateway_response = :gatewayResponse, updated_at = NOW() " +
+                                    "WHERE transaction_id = :transactionId"
+                    )
                     .bind("transactionId", transactionId)
                     .bind("status", status)
                     .bind("gatewayResponse", gatewayResponse)
@@ -163,7 +244,7 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public int countAll() {
         return get().withHandle(h ->
-                h. createQuery("SELECT COUNT(id) FROM payment_transactions")
+                h.createQuery("SELECT COUNT(id) FROM payment_transactions")
                         .mapTo(Integer.class)
                         .one()
         );
@@ -171,7 +252,9 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public int countByStatus(String status) {
         return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(id) FROM payment_transactions WHERE status = :status")
+                h.createQuery(
+                                "SELECT COUNT(id) FROM payment_transactions WHERE status = :status"
+                        )
                         .bind("status", status)
                         .mapTo(Integer.class)
                         .one()
@@ -180,7 +263,9 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public double getTotalSuccessfulAmount() {
         Double total = get().withHandle(h ->
-                h.createQuery("SELECT COALESCE(SUM(amount), 0) FROM payment_transactions WHERE status = 'SUCCESS'")
+                h.createQuery(
+                                "SELECT COALESCE(SUM(amount), 0) FROM payment_transactions WHERE status = 'SUCCESS'"
+                        )
                         .mapTo(Double.class)
                         .one()
         );
@@ -189,7 +274,10 @@ public class PaymentTransactionDAO extends BaseDao {
 
     public double getTotalAmountByPaymentMethod(String paymentMethod) {
         Double total = get().withHandle(h ->
-                h.createQuery("SELECT COALESCE(SUM(amount), 0) FROM payment_transactions WHERE payment_method = :paymentMethod AND status = 'SUCCESS'")
+                h.createQuery(
+                                "SELECT COALESCE(SUM(amount), 0) FROM payment_transactions " +
+                                        "WHERE payment_method = :paymentMethod AND status = 'SUCCESS'"
+                        )
                         .bind("paymentMethod", paymentMethod)
                         .mapTo(Double.class)
                         .one()
