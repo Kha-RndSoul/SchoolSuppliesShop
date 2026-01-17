@@ -19,6 +19,7 @@ CREATE TABLE product_reviews (
 CREATE TABLE coupons (
                          id INT AUTO_INCREMENT PRIMARY KEY,
                          coupon_code VARCHAR(50) NOT NULL UNIQUE,
+                         image_url VARCHAR(255) DEFAULT NULL,
                          discount_type ENUM('PERCENTAGE', 'FIXED_AMOUNT') NOT NULL,
                          discount_value DECIMAL(10, 2) NOT NULL,
                          min_order_amount DECIMAL(10, 2) DEFAULT 0,
