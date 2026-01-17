@@ -1,5 +1,26 @@
 USE school_supplies_db;
 
+-- chen du lieu admin
+INSERT INTO admins (
+    id,
+    username,
+    email,
+    password_hash,
+    full_name,
+    role,
+    is_active,
+    created_at
+) VALUES (
+             1,
+             'admin',
+             'admin@shop.com',
+             '$2a$12$sQMl7PEeVK6QNG2x2ICd1.baC0eBgreX9KCA87QyX7mM5JZNWI9su',
+             'Nguyễn Tuấn Kha',
+             'SUPER_ADMIN',
+             1,
+             '2026-01-17 17:46:03'
+         );
+
 -- Chèn dữ liệu mẫu vào bảng banners
 INSERT INTO banners (id, title, image_url, status)
 VALUES
@@ -11,7 +32,37 @@ VALUES
     (6, 'Trao quà tặng-Gửi yêu thương', 'src/main/webapp/assets/images/banners/banner6.png', TRUE),
     (7, 'Tết Việt', 'src/main/webapp/assets/images/banners/banner7.png', TRUE)
 ;
+INSERT INTO coupons (
+    id,
+    coupon_code,
+    image_url,
+    discount_type,
+    discount_value,
+    min_order_amount,
+    max_uses,
+    used_count,
+    start_date,
+    end_date,
+    is_active,
+    created_at
+) VALUES
+-- 1. Giảm 10% cho đơn hàng đầu tiên
+(1, 'HELLOSALE', 'src/main/webapp/assets/images/coupon/shocksale.jpg', 'PERCENTAGE', 10.00, 0.00, 100, 5, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1, NOW()),
 
+-- 2. Giảm 20k cho đơn từ 200k
+(2, 'GIAM20K', 'src/main/webapp/assets/images/coupon/gachasale.jpg', 'FIXED_AMOUNT', 20000.00, 200000.00, 50, 12, '2026-01-15 00:00:00', '2026-02-15 23:59:59', 1, NOW()),
+
+-- 3. Mã tri ân khách hàng cũ (15%)
+(3, 'THANKS15', 'src/main/webapp/assets/images/coupon/funThousand.jpg', 'PERCENTAGE', 15.00, 500000.00, 200, 45, '2026-01-01 00:00:00', '2026-06-30 23:59:59', 1, NOW()),
+
+-- 4. Mã Flash Sale
+(4, 'FLASH99', 'src/main/webapp/assets/images/coupon/voucher.jpg', 'FIXED_AMOUNT', 99000.00, 100000.00, 10, 10, '2025-12-31 20:00:00', '2026-12-31 23:59:59', 1, '2025-12-31 10:00:00'),
+
+-- 5. Mã giảm giá Valentine sắp tới
+(5, 'LOVE2026', 'src/main/webapp/assets/images/coupon/chirismat.jpg', 'PERCENTAGE', 14.00, 140000.00, 500, 0, '2026-02-10 00:00:00', '2026-02-15 23:59:59', 1, NOW()),
+
+-- 6. Mã giảm giá tiểu vương quốc Raumania
+(6, 'RAUMA36', 'src/main/webapp/assets/images/coupon/flashsale.jpg', 'FIXED_AMOUNT', 36000.00, 0.00, 3600, 36, '2026-01-17 00:00:00', '2026-12-31 23:59:59', 1, NOW());
 
 -- Chèn dữ liệu mẫu vào bảng contact_messages
 INSERT INTO contact_messages (id, customer_id, full_name, email, phone, subject, message, status, admin_reply, ip_address, created_at, replied_at)
@@ -20,6 +71,7 @@ VALUES
     (2, 2, 'Trần Thị B', 'customer2@email.com', '0912345678', 'Vấn đề giao hàng', 'Đơn hàng của tôi chưa nhận được', 'PROCESSING', NULL, '192.168.1.2', NOW(), NULL),
     (3, 3, 'Lê Văn C', 'guest@email.com', '0923456789', 'Yêu cầu hợp tác', 'Tôi muốn trở thành đối tác', 'NEW', NULL, '192.168.1.3', NOW(), NULL)
 ;
+
 -- Chèn dữ liệu vào bảng categories
 INSERT INTO categories (id, category_name, image_url, created_at) VALUES
     (1, 'Bút viết', 'src/main/webapp/assets/images/categories/Bút viết.png', NOW()),
@@ -68,7 +120,6 @@ INSERT INTO products (
     is_active
 ) VALUES
       -- Insert sản phẩm của Dũng
-INSERT INTO products (id, product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) VALUES
     (1, 'Bút gel Doraemon TL', 'Bút có thiết kế đơn giản nhưng khoa học, thân tròn, nhỏ rất phù hợp với tay cầm của học sinh tiểu học.Thân bút bằng nhựa trắng đục, in transfer fllm hình nhân vật Doraemon rất thu hút. Mực màu đậm và tươi sáng, viết êm trơn, ra đều và liên tục', 1, 1, 10000.00, 8000.00, 50, 100, TRUE),
     (2, 'Bút gel B TL', 'Kiểu dáng hiện đại, dắt bút bằng kim loại sáng bóng sang trọng rất phù hợp với khách hàng là nhân viên văn phòng. ', 1, 1, 13000.00, 11000.00, 40, 50, TRUE),
     (3, 'Bút gel Fasgel TL', 'Nét viết êm tru,mực ra đều,liên tục. Ngòi bút cao cấp,sang trọng. Thiết Kế tinh vi,nghệ thuật', 1, 1, 7000.00, 6000.00, 2, 20, TRUE),
@@ -743,13 +794,149 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
     (363,143, 'src/main/webapp/assets/images/products/Tay/143-tay-1.jpg', FALSE, NOW()),
     (364,143, 'src/main/webapp/assets/images/products/Tay/143-tay-pri.jpg', TRUE, NOW()),
 
-    (365,144, 'src/main/webapp/assets/images/products/Tay/144-tay-pri.jpg', TRUE, NOW());
+    (365,144, 'src/main/webapp/assets/images/products/Tay/144-tay-pri.jpg', TRUE, NOW()),
 
+    (366,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg', FALSE, NOW()),
+    (367,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg', TRUE,NOW()),
 
+    (366,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg',FALSE,NOW()),
+    (367,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg',TRUE,NOW()),
 
+    (368,146,'src/main/webapp/assets/images/products/DenHoc/146-Denhoc-1.jpg',FALSE,NOW()),
+    (369,146,'src/main/webapp/assets/images/products/DenHoc/146-Denhoc-pri.jpg',TRUE,NOW()),
 
+    (370,147,'src/main/webapp/assets/images/products/DenHoc/147-Denhoc-1.jpg',FALSE,NOW()),
+    (371,147,'src/main/webapp/assets/images/products/DenHoc/147-Denhoc-pri.jpg',TRUE,NOW()),
 
+    (372,148,'src/main/webapp/assets/images/products/DenHoc/148-Denhoc-1.jpg',FALSE,NOW()),
+    (373,148,'src/main/webapp/assets/images/products/DenHoc/148-Denhoc-pri.jpg',TRUE,NOW()),
 
+    (374,149,'src/main/webapp/assets/images/products/DenHoc/149-Denhoc-1.jpg',FALSE,NOW()),
+    (375,149,'src/main/webapp/assets/images/products/DenHoc/149-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (376,150,'src/main/webapp/assets/images/products/DenHoc/150-Denhoc-1.jpg',FALSE,NOW()),
+    (377,150,'src/main/webapp/assets/images/products/DenHoc/150-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (378,151,'src/main/webapp/assets/images/products/DenHoc/151-Denhoc-1.jpg',FALSE,NOW()),
+    (379,151,'src/main/webapp/assets/images/products/DenHoc/151-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (380,152,'src/main/webapp/assets/images/products/DenHoc/152-Denhoc-1.jpg',FALSE,NOW()),
+    (381,152,'src/main/webapp/assets/images/products/DenHoc/152-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (382,153,'src/main/webapp/assets/images/products/DenHoc/153-Denhoc-1.jpg',FALSE,NOW()),
+    (383,153,'src/main/webapp/assets/images/products/DenHoc/153-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (384,154,'src/main/webapp/assets/images/products/DenHoc/154-Denhoc-1.jpg',FALSE,NOW()),
+    (385,154,'src/main/webapp/assets/images/products/DenHoc/154-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (386,155,'src/main/webapp/assets/images/products/DenHoc/155-Denhoc-1.jpg',FALSE,NOW()),
+    (387,155,'src/main/webapp/assets/images/products/DenHoc/155-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (388,156,'src/main/webapp/assets/images/products/DenHoc/156-Denhoc-1.jpg',FALSE,NOW()),
+    (389,156,'src/main/webapp/assets/images/products/DenHoc/156-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (390,157,'src/main/webapp/assets/images/products/DenHoc/157-Denhoc-1.jpg',FALSE,NOW()),
+    (391,157,'src/main/webapp/assets/images/products/DenHoc/157-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (392,158,'src/main/webapp/assets/images/products/DenHoc/158-Denhoc-1.jpg',FALSE,NOW()),
+    (393,158,'src/main/webapp/assets/images/products/DenHoc/158-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (394,159,'src/main/webapp/assets/images/products/DenHoc/159-Denhoc-1.jpg',FALSE,NOW()),
+    (395,159,'src/main/webapp/assets/images/products/DenHoc/159-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (396,160,'src/main/webapp/assets/images/products/DenHoc/160-Denhoc-1.jpg',FALSE,NOW()),
+    (397,160,'src/main/webapp/assets/images/products/DenHoc/160-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (398,161,'src/main/webapp/assets/images/products/DenHoc/161-Denhoc-1.jpg',FALSE,NOW()),
+    (399,161,'src/main/webapp/assets/images/products/DenHoc/161-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (400,162,'src/main/webapp/assets/images/products/DenHoc/162-Denhoc-1.jpg',FALSE,NOW()),
+    (401,162,'src/main/webapp/assets/images/products/DenHoc/162-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (402,163,'src/main/webapp/assets/images/products/DenHoc/163-Denhoc-1.jpg',FALSE,NOW()),
+    (403,163,'src/main/webapp/assets/images/products/DenHoc/163-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (404,164,'src/main/webapp/assets/images/products/DenHoc/164-Denhoc-1.jpg',FALSE,NOW()),
+    (405,164,'src/main/webapp/assets/images/products/DenHoc/164-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (406,165,'src/main/webapp/assets/images/products/DenHoc/165-Denhoc-1.jpg',FALSE,NOW()),
+    (407,165,'src/main/webapp/assets/images/products/DenHoc/165-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (408,166,'src/main/webapp/assets/images/products/DenHoc/166-Denhoc-1.jpg',FALSE,NOW()),
+    (409,166,'src/main/webapp/assets/images/products/DenHoc/166-Denhoc-pri.jpg',TRUE,NOW()),
+
+    (410,167,'src/main/webapp/assets/images/products/Giay/167-Giay-1.jpg',FALSE,NOW()),
+    (411,167,'src/main/webapp/assets/images/products/Giay/167-Giay-pri.jpg',TRUE,NOW()),
+
+    (412,167,'src/main/webapp/assets/images/products/Giay/168-Giay-1.jpg',FALSE,NOW()),
+    (413,167,'src/main/webapp/assets/images/products/Giay/168-Giay-pri.jpg',TRUE,NOW()),
+
+    (414,168,'src/main/webapp/assets/images/products/Giay/169-Giay-1.jpg',FALSE,NOW()),
+    (415,168,'src/main/webapp/assets/images/products/Giay/169-Giay-pri.jpg',TRUE,NOW()),
+
+    (416,169,'src/main/webapp/assets/images/products/Giay/170-Giay-1.jpg',FALSE,NOW()),
+    (417,169,'src/main/webapp/assets/images/products/Giay/170-Giay-pri.jpg',TRUE,NOW()),
+
+    (418,170,'src/main/webapp/assets/images/products/Giay/171-Giay-1.jpg',FALSE,NOW()),
+    (419,170,'src/main/webapp/assets/images/products/Giay/171-Giay-pri.jpg',TRUE,NOW()),
+
+    (420,171,'src/main/webapp/assets/images/products/Giay/172-Giay-1.jpg',FALSE,NOW()),
+    (421,171,'src/main/webapp/assets/images/products/Giay/172-Giay-pri.jpg',TRUE,NOW()),
+
+    (422,172,'src/main/webapp/assets/images/products/Giay/173-Giay-1.jpg',FALSE,NOW()),
+    (423,172,'src/main/webapp/assets/images/products/Giay/173-Giay-pri.jpg',TRUE,NOW()),
+
+    (424,173,'src/main/webapp/assets/images/products/Giay/174-Giay-1.jpg',FALSE,NOW()),
+    (425,173,'src/main/webapp/assets/images/products/Giay/174-Giay-pri.jpg',TRUE,NOW()),
+
+    (426,174,'src/main/webapp/assets/images/products/Giay/175-Giay-1.jpg',FALSE,NOW()),
+    (427,174,'src/main/webapp/assets/images/products/Giay/175-Giay-pri.jpg',TRUE,NOW()),
+
+    (428,175,'src/main/webapp/assets/images/products/Giay/176-Giay-1.jpg',FALSE,NOW()),
+    (429,175,'src/main/webapp/assets/images/products/Giay/176-Giay-pri.jpg',TRUE,NOW()),
+
+    (430,176,'src/main/webapp/assets/images/products/Giay/177-Giay-1.jpg',FALSE,NOW()),
+    (431,176,'src/main/webapp/assets/images/products/Giay/177-Giay-pri.jpg',TRUE,NOW()),
+
+    (432,177,'src/main/webapp/assets/images/products/Giay/178-Giay-1.jpg',FALSE,NOW()),
+    (433,177,'src/main/webapp/assets/images/products/Giay/178-Giay-pri.jpg',TRUE,NOW()),
+
+    (434,178,'src/main/webapp/assets/images/products/Giay/179-Giay-1.jpg',FALSE,NOW()),
+    (435,178,'src/main/webapp/assets/images/products/Giay/179-Giay-pri.jpg',TRUE,NOW()),
+
+    (436,179,'src/main/webapp/assets/images/products/Giay/180-Giay-1.jpg',FALSE,NOW()),
+    (437,179,'src/main/webapp/assets/images/products/Giay/180-Giay-pri.jpg',TRUE,NOW()),
+
+    (438,180,'src/main/webapp/assets/images/products/Giay/181-Giay-1.jpg',FALSE,NOW()),
+    (439,180,'src/main/webapp/assets/images/products/Giay/181-Giay-pri.jpg',TRUE,NOW()),
+
+    (440,181,'src/main/webapp/assets/images/products/Giay/182-Giay-1.jpg',FALSE,NOW()),
+    (441,181,'src/main/webapp/assets/images/products/Giay/182-Giay-pri.jpg',TRUE,NOW()),
+
+    (442,182,'src/main/webapp/assets/images/products/Giay/183-Giay-1.jpg',FALSE,NOW()),
+    (443,182,'src/main/webapp/assets/images/products/Giay/183-Giay-pri.jpg',TRUE,NOW()),
+
+    (444,183,'src/main/webapp/assets/images/products/Giay/184-Giay-1.jpg',FALSE,NOW()),
+    (445,183,'src/main/webapp/assets/images/products/Giay/184-Giay-pri.jpg',TRUE,NOW()),
+
+    (446,184,'src/main/webapp/assets/images/products/Giay/185-Giay-1.jpg',FALSE,NOW()),
+    (447,184,'src/main/webapp/assets/images/products/Giay/185-Giay-pri.jpg',TRUE,NOW()),
+
+    (448,185,'src/main/webapp/assets/images/products/Giay/186-Giay-1.jpg',FALSE,NOW()),
+    (449,185,'src/main/webapp/assets/images/products/Giay/186-Giay-pri.jpg',TRUE,NOW()),
+
+    (450,186,'src/main/webapp/assets/images/products/Giay/187-Giay-1.jpg',FALSE,NOW()),
+    (451,186,'src/main/webapp/assets/images/products/Giay/187-Giay-pri.jpg',TRUE,NOW()),
+
+    (452,187,'src/main/webapp/assets/images/products/Giay/188-Giay-1.jpg',FALSE,NOW()),
+    (453,187,'src/main/webapp/assets/images/products/Giay/188-Giay-pri.jpg',TRUE,NOW()),
+
+    (454,188,'src/main/webapp/assets/images/products/Giay/189-Giay-1.jpg',FALSE,NOW()),
+    (455,188,'src/main/webapp/assets/images/products/Giay/189-Giay-pri.jpg',TRUE,NOW()),
+
+    (456,189,'src/main/webapp/assets/images/products/Giay/190-Giay-1.jpg',FALSE,NOW()),
+    (457,189,'src/main/webapp/assets/images/products/Giay/190-Giay-pri.jpg',TRUE,NOW())
+;
 
 
 
