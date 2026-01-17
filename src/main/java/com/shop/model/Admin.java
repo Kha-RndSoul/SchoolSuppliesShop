@@ -104,6 +104,10 @@ public class Admin {
         isActive = active;
     }
 
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }

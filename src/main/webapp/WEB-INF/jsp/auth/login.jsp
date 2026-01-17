@@ -5,7 +5,7 @@
 <%--@elvariable id="error" type="java.lang.String"--%>
 <%--@elvariable id="email" type="java.lang.String"--%>
 
-<! doctype html>
+<!doctype html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -23,10 +23,10 @@
     <section class="card" aria-labelledby="login-title">
         <h1 id="login-title">Đăng nhập</h1>
 
-        <%-- Success message (từ register chuyển sang) --%>
+        <%-- Success message (từ register hoặc logout) --%>
         <c:if test="${not empty sessionScope.success}">
             <div class="alert alert-success">
-                 ${sessionScope.success}
+                    ${sessionScope.success}
             </div>
             <%-- Remove success message sau khi hiển thị --%>
             <c:remove var="success" scope="session" />
@@ -35,17 +35,17 @@
         <%-- Error message --%>
         <c:if test="${not empty error}">
             <div class="alert alert-error">
-                 ${error}
+                    ${error}
             </div>
         </c:if>
 
         <form action="${pageContext.request.contextPath}/login" method="post" novalidate>
             <div class="form-field">
-                <label for="email">Email</label>
+                <label for="email">Email hoặc Username</label>
                 <input id="email"
                        name="email"
-                       type="email"
-                       placeholder="you@example.com"
+                       type="text"
+                       placeholder="Email (khách hàng) hoặc Username (admin)"
                        value="${email}"
                        required
                        autofocus />
@@ -79,10 +79,10 @@
             <div style="margin-top: 1.5rem;">
                 <div class="social-row">
                     <button type="button" class="social-btn social-google" aria-label="Sign in with Google">
-                        <span></span> Google
+                        <span>🌐</span> Google
                     </button>
                     <button type="button" class="social-btn social-facebook" aria-label="Sign in with Facebook">
-                        <span></span> Facebook
+                        <span>📘</span> Facebook
                     </button>
                 </div>
             </div>
@@ -92,6 +92,57 @@
 
 <%-- INCLUDE FOOTER --%>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>
+
+<%-- Client-side enhancements --%>
+<script>
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    // Auto-fill from remember-me cookies
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+
+        // Customer email cookie
+        if (name === 'customerEmail' && !emailInput.value) {
+            emailInput.value = decodeURIComponent(value);
+            passwordInput.focus();
+        }
+
+        // Admin username cookie
+        if (name === 'adminUsername' && !emailInput.value) {
+            emailInput.value = decodeURIComponent(value);
+            passwordInput.focus();
+        }
+    }
+
+    // Enter key navigation
+    emailInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            passwordInput.focus();
+        }
+    });
+
+    // Dynamic placeholder based on input
+    emailInput.addEventListener('input', function() {
+        const value = this.value;
+        const smallHint = this.nextElementSibling;
+
+        if (value.includes('@')) {
+            // Looks like email (customer)
+            smallHint.textContent = ' Đăng nhập với tư cách khách hàng';
+            smallHint.style.color = '#10b981';
+        } else if (value.length > 0) {
+            // Looks like username (admin)
+            smallHint.textContent = '🔐 Đăng nhập với tư cách quản trị viên';
+            smallHint.style.color = '#667eea';
+        } else {
+            smallHint.textContent = 'Ví dụ: you@example.com (khách hàng) hoặc admin (quản trị)';
+            smallHint.style.color = 'var(--text-light)';
+        }
+    });
+</script>
 
 </body>
 </html>

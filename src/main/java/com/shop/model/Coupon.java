@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Coupon {
-    private int id;                   // Đổi từ couponId thành id cho chuẩn với DB
+    private int id;
     private String couponCode;
+    private String imageUrl;
     private String discountType;
     private BigDecimal discountValue;
     private BigDecimal minOrderAmount;
@@ -16,12 +17,15 @@ public class Coupon {
     private boolean isActive;
     private Timestamp createdAt;
 
+    // Constructor mặc định
     public Coupon() {}
 
-    public Coupon(String couponCode, String discountType, BigDecimal discountValue,
-                  BigDecimal minOrderAmount, int maxUses, Timestamp startDate,
-                  Timestamp endDate, boolean isActive) {
+    // Constructor cho tạo coupon mới (không có ID)
+    public Coupon(String couponCode, String imageUrl, String discountType,
+                  BigDecimal discountValue, BigDecimal minOrderAmount, int maxUses,
+                  Timestamp startDate, Timestamp endDate, boolean isActive) {
         this.couponCode = couponCode;
+        this.imageUrl = imageUrl;
         this.discountType = discountType;
         this.discountValue = discountValue;
         this.minOrderAmount = minOrderAmount;
@@ -32,12 +36,14 @@ public class Coupon {
         this.isActive = isActive;
     }
 
-    public Coupon(int id, String couponCode, String discountType,
+    // Constructor đầy đủ (có ID)
+    public Coupon(int id, String couponCode, String imageUrl, String discountType,
                   BigDecimal discountValue, BigDecimal minOrderAmount, int maxUses,
                   int usedCount, Timestamp startDate, Timestamp endDate,
                   boolean isActive, Timestamp createdAt) {
         this.id = id;
         this.couponCode = couponCode;
+        this.imageUrl = imageUrl;
         this.discountType = discountType;
         this.discountValue = discountValue;
         this.minOrderAmount = minOrderAmount;
@@ -50,7 +56,7 @@ public class Coupon {
     }
 
     // Getters and Setters
-    public int getId() {              // Sửa lại getter/setter cho đủ đồng bộ
+    public int getId() {
         return id;
     }
 
@@ -64,6 +70,14 @@ public class Coupon {
 
     public void setCouponCode(String couponCode) {
         this.couponCode = couponCode;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getDiscountType() {
@@ -143,6 +157,7 @@ public class Coupon {
         return "Coupon{" +
                 "id=" + id +
                 ", couponCode='" + couponCode + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", discountType='" + discountType + '\'' +
                 ", discountValue=" + discountValue +
                 ", minOrderAmount=" + minOrderAmount +

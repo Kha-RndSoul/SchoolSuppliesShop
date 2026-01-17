@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
 /**
- * Servlet xử lý đăng xuất khách hàng
+ * Servlet xử lý đăng xuất cho cả Customer và Admin
  */
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
 public class LogoutServlet extends HttpServlet {
@@ -15,13 +15,12 @@ public class LogoutServlet extends HttpServlet {
     @Override
     public void init() {
         System.out.println("================================");
-        System.out.println(" LogoutServlet.init() STARTING...");
         System.out.println(" LogoutServlet initialized");
         System.out.println("================================");
     }
 
     /**
-     * GET /logout - Xử lý đăng xuất
+     * GET /logout - Đăng xuất
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,70 +28,85 @@ public class LogoutServlet extends HttpServlet {
 
         System.out.println("================================");
         System.out.println(" LogoutServlet.doGet() CALLED");
-        System.out.println("   Request URI: " + request.getRequestURI());
-        System.out.println("   Context Path: " + request.getContextPath());
 
-        try {
-            // Get current session
-            HttpSession session = request.getSession(false);
+        // Get current session
+        HttpSession session = request.getSession(false);
 
-            if (session != null) {
-                // Lấy thông tin customer trước khi invalidate
-                Object customer = session.getAttribute("customer");
+        String userType = "UNKNOWN";
+        String redirectUrl = request.getContextPath() + "/login";
+
+        if (session != null) {
+            // Xác định user type trước khi xóa session
+            if (session.getAttribute("admin") != null) {
+                userType = "ADMIN";
+                String adminUsername = (String) session.getAttribute("adminUsername");
+                Integer adminId = (Integer) session.getAttribute("adminId");
+
+                System.out.println("→ Logging out ADMIN:");
+                System.out.println("   Admin ID: " + adminId);
+                System.out.println("   Username: " + adminUsername);
+
+            } else if (session.getAttribute("customer") != null) {
+                userType = "CUSTOMER";
                 String customerEmail = (String) session.getAttribute("customerEmail");
-                String customerName = (String) session.getAttribute("customerName");
+                Integer customerId = (Integer) session.getAttribute("customerId");
 
-                if (customer != null) {
-                    System.out.println("→ Logging out customer:");
-                    System.out.println("   Email: " + customerEmail);
-                    System.out.println("   Name: " + customerName);
-                } else {
-                    System.out.println("→ No customer in session (already logged out?)");
-                }
+                System.out.println("→ Logging out CUSTOMER:");
+                System.out.println("   Customer ID: " + customerId);
+                System.out.println("   Email: " + customerEmail);
 
-                // Xóa toàn bộ session data
-                System.out.println("→ Invalidating session...");
-                session.invalidate();
-                System.out.println(" Session invalidated successfully");
-
-            } else {
-                System.out.println("→ No active session found");
+                // Customer redirect về home page
+                redirectUrl = request.getContextPath() + "/";
             }
 
-            System.out.println("================================");
+            System.out.println("   Session ID: " + session.getId());
 
-            // ========== REDIRECT ==========
-
-            // Redirect về trang chủ
-            System.out.println("→ Redirecting to home page");
-            response.sendRedirect(request.getContextPath() + "/");
-
-        } catch (Exception e) {
-            // Unexpected error
-            System.err.println("= UNEXPECTED ERROR in LogoutServlet.doGet() ");
-            System.err.println("Exception: " + e.getClass().getName());
-            System.err.println("Message: " + e.getMessage());
-            e.printStackTrace();
-            System.err.println("================================");
-
-            // Vẫn redirect về home dù có lỗi
-            response.sendRedirect(request.getContextPath() + "/");
+            // Invalidate session (xóa tất cả attributes)
+            session.invalidate();
+            System.out.println(" Session invalidated");
+        } else {
+            System.out.println("→ No active session found");
         }
+
+        // Delete remember-me cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                // Delete customer cookie
+                if ("customerEmail".equals(cookie.getName())) {
+                    System.out.println("→ Deleting customer remember-me cookie");
+                    cookie.setMaxAge(0);
+                    cookie.setPath(request.getContextPath());
+                    response.addCookie(cookie);
+                }
+                // Delete admin cookie
+                if ("adminUsername".equals(cookie.getName())) {
+                    System.out.println("→ Deleting admin remember-me cookie");
+                    cookie.setMaxAge(0);
+                    cookie.setPath(request.getContextPath() + "/admin");
+                    response.addCookie(cookie);
+                }
+            }
+            System.out.println(" Remember-me cookies deleted");
+        }
+
+        System.out.println("================================");
+
+        // Redirect với success message
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("success", "Đăng xuất thành công!");
+
+        System.out.println("→ User type: " + userType);
+        System.out.println("→ Redirecting to: " + redirectUrl);
+        response.sendRedirect(redirectUrl);
     }
 
     /**
-     * POST /logout - xử lý đăng xuất
+     * POST /logout - Cũng hỗ trợ POST method
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        System.out.println("================================");
-        System.out.println(" LogoutServlet.doPost() CALLED");
-        System.out.println("   Forwarding to doGet()...");
-        System.out.println("================================");
-
-        // Forward tới doGet để xử lý
         doGet(request, response);
     }
 
