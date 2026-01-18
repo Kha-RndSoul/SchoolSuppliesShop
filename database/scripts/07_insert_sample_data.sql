@@ -1,5 +1,20 @@
 USE school_supplies_db;
-
+-- Xóa dữ liệu cũ trước khi chèn mới
+DELETE FROM banners;
+DELETE FROM contact_messages;
+DELETE FROM products;
+DELETE FROM categories;
+DELETE FROM brands;
+DELETE FROM admins;
+DELETE FROM cart_items;
+DELETE FROM coupons;
+DELETE FROM customers;
+DELETE FROM order_coupons;
+DELETE FROM order_details;
+DELETE FROM orders;
+DELETE FROM payment_transactions;
+DELETE FROM product_images;
+DELETE FROM product_reviews;
 -- chen du lieu admin
 INSERT INTO admins (
     id,
@@ -313,10 +328,10 @@ INSERT INTO products (
       (197, 'Kéo học sinh TL', 'Lưỡi kéo được thiết kế bằng thép không rỉ.Cảm giác cắt nhẹ nhàng, lưỡi kéo lâu cùn.Dễ dàng sử dụng để cắt giấy và cắt thủ công', 3, 1, 16000.00, 14000.00, 78, 58, TRUE),
       (198, 'Kéo học sinh Panda Điểm 10', 'Kéo học sinh Loại kéo nhỏ dành cho học sinh làm thủ công, được làm bằng kim loại không gỉ, mũi kéo tròn để bảo vệ an toàn cho trẻ khi sử dụng. Tay cầm bằng nhựa giúp cắt nhẹ nhàng, không đau tay. hai lưỡi đồng được giữ áp sát vào nhau một cách linh hoạt nhằm để giữ hai lưỡi kéo tại đúng vị trí, cho phép chúng được ép sát lại với nhau.', 3, 3, 20000.00, 18000.00, 20, 120, TRUE),
       (199, 'Kéo học sinh Kẹo CLK', 'Loại kéo nhỏ dành cho học sinh làm thủ công, được làm bằng kim loại không gỉ, mũi kéo tròn để bảo vệ an toàn cho trẻ khi sử dụng. Tay cầm bằng nhựa giúp cắt nhẹ nhàng', 3, 7, 20000.00, 18000.00, 47, 52, TRUE),
-      (200, 'Bao gồm: 6 mẫu lưỡi cắt và 1 cán kéo.Có cán làm từ nhựa ABS, thân làm bằng thép không gỉ, dễ dàng tháo lắp. Bộ kéo thủ công Colokit SC-C05 phù hơp cho học sinh tiểu học. Kiểu dáng trang nhã, màu sắc phong phú.', 3, 7, 80000.00, 75000.00, 34, 23, TRUE)
+      (200, 'Lưỡi kéo inox 304','Bao gồm: 6 mẫu lưỡi cắt và 1 cán kéo.Có cán làm từ nhựa ABS, thân làm bằng thép không gỉ, dễ dàng tháo lắp. Bộ kéo thủ công Colokit SC-C05 phù hơp cho học sinh tiểu học. Kiểu dáng trang nhã, màu sắc phong phú.', 3, 7, 80000.00, 75000.00, 34, 23, TRUE)
       ;
 -- Insert hình ảnh sản phẩm
-INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VALUES
+INSERT INTO product_images (id, product_id, image_url, is_primary,created_at) VALUES
     -- Bút viết
     (1,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-1.jpg', FALSE, NOW()),
     (2,1, 'src/main/webapp/assets/images/products/ButViet/1-butgel-2.jpg', FALSE, NOW()),
@@ -459,7 +474,7 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
 
     (103,39, 'src/main/webapp/assets/images/products/ButViet/39-butdaquang-1.jpg', FALSE, NOW()),
     (104,39, 'src/main/webapp/assets/images/products/ButViet/39-butdaquang-pri.jpg', TRUE,NOW()),
-    --Sổ vở
+    -- Sổ vở
     (105,40, 'src/main/webapp/assets/images/products/SoVo/40-vo-1.jpg', FALSE, NOW()),
     (106,40, 'src/main/webapp/assets/images/products/SoVo/40-vo-2.jpg', FALSE, NOW()),
     (107,40, 'src/main/webapp/assets/images/products/SoVo/40-vo-pri.jpg', TRUE,NOW()),
@@ -539,7 +554,6 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
 
     (161,62, 'src/main/webapp/assets/images/products/SoVo/62-so-1.jpg', FALSE, NOW()),
     (162,62, 'src/main/webapp/assets/images/products/SoVo/62-so-2.jpg', FALSE,NOW()),
-    (163,62, 'src/main/webapp/assets/images/products/SoVo/62-so-3.jpg', FALSE,NOW()),
     (163,62, 'src/main/webapp/assets/images/products/SoVo/62-so-pri.jpg', TRUE,NOW()),
 
     (164,63, 'src/main/webapp/assets/images/products/SoVo/63-so-1.jpg', FALSE, NOW()),
@@ -548,7 +562,7 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
 
     (167,64, 'src/main/webapp/assets/images/products/SoVo/64-so-1.jpg', FALSE, NOW()),
     (168,64, 'src/main/webapp/assets/images/products/SoVo/64-so-pri.jpg', TRUE,NOW()),
-    --Dụng cụ vẽ
+    -- Dụng cụ vẽ
     (169,65, 'src/main/webapp/assets/images/products/DungCuVe/65-dcv-1.jpg', FALSE, NOW()),
     (170,65, 'src/main/webapp/assets/images/products/DungCuVe/65-dcv-pri.jpg', TRUE,NOW()),
 
@@ -834,9 +848,6 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
 
     (365,144, 'src/main/webapp/assets/images/products/Tay/144-tay-pri.jpg', TRUE, NOW()),
 
-    (366,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg', FALSE, NOW()),
-    (367,145, 'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg', TRUE,NOW()),
-
     (366,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-1.jpg',FALSE,NOW()),
     (367,145,'src/main/webapp/assets/images/products/DenHoc/145-Denhoc-pri.jpg',TRUE,NOW()),
 
@@ -975,10 +986,6 @@ INSERT INTO product_images (id, product_id, image_url, is_primary,create_at) VAL
     (456,189,'src/main/webapp/assets/images/products/Giay/190-Giay-1.jpg',FALSE,NOW()),
     (457,189,'src/main/webapp/assets/images/products/Giay/190-Giay-pri.jpg',TRUE,NOW())
 ;
-
-
-
-
 
 
 

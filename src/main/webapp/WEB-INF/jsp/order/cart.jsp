@@ -13,7 +13,7 @@
 <body>
 
 <!--Header -->
-<jsp: include page="header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 
 <main class="container cart-page" id="main">
     <h1 class="section-title">Giỏ hàng của bạn</h1>
@@ -88,7 +88,7 @@
                     <div class="summary-row">
                         <span>Tạm tính</span>
                         <strong id="subTotal">
-                            <fmt: formatNumber value="${cartTotal}" type="number" groupingUsed="true"/>₫
+                            <fmt:formatNumber value="${cartTotal}" type="number" groupingUsed="true"/>₫
                         </strong>
                     </div>
                     <a href="${pageContext.request.contextPath}/checkout" class="btn-primary">Thanh toán</a>
@@ -99,7 +99,7 @@
 </main>
 
 <!--Footer -->
-<jsp: include page="footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 
 </body>
 </html>

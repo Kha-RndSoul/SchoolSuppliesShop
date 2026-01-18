@@ -13,7 +13,7 @@
 <body>
 
 <!--Header -->
-<jsp: include page="header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 
 <main class="wrap">
     <c:choose>
@@ -52,7 +52,7 @@
 </main>
 
 <!--Footer -->
-<jsp: include page="footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 
 <script src="${pageContext.request.contextPath}/assets/js/order-confirmation.js"></script>
 </body>
