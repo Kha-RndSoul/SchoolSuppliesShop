@@ -44,9 +44,9 @@ public class HomeController extends HttpServlet {
             // debug
             System.out.println("=== BEST SELLERS ===");
             bestSellers.forEach(p -> {
-                System.out. println("ID: " + p. get("id"));
+                System.out.println("ID: " + p.get("id"));
                 System.out.println("Name: " + p.get("productName"));
-                System.out. println("---");
+                System.out.println("---");
             });
             request.setAttribute("bestSellingProducts", bestSellers);
 

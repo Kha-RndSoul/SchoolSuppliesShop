@@ -42,9 +42,10 @@ public class AdminAuthFilter implements Filter {
         System.out.println("   Path: " + path);
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         // ===============================
-
+        System.out.println("🟠 AdminAuthFilter: " + path);
         // Check nếu là static resources (CSS, JS, images) → Cho qua
         if (isStaticResource(path)) {
+            System.out.println("   → Skipping static resource"); // ← THÊM DÒNG NÀY
             System.out.println("→ Static resource, allowing access");
             System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             chain.doFilter(request, response);
