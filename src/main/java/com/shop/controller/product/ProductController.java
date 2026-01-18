@@ -38,7 +38,7 @@ public class ProductController extends HttpServlet {
             // Parse parameters
             Integer categoryId = (categoryIdStr != null && !categoryIdStr.isEmpty())
                     ? Integer.parseInt(categoryIdStr) : null;
-            Integer brandId = (brandIdStr != null && ! brandIdStr.isEmpty())
+            Integer brandId = (brandIdStr != null && !brandIdStr.isEmpty())
                     ? Integer.parseInt(brandIdStr) : null;
             int page = (pageStr != null && !pageStr.isEmpty())
                     ? Integer.parseInt(pageStr) : 1;
@@ -66,7 +66,7 @@ public class ProductController extends HttpServlet {
             if (minPriceStr != null || maxPriceStr != null) {
                 double minPrice = (minPriceStr != null && !minPriceStr.isEmpty())
                         ? Double.parseDouble(minPriceStr) : 0;
-                double maxPrice = (maxPriceStr != null && ! maxPriceStr.isEmpty())
+                double maxPrice = (maxPriceStr != null && !maxPriceStr.isEmpty())
                         ? Double.parseDouble(maxPriceStr) : Double.MAX_VALUE;
 
                 products.removeIf(p -> {
@@ -143,19 +143,20 @@ public class ProductController extends HttpServlet {
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
 
-            // Load categories và brands cho filter
+            // Load categories và brands cho filter (QUAN TRỌNG - cho header)
             List<Category> allCategories = categoryService.getAllCategories();
             List<Brand> allBrands = brandService.getAllBrands();
+            request.setAttribute("listCategory", allCategories != null ? allCategories : new ArrayList<>());
             request.setAttribute("allCategories", allCategories);
             request.setAttribute("allBrands", allBrands);
 
-            //  Forward
+            // Forward
             request.getRequestDispatcher("/WEB-INF/jsp/products/products.jsp")
                     .forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Lỗi khi tải danh sách sản phẩm:  " + e.getMessage());
+            request.setAttribute("errorMessage", "Lỗi khi tải danh sách sản phẩm: " + e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }

@@ -6,10 +6,14 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 
 /**
- * Filter để set UTF-8 encoding cho tất cả request/response
- * EXCLUDE static resources (CSS, JS, images) để tránh override MIME type
+ * Filter để set UTF-8 encoding
+ * CRITICAL FIX: Thêm dispatcherTypes để tránh loop khi forward
  */
-@WebFilter(filterName = "EncodingFilter", urlPatterns = {"/*"})
+@WebFilter(
+        filterName = "EncodingFilter",
+        urlPatterns = {"/*"},
+        dispatcherTypes = {DispatcherType.REQUEST}  // ← QUAN TRỌNG: Chỉ chạy với REQUEST, KHÔNG chạy với FORWARD
+)
 public class EncodingFilter implements Filter {
 
     private static final String ENCODING = "UTF-8";
@@ -17,6 +21,7 @@ public class EncodingFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         System.out.println("✅ EncodingFilter initialized - Encoding: " + ENCODING);
+        System.out.println("→ Dispatcher: REQUEST only");
     }
 
     @Override
@@ -26,16 +31,16 @@ public class EncodingFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
-        System.out.println("🔵 EncodingFilter: " + path); // ← THÊM DÒNG NÀY
+        System.out.println("🔵 EncodingFilter: " + path);
 
         // Skip static resources
         if (isStaticResource(path)) {
-            System.out.println("   → Skipping static resource"); // ← THÊM DÒNG NÀY
+            System.out.println("   → Skipping static resource");
             chain.doFilter(request, response);
             return;
         }
 
-        System.out.println("   → Setting encoding"); // ← THÊM DÒNG NÀY
+        System.out.println("   → Setting encoding");
 
         request.setCharacterEncoding(ENCODING);
         response.setCharacterEncoding(ENCODING);
@@ -43,11 +48,9 @@ public class EncodingFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    /**
-     * Check nếu là static resource (CSS, JS, images, fonts)
-     */
     private boolean isStaticResource(String path) {
         return path.startsWith("/assets/") ||
+                path.startsWith("/WEB-INF/") ||
                 path.matches(".+\\.(css|js|jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot|webp|bmp)$");
     }
 
