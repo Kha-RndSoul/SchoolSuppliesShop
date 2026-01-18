@@ -7,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Giỏ hàng - DPK Shop</title>
-    <link rel="stylesheet" href="${pageContext.request. contextPath}/assets/css/style-common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/cart.css">
 </head>
 <body>
