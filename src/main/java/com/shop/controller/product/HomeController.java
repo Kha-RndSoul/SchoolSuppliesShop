@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(name = "HomeController", urlPatterns = {"/index", "/"})
+@WebServlet(name = "HomeController", urlPatterns = { "/"})
 public class HomeController extends HttpServlet {
 
     private BannerService bannerService;
