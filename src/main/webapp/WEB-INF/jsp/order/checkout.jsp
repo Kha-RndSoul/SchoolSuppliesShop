@@ -12,7 +12,7 @@
 </head>
 <body>
 <!--Header -->
-<jsp: include page="header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 
 <main class="container">
     <div class="checkout-card">
@@ -77,7 +77,7 @@
 </main>
 
 <!--Footer -->
-<jsp: include page="footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
 </body>
