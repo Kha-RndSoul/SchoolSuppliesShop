@@ -7,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Giỏ hàng - DPK Shop</title>
-    <link rel="stylesheet" href="${pageContext.request. contextPath}/assets/css/style-common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/cart.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
     <c:if test="${empty cart}">
         <div id="emptyBlock" class="cart-empty" role="status" aria-live="polite">
             <p>Giỏ hàng của bạn đang trống.</p>
-            <a class="btn-primary" href="${pageContext.request. contextPath}/products">Tiếp tục mua hàng</a>
+            <a class="btn-primary" href="${pageContext.request.contextPath}/products">Tiếp tục mua hàng</a>
         </div>
     </c:if>
 
@@ -36,7 +36,7 @@
                              alt="${item.productName}"
                              class="cart-item-image">
                         <div class="cart-item-info">
-                            <h3>${item. productName}</h3>
+                            <h3>${item.productName}</h3>
                             <p class="cart-item-price">
                                 <c:choose>
                                     <c:when test="${item.salePrice != null && item.salePrice > 0}">
@@ -65,7 +65,7 @@
                         </div>
                         <div class="cart-item-total">
                             <c:choose>
-                            <c:when test="${item. salePrice != null && item. salePrice > 0}">
+                            <c:when test="${item.salePrice != null && item. salePrice > 0}">
                             <fmt:formatNumber value="${item.salePrice * item.quantity}" type="number" groupingUsed="true"/>₫
                             </c:when>
                             <c:otherwise>
