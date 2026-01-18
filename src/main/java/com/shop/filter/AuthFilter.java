@@ -37,7 +37,7 @@ public class AuthFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         System.out.println("================================");
-        System.out.println(" AuthFilter initialized");
+        System.out.println("🔵 AuthFilter initialized");
         System.out.println("→ Protected URLs: " + PROTECTED_URLS);
         System.out.println("→ Protected Patterns: " + PROTECTED_PATTERNS);
         System.out.println("================================");
@@ -57,11 +57,23 @@ public class AuthFilter implements Filter {
         // Lấy path sau context (e.g., /profile, /orders)
         String path = requestURI.substring(contextPath.length());
 
+        System.out.println("🟡 AuthFilter: " + path);
+
+        // ========== QUAN TRỌNG: PHẢI CHECK STATIC RESOURCES ĐẦU TIÊN! ==========
+        if (isStaticResource(path)) {
+            System.out.println("   → Skipping static resource");
+            chain.doFilter(request, response);
+            return; // STOP ngay, không xử lý gì thêm
+        }
+        // ========================================================================
+
+        System.out.println("   → Checking authentication");
+
         // Check nếu URL cần protection
         if (requiresAuthentication(path)) {
 
             // Debug log
-            System.out.println(" AuthFilter: Checking authentication for: " + path);
+            System.out.println("🔒 AuthFilter: Checking authentication for: " + path);
 
             // Get session (false = không tạo mới nếu chưa có)
             HttpSession session = httpRequest.getSession(false);
@@ -71,7 +83,7 @@ public class AuthFilter implements Filter {
 
             if (!isLoggedIn) {
                 // User chưa đăng nhập → Redirect về login
-                System.out.println(" User not authenticated, redirecting to login");
+                System.out.println("❌ User not authenticated, redirecting to login");
                 System.out.println("   Requested URL: " + requestURI);
 
                 // Lưu URL hiện tại để redirect lại sau khi login
@@ -95,7 +107,7 @@ public class AuthFilter implements Filter {
             } else {
                 // User đã đăng nhập
                 String customerEmail = (String) session.getAttribute("customerEmail");
-                System.out.println(" User authenticated: " + customerEmail);
+                System.out.println("✅ User authenticated: " + customerEmail);
                 System.out.println("   Accessing: " + path);
             }
         }
@@ -128,8 +140,16 @@ public class AuthFilter implements Filter {
         return false;
     }
 
+    /**
+     * Check nếu là static resource (CSS, JS, images, fonts)
+     */
+    private boolean isStaticResource(String path) {
+        return path.startsWith("/assets/") ||
+                path.matches(".+\\.(css|js|jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot|webp|bmp)$");
+    }
+
     @Override
     public void destroy() {
-        System.out.println(" AuthFilter destroyed");
+        System.out.println("❌ AuthFilter destroyed");
     }
 }

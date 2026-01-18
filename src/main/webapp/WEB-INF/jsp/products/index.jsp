@@ -85,7 +85,7 @@
                                     </c:choose>
                                 </c:forEach>
                             </span>
-                                <span>(<fmt:formatNumber value="${product. averageRating}" pattern="#.#"/>)</span>
+                                <span>(<fmt:formatNumber value="${product.averageRating}" pattern="#.#"/>)</span>
                             </div>
                         </div>
                     </a>

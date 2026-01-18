@@ -66,5 +66,37 @@
         <exception-type>java.lang.Exception</exception-type>
         <location>/WEB-INF/jsp/error/error.jsp</location>
     </error-page>
+    <!-- 6. MIME TYPE MAPPINGS -->
+    <mime-mapping>
+        <extension>css</extension>
+        <mime-type>text/css</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>js</extension>
+        <mime-type>application/javascript</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>png</extension>
+        <mime-type>image/png</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>jpg</extension>
+        <mime-type>image/jpeg</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+
+    <!-- 7. DEFAULT SERVLET FOR STATIC RESOURCES -->
+    <!-- Servlet này sẽ serve static files và BYPASS tất cả filters -->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/assets/*</url-pattern>
+    </servlet-mapping>
 
 </web-app>
