@@ -1,16 +1,19 @@
 -- 1. Bảng orders
-create table orders (
-                        id int auto_increment primary key,
-                        customer_id int not null,
-                        order_code varchar(50) not null unique,
-                        order_status varchar(20) default 'pending',
-                        total_amount decimal(15, 2) not null default 0,
-                        shipping_address varchar(500),
-                        shipping_phone varchar(20),
-                        note text,
-                        created_at timestamp default current_timestamp,
-                        updated_at timestamp default current_timestamp on update current_timestamp,
-                        foreign key (customer_id) references customers(id)
+CREATE TABLE orders (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        customer_id INT NOT NULL,
+                        order_code VARCHAR(50) NOT NULL UNIQUE,
+                        order_status ENUM('PENDING', 'CONFIRMED', 'SHIPPING', 'DELIVERED', 'CANCELLED') DEFAULT 'PENDING',
+                        payment_method ENUM('COD', 'BANK_TRANSFER', 'CREDIT_CARD', 'E_WALLET') NULL,
+                        payment_status ENUM('UNPAID', 'PAID', 'REFUNDED') DEFAULT 'UNPAID',
+                        total_amount DECIMAL(15, 2) NOT NULL DEFAULT 0,
+                        shipping_name VARCHAR(100),
+                        shipping_phone VARCHAR(20),
+                        shipping_address TEXT,
+                        note TEXT,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE
 );
 
 -- 2. Bảng order_details

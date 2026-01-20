@@ -6,53 +6,17 @@ import org.jdbi.v3.core.statement.PreparedBatch;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class OrderDAO extends BaseDao {
 
-    static Map<Integer, Order> data = new HashMap<>();
-
-    static {
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        data.put(1, new Order(
-                1, 1, "ORD-001", "PENDING", "COD", "PENDING",
-                new BigDecimal("500000"),
-                "Nguyễn Văn A", "0983123123",
-                "123 Đường ABC, TP.XYZ", "", now, now
-        ));
-        data.put(2, new Order(
-                2, 2, "ORD-002", "PROCESSING", "BANKING", "PAID",
-                new BigDecimal("350000"),
-                "Trần Thị B", "0905999999",
-                "456 Đường DEF, TP.XYZ", "Không lấy túi nhựa", now, now
-        ));
-        data.put(3, new Order(
-                3, 1, "ORD-003", "COMPLETED", "COD", "PAID",
-                new BigDecimal("750000"),
-                "Nguyễn Văn A", "0983123123",
-                "123 Đường ABC, TP.XYZ", "Giao nhanh", now, now
-        ));
-        data.put(4, new Order(
-                4, 3, "ORD-004", "CANCELLED", "COD", "FAILED",
-                new BigDecimal("220000"),
-                "Lê Minh C", "0912999888",
-                "789 Đường GHI, TP.XYZ", "Khách hủy do không liên lạc", now, now
-        ));
-    }
-
-    public List<Order> getListOrder() {
-        return new ArrayList<>(data.values());
-    }
-
-    public Order getOrder(int id) {
-        return data.get(id);
-    }
-
     public List<Order> getList() {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at, updated_at " +
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
                                         "FROM orders ORDER BY created_at DESC"
                         )
                         .mapToBean(Order.class)
@@ -63,8 +27,9 @@ public class OrderDAO extends BaseDao {
     public Order getOrderById(int id) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at, updated_at " +
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
                                         "FROM orders WHERE id = :id"
                         )
                         .bind("id", id)
@@ -77,8 +42,9 @@ public class OrderDAO extends BaseDao {
     public List<Order> getByCustomerId(int customerId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at, updated_at " +
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
                                         "FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC"
                         )
                         .bind("customerId", customerId)
@@ -90,9 +56,10 @@ public class OrderDAO extends BaseDao {
     public List<Order> getByStatus(String status) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at, updated_at " +
-                                        "FROM orders WHERE status = :status ORDER BY created_at DESC"
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
+                                        "FROM orders WHERE order_status = :status ORDER BY created_at DESC"
                         )
                         .bind("status", status)
                         .mapToBean(Order.class)
@@ -103,8 +70,9 @@ public class OrderDAO extends BaseDao {
     public Order getLatestByCustomerId(int customerId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at, updated_at " +
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
                                         "FROM orders WHERE customer_id = :customerId " +
                                         "ORDER BY created_at DESC LIMIT 1"
                         )
@@ -118,8 +86,9 @@ public class OrderDAO extends BaseDao {
     public List<Order> search(String keyword) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at, updated_at " +
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
                                         "FROM orders WHERE shipping_address LIKE CONCAT('%', :keyword, '%') " +
                                         "OR note LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC"
                         )
@@ -133,10 +102,10 @@ public class OrderDAO extends BaseDao {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
                     "INSERT INTO orders " +
-                            "(id, customer_id, total_amount, status, shipping_address, " +
-                            "shipping_phone, payment_method, note, created_at) " +
-                            "VALUES (:id, :customerId, :totalAmount, :status, :shippingAddress, " +
-                            ":shippingPhone, :paymentMethod, :note, NOW())"
+                            "(id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                            "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at) " +
+                            "VALUES (:id, :customerId, :orderCode, :orderStatus, :paymentMethod, :paymentStatus, " +
+                            ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW())"
             );
             orders.forEach(o -> batch.bindBean(o).add());
             batch.execute();
@@ -147,10 +116,10 @@ public class OrderDAO extends BaseDao {
         return get().withHandle(h ->
                 h.createUpdate(
                                 "INSERT INTO orders " +
-                                        "(customer_id, total_amount, status, shipping_address, " +
-                                        "shipping_phone, payment_method, note, created_at) " +
-                                        "VALUES (:customerId, :totalAmount, :status, :shippingAddress, " +
-                                        ":shippingPhone, :paymentMethod, :note, NOW())"
+                                        "(customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at) " +
+                                        "VALUES (:customerId, :orderCode, :orderStatus, :paymentMethod, :paymentStatus, " +
+                                        ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW())"
                         )
                         .bindBean(order)
                         .executeAndReturnGeneratedKeys("id")
@@ -162,9 +131,10 @@ public class OrderDAO extends BaseDao {
     public void updateOrder(Order order) {
         get().useHandle(h -> {
             h.createUpdate(
-                            "UPDATE orders SET total_amount = :totalAmount, status = :status, " +
-                                    "shipping_address = :shippingAddress, shipping_phone = :shippingPhone, " +
-                                    "payment_method = :paymentMethod, note = :note, updated_at = NOW() " +
+                            "UPDATE orders SET order_status = :orderStatus, payment_method = :paymentMethod, " +
+                                    "payment_status = :paymentStatus, total_amount = :totalAmount, " +
+                                    "shipping_name = :shippingName, shipping_phone = :shippingPhone, " +
+                                    "shipping_address = :shippingAddress, note = :note, updated_at = NOW() " +
                                     "WHERE id = :id"
                     )
                     .bindBean(order)
@@ -175,7 +145,7 @@ public class OrderDAO extends BaseDao {
     public void updateStatus(int id, String status) {
         get().useHandle(h -> {
             h.createUpdate(
-                            "UPDATE orders SET status = :status, updated_at = NOW() WHERE id = :id"
+                            "UPDATE orders SET order_status = :status, updated_at = NOW() WHERE id = :id"
                     )
                     .bind("id", id)
                     .bind("status", status)
@@ -193,14 +163,14 @@ public class OrderDAO extends BaseDao {
 
     public int countAll() {
         return get().withHandle(h -> h.createQuery("SELECT COUNT(id) FROM orders")
-                        .mapTo(Integer.class)
-                        .one()
+                .mapTo(Integer.class)
+                .one()
         );
     }
 
     public int countByStatus(String status) {
         return get().withHandle(h -> h.createQuery(
-                                "SELECT COUNT(id) FROM orders WHERE status = :status"
+                                "SELECT COUNT(id) FROM orders WHERE order_status = :status"
                         )
                         .bind("status", status)
                         .mapTo(Integer.class)
@@ -210,7 +180,7 @@ public class OrderDAO extends BaseDao {
 
     public double getTotalRevenue() {
         Double revenue = get().withHandle(h -> h.createQuery(
-                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE status = 'COMPLETED'"
+                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE order_status = 'COMPLETED'"
                         )
                         .mapTo(Double.class)
                         .one()
@@ -221,7 +191,7 @@ public class OrderDAO extends BaseDao {
     public double getRevenueByMonth(int month, int year) {
         Double revenue = get().withHandle(h -> h.createQuery(
                                 "SELECT COALESCE(SUM(total_amount), 0) FROM orders " +
-                                        "WHERE status = 'COMPLETED' " +
+                                        "WHERE order_status = 'COMPLETED' " +
                                         "AND MONTH(created_at) = :month AND YEAR(created_at) = :year"
                         )
                         .bind("month", month)
@@ -232,14 +202,75 @@ public class OrderDAO extends BaseDao {
         return revenue != null ? revenue : 0.0;
     }
 
-    public static void main(String[] args) {
-        OrderDAO dao = new OrderDAO();
-        System.out.println("INSERT DUMMY DATA");
-        List<Order> orders = dao.getListOrder();
-        dao.insert(orders);
-        System.out.println("Inserted " + orders.size() + " orders");
+    // ============================================
+    // METHODS MỚI CHO THỐNG KÊ DASHBOARD
+    // ============================================
 
-        System.out.println("\nGET BY STATUS PENDING");
-        dao.getByStatus("PENDING").forEach(System.out::println);
+    /**
+     * Lấy doanh thu theo khoảng thời gian (chỉ đơn COMPLETED)
+     */
+    public double getRevenueByDateRange(LocalDateTime start, LocalDateTime end) {
+        Double revenue = get().withHandle(h -> h.createQuery(
+                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders " +
+                                        "WHERE order_status = 'COMPLETED' " +
+                                        "AND created_at >= :start AND created_at <= :end"
+                        )
+                        .bind("start", Timestamp.valueOf(start))
+                        .bind("end", Timestamp.valueOf(end))
+                        .mapTo(Double.class)
+                        .one()
+        );
+        return revenue != null ? revenue : 0.0;
+    }
+
+    /**
+     * Đếm số đơn hàng theo khoảng thời gian (không tính CANCELLED)
+     */
+    public int countOrdersByDateRange(LocalDateTime start, LocalDateTime end) {
+        return get().withHandle(h -> h.createQuery(
+                                "SELECT COUNT(*) FROM orders " +
+                                        "WHERE order_status != 'CANCELLED' " +
+                                        "AND created_at >= :start AND created_at <= :end"
+                        )
+                        .bind("start", Timestamp.valueOf(start))
+                        .bind("end", Timestamp.valueOf(end))
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    /**
+     * Đếm số đơn hàng theo trạng thái và khoảng thời gian
+     */
+    public int countOrdersByStatusAndDateRange(String status, LocalDateTime start, LocalDateTime end) {
+        return get().withHandle(h -> h.createQuery(
+                                "SELECT COUNT(*) FROM orders " +
+                                        "WHERE order_status = :status " +
+                                        "AND created_at >= :start AND created_at <= :end"
+                        )
+                        .bind("status", status)
+                        .bind("start", Timestamp.valueOf(start))
+                        .bind("end", Timestamp.valueOf(end))
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+    /**
+     * Lấy đơn hàng gần nhất kèm tên khách hàng (JOIN)
+     */
+    public static List<Map<String, Object>> getRecentOrdersWithCustomer(int limit) {
+        return get().withHandle(h ->
+                h.createQuery(
+                                "SELECT o.id, o.customer_id, o.order_code, o.order_status, " +
+                                        "o.total_amount, o.created_at, " +
+                                        "COALESCE(c.full_name, o.shipping_name, 'Khách vãng lai') as customer_name " +
+                                        "FROM orders o " +
+                                        "LEFT JOIN customers c ON o.customer_id = c.id " +
+                                        "ORDER BY o.created_at DESC LIMIT :limit"
+                        )
+                        .bind("limit", limit)
+                        .mapToMap()
+                        .list()
+        );
     }
 }

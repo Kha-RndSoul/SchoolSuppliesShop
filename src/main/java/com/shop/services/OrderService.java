@@ -16,6 +16,7 @@ import com.shop.model.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class OrderService {
@@ -448,5 +449,14 @@ public class OrderService {
         }
 
         return discount;
+    }
+    /**
+     * Lấy đơn hàng gần nhất kèm thông tin khách hàng - cho dashboard
+     */
+    public List<Map<String, Object>> getRecentOrdersWithCustomer(int limit) {
+        if (limit <= 0) {
+            limit = 5;
+        }
+        return OrderDAO.getRecentOrdersWithCustomer(limit);
     }
 }

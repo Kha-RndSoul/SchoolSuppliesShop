@@ -8,14 +8,14 @@ import java.sql.SQLException;
 public abstract class BaseDao {
     private static Jdbi jdbi;
 
-    protected Jdbi get() {
+    protected static Jdbi get() {
         if (jdbi == null) {
             makeConnect();
         }
         return jdbi;
     }
 
-    private void makeConnect() {
+    private static void makeConnect() {
         MysqlDataSource src = new MysqlDataSource();
 
         String url = "jdbc:mysql://" + DBProperties.host() + ":" +
