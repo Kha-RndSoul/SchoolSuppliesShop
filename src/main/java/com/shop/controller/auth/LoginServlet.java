@@ -229,7 +229,7 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("admin", admin);
                     session.setAttribute("adminId", admin.getId());
                     session.setAttribute("adminUsername", admin.getUsername());
-                    session.setAttribute("adminName", admin.getFullName());
+                    session.setAttribute("adminFullName", admin.getFullName());
                     session.setAttribute("adminRole", admin.getRole());
                     session.setAttribute("userType", "ADMIN");
                     session.setMaxInactiveInterval(30 * 60); // 30 minutes

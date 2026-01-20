@@ -1,5 +1,17 @@
+<%@ page import="com.shop.services.CategoryService" %>
+<%@ page import="com.shop.model.Category" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+    // Load categories nếu chưa có
+    if (application.getAttribute("categories") == null) {
+        CategoryService service = new CategoryService();
+        List<Category> categories = service.getAllCategories();
+        application.setAttribute("categories", categories);
+    }
+%>
 
 <header class="header">
     <nav class="navbar">
@@ -29,7 +41,32 @@
 
             <!-- Login/Profile -->
             <c:choose>
-                <%-- Đã đăng nhập --%>
+                <%-- Admin đã đăng nhập --%>
+                <c:when test="${not empty sessionScope.admin}">
+                    <a href="${pageContext.request.contextPath}/admin/profile" class="action-item">
+                        <div class="action-text">
+                            <button class="user-button" type="button">👤</button>
+                            <span>
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.adminFullName}">
+                                        ${sessionScope.adminFullName}
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${sessionScope.adminUsername}
+                                    </c:otherwise>
+                                </c:choose>
+                            </span>
+                        </div>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/logout" class="action-item"
+                       onclick="return confirm('Bạn có chắc muốn đăng xuất?');">
+                        <div class="action-text">
+                            <button class="logout-button" type="button">🚪</button>
+                            <span>Đăng xuất</span>
+                        </div>
+                    </a>
+                </c:when>
+                <%-- Customer đã đăng nhập --%>
                 <c:when test="${not empty sessionScope.customer}">
                     <a href="${pageContext.request.contextPath}/profile" class="action-item">
                         <div class="action-text">
@@ -63,12 +100,22 @@
                         🛒
                         <%-- Badge hiển thị số lượng items trong giỏ --%>
                         <c:if test="${not empty sessionScope.cartCount and sessionScope.cartCount > 0}">
-                        <span class="cart-badge">${sessionScope.cartCount}</span>
+                            <span class="cart-badge">${sessionScope.cartCount}</span>
                         </c:if>
                     </button>
                     <span>Giỏ hàng</span>
                 </div>
             </a>
+
+            <!-- ADMIN DASHBOARD BUTTON - CHỈ HIỂN THỊ KHI LÀ ADMIN -->
+            <c:if test="${not empty sessionScope.admin}">
+                <a href="${pageContext.request.contextPath}/admin/dashboard" class="action-item">
+                    <div class="action-text">
+                        <button class="admin-button" type="button">⚙️</button>
+                        <span class="admin-text">Admin</span>
+                    </div>
+                </a>
+            </c:if>
         </div>
     </nav>
 
@@ -76,15 +123,13 @@
     <div class="nav-row">
         <div class="container">
             <ul class="nav-links">
-
-                    <c:forEach var="category" items="${applicationScope.categories}">
-                        <li>
-                            <a href="${pageContext.request.contextPath}/products?categoryId=${category.id}">
+                <c:forEach var="category" items="${applicationScope.categories}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/products?categoryId=${category.id}">
                                 ${category.categoryName}
-                            </a>
-                        </li>
-                    </c:forEach>
-
+                        </a>
+                    </li>
+                </c:forEach>
             </ul>
         </div>
     </div>
