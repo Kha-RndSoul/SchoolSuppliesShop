@@ -18,7 +18,6 @@ public class ProductDAO extends BaseDao {
         data.put(7, new Product(7, "Kéo văn phòng Điểm 10", "Kéo inox 18cm", 4, 4, 12000.0, 10000.0, 90, 8, true));
     }
 
-    // Helper method để map ResultSet thủ công (tránh lỗi case-sensitivity)
     private Map<String, Object> mapProductRow(java.sql.ResultSet rs) throws java.sql.SQLException {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", rs.getInt("id"));
@@ -39,15 +38,13 @@ public class ProductDAO extends BaseDao {
         map.put("imageUrl", rs.getString("imageUrl"));
         return map;
     }
-
     public List<Product> getListProduct() {
         return new ArrayList<>(data.values());
     }
-
     public Product getProduct(int id) {
         return data.get(id);
     }
-
+    // Lấy tất cả sản phẩm kèm hình ảnh
     public List<Map<String, Object>> getListWithImage() {
         return get().withHandle(h ->
                 h.createQuery(
@@ -82,7 +79,7 @@ public class ProductDAO extends BaseDao {
                         .list()
         );
     }
-
+     // Lấy danh sách sản phẩm bán chạy nhất
     public List<Map<String, Object>> getBestSellersWithImage(int limit) {
         return get().withHandle(h ->
                 h.createQuery(
@@ -120,7 +117,7 @@ public class ProductDAO extends BaseDao {
                         .list()
         );
     }
-
+   //Lấy sản phẩm theo category ID
     public List<Map<String, Object>> getByCategoryIdWithImage(int categoryId) {
         return get().withHandle(h ->
                 h.createQuery(
@@ -156,7 +153,7 @@ public class ProductDAO extends BaseDao {
                         .list()
         );
     }
-
+    //Lấy sản phẩm theo brand ID
     public List<Map<String, Object>> getByBrandIdWithImage(int brandId) {
         return get().withHandle(h ->
                 h.createQuery(
@@ -192,7 +189,75 @@ public class ProductDAO extends BaseDao {
                         .list()
         );
     }
-
+    //Lấy sản phẩm theo nhiều brand ID có lọc category
+    public List<Map<String, Object>> getByBrandIdsWithImage(List<Integer> brandIds, Integer categoryId) {
+        if (brandIds == null || brandIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return get().withHandle(h -> {
+            StringBuilder sql = new StringBuilder(
+                    "SELECT " +
+                            "  p.id, " +
+                            "  p.product_name AS productName, " +
+                            "  p.description, " +
+                            "  p.category_id AS categoryId, " +
+                            "  p.brand_id AS brandId, " +
+                            "  p.price, " +
+                            "  p.sale_price AS salePrice, " +
+                            "  p.stock_quantity AS stockQuantity, " +
+                            "  p.sold_count AS soldCount, " +
+                            "  p.is_active AS isActive, " +
+                            "  p.created_at AS createdAt, " +
+                            "  p.updated_at AS updatedAt, " +
+                            "  b.brand_name AS brandName, " +
+                            "  c.category_name AS categoryName, " +
+                            "  COALESCE(AVG(pr.rating), 0) AS averageRating, " +
+                            "  pi.image_url AS imageUrl " +
+                            "FROM products p " +
+                            "LEFT JOIN brands b ON p.brand_id = b.id " +
+                            "LEFT JOIN categories c ON p.category_id = c.id " +
+                            "LEFT JOIN product_reviews pr ON p.id = pr.product_id AND pr.status = 1 " +
+                            "LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1 " +
+                            "WHERE p.is_active = 1 "
+            );
+            // Thêm điều kiện: brand_id IN (?, ?, ?)
+            sql.append("AND p.brand_id IN (");
+            for (int i = 0; i < brandIds.size(); i++) {
+                sql.append(":brandId").append(i);
+                if (i < brandIds.size() - 1) {
+                    sql.append(", ");
+                }
+            }
+            sql.append(") ");
+            // Thêm điều kiện lọc theo category nếu có
+            if (categoryId != null && categoryId > 0) {
+                sql.append("AND p.category_id = :categoryId ");
+            }
+            // GROUP BY để tính rating trung bình
+            sql.append(
+                    "GROUP BY p.id, p.product_name, p.description, p.category_id, p.brand_id, " +
+                            "         p.price, p.sale_price, p.stock_quantity, p.sold_count, p.is_active, " +
+                            "         p.created_at, p.updated_at, b.brand_name, c.category_name, pi.image_url"
+            );
+            // Tạo query từ SQL đã build
+            var query = h.createQuery(sql.toString());
+            // Bind từng brandId vào câu query
+            for (int i = 0; i < brandIds.size(); i++) {
+                query.bind("brandId" + i, brandIds.get(i));
+            }
+            // Bind categoryId
+            if (categoryId != null && categoryId > 0) {
+                query.bind("categoryId", categoryId);
+            }
+            // Thực thi query và trả về kết quả
+            return query.map((rs, ctx) -> mapProductRow(rs)).list();
+        });
+    }
+  // Lấy sản phẩm theo nhiều brand ID (không lọc category)
+    public List<Map<String, Object>> getByBrandIdsWithImage(List<Integer> brandIds) {
+        return getByBrandIdsWithImage(brandIds, null);
+    }
+    //tim kiếm sản phẩm theo từ khóa
     public List<Map<String, Object>> searchWithImage(String keyword) {
         return get().withHandle(h ->
                 h.createQuery(
@@ -228,7 +293,7 @@ public class ProductDAO extends BaseDao {
                         .list()
         );
     }
-
+    // Lấy chi tiết sản phẩm theo ID kèm hình ảnh
     public Map<String, Object> getProductByIdWithImage(int id) {
         return get().withHandle(h ->
                 h.createQuery(
@@ -265,7 +330,7 @@ public class ProductDAO extends BaseDao {
                         .orElse(null)
         );
     }
-
+//Thêm nhiều sản phẩm
     public void insert(List<Product> products) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
@@ -276,7 +341,7 @@ public class ProductDAO extends BaseDao {
             batch.execute();
         });
     }
-
+// Thêm sản phẩm mới
     public void insertProduct(Product product) {
         get().useHandle(h ->
                 h.createUpdate(
@@ -287,7 +352,7 @@ public class ProductDAO extends BaseDao {
                         .execute()
         );
     }
-
+    // Cập nhật sản phẩm
     public void updateProduct(Product product) {
         get().useHandle(h ->
                 h.createUpdate(
@@ -299,7 +364,7 @@ public class ProductDAO extends BaseDao {
                         .execute()
         );
     }
-
+    // Xóa sản phẩm
     public void deleteProduct(int id) {
         get().useHandle(h ->
                 h.createUpdate("DELETE FROM products WHERE id = :id")
@@ -307,7 +372,7 @@ public class ProductDAO extends BaseDao {
                         .execute()
         );
     }
-
+// Bật/tắt trạng thái sản phẩm
     public void toggleStatus(int id, boolean isActive) {
         get().useHandle(h ->
                 h.createUpdate("UPDATE products SET is_active = :isActive WHERE id = :id")
@@ -316,7 +381,7 @@ public class ProductDAO extends BaseDao {
                         .execute()
         );
     }
-
+    // Giảm số lượng tồn kho (khi có đơn hàng)
     public void decreaseStock(int id, int quantity) {
         get().useHandle(h ->
                 h.createUpdate("UPDATE products SET stock_quantity = stock_quantity - :quantity, sold_count = sold_count + :quantity WHERE id = :id")
@@ -325,7 +390,7 @@ public class ProductDAO extends BaseDao {
                         .execute()
         );
     }
-
+    // Tăng số lượng tồn kho (khi nhập hàng)
     public void increaseStock(int id, int quantity) {
         get().useHandle(h ->
                 h.createUpdate("UPDATE products SET stock_quantity = stock_quantity + :quantity WHERE id = :id")
@@ -334,7 +399,7 @@ public class ProductDAO extends BaseDao {
                         .execute()
         );
     }
-
+    // Đếm tổng số sản phẩm
     public int count() {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) FROM products")
@@ -342,7 +407,6 @@ public class ProductDAO extends BaseDao {
                         .one()
         );
     }
-
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
         try {
@@ -352,7 +416,7 @@ public class ProductDAO extends BaseDao {
 
             if (count == 0) {
                 dao.insert(dao.getListProduct());
-                System.out.println("✅ Inserted " + dao.count() + " products");
+                System.out.println(" Inserted " + dao.count() + " products");
             }
 
             System.out.println("\n=== BEST SELLERS (TOP 5) ===");
@@ -367,8 +431,14 @@ public class ProductDAO extends BaseDao {
                 System.out.println("---");
             });
 
+            // lấy sản phẩm theo nhiều brand
+            System.out.println("\n=== TEST getByBrandIdsWithImage ===");
+            List<Integer> testBrandIds = Arrays.asList(1, 2);
+            List<Map<String, Object>> productsByBrands = dao.getByBrandIdsWithImage(testBrandIds);
+            System.out.println("Products from brands [1, 2]: " + productsByBrands.size());
+
         } catch (Exception e) {
-            System.err.println("❌ ERROR:");
+            System.err.println(" ERROR:");
             e.printStackTrace();
         }
     }

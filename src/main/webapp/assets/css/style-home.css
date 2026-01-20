@@ -139,7 +139,7 @@
     gap: 2rem;
 }
 .product-card {
-    position: relative; /* dùng cho badge absolute */
+    position: relative;
     background: var(--bg-white);
     border-radius: 12px;
     overflow: hidden;
@@ -153,14 +153,14 @@
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
 }
-/* Hình ãnh sản phẩm */
+/* Hình ảnh sản phẩm */
 .product-image {
     width: 100%;
     height: 250px;
     object-fit: cover;
     background: var(--bg-light);
 }
-/*Thông tin sản phẩm */
+/* Thông tin sản phẩm */
 .product-info {
     padding: 1.5rem;
 }
@@ -197,7 +197,6 @@
 .stars {
     color: var(--accent-color);
 }
-
 /* Badge container - nằm góc dưới phải */
 .product-badge {
     position: absolute;
@@ -227,14 +226,12 @@
     background: linear-gradient(135deg, #ee5a6f 0%, #ff6b6b 100%);
     transform: scale(1.02) translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.6);
-
 }
-/* Featured Promotions */
+/* Khuyến mãi nổi bật */
 .featured-promotions {
     padding: 3rem 0;
     background: var(--bg-white);
 }
-
 .promotions-header {
     display: flex;
     justify-content: center;
@@ -243,11 +240,9 @@
     flex-wrap: wrap;
     gap: 1rem;
 }
-
 .featured-promotions .section-title {
     margin-bottom: 0;
 }
-
 .promo-view-all {
     color: white;
     font-weight: 600;
@@ -258,30 +253,52 @@
     float: right;
     transform: scale(0.75);
 }
-
 .promo-view-all:hover {
-    transform: scale(1.1) ;
+    transform: scale(1.1);
 }
-
+/* Container ảnh coupon  */
 .promo-visual {
     width: 100%;
     height: 200px;
+    overflow: hidden;
+    position: relative;
+    background:  var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
 }
-
-.promo-icon {
-    font-size: 5rem;
+/* Ảnh coupon - GIỚI HẠN CHẶT CHẼ */
+.promo-visual img.promo-icon {
+    max-width: 100%;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
 }
-
+/* Thông tin coupon */
+.featured-promotions .category-info {
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--bg-white);
+    position: relative;
+    z-index: 2;
+}
 .featured-promotions .category-info h3 {
     font-family: 'Courier New', monospace;
     color: #667eea;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
 }
-.featured-promotions .category-info p{
+.featured-promotions .category-info p {
     color: #0f172a;
+    font-size: 0.9rem;
+}
+.promo-detail {
+    font-weight: 600;
+    color: #f59e0b;
+    margin: 0.5rem 0;
+    font-size: 1rem;
 }
 .promo-usage {
     font-size: 0.85rem;
@@ -290,4 +307,7 @@
 .featured-promotions .btn-primary {
     width: 100%;
     margin-top: 0.5rem;
+}
+.promo-visual .promo-icon:not(img) {
+    font-size: 5rem;
 }
