@@ -14,12 +14,14 @@ public class HomeController extends HttpServlet {
     private BannerService bannerService;
     private ProductService productService;
     private CategoryService categoryService;
+    private CouponService couponService;
 
     @Override
     public void init() throws ServletException {
         bannerService = new BannerService();
         productService = new ProductService();
         categoryService = new CategoryService();
+        couponService = new CouponService();
     }
 
     @Override
@@ -34,8 +36,8 @@ public class HomeController extends HttpServlet {
             List<Category> allCategories = categoryService.getAllCategories();
             request.setAttribute("listCategory", allCategories);
 
-            List<Category> featuredCategories = allCategories.size() > 6
-                    ? allCategories.subList(0, 6)
+            List<Category> featuredCategories = allCategories.size() > 4
+                    ? allCategories.subList(0, 4)
                     : allCategories;
             request.setAttribute("featuredCategories", featuredCategories);
 
@@ -50,8 +52,19 @@ public class HomeController extends HttpServlet {
             });
             request.setAttribute("bestSellingProducts", bestSellers);
 
-            // Load coupons
-            List<Object> topCoupons = new ArrayList<>();
+            //  Load top 4 coupons hot nhất
+            List<Coupon> topCoupons = couponService.getTopUsedCoupons(4);
+
+            // Debug để kiểm tra
+            System.out.println("=== TOP COUPONS ===");
+            System.out.println("Số lượng coupons: " + topCoupons.size());
+            topCoupons.forEach(c -> {
+                System.out.println("Code: " + c.getCouponCode());
+                System.out.println("Discount: " + c.getDiscountValue());
+                System.out.println("Used: " + c.getUsedCount());
+                System.out.println("---");
+            });
+
             request.setAttribute("topCoupons", topCoupons);
 
             //  Forward đến WEB-INF/jsp/product/index.jsp
@@ -60,7 +73,7 @@ public class HomeController extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Lỗi khi tải trang chủ:  " + e.getMessage());
+            request.setAttribute("errorMessage", "Lỗi khi tải trang chủ: " + e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
