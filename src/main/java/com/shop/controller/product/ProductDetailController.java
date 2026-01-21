@@ -17,24 +17,47 @@ public class ProductDetailController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        productService = new ProductService();
-        productImageService = new ProductImageService();
-        productReviewService = new ProductReviewService();
+        System.out.println("✓ ProductDetailController.init() STARTING...");
+        try {
+            productService = new ProductService();
+            productImageService = new ProductImageService();
+            productReviewService = new ProductReviewService();
+            System.out.println("✓ ProductDetailController initialized successfully");
+        } catch (Exception e) {
+            System.err.println("❌ ERROR in ProductDetailController.init()");
+            e.printStackTrace();
+            throw new ServletException("Failed to initialize ProductDetailController", e);
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        System.out.println("✓ ProductDetailController.doGet() CALLED");
+        System.out.println("   Request URI: " + request.getRequestURI());
+
         try {
             String idStr = request.getParameter("id");
+            System.out.println("   Product ID parameter: " + idStr);
+
             if (idStr == null || idStr.isEmpty()) {
+                System.out.println("❌ Missing product ID");
                 throw new IllegalArgumentException("Thiếu ID sản phẩm");
             }
 
             int productId = Integer.parseInt(idStr);
+            System.out.println("→ Loading product with ID: " + productId);
 
             // Load thông tin sản phẩm
             Map<String, Object> product = productService.getProductById(productId);
+
+            if (product == null) {
+                System.out.println("❌ Product not found: " + productId);
+                throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+            }
+
+            System.out.println("✓ Product loaded: " + product.get("productName"));
             request.setAttribute("product", product);
 
             // Tính discount percent
@@ -46,17 +69,20 @@ public class ProductDetailController extends HttpServlet {
                 if (salePrice > 0 && salePrice < price) {
                     int discountPercent = (int) Math.round((1 - salePrice / price) * 100);
                     request.setAttribute("discountPercent", discountPercent);
+                    System.out.println("→ Discount: " + discountPercent + "%");
                 }
             }
 
             // Load tất cả hình ảnh của sản phẩm
             List<ProductImage> productImages = productImageService.getImagesByProductId(productId);
             request.setAttribute("productImages", productImages);
+            System.out.println("→ Loaded " + (productImages != null ? productImages.size() : 0) + " images");
 
             // Load đánh giá đã được duyệt
             List<ProductReview> reviews = productReviewService.getByProductId(productId);
-            reviews.removeIf(r -> ! r.isStatus()); // Chỉ lấy reviews đã duyệt
+            reviews.removeIf(r -> !r.isStatus()); // Chỉ lấy reviews đã duyệt
             request.setAttribute("reviews", reviews);
+            System.out.println("→ Loaded " + reviews.size() + " approved reviews");
 
             // Tính rating trung bình
             Object avgRatingObj = product.get("averageRating");
@@ -64,6 +90,7 @@ public class ProductDetailController extends HttpServlet {
             int reviewCount = reviews.size();
             request.setAttribute("averageRating", averageRating);
             request.setAttribute("reviewCount", reviewCount);
+            System.out.println("→ Average rating: " + averageRating + " (" + reviewCount + " reviews)");
 
             // Load sản phẩm liên quan (cùng danh mục)
             Object categoryIdObj = product.get("categoryId");
@@ -75,18 +102,24 @@ public class ProductDetailController extends HttpServlet {
                     relatedProducts = relatedProducts.subList(0, 4);
                 }
                 request.setAttribute("relatedProducts", relatedProducts);
+                System.out.println("→ Loaded " + relatedProducts.size() + " related products");
             }
 
-            //  Forward đến WEB-INF/jsp/product/product-detail.jsp
-            request.getRequestDispatcher("/WEB-INF/jsp/products/product-detail.jsp")
-                    .forward(request, response);
+            // Forward đến JSP
+            String jspPath = "/WEB-INF/jsp/products/product-detail.jsp";
+            System.out.println("→ Forwarding to: " + jspPath);
+            request.getRequestDispatcher(jspPath).forward(request, response);
+            System.out.println("✓ ProductDetailController completed successfully");
 
         } catch (NumberFormatException e) {
+            System.err.println("❌ Invalid product ID format");
+            e.printStackTrace();
             request.setAttribute("errorMessage", "ID sản phẩm không hợp lệ");
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         } catch (Exception e) {
+            System.err.println("❌ ERROR in ProductDetailController.doGet()");
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Lỗi khi tải chi tiết sản phẩm:  " + e.getMessage());
+            request.setAttribute("errorMessage", "Lỗi khi tải chi tiết sản phẩm: " + e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
@@ -94,6 +127,12 @@ public class ProductDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("✓ ProductDetailController.doPost() → calling doGet()");
         doGet(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("✓ ProductDetailController destroyed");
     }
 }
