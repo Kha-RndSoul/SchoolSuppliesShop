@@ -7,17 +7,6 @@ import java.util.*;
 
 public class ProductDAO extends BaseDao {
 
-    static Map<Integer, Product> data = new HashMap<>();
-    static {
-        data.put(1, new Product(1, "Vở Campus 200 trang", "Vở kẻ ngang chất lượng", 1, 3, 15000.0, 12000.0, 100, 0, true));
-        data.put(2, new Product(2, "Bút bi Thiên Long TL-027", "Bút bi xanh mực đen", 2, 1, 5000.0, 4000.0, 200, 50, true));
-        data.put(3, new Product(3, "Balo Bitis DBB003300", "Balo học sinh cao cấp", 3, 2, 350000.0, 299000.0, 50, 10, true));
-        data.put(4, new Product(4, "Thước kẻ 30cm", "Thước kẻ nhựa trong", 4, 4, 8000.0, 3000.0, 150, 0, true));
-        data.put(5, new Product(5, "Tập vẽ Hồng Hà A4", "Tập vẽ 100 tờ", 4, 5, 25000.0, 22000.0, 80, 5, true));
-        data.put(6, new Product(6, "Bút chì 2B Thiên Long", "Hộp 12 cây", 2, 1, 18000.0, 2000.0, 120, 20, true));
-        data.put(7, new Product(7, "Kéo văn phòng Điểm 10", "Kéo inox 18cm", 4, 4, 12000.0, 10000.0, 90, 8, true));
-    }
-
     private Map<String, Object> mapProductRow(java.sql.ResultSet rs) throws java.sql.SQLException {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", rs.getInt("id"));
@@ -37,12 +26,6 @@ public class ProductDAO extends BaseDao {
         map.put("averageRating", rs.getDouble("averageRating"));
         map.put("imageUrl", rs.getString("imageUrl"));
         return map;
-    }
-    public List<Product> getListProduct() {
-        return new ArrayList<>(data.values());
-    }
-    public Product getProduct(int id) {
-        return data.get(id);
     }
     // Lấy tất cả sản phẩm kèm hình ảnh
     public List<Map<String, Object>> getListWithImage() {
@@ -341,15 +324,25 @@ public class ProductDAO extends BaseDao {
             batch.execute();
         });
     }
-// Thêm sản phẩm mới
-    public void insertProduct(Product product) {
-        get().useHandle(h ->
+    // Thêm sản phẩm mới - TRẢ VỀ ID
+    public int insertProduct(Product product) {
+        return get().withHandle(h ->
                 h.createUpdate(
                                 "INSERT INTO products (product_name, description, category_id, brand_id, price, sale_price, stock_quantity, sold_count, is_active) " +
                                         "VALUES (:productName, :description, :categoryId, :brandId, :price, :salePrice, :stockQuantity, :soldCount, :isActive)"
                         )
-                        .bindBean(product)
-                        .execute()
+                        .bind("productName", product.getProductName())
+                        .bind("description", product.getDescription())
+                        .bind("categoryId", product.getCategoryId())
+                        .bind("brandId", product.getBrandId())
+                        .bind("price", product.getPrice())
+                        .bind("salePrice", product.getSalePrice())
+                        .bind("stockQuantity", product.getStockQuantity())
+                        .bind("soldCount", product.getSoldCount())
+                        .bind("isActive", product.getIsActive())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
         );
     }
     // Cập nhật sản phẩm
@@ -406,40 +399,5 @@ public class ProductDAO extends BaseDao {
                         .mapTo(Integer.class)
                         .one()
         );
-    }
-    public static void main(String[] args) {
-        ProductDAO dao = new ProductDAO();
-        try {
-            System.out.println("=== TEST ProductDAO ===");
-            int count = dao.count();
-            System.out.println("Current products: " + count);
-
-            if (count == 0) {
-                dao.insert(dao.getListProduct());
-                System.out.println(" Inserted " + dao.count() + " products");
-            }
-
-            System.out.println("\n=== BEST SELLERS (TOP 5) ===");
-            List<Map<String, Object>> bestSellers = dao.getBestSellersWithImage(5);
-            bestSellers.forEach(p -> {
-                System.out.println("ID: " + p.get("id"));
-                System.out.println("Name: " + p.get("productName"));
-                System.out.println("Brand: " + p.get("brandName"));
-                System.out.println("Price: " + p.get("price"));
-                System.out.println("Sale Price: " + p.get("salePrice"));
-                System.out.println("Image: " + p.get("imageUrl"));
-                System.out.println("---");
-            });
-
-            // lấy sản phẩm theo nhiều brand
-            System.out.println("\n=== TEST getByBrandIdsWithImage ===");
-            List<Integer> testBrandIds = Arrays.asList(1, 2);
-            List<Map<String, Object>> productsByBrands = dao.getByBrandIdsWithImage(testBrandIds);
-            System.out.println("Products from brands [1, 2]: " + productsByBrands.size());
-
-        } catch (Exception e) {
-            System.err.println(" ERROR:");
-            e.printStackTrace();
-        }
     }
 }

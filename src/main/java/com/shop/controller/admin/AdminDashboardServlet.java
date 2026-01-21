@@ -1,6 +1,8 @@
 package com.shop.controller.admin;
 
 import com.shop.dao.product.ProductDAO;
+import com.shop.services.BrandService;
+import com.shop.services.CategoryService;
 import com.shop.services.OrderService;
 import com.shop.services.StatisticsService;
 import jakarta.servlet.ServletException;
@@ -23,6 +25,8 @@ public class AdminDashboardServlet extends HttpServlet {
     private StatisticsService statisticsService;
     private OrderService orderService;
     private ProductDAO productDAO;
+    private CategoryService categoryService;
+    private BrandService brandService;
 
     @Override
     public void init() throws ServletException {
@@ -35,6 +39,8 @@ public class AdminDashboardServlet extends HttpServlet {
         statisticsService = new StatisticsService();
         orderService = new OrderService();
         productDAO = new ProductDAO();
+        categoryService = new CategoryService();
+        brandService = new BrandService();
     }
 
     @Override
@@ -78,10 +84,21 @@ public class AdminDashboardServlet extends HttpServlet {
             List<Map<String, Object>> recentOrders = orderService.getRecentOrdersWithCustomer(5);
             System.out.println("✓ Recent orders loaded: " + recentOrders.size() + " orders");
 
-            //  Load best selling products
+            // ⭐ THÊM MỚI: Load best selling products
             System.out.println("→ Loading best selling products...");
             List<Map<String, Object>> bestSellers = productDAO.getBestSellersWithImage(5);
             System.out.println("✓ Best sellers loaded: " + bestSellers.size() + " products");
+
+            // ⭐ THÊM MỚI: Load all products for products section
+            System.out.println("→ Loading all products...");
+            List<Map<String, Object>> allProducts = productDAO.getListWithImage();
+            System.out.println("✓ All products loaded: " + allProducts.size() + " products");
+
+            // ⭐ THÊM MỚI: Load categories and brands for form dropdowns
+            System.out.println("→ Loading categories and brands...");
+            var allCategories = categoryService.getAllCategories();
+            var allBrands = brandService.getAllBrands();
+            System.out.println("✓ Categories: " + allCategories.size() + ", Brands: " + allBrands.size());
 
             // Debug: In ra thông tin best sellers
             if (!bestSellers.isEmpty()) {
@@ -93,6 +110,9 @@ public class AdminDashboardServlet extends HttpServlet {
             request.setAttribute("stats", stats);
             request.setAttribute("recentOrders", recentOrders);
             request.setAttribute("bestSellers", bestSellers);
+            request.setAttribute("allProducts", allProducts);
+            request.setAttribute("allCategories", allCategories);
+            request.setAttribute("allBrands", allBrands);
 
             // Set filter values để giữ lại trong form
             request.setAttribute("selectedFilter", filterType != null ? filterType : "30days");
