@@ -37,7 +37,7 @@ public class CartService {
         }
 
         // Check sản phẩm tồn tại
-        Product product = productDAO.getProduct(productId);
+        Product product = (Product) productDAO.getProductByIdWithImage(productId);
         if (product == null) {
             throw new Exception("Sản phẩm không tồn tại");
         }
@@ -94,7 +94,7 @@ public class CartService {
         }
 
         // Check stock đủ không
-        Product product = productDAO.getProduct(cartItem.getProductId());
+        Product product = (Product) productDAO.getProductByIdWithImage(cartItem.getProductId());
         if (product == null) {
             throw new Exception("Sản phẩm không tồn tại");
         }
@@ -122,7 +122,7 @@ public class CartService {
         }
 
         // Check stock
-        Product product = productDAO.getProduct(productId);
+        Product product = (Product) productDAO.getProductByIdWithImage(productId);
         if (product == null) {
             throw new Exception("Sản phẩm không tồn tại");
         }
@@ -227,7 +227,7 @@ public class CartService {
         List<CartItem> cartItems = cartItemDAO.getByCustomerId(customerId);
         double total = 0;
         for (CartItem item : cartItems) {
-            Product product = productDAO.getProduct(item.getProductId());
+            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
             if (product != null) {
                 double price = getProductPrice(product);
                 total += price * item.getQuantity();
@@ -280,7 +280,7 @@ public class CartService {
 
         // Check từng sản phẩm
         for (CartItem item : cartItems) {
-            Product product = productDAO.getProduct(item.getProductId());
+            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
 
             // Check sản phẩm tồn tại
             if (product == null) {

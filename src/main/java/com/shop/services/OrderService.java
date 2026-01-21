@@ -67,7 +67,7 @@ public class OrderService {
         }
 
         for (CartItem item : cartItems) {
-            Product product = productDAO.getProduct(item.getProductId());
+            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
 
             if (product == null) {
                 throw new Exception("Sản phẩm ID " + item.getProductId() + " không tồn tại");
@@ -111,7 +111,7 @@ public class OrderService {
 
         // Tạo OrderDetails cho từng cart item
         for (CartItem item : cartItems) {
-            Product product = productDAO.getProduct(item.getProductId());
+            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
 
             if (product != null) {
                 OrderDetail detail = new OrderDetail();
@@ -378,7 +378,7 @@ public class OrderService {
         double subtotal = 0;
 
         for (CartItem item : cartItems) {
-            Product product = productDAO.getProduct(item.getProductId());
+            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
 
             if (product != null) {
                 double price = getProductPrice(product);
