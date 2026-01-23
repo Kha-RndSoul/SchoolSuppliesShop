@@ -9,10 +9,11 @@
     <title>${product.productName} - DPK Shop</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-common.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-product-detail.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-product-review-popup.css"/>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
-
+//Đường dẫn trang chi tiết sản phẩm
 <main class="product-detail-container">
     <div class="container">
         <nav class="breadcrumb">
@@ -28,15 +29,13 @@
             <div class="product-layout">
                 <div class="product-gallery">
                     <div class="main-image-container">
-                        <img id="mainImage" src="${pageContext.request.contextPath}${not empty productImages && productImages.size() > 0 ? productImages[0].imageUrl : product.imageUrl}" alt="${product.productName}" class="main-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
-                        <c:if test="${not empty discountPercent && discountPercent > 0}">
-                            <span class="discount-badge">-${discountPercent}%</span>
-                        </c:if>
+                        <img id="mainImage" src="${pageContext.request.contextPath}${not empty productImages ? productImages[0].imageUrl : product.imageUrl}" alt="${product.productName}" class="main-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                        <c:if test="${not empty discountPercent && discountPercent > 0}"><span class="discount-badge">-${discountPercent}%</span></c:if>
                     </div>
                     <c:if test="${not empty productImages && productImages.size() > 1}">
                         <div class="thumbnail-gallery">
                             <c:forEach var="image" items="${productImages}" varStatus="status">
-                                <img src="${pageContext.request.contextPath}${image.imageUrl}" alt="${product.productName}" class="thumbnail ${status.first ? 'active' : ''}" onclick="changeMainImage('${pageContext.request.contextPath}${image.imageUrl}', this)" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                                <img src="${pageContext.request.contextPath}${image.imageUrl}" class="thumbnail ${status.first ? 'active' : ''}" onclick="changeMainImage('${pageContext.request.contextPath}${image.imageUrl}', this)" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
                             </c:forEach>
                         </div>
                     </c:if>
@@ -44,19 +43,15 @@
 
                 <div class="product-info-section">
                     <h1 class="product-title">${product.productName}</h1>
-                    <c:if test="${not empty product.brandName}">
-                        <p class="product-brand">Thương hiệu: <strong>${product.brandName}</strong></p>
-                    </c:if>
+                    <c:if test="${not empty product.brandName}"><p class="product-brand">Thương hiệu: <strong>${product.brandName}</strong></p></c:if>
 
                     <div class="product-rating-section">
-                        <div class="stars-large">
-                            <c:forEach begin="1" end="5" var="i">
-                                ${i <= averageRating ? '★' : '☆'}
-                            </c:forEach>
-                        </div>
-                        <span class="rating-text"><fmt:formatNumber value="${averageRating}" pattern="#.#"/> / 5.0</span>
-                        <span class="review-count">(${reviewCount > 0 ? reviewCount : 'Chưa có'} đánh giá)</span>
-                        <span class="sold-info">| 🔥 Đã bán: <strong><fmt:formatNumber value="${product.soldCount}" pattern="#,###"/></strong></span>
+                        <span style="color: #fbbf24; font-size: 1.2rem">
+                             <c:forEach begin="1" end="5" var="i">${i <= averageRating ? '★' : '☆'}</c:forEach>
+                        </span>
+                        <span class="rating-text"><fmt:formatNumber value="${averageRating}" pattern="#.#"/>/5</span>
+                        <span class="review-count">(${reviewCount > 0 ? reviewCount : '0'} đánh giá)</span>
+                        <span class="sold-info">| Đã bán: <strong>${product.soldCount}</strong></span>
                     </div>
 
                     <div class="price-section">
@@ -65,48 +60,35 @@
                                 <span class="current-price"><fmt:formatNumber value="${product.salePrice}" pattern="#,###"/>đ</span>
                                 <span class="original-price"><fmt:formatNumber value="${product.price}" pattern="#,###"/>đ</span>
                             </c:when>
-                            <c:otherwise>
-                                <span class="current-price"><fmt:formatNumber value="${product.price}" pattern="#,###"/>đ</span>
-                            </c:otherwise>
+                            <c:otherwise><span class="current-price"><fmt:formatNumber value="${product.price}" pattern="#,###"/>đ</span></c:otherwise>
                         </c:choose>
                     </div>
 
                     <div class="stock-section">
                         <span class="${product.stockQuantity > 0 ? 'stock-available' : 'stock-out'}">
-                            ${product.stockQuantity > 0 ? ' Còn hàng ('.concat(product.stockQuantity).concat(' sản phẩm)') : ' Tạm hết hàng'}
+                            ${product.stockQuantity > 0 ? 'Còn hàng' : 'Hết hàng'}
                         </span>
                     </div>
 
                     <form action="${pageContext.request.contextPath}/cart" method="POST" class="add-to-cart-form">
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="productId" value="${product.id}">
-
                         <div class="quantity-section">
-                            <label for="quantity">Số lượng:</label>
+                            <label>Số lượng:</label>
                             <div class="quantity-controls">
                                 <button type="button" class="qty-btn" onclick="decreaseQuantity()">−</button>
-                                <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.stockQuantity > 0 ? product.stockQuantity : 999}" class="qty-input">                                <button type="button" class="qty-btn" onclick="increaseQuantity(${product.stockQuantity})">+</button>
+                                <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.stockQuantity}" class="qty-input">
+                                <button type="button" class="qty-btn" onclick="increaseQuantity(${product.stockQuantity})">+</button>
                             </div>
                         </div>
-
                         <div class="action-buttons">
-                            <c:choose>
-                                <c:when test="${product.stockQuantity > 0}">
-                                    <button type="submit" class="btn-add-to-cart"> Thêm vào giỏ hàng</button>
-                                    <button type="button" class="btn-buy-now" onclick="buyNow()"> Mua ngay</button>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn-out-of-stock" disabled>Hết hàng</button>
-                                </c:otherwise>
-                            </c:choose>
+                            <c:if test="${product.stockQuantity > 0}">
+                                <button type="submit" class="btn-add-to-cart">Thêm vào giỏ</button>
+                                <button type="button" class="btn-buy-now" onclick="buyNow()">Mua ngay</button>
+                            </c:if>
+                            <c:if test="${product.stockQuantity <= 0}"><button type="button" class="btn-out-of-stock" disabled>Hết hàng</button></c:if>
                         </div>
                     </form>
-
-                    <div class="additional-info">
-                        <div class="info-item"><span class="info-icon">🚚</span> Miễn phí vận chuyển cho đơn hàng từ 300.000đ</div>
-                        <div class="info-item"><span class="info-icon">↩️</span> Đổi trả trong vòng 7 ngày</div>
-                        <div class="info-item"><span class="info-icon">✓</span> Cam kết hàng chính hãng 100%</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -116,124 +98,173 @@
         <div class="container">
             <div class="tabs-container">
                 <div class="tab-headers">
-                    <button class="tab-header active" onclick="switchTab('description')">Mô tả sản phẩm</button>
+                    <button class="tab-header active" onclick="switchTab('description')">Mô tả</button>
                     <button class="tab-header" onclick="switchTab('reviews')">Đánh giá (${reviewCount})</button>
-                    <button class="tab-header" onclick="switchTab('specifications')">Thông tin chi tiết</button>
+                    <button class="tab-header" onclick="switchTab('specifications')">Thông số</button>
                 </div>
-
+<%--Mô tả sản phẩm, đánh giá và thông số kỹ thuật--%>
                 <div class="tab-contents">
                     <div id="description" class="tab-content active">
-                        <h3>Mô tả sản phẩm</h3>
-                        <div class="description-content">
-                            <p>${not empty product.description ? product.description : 'Chưa có mô tả chi tiết cho sản phẩm này.'}</p>
-                        </div>
+                        <div class="description-content"><p>${not empty product.description ? product.description : 'Đang cập nhật...'}</p></div>
                     </div>
 
                     <div id="reviews" class="tab-content">
-                        <h3>Đánh giá sản phẩm</h3>
-                        <c:choose>
-                            <c:when test="${not empty reviews && reviews.size() > 0}">
-                                <div class="rating-summary">
-                                    <div class="rating-avg">
-                                        <span class="avg-number"><fmt:formatNumber value="${averageRating}" pattern="#.#"/></span>
-                                        <div class="stars-large">
-                                            <c:forEach begin="1" end="5" var="i">
-                                                ${i <= averageRating ? '★' : '☆'}
-                                            </c:forEach>
-                                        </div>
-                                        <span class="review-count-text">${reviewCount} đánh giá</span>
+                        <div class="review-summary-section">
+                            <div class="review-stats-left">
+                                <div class="overall-rating">
+                                    <div class="rating-number"><fmt:formatNumber value="${averageRating}" pattern="#.#"/></div>
+                                    <div class="rating-stars-display">
+                                        <c:forEach begin="1" end="5" var="i"><span style="color:${i<=averageRating?'#fbbf24':'#d1d5db'}">★</span></c:forEach>
                                     </div>
+                                    <div class="rating-count">${reviewCount} đánh giá</div>
                                 </div>
-                                <div class="reviews-list">
-                                    <c:forEach var="review" items="${reviews}">
-                                        <div class="review-item">
-                                            <div class="review-header">
-                                                <span class="reviewer-name">Khách hàng #${review.customerId}</span>
-                                                <span class="review-date"><fmt:formatDate value="${review.createdAt}" pattern="dd/MM/yyyy HH:mm"/></span>
-                                            </div>
-                                            <div class="review-rating">
-                                                <c:forEach begin="1" end="5" var="i">
-                                                    ${i <= review.rating ? '★' : '☆'}
-                                                </c:forEach>
-                                            </div>
-                                            <div class="review-comment">${review.comment}</div>
+                                <div class="rating-breakdown">
+                                    <c:forEach begin="1" end="5" var="idx">
+                                        <c:set var="star" value="${6 - idx}"/>
+                                        <c:set var="count" value="0"/>
+                                        <c:forEach var="entry" items="${ratingDistribution}">
+                                            <c:if test="${entry.key == star}"><c:set var="count" value="${entry.value}"/></c:if>
+                                        </c:forEach>
+                                        <c:set var="percent" value="${reviewCount > 0 ? (count * 100 / reviewCount) : 0}"/>
+
+                                        <div class="rating-bar-item">
+                                            <span class="rating-label">${star} ★</span>
+                                            <div class="rating-bar-container"><div class="rating-bar-fill" style="width: ${percent}%"></div></div>
+                                            <span class="rating-bar-count">${count}</span>
                                         </div>
                                     </c:forEach>
                                 </div>
+                            </div>
+                            <div class="review-action-right">
+                                <p class="review-prompt-text">Nhấn vào ngôi sao để đánh giá ngay!</p>
+                                <div class="rating-stars-interactive">
+                                    <c:forEach begin="1" end="5" var="i"><button class="star-btn" onclick="openReviewPopup(${i})">★</button></c:forEach>
+                                </div>
+                                <div class="cta-text">Trước khi đánh giá thấp hãy liên hệ cho chúng tôi để xử lý vấn đề!</div>
+                            </div>
+                        </div>
+<%--Danh sách đánh giá--%>
+                        <div class="reviews-list">
+                            <c:if test="${empty reviews}"><div class="no-reviews"><p>Chưa có đánh giá nào.</p></div></c:if>
+                            <c:forEach var="review" items="${reviews}">
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">${not empty review.customerName ? review.customerName : 'Khách hàng'}</span>
+                                        <span class="review-date"><fmt:formatDate value="${review.createdAt}" pattern="dd/MM/yyyy"/></span>
+                                    </div>
+                                    <div class="review-rating" style="color: #fbbf24">
+                                        <c:forEach begin="1" end="5" var="i">${i <= review.rating ? '★' : '☆'}</c:forEach>
+                                    </div>
+                                    <div class="review-comment">${review.comment}</div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+<%--Thông số sản phẩm--%>
+                    <div id="specifications" class="tab-content">
+                        <table class="specifications-table">
+                            <tr><td>Tên SP</td><td>${product.productName}</td></tr>
+                            <c:if test="${not empty product.categoryName}"><tr><td>Danh mục</td><td>${product.categoryName}</td></tr></c:if>
+                            <c:if test="${not empty product.brandName}"><tr><td>Thương hiệu</td><td>${product.brandName}</td></tr></c:if>
+                            <tr><td>Xuất xứ </td><td>Việt Nam</td></tr>
+                            <tr><td>Bảo hành </td>
+                                <td>
+                                    <c:choose>
+                                    <%-- Nếu là balo va căpj thi bảo hành 1 tháng --%>
+                                    <c:when test="${product.categoryName == 'Balo & cặp'}">1 tháng
+                                    </c:when>
+                                        <%-- Nếu là máy tính thì bảo hành 12 tháng --%>
+                                            <c:when test="${product.categoryName == 'Máy tính' || product.categoryName == 'Đèn học'}">12 tháng
+                                            </c:when>
+                                        <%-- Còn lại không bảo hành --%>
+                                            <c:otherwise>Không bảo hành</c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<%--Sản phẩm liên quan--%>
+            <c:if test="${not empty relatedProducts}">
+                <section class="related-products-section">
+                    <div class="container">
+                        <h2 class="section-title">Sản phẩm liên quan</h2>
+                        <div class="products-grid">
+                            <c:forEach var="rp" items="${relatedProducts}">
+                                <a href="${pageContext.request.contextPath}/product-detail?id=${rp.id}" class="product-card">
+                                    <img src="${pageContext.request.contextPath}${rp.imageUrl}" class="product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                                    <div class="product-info">
+                                        <h3 class="product-name">${rp.productName}</h3>
+                                        <div class="product-price"><fmt:formatNumber value="${rp.salePrice > 0 ? rp.salePrice : rp.price}" pattern="#,###"/>đ</div>
+                                    </div>
+                                </a>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </section>
+            </c:if>
+<%--Popup đánh giá sản phẩm--%>
+            <div class="review-popup-overlay" id="reviewPopupOverlay">
+                <div class="review-popup">
+                    <div class="review-popup-header">
+                        <h3>Đánh giá sản phẩm</h3>
+                        <button class="close-popup-btn" onclick="closeReviewPopup()">×</button>
+                    </div>
+
+                    <div class="review-popup-body">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.customer}">
+                                <form id="reviewPopupForm" action="${pageContext.request.contextPath}/product-review" method="POST">
+                                    <input type="hidden" name="productId" value="${product.id}">
+
+                                    <div class="review-popup-product">
+                                        <img src="${pageContext.request.contextPath}${product.imageUrl}" class="popup-product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                                        <div><strong>${product.productName}</strong></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Đánh giá <span style="color:red">*</span></label>
+                                        <div class="popup-star-rating">
+                                            <div class="popup-stars">
+                                                <c:forEach begin="0" end="4" var="i">
+                                                    <c:set var="val" value="${5 - i}"/>
+                                                    <input type="radio" name="rating" id="st${val}" value="${val}" ${val==5?'required':''}>
+                                                    <label for="st${val}" title="${val} sao">★</label>
+                                                </c:forEach>
+                                            </div>
+                                            <span class="rating-text-label">Chọn sao</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Nhận xét <span style="color:red">*</span></label>
+                                        <textarea name="comment" id="reviewComment" class="review-textarea" rows="4" placeholder="Nhập tối thiểu 10 ký tự..." required minlength="10"></textarea>
+                                        <div class="char-counter"><span id="charCounter">0</span>/500</div>
+                                    </div>
+
+                                    <div class="review-popup-footer">
+                                        <button type="button" class="btn-cancel" onclick="closeReviewPopup()">Hủy</button>
+                                        <button type="submit" class="btn-submit-review">Gửi đánh giá</button>
+                                    </div>
+                                </form>
                             </c:when>
                             <c:otherwise>
-                                <div class="no-reviews">
-                                    <p>Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên đánh giá!</p>
+                                <div class="alert alert-error">Bạn cần đăng nhập để đánh giá.</div>
+                                <div style="text-align: center;">
+                                    <a href="${pageContext.request.contextPath}/login?redirect=${pageContext.request.contextPath}/product-detail?id=${product.id}" class="btn-submit-review" style="text-decoration:none">Đăng nhập ngay</a>
                                 </div>
                             </c:otherwise>
                         </c:choose>
                     </div>
-
-                    <div id="specifications" class="tab-content">
-                        <h3>Thông tin chi tiết</h3>
-                        <table class="specifications-table">
-                            <tr><td class="spec-label">Tên sản phẩm</td><td class="spec-value">${product.productName}</td></tr>
-                            <c:if test="${not empty product.brandName}">
-                                <tr><td class="spec-label">Thương hiệu</td><td class="spec-value">${product.brandName}</td></tr>
-                            </c:if>
-                            <c:if test="${not empty product.categoryName}">
-                                <tr><td class="spec-label">Danh mục</td><td class="spec-value">${product.categoryName}</td></tr>
-                            </c:if>
-                            <tr>
-                                <td class="spec-label">Giá</td>
-                                <td class="spec-value">
-                                    <fmt:formatNumber value="${not empty product.salePrice && product.salePrice > 0 ? product.salePrice : product.price}" pattern="#,###"/>đ
-                                    <c:if test="${not empty product.salePrice && product.salePrice > 0}">
-                                        <span style="text-decoration:line-through;color:#999;margin-left:10px;"><fmt:formatNumber value="${product.price}" pattern="#,###"/>đ</span>
-                                    </c:if>
-                                </td>
-                            </tr>
-                            <tr><td class="spec-label">Tình trạng</td><td class="spec-value">${product.stockQuantity > 0 ? 'Còn hàng ('.concat(product.stockQuantity).concat(' sản phẩm)') : 'Tạm hết hàng'}</td></tr>
-                            <tr><td class="spec-label">Đã bán</td><td class="spec-value"><fmt:formatNumber value="${product.soldCount}" pattern="#,###"/> sản phẩm</td></tr>
-                        </table>
-                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </main>
 
-    <c:if test="${not empty relatedProducts && relatedProducts.size() > 0}">
-        <section class="related-products-section">
-            <div class="container">
-                <h2 class="section-title">Sản phẩm liên quan</h2>
-                <div class="products-grid">
-                    <c:forEach var="rp" items="${relatedProducts}">
-                        <a href="${pageContext.request.contextPath}/product-detail?id=${rp.id}" class="product-card">
-                            <img src="${pageContext.request.contextPath}${rp.imageUrl}" alt="${rp.productName}" class="product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
-                            <div class="product-info">
-                                <h3 class="product-name">${rp.productName}</h3>
-                                <c:if test="${not empty rp.brandName}">
-                                    <p class="product-brand">${rp.brandName}</p>
-                                </c:if>
-                                <div>
-                                    <span class="product-price"><fmt:formatNumber value="${not empty rp.salePrice && rp.salePrice > 0 ? rp.salePrice : rp.price}" pattern="#,###"/>đ</span>
-                                    <c:if test="${not empty rp.salePrice && rp.salePrice > 0}">
-                                        <span class="product-price-old"><fmt:formatNumber value="${rp.price}" pattern="#,###"/>đ</span>
-                                    </c:if>
-                                </div>
-                                <div class="product-rating">
-                                    <span class="stars">
-                                        <c:forEach begin="1" end="5" var="i">
-                                            ${i <= rp.averageRating ? '★' : '☆'}
-                                        </c:forEach>
-                                    </span>
-                                    <span>(<fmt:formatNumber value="${rp.averageRating}" pattern="#.#"/>)</span>
-                                </div>
-                            </div>
-                        </a>
-                    </c:forEach>
-                </div>
-            </div>
-        </section>
-    </c:if>
-</main>
-
-<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
-<script src="${pageContext.request.contextPath}/assets/js/product-detail.js"></script>
-</body>
-</html>
+        <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+        <script src="${pageContext.request.contextPath}/assets/js/product-detail.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/product-review-popup.js"></script>
+        </body>
+        </html>

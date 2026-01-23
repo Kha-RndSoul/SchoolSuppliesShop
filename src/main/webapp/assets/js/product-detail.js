@@ -151,7 +151,6 @@ function buyNow() {
 // Hệ thống thông báo
 function showNotification(message, type = 'success') {
     let notification = document.getElementById('cart-notification');
-
     if (!notification) {
 
         notification = document.createElement('div');

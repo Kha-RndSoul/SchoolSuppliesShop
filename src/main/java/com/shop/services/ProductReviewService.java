@@ -15,10 +15,7 @@ public class ProductReviewService {
     public List<ProductReview> getAllReviews() {
         return productReviewDAO.getList();
     }
-// Lấy tất cả đánh giá đã duyệt
-    public List<ProductReview> getApprovedReviews() {
-        return productReviewDAO.getApproved();
-    }
+
 // Lấy đánh giá theo Product ID
     public List<ProductReview> getReviewsByProductId(int productId) {
         if (productId <= 0) throw new IllegalArgumentException("Product ID không hợp lệ");
