@@ -10,6 +10,7 @@ public class ProductReview {
     private String comment;
     private boolean status;
     private Timestamp createdAt;
+    private String customerName;
 
     // Constructor rỗng
     public ProductReview() {
@@ -38,8 +39,6 @@ public class ProductReview {
     }
 
     // Getters and Setters
-
-
     public int getId() {
         return id;
     }
@@ -96,6 +95,14 @@ public class ProductReview {
         this.createdAt = createdAt;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     @Override
     public String toString() {
         return "ProductReview{" +
@@ -106,6 +113,7 @@ public class ProductReview {
                 ", comment='" + comment + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
+                ", customerName='" + customerName + '\'' +
                 '}';
     }
 }
