@@ -1,4 +1,3 @@
-
 let currentImageIndex = 0;
 let productImages = [];
 let isSubmitting = false;
@@ -112,14 +111,42 @@ function buyNow() {
     if (!form) return;
 
     const actionUrl = form.getAttribute('action');
-    const formData = new FormData();
-    formData.append('action', 'add');
-    formData.append('productId', form.querySelector('input[name="productId"]').value);
-    formData.append('quantity', form.querySelector('input[name="quantity"]').value);
-// Gửi yêu cầu mua ngay
-    fetch(actionUrl, { method: 'POST', body: formData })
-        .then(res => res.ok ? window.location.href = actionUrl.replace('?', '') : showNotification('Có lỗi xảy ra', 'error'))
-        .catch(() => showNotification('Có lỗi xảy ra', 'error'));
+    // Chuyển sang URL-encoded để server trả JSON branch cho AJAX
+    const params = new URLSearchParams();
+    params.set('action', 'add');
+    const pidInput = form.querySelector('input[name="productId"]');
+    const qtyInput = form.querySelector('input[name="quantity"]');
+    params.set('productId', pidInput ? pidInput.value : '');
+    params.set('quantity', qtyInput ? qtyInput.value : '1');
+
+    // Gửi yêu cầu mua ngay (AJAX)
+    fetch(actionUrl, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        },
+        body: params.toString()
+    })
+        .then(res => {
+            const ct = res.headers.get('Content-Type') || '';
+            return ct.includes('application/json') ? res.json() : res.text();
+        })
+        .then(data => {
+            // Nếu trả JSON {success:true} -> chuyển thẳng sang trang checkout hoặc cập nhật UI
+            if (typeof data === 'object' && data.success) {
+                // chuyển sang trang giỏ hàng/checkout ngay
+                window.location.href = actionUrl.replace('/cart', '/cart/checkout');
+            } else {
+                // fallback: chuyển về trang cart (server có thể trả HTML)
+                window.location.href = actionUrl;
+            }
+        })
+        .catch(() => {
+            showNotification('Có lỗi xảy ra', 'error');
+        });
 }
 // Hệ thống thông báo
 function showNotification(message, type = 'success') {
@@ -219,19 +246,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.textContent = 'Đang thêm...';
                 btn.disabled = true;
 
-                const formData = new FormData(form);
+                // Build URL-encoded body từ form để server trả JSON cho AJAX
+                const fd = new FormData(form);
+                const params = new URLSearchParams();
+                for (const [k, v] of fd.entries()) {
+                    params.append(k, v);
+                }
                 const actionUrl = form.getAttribute('action');
 
                 fetch(actionUrl, {
                     method: 'POST',
-                    body: formData,
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    body: params.toString()
                 })
                     .then(res => {
-                        if (res.ok) {
+                        const ct = res.headers.get('Content-Type') || '';
+                        if (ct.includes('application/json')) {
+                            return res.json();
+                        }
+                        return res.text().then(t => ({ html: t, ok: res.ok }));
+                    })
+                    .then(result => {
+                        // Nếu server trả JSON -> cập nhật UI theo JSON
+                        if (result && typeof result === 'object' && result.success) {
                             showNotification('✓ Đã thêm vào giỏ hàng thành công!', 'success');
-                            updateCartCount(val);
+                            // Nếu server trả cartCount, set trực tiếp; ngược lại fallback tăng theo val
+                            if (typeof result.cartCount !== 'undefined') {
+                                const badge = document.querySelector('.cart-badge');
+                                if (badge) badge.textContent = result.cartCount;
+                                else {
+                                    const cartButton = document.querySelector('.cart-button');
+                                    if (cartButton) {
+                                        const b = document.createElement('span');
+                                        b.className = 'cart-badge';
+                                        b.textContent = result.cartCount;
+                                        cartButton.appendChild(b);
+                                    }
+                                }
+                            } else {
+                                updateCartCount(val);
+                            }
                             input.value = 1;
+                        } else if (result && typeof result === 'object' && result.html) {
+                            // server trả HTML (redirect/forward) -> load trang cart
+                            window.location.href = actionUrl;
+                        } else if (typeof result === 'string') {
+                            // fallback - server trả HTML trực tiếp
+                            window.location.href = actionUrl;
                         } else {
                             showNotification('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
                         }
