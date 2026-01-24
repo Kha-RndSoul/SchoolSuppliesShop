@@ -259,13 +259,13 @@
             </div>
         </section>
 
-        <!-- PRODUCTS SECTION - CÓ AJAX PAGINATION -->
+        <!-- PRODUCTS SECTION-->
         <section id="products-section" class="admin-section">
             <div class="section-header">
                 <h2>Quản Lý Sản Phẩm</h2>
                 <div class="section-actions">
                     <button class="btn-add-new" id="toggleFormBtn" onclick="toggleProductForm()">
-                         Thêm Sản Phẩm
+                        Thêm Sản Phẩm
                     </button>
                 </div>
             </div>
@@ -273,9 +273,9 @@
             <!-- Toast Notification -->
             <div id="toast" class="toast"></div>
 
-            <!-- Product Form (giữ nguyên) -->
+            <!-- Product Form  -->
             <div class="product-form-container" id="productFormContainer">
-                <h3>📦 Thêm Sản Phẩm Mới</h3>
+                <h3> Thêm Sản Phẩm Mới</h3>
                 <form class="product-form" id="productForm">
                     <input type="hidden" name="action" value="add">
 
@@ -372,19 +372,19 @@
                     <!-- Form Actions -->
                     <div class="form-actions">
                         <button type="submit" class="btn-primary" id="submitBtn">
-                             Lưu Sản Phẩm
+                            Lưu Sản Phẩm
                         </button>
                         <button type="button" class="btn-reset" onclick="resetForm()">
-                             Nhập Lại
+                            Nhập Lại
                         </button>
                         <button type="button" class="btn-secondary" onclick="toggleProductForm()">
-                             Hủy
+                            Hủy
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!--  PRODUCTS TABLE - SẼ ĐƯỢC LOAD BẰNG AJAX -->
+            <!--  PRODUCTS TABLE  -->
             <div class="dashboard-widget">
                 <div class="widget-header">
                     <h3 class="widget-title">Danh Sách Sản Phẩm</h3>
@@ -394,7 +394,7 @@
                         <input type="text"
                                id="productSearchInput"
                                class="search-input"
-                               placeholder="🔍 Tìm theo ID hoặc tên sản phẩm..."
+                               placeholder=" Tìm theo ID hoặc tên sản phẩm..."
                                onkeyup="searchProducts()">
                         <button class="search-clear-btn"
                                 id="searchClearBtn"
@@ -422,7 +422,7 @@
                         <%-- Products will be loaded by AJAX --%>
                         <tr>
                             <td colspan="7" style="text-align: center; padding: 3rem;">
-                                <div style="font-size: 2rem;">⏳</div>
+                                <div style="font-size: 2rem;"></div>
                                 <div style="margin-top: 1rem; color: #6b7280;">Click vào "Sản phẩm" để tải dữ liệu...</div>
                             </td>
                         </tr>
@@ -435,7 +435,7 @@
             </div>
         </section>
 
-        <!-- OTHER SECTIONS (Placeholder) -->
+        <!-- OTHER SECTIONS ( -->
         <section id="orders-section" class="admin-section">
             <div class="section-header">
                 <h2>Quản lý đơn hàng</h2>
@@ -486,46 +486,121 @@
 
         <section id="settings-section" class="admin-section">
             <div class="section-header">
-                <h2>Cài đặt</h2>
+                <h2>Cấu hình banner</h2>
             </div>
-            <h3>Cài đặt thông tin admin</h3>
-            <div class="banner-config">
+
+            <div class="banner-config" style="margin-top: 20px;">
                 <div class="dashboard-widget">
                     <div class="widget-header">
-                        <h3 class="widget-title">Cấu hình Banner</h3>
+                        <h3 class="widget-title">Quản lý Banner Trang chủ</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="admin-table banner-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th style="width: 50px;">ID</th>
+                                <th style="width: 150px;">Hình ảnh</th>
                                 <th>Tiêu đề</th>
-                                <th>Hiển thị</th>
+                                <th style="width: 150px;">Trạng thái</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr class="banner-row" data-id="1">
-                                <td>#1</td>
-                                <td>Khuyến mãi 1</td>
-                                <td>
-                                    <label class="switch">
-                                        <input type="checkbox" class="banner-switch" data-id="1">
-                                        <span class="slider"></span>
-                                    </label>
-                                </td>
-                            </tr>
+                            <tbody id="bannerTableBody">
+                            <c:choose>
+                                <c:when test="${not empty listBanners}">
+                                    <c:forEach var="b" items="${listBanners}">
+                                        <tr>
+                                            <td>#${b.id}</td>
+                                            <td>
+                                                <img src="${pageContext.request.contextPath}${b.imageUrl}"
+                                                     alt="Banner"
+                                                     style="height: 60px; width: 100px; border-radius: 4px; object-fit: cover; border: 1px solid #ddd;">
+                                            </td>
+                                            <td>
+                                                <strong>${b.title}</strong>
+                                            </td>
+                                            <td>
+                                                <div style="display: flex; align-items: center; gap: 10px;">
+                                                    <label class="switch">
+                                                        <input type="checkbox"
+                                                               id="switch_${b.id}"
+                                                            ${b.status ? 'checked' : ''}
+                                                               onchange="toggleBannerStatus(${b.id}, this)">
+                                                        <span class="slider round"></span>
+                                                    </label>
+
+                                                    <span id="status_text_${b.id}" style="font-size: 0.9em; font-weight: 500;">
+                                                            ${b.status ? '<span style="color: #28a745;">Hiển thị</span>' : '<span style="color: #6c757d;">Đang ẩn</span>'}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; padding: 20px;">Không có banner nào</td>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
         </section>
     </main>
 </div>
 
 <%-- INCLUDE FOOTER CHUNG --%>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>
-
 <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
+<script>
+    // Hàm xử lý bật tắt banner
+    function toggleBannerStatus(bannerId, checkbox) {
+        // 1. Lấy trạng thái mới (Checked = true, Unchecked = false)
+        const newStatus = checkbox.checked;
+        const statusTextSpan = document.getElementById('status_text_' + bannerId);
+        // 2. Cập nhật giao diện ngay lập tức
+        if (newStatus) {
+            statusTextSpan.innerHTML = '<span style="color: #28a745;">Đang xử lý...</span>';
+        } else {
+            statusTextSpan.innerHTML = '<span style="color: #6c757d;">Đang xử lý...</span>';
+        }
+        // 3. Gửi dữ liệu về Server
+        fetch('${pageContext.request.contextPath}/admin/api/banner/status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: 'id=' + bannerId + '&status=' + newStatus
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Thành công
+                    console.log('Update banner #' + bannerId + ' success');
+                    if (newStatus) {
+                        statusTextSpan.innerHTML = '<span style="color: #28a745;">Hiển thị</span>';
+                    } else {
+                        statusTextSpan.innerHTML = '<span style="color: #6c757d;">Đang ẩn</span>';
+                    }
+                } else {
+                    throw new Error('Server error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Lỗi: Không thể cập nhật trạng thái. Vui lòng thử lại!');
+                // Hoàn tác lại nút bấm nếu lỗi
+                checkbox.checked = !newStatus;
+                if (!newStatus) {
+                    statusTextSpan.innerHTML = '<span style="color: #6c757d;">Đang ẩn</span>';
+                } else {
+                    statusTextSpan.innerHTML = '<span style="color: #28a745;">Hiển thị</span>';
+                }
+            });
+    }
+
+</script>
 </body>
 </html>

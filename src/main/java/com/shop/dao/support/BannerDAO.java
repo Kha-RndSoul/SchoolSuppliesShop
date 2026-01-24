@@ -1,36 +1,26 @@
 package com.shop.dao.support;
 
 import com.shop.model.Banner;
-import org.jdbi.v3.core.statement.PreparedBatch;
-
-import java.util.*;
-
+import java.util.List;
 public class BannerDAO extends BaseDao {
 
-    static Map<Integer, Banner> data = new HashMap<>();
-    static {
-        data.put(1, new Banner(1, "Khuyến mãi mùa hè", "/images/banners/summer-sale.jpg", true));
-        data.put(2, new Banner(2, "Giảm giá 50% toàn bộ balo", "/images/banners/balo-sale.jpg", true));
-        data.put(3, new Banner(3, "Vở mới về - Giá tốt", "/images/banners/notebook-promo.jpg", true));
-        data.put(4, new Banner(4, "Back to School 2024", "/images/banners/back-to-school.jpg", false));
-    }
-
-    public List<Banner> getListBanner() {
-        return new ArrayList<>(data.values());
-    }
-
-    public Banner getBanner(int id) {
-        return data.get(id);
-    }
-
-    public List<Banner> getList() {
+    // 1. Lấy danh sách tất cả banner (Dùng cho Admin Dashboard)
+    public List<Banner> getAllBanners() {
         return get().withHandle(h ->
-                h.createQuery("SELECT id, title, image_url, status FROM banners")
+                h.createQuery("SELECT id, title, image_url, status FROM banners ORDER BY id DESC")
                         .mapToBean(Banner.class)
                         .list()
         );
     }
-
+    // 2. Lấy danh sách banner đang bật (status = 1) (Dùng cho trang chủ Index.jsp)
+    public List<Banner> getActiveBanners() {
+        return get().withHandle(h ->
+                h.createQuery("SELECT id, title, image_url, status FROM banners WHERE status = 1 ORDER BY id DESC")
+                        .mapToBean(Banner.class)
+                        .list()
+        );
+    }
+    // 3. Lấy chi tiết 1 banner
     public Banner getBannerById(int id) {
         return get().withHandle(h ->
                 h.createQuery("SELECT id, title, image_url, status FROM banners WHERE id = :id")
@@ -40,58 +30,44 @@ public class BannerDAO extends BaseDao {
                         .orElse(null)
         );
     }
-
-    public List<Banner> getActive() {
-        return get().withHandle(h ->
-                h.createQuery("SELECT id, title, image_url, status FROM banners WHERE status = 1")
-                        .mapToBean(Banner.class)
-                        .list()
+    // 4. Thêm mới banner
+    public boolean insertBanner(Banner banner) {
+        int rows = get().withHandle(h ->
+                h.createUpdate("INSERT INTO banners (title, image_url, status) VALUES (:title, :imageUrl, :status)")
+                        .bindBean(banner)
+                        .execute()
         );
+        return rows > 0;
     }
-
-    public void insert(List<Banner> banners) {
-        get().useHandle(h -> {
-            PreparedBatch batch = h.prepareBatch(
-                    "INSERT INTO banners (id, title, image_url, status) VALUES (:id, :title, :imageUrl, :status)"
-            );
-            banners.forEach(b -> batch.bindBean(b).add());
-            batch.execute();
-        });
+    // 5. Cập nhật thông tin banner
+    public boolean updateBanner(Banner banner) {
+        int rows = get().withHandle(h ->
+                h.createUpdate("UPDATE banners SET title = :title, image_url = :imageUrl, status = :status WHERE id = :id")
+                        .bindBean(banner)
+                        .execute()
+        );
+        return rows > 0;
     }
-
-    public void insertBanner(Banner banner) {
-        get().useHandle(h -> {
-            h.createUpdate("INSERT INTO banners (title, image_url, status) VALUES (:title, :imageUrl, : status)")
-                    .bindBean(banner)
-                    .execute();
-        });
+    // 6. Cập nhật trạng thái ON/OFF
+    public boolean updateStatus(int id, boolean status) {
+        int rows = get().withHandle(h ->
+                h.createUpdate("UPDATE banners SET status = :status WHERE id = :id")
+                        .bind("id", id)
+                        .bind("status", status)
+                        .execute()
+        );
+        return rows > 0; // Trả về true nếu có dòng được update
     }
-
-    public void updateBanner(Banner banner) {
-        get().useHandle(h -> {
-            h.createUpdate("UPDATE banners SET title = :title, image_url = : imageUrl, status = :status WHERE id = :id")
-                    .bindBean(banner)
-                    .execute();
-        });
+    // 7. Xóa banner
+    public boolean deleteBanner(int id) {
+        int rows = get().withHandle(h ->
+                h.createUpdate("DELETE FROM banners WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        );
+        return rows > 0;
     }
-
-    public void toggleStatus(int id, boolean status) {
-        get().useHandle(h -> {
-            h.createUpdate("UPDATE banners SET status = :status WHERE id = :id")
-                    .bind("id", id)
-                    .bind("status", status)
-                    .execute();
-        });
-    }
-
-    public void deleteBanner(int id) {
-        get().useHandle(h -> {
-            h.createUpdate("DELETE FROM banners WHERE id = : id")
-                    .bind("id", id)
-                    .execute();
-        });
-    }
-
+    // 8. Đếm tổng số banner
     public int count() {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM banners")
@@ -100,20 +76,9 @@ public class BannerDAO extends BaseDao {
         );
     }
 
-    public int countActive() {
-        return get().withHandle(h ->
-                h.createQuery("SELECT COUNT(*) FROM banners WHERE status = 1")
-                        .mapTo(Integer.class)
-                        .one()
-        );
-    }
-
+    // Test nhanh (Optional)
     public static void main(String[] args) {
         BannerDAO dao = new BannerDAO();
-        List<Banner> banners = dao.getListBanner();
-        dao.insert(banners);
-        System.out.println(" Inserted " + banners.size() + " banners");
-
-        dao.getActive().forEach(System.out::println);
+        System.out.println("Danh sách banners: " + dao.getAllBanners().size());
     }
 }

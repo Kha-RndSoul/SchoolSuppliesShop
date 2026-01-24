@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,7 @@ public class ProductsApiServlet extends HttpServlet {
     public void init() throws ServletException {
         productDAO = new ProductDAO();
         gson = new Gson();
-        System.out.println("✅ ProductsApiServlet initialized");
+        System.out.println(" ProductsApiServlet initialized");
     }
 
     @Override
@@ -36,7 +35,6 @@ public class ProductsApiServlet extends HttpServlet {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         try {
             // Lấy tham số phân trang
             int page = 1;
@@ -63,7 +61,7 @@ public class ProductsApiServlet extends HttpServlet {
                 }
             }
 
-            System.out.println("📊 Loading products - Page: " + page + ", Size: " + pageSize);
+            System.out.println(" Loading products - Page: " + page + ", Size: " + pageSize);
 
             // Lấy tất cả sản phẩm
             List<Map<String, Object>> allProducts = productDAO.getListWithImage();
@@ -71,20 +69,17 @@ public class ProductsApiServlet extends HttpServlet {
             // Tính toán phân trang
             int totalItems = allProducts.size();
             int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
             // Đảm bảo page không vượt quá totalPages
             if (page > totalPages && totalPages > 0) {
                 page = totalPages;
             }
-
             int startIndex = (page - 1) * pageSize;
             int endIndex = Math.min(startIndex + pageSize, totalItems);
 
             // Lấy sản phẩm cho trang hiện tại
             List<Map<String, Object>> products = allProducts.subList(startIndex, endIndex);
 
-            System.out.println("✅ Products loaded: " + products.size() + "/" + totalItems);
-
+            System.out.println(" Products loaded: " + products.size() + "/" + totalItems);
             // Tạo response JSON
             Map<String, Object> result = new HashMap<>();
             result.put("success", true);
@@ -97,13 +92,12 @@ public class ProductsApiServlet extends HttpServlet {
                     "startIndex", startIndex + 1,
                     "endIndex", endIndex
             ));
-
             // Gửi response
             String json = gson.toJson(result);
             response.getWriter().write(json);
 
         } catch (Exception e) {
-            System.err.println("❌ Error in ProductsApiServlet: " + e.getMessage());
+            System.err.println(" Error in ProductsApiServlet: " + e.getMessage());
             e.printStackTrace();
 
             Map<String, Object> error = new HashMap<>();
@@ -118,7 +112,6 @@ public class ProductsApiServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // POST không được hỗ trợ cho API này
         response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         Map<String, Object> error = Map.of(
                 "success", false,
