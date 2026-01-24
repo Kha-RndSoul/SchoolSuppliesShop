@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -27,11 +28,11 @@
                     <p><strong>Địa chỉ:</strong> ${order.shippingAddress}</p>
                     <p><strong>Phương thức thanh toán:</strong>
                         <c:choose>
-                            <c:when test="${order.paymentMethod == 'cod'}">Thanh toán khi nhận hàng (COD)</c:when>
+                            <c:when test="${fn:toLowerCase(order.paymentMethod) == 'cod'}">Thanh toán khi nhận hàng (COD)</c:when>
                             <c:otherwise>Chuyển khoản / Online</c:otherwise>
                         </c:choose>
                     </p>
-                    <p><strong>Trạng thái:</strong> ${order.orderStatus}</p>
+                    <p><strong>Trạng thái đơn:</strong> ${order.orderStatus}</p>
                     <p class="total"><strong>Tổng tiền:</strong>
                         <fmt:formatNumber value="${order.totalAmount}" type="number" groupingUsed="true"/>₫
                     </p>
