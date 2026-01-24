@@ -65,9 +65,16 @@
                     </div>
 
                     <div class="stock-section">
-                        <span class="${product.stockQuantity > 0 ? 'stock-available' : 'stock-out'}">
-                            ${product.stockQuantity > 0 ? 'Còn hàng' : 'Hết hàng'}
-                        </span>
+    <span class="${product.stockQuantity > 0 ? 'stock-available' : 'stock-out'}">
+        <c:choose>
+            <c:when test="${product.stockQuantity > 0}">
+                Còn hàng (${product.stockQuantity})
+            </c:when>
+            <c:otherwise>
+                Hết hàng
+            </c:otherwise>
+        </c:choose>
+    </span>
                     </div>
 
                     <form action="${pageContext.request.contextPath}/cart" method="POST" class="add-to-cart-form">

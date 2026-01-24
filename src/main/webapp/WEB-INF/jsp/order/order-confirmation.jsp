@@ -9,10 +9,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Xác nhận đơn hàng</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-common.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order-confirmation.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-order-confirmation.css">
 </head>
 <body>
-
 <!--Header -->
 <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 
@@ -20,7 +19,10 @@
     <c:choose>
         <c:when test="${not empty order}">
             <div id="root" class="card">
-                <h2>🎉 Đặt hàng thành công!</h2>
+                <div class="success-icon" style="font-size: 60px; color: #10b981; margin-bottom: 20px;">
+                    <i class="fas fa-check-circle"></i> <span style="display:block;"></span>
+                </div>
+                <h2 style="margin-top:0;">Đặt hàng thành công!</h2>
                 <div class="order-info">
                     <p><strong>Mã đơn hàng:</strong> ${order.orderCode}</p>
                     <p><strong>Người nhận:</strong> ${order.shippingName}</p>
