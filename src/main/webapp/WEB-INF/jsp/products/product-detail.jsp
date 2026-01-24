@@ -13,6 +13,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
+
 <main class="product-detail-container">
     <div class="container">
         <nav class="breadcrumb">
@@ -70,8 +71,10 @@
                     </div>
 
                     <form action="${pageContext.request.contextPath}/cart" method="POST" class="add-to-cart-form">
+
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="productId" value="${product.id}">
+
                         <div class="quantity-section">
                             <label>Số lượng:</label>
                             <div class="quantity-controls">
@@ -80,12 +83,17 @@
                                 <button type="button" class="qty-btn" onclick="increaseQuantity(${product.stockQuantity})">+</button>
                             </div>
                         </div>
+
                         <div class="action-buttons">
                             <c:if test="${product.stockQuantity > 0}">
                                 <button type="submit" class="btn-add-to-cart">Thêm vào giỏ</button>
-                                <button type="button" class="btn-buy-now" onclick="buyNow()">Mua ngay</button>
+
+                                <button type="button" class="btn-buy-now" onclick="handleBuyNow()">Mua ngay</button>
                             </c:if>
-                            <c:if test="${product.stockQuantity <= 0}"><button type="button" class="btn-out-of-stock" disabled>Hết hàng</button></c:if>
+
+                            <c:if test="${product.stockQuantity <= 0}">
+                                <button type="button" class="btn-out-of-stock" disabled>Hết hàng</button>
+                            </c:if>
                         </div>
                     </form>
                 </div>
@@ -101,7 +109,7 @@
                     <button class="tab-header" onclick="switchTab('reviews')">Đánh giá (${reviewCount})</button>
                     <button class="tab-header" onclick="switchTab('specifications')">Thông số</button>
                 </div>
-<%--Mô tả sản phẩm, đánh giá và thông số kỹ thuật--%>
+
                 <div class="tab-contents">
                     <div id="description" class="tab-content active">
                         <div class="description-content"><p>${not empty product.description ? product.description : 'Đang cập nhật...'}</p></div>
@@ -142,7 +150,7 @@
                                 <div class="cta-text">Trước khi đánh giá thấp hãy liên hệ cho chúng tôi để xử lý vấn đề!</div>
                             </div>
                         </div>
-<%--Danh sách đánh giá--%>
+
                         <div class="reviews-list">
                             <c:if test="${empty reviews}"><div class="no-reviews"><p>Chưa có đánh giá nào.</p></div></c:if>
                             <c:forEach var="review" items="${reviews}">
@@ -159,7 +167,7 @@
                             </c:forEach>
                         </div>
                     </div>
-<%--Thông số sản phẩm--%>
+
                     <div id="specifications" class="tab-content">
                         <table class="specifications-table">
                             <tr><td>Tên SP</td><td>${product.productName}</td></tr>
@@ -169,101 +177,112 @@
                             <tr><td>Bảo hành </td>
                                 <td>
                                     <c:choose>
-                                    <%-- Nếu là balo va căpj thi bảo hành 1 tháng --%>
-                                    <c:when test="${product.categoryName == 'Balo & cặp'}">1 tháng
-                                    </c:when>
-                                        <%-- Nếu là máy tính thì bảo hành 12 tháng --%>
-                                            <c:when test="${product.categoryName == 'Máy tính' || product.categoryName == 'Đèn học'}">12 tháng
-                                            </c:when>
-                                        <%-- Còn lại không bảo hành --%>
-                                            <c:otherwise>Không bảo hành</c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-<%--Sản phẩm liên quan--%>
-            <c:if test="${not empty relatedProducts}">
-                <section class="related-products-section">
-                    <div class="container">
-                        <h2 class="section-title">Sản phẩm liên quan</h2>
-                        <div class="products-grid">
-                            <c:forEach var="rp" items="${relatedProducts}">
-                                <a href="${pageContext.request.contextPath}/product-detail?id=${rp.id}" class="product-card">
-                                    <img src="${pageContext.request.contextPath}${rp.imageUrl}" class="product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
-                                    <div class="product-info">
-                                        <h3 class="product-name">${rp.productName}</h3>
-                                        <div class="product-price"><fmt:formatNumber value="${rp.salePrice > 0 ? rp.salePrice : rp.price}" pattern="#,###"/>đ</div>
-                                    </div>
-                                </a>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </section>
-            </c:if>
-<%--Popup đánh giá sản phẩm--%>
-            <div class="review-popup-overlay" id="reviewPopupOverlay">
-                <div class="review-popup">
-                    <div class="review-popup-header">
-                        <h3>Đánh giá sản phẩm</h3>
-                        <button class="close-popup-btn" onclick="closeReviewPopup()">×</button>
-                    </div>
-
-                    <div class="review-popup-body">
-                        <c:choose>
-                            <c:when test="${not empty sessionScope.customer}">
-                                <form id="reviewPopupForm" action="${pageContext.request.contextPath}/product-review" method="POST">
-                                    <input type="hidden" name="productId" value="${product.id}">
-
-                                    <div class="review-popup-product">
-                                        <img src="${pageContext.request.contextPath}${product.imageUrl}" class="popup-product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
-                                        <div><strong>${product.productName}</strong></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Đánh giá <span style="color:red">*</span></label>
-                                        <div class="popup-star-rating">
-                                            <div class="popup-stars">
-                                                <c:forEach begin="0" end="4" var="i">
-                                                    <c:set var="val" value="${5 - i}"/>
-                                                    <input type="radio" name="rating" id="st${val}" value="${val}" ${val==5?'required':''}>
-                                                    <label for="st${val}" title="${val} sao">★</label>
-                                                </c:forEach>
-                                            </div>
-                                            <span class="rating-text-label">Chọn sao</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Nhận xét <span style="color:red">*</span></label>
-                                        <textarea name="comment" id="reviewComment" class="review-textarea" rows="4" placeholder="Nhập tối thiểu 10 ký tự..." required minlength="10"></textarea>
-                                        <div class="char-counter"><span id="charCounter">0</span>/500</div>
-                                    </div>
-
-                                    <div class="review-popup-footer">
-                                        <button type="button" class="btn-cancel" onclick="closeReviewPopup()">Hủy</button>
-                                        <button type="submit" class="btn-submit-review">Gửi đánh giá</button>
-                                    </div>
-                                </form>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="alert alert-error">Bạn cần đăng nhập để đánh giá.</div>
-                                <div style="text-align: center;">
-                                    <a href="${pageContext.request.contextPath}/login?redirect=${pageContext.request.contextPath}/product-detail?id=${product.id}" class="btn-submit-review" style="text-decoration:none">Đăng nhập ngay</a>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
+                                        <c:when test="${product.categoryName == 'Balo & cặp'}">1 tháng</c:when>
+                                        <c:when test="${product.categoryName == 'Máy tính' || product.categoryName == 'Đèn học'}">12 tháng</c:when>
+                                        <c:otherwise>Không bảo hành</c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </section>
 
-        <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
-        <script src="${pageContext.request.contextPath}/assets/js/product-detail.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/product-review-popup.js"></script>
-        </body>
-        </html>
+    <c:if test="${not empty relatedProducts}">
+        <section class="related-products-section">
+            <div class="container">
+                <h2 class="section-title">Sản phẩm liên quan</h2>
+                <div class="products-grid">
+                    <c:forEach var="rp" items="${relatedProducts}">
+                        <a href="${pageContext.request.contextPath}/product-detail?id=${rp.id}" class="product-card">
+                            <img src="${pageContext.request.contextPath}${rp.imageUrl}" class="product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                            <div class="product-info">
+                                <h3 class="product-name">${rp.productName}</h3>
+                                <div class="product-price"><fmt:formatNumber value="${rp.salePrice > 0 ? rp.salePrice : rp.price}" pattern="#,###"/>đ</div>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </div>
+            </div>
+        </section>
+    </c:if>
+
+    <div class="review-popup-overlay" id="reviewPopupOverlay">
+        <div class="review-popup">
+            <div class="review-popup-header">
+                <h3>Đánh giá sản phẩm</h3>
+                <button class="close-popup-btn" onclick="closeReviewPopup()">×</button>
+            </div>
+
+            <div class="review-popup-body">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.customer}">
+                        <form id="reviewPopupForm" action="${pageContext.request.contextPath}/product-review" method="POST">
+                            <input type="hidden" name="productId" value="${product.id}">
+
+                            <div class="review-popup-product">
+                                <img src="${pageContext.request.contextPath}${product.imageUrl}" class="popup-product-image" onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                                <div><strong>${product.productName}</strong></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Đánh giá <span style="color:red">*</span></label>
+                                <div class="popup-star-rating">
+                                    <div class="popup-stars">
+                                        <c:forEach begin="0" end="4" var="i">
+                                            <c:set var="val" value="${5 - i}"/>
+                                            <input type="radio" name="rating" id="st${val}" value="${val}" ${val==5?'required':''}>
+                                            <label for="st${val}" title="${val} sao">★</label>
+                                        </c:forEach>
+                                    </div>
+                                    <span class="rating-text-label">Chọn sao</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nhận xét <span style="color:red">*</span></label>
+                                <textarea name="comment" id="reviewComment" class="review-textarea" rows="4" placeholder="Nhập tối thiểu 10 ký tự..." required minlength="10"></textarea>
+                                <div class="char-counter"><span id="charCounter">0</span>/500</div>
+                            </div>
+
+                            <div class="review-popup-footer">
+                                <button type="button" class="btn-cancel" onclick="closeReviewPopup()">Hủy</button>
+                                <button type="submit" class="btn-submit-review">Gửi đánh giá</button>
+                            </div>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="alert alert-error">Bạn cần đăng nhập để đánh giá.</div>
+                        <div style="text-align: center;">
+                            <a href="${pageContext.request.contextPath}/login?redirect=${pageContext.request.contextPath}/product-detail?id=${product.id}" class="btn-submit-review" style="text-decoration:none">Đăng nhập ngay</a>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </div>
+</main>
+
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/assets/js/product-detail.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/product-review-popup.js"></script>
+
+<script>
+    function handleBuyNow() {
+        const form = document.querySelector('.add-to-cart-form');
+
+        // Tạo input ẩn để báo hiệu đây là mua ngay
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'buyNow';
+        input.value = 'true';
+        form.appendChild(input);
+        form.submit();
+
+        setTimeout(() => form.removeChild(input), 500);
+    }
+</script>
+</body>
+</html>
