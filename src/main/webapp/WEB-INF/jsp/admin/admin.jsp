@@ -259,202 +259,181 @@
             </div>
         </section>
 
-        <!-- PRODUCTS SECTION -->
-            <section id="products-section" class="admin-section">
-                <div class="section-header">
-                    <h2>Quản Lý Sản Phẩm</h2>
-                    <div class="section-actions">
-                        <button class="btn-add-new" id="toggleFormBtn" onclick="toggleProductForm()">
-                             Thêm Sản Phẩm
+        <!-- PRODUCTS SECTION - CÓ AJAX PAGINATION -->
+        <section id="products-section" class="admin-section">
+            <div class="section-header">
+                <h2>Quản Lý Sản Phẩm</h2>
+                <div class="section-actions">
+                    <button class="btn-add-new" id="toggleFormBtn" onclick="toggleProductForm()">
+                         Thêm Sản Phẩm
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toast Notification -->
+            <div id="toast" class="toast"></div>
+
+            <!-- Product Form (giữ nguyên) -->
+            <div class="product-form-container" id="productFormContainer">
+                <h3>📦 Thêm Sản Phẩm Mới</h3>
+                <form class="product-form" id="productForm">
+                    <input type="hidden" name="action" value="add">
+
+                    <!-- Row 1: Tên sản phẩm & Danh mục -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tên sản phẩm *</label>
+                            <input type="text"
+                                   name="productName"
+                                   id="productName"
+                                   placeholder="VD: Bút bi Thiên Long TL-027"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Danh mục *</label>
+                            <select name="categoryId" id="categoryId" required>
+                                <option value="">-- Chọn danh mục --</option>
+                                <c:forEach var="category" items="${allCategories}">
+                                    <option value="${category.id}">${category.categoryName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Thương hiệu & Giá bán -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Thương hiệu *</label>
+                            <select name="brandId" id="brandId" required>
+                                <option value="">-- Chọn thương hiệu --</option>
+                                <c:forEach var="brand" items="${allBrands}">
+                                    <option value="${brand.id}">${brand.brandName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Giá bán (đ) *</label>
+                            <input type="number"
+                                   name="price"
+                                   id="price"
+                                   placeholder="VD: 25000"
+                                   min="0"
+                                   step="1000"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Giá khuyến mãi & Tồn kho -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Giá khuyến mãi (đ)</label>
+                            <input type="number"
+                                   name="salePrice"
+                                   id="salePrice"
+                                   placeholder="VD: 20000 (để trống nếu không có)"
+                                   min="0"
+                                   step="1000">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số lượng tồn kho *</label>
+                            <input type="number"
+                                   name="stockQuantity"
+                                   id="stockQuantity"
+                                   placeholder="VD: 100"
+                                   min="0"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Mô tả sản phẩm -->
+                    <div class="form-group">
+                        <label>Mô tả sản phẩm</label>
+                        <textarea name="description"
+                                  id="description"
+                                  rows="4"
+                                  placeholder="Nhập mô tả chi tiết về sản phẩm..."></textarea>
+                    </div>
+
+                    <!-- Row 5: Upload hình ảnh -->
+                    <div class="form-group">
+                        <label>Hình ảnh sản phẩm</label>
+                        <input type="file"
+                               name="productImage"
+                               id="productImage"
+                               accept="image/*"
+                               onchange="previewImage(event)">
+                        <div id="imagePreview" class="image-preview"></div>
+                        <small style="color: #6b7280;">Chọn hình ảnh có kích thước tối đa 10MB</small>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                             Lưu Sản Phẩm
+                        </button>
+                        <button type="button" class="btn-reset" onclick="resetForm()">
+                             Nhập Lại
+                        </button>
+                        <button type="button" class="btn-secondary" onclick="toggleProductForm()">
+                             Hủy
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!--  PRODUCTS TABLE - SẼ ĐƯỢC LOAD BẰNG AJAX -->
+            <div class="dashboard-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">Danh Sách Sản Phẩm</h3>
+
+                    <!--  SEARCH BOX  -->
+                    <div class="product-search-box">
+                        <input type="text"
+                               id="productSearchInput"
+                               class="search-input"
+                               placeholder="🔍 Tìm theo ID hoặc tên sản phẩm..."
+                               onkeyup="searchProducts()">
+                        <button class="search-clear-btn"
+                                id="searchClearBtn"
+                                onclick="clearSearch()"
+                                style="display: none;">
+                            ✕
                         </button>
                     </div>
                 </div>
 
-                <!-- Toast Notification -->
-                <div id="toast" class="toast"></div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Danh Mục</th>
+                            <th>Thương Hiệu</th>
+                            <th>Giá Bán</th>
+                            <th>Tồn Kho</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+                        <%-- Products will be loaded by AJAX --%>
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 3rem;">
+                                <div style="font-size: 2rem;">⏳</div>
+                                <div style="margin-top: 1rem; color: #6b7280;">Click vào "Sản phẩm" để tải dữ liệu...</div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                <!-- Product Form -->
-                <div class="product-form-container" id="productFormContainer">
-                    <h3>📦 Thêm Sản Phẩm Mới</h3>
-                    <form class="product-form" id="productForm">
-                        <input type="hidden" name="action" value="add">
-
-                        <!-- Row 1: Tên sản phẩm & Danh mục -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Tên sản phẩm *</label>
-                                <input type="text"
-                                       name="productName"
-                                       id="productName"
-                                       placeholder="VD: Bút bi Thiên Long TL-027"
-                                       required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Danh mục *</label>
-                                <select name="categoryId" id="categoryId" required>
-                                    <option value="">-- Chọn danh mục --</option>
-                                    <c:forEach var="category" items="${allCategories}">
-                                        <option value="${category.id}">${category.categoryName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Row 2: Thương hiệu & Giá bán -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Thương hiệu *</label>
-                                <select name="brandId" id="brandId" required>
-                                    <option value="">-- Chọn thương hiệu --</option>
-                                    <c:forEach var="brand" items="${allBrands}">
-                                        <option value="${brand.id}">${brand.brandName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Giá bán (đ) *</label>
-                                <input type="number"
-                                       name="price"
-                                       id="price"
-                                       placeholder="VD: 25000"
-                                       min="0"
-                                       step="1000"
-                                       required>
-                            </div>
-                        </div>
-
-                        <!-- Row 3: Giá khuyến mãi & Tồn kho -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Giá khuyến mãi (đ)</label>
-                                <input type="number"
-                                       name="salePrice"
-                                       id="salePrice"
-                                       placeholder="VD: 20000 (để trống nếu không có)"
-                                       min="0"
-                                       step="1000">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Số lượng tồn kho *</label>
-                                <input type="number"
-                                       name="stockQuantity"
-                                       id="stockQuantity"
-                                       placeholder="VD: 100"
-                                       min="0"
-                                       required>
-                            </div>
-                        </div>
-
-                        <!-- Row 4: Mô tả sản phẩm -->
-                        <div class="form-group">
-                            <label>Mô tả sản phẩm</label>
-                            <textarea name="description"
-                                      id="description"
-                                      rows="4"
-                                      placeholder="Nhập mô tả chi tiết về sản phẩm..."></textarea>
-                        </div>
-
-                        <!-- Row 5: Upload hình ảnh -->
-                        <div class="form-group">
-                            <label>Hình ảnh sản phẩm</label>
-                            <input type="file"
-                                   name="productImage"
-                                   id="productImage"
-                                   accept="image/*"
-                                   onchange="previewImage(event)">
-                            <div id="imagePreview" class="image-preview"></div>
-                            <small style="color: #6b7280;">Chọn hình ảnh có kích thước tối đa 10MB</small>
-                        </div>
-
-                        <!-- Form Actions -->
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary" id="submitBtn">
-                                 Lưu Sản Phẩm
-                            </button>
-                            <button type="button" class="btn-reset" onclick="resetForm()">
-                                 Nhập Lại
-                            </button>
-                            <button type="button" class="btn-secondary" onclick="toggleProductForm()">
-                                 Hủy
-                            </button>
-                        </div>
-                    </form>
+                    <%-- Pagination --%>
+                    <div class="pagination"></div>
                 </div>
-
-                <!-- Products Table -->
-                <div class="dashboard-widget">
-                    <div class="widget-header">
-                        <h3 class="widget-title">Danh Sách Sản Phẩm</h3>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                            <tr>
-                                <th>Mã SP</th>
-                                <th>Tên Sản Phẩm</th>
-                                <th>Danh Mục</th>
-                                <th>Thương Hiệu</th>
-                                <th>Giá Bán</th>
-                                <th>Tồn Kho</th>
-                                <th>Hành Động</th>
-                            </tr>
-                            </thead>
-                            <tbody id="productTableBody">
-                            <c:choose>
-                                <c:when test="${empty allProducts}">
-                                    <tr>
-                                        <td colspan="7" style="text-align: center; padding: 2rem; color: #6b7280;">
-                                            Chưa có sản phẩm nào
-                                        </td>
-                                    </tr>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach var="product" items="${allProducts}">
-                                        <tr>
-                                            <td><span class="order-code">#SP${product.id}</span></td>
-                                            <td><strong>${product.productName}</strong></td>
-                                            <td>${product.categoryName}</td>
-                                            <td>${product.brandName}</td>
-                                            <td>
-                                                <strong>
-                                                    <fmt:formatNumber value="${product.price}" pattern="#,###"/>đ
-                                                </strong>
-                                            </td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${product.stockQuantity >= 500}">
-                                            <span class="stock-badge high">
-                                                <fmt:formatNumber value="${product.stockQuantity}" pattern="#,###"/>
-                                            </span>
-                                                    </c:when>
-                                                    <c:when test="${product.stockQuantity >= 100}">
-                                            <span class="stock-badge medium">
-                                                <fmt:formatNumber value="${product.stockQuantity}" pattern="#,###"/>
-                                            </span>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                            <span class="stock-badge low">
-                                                <fmt:formatNumber value="${product.stockQuantity}" pattern="#,###"/>
-                                            </span>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                            <td>
-                                                <button class="btn-edit" title="Sửa"> Sửa</button>
-                                                <button class="btn-delete" title="Xóa"> Xóa</button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+            </div>
+        </section>
 
         <!-- OTHER SECTIONS (Placeholder) -->
         <section id="orders-section" class="admin-section">
