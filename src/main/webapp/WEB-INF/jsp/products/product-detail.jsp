@@ -13,7 +13,6 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
-//Đường dẫn trang chi tiết sản phẩm
 <main class="product-detail-container">
     <div class="container">
         <nav class="breadcrumb">
