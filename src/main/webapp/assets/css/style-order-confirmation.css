@@ -1,0 +1,121 @@
+
+body {
+    background-color: var(--bg-light);
+}
+.wrap {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card h2 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+/* Khu vực thông tin đơn hàng */
+.order-info {
+    text-align: left;
+    background: #fcfcfc;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 20px 0;
+}
+
+.order-info p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 10px;
+}
+
+.order-info p:last-of-type {
+    border-bottom: none;
+}
+.order-info p strong {
+    color: var(--text-light);
+    font-weight: 600;
+}
+/* Phần tổng tiền  */
+.order-info p.total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border-color);
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+.order-info p.total strong {
+    color: var(--text-dark);
+}
+/* Khu vực nút bấm */
+.actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Nút Về trang chủ  */
+.btn.link {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn.link:hover {
+    background-color: var(--secondary-color);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* Nút In hóa đơn */
+#printBtn {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+
+#printBtn:hover {
+    background-color: var(--bg-light);
+    border-color: var(--text-light);
+}
+/* Tối ưu hóa khi In */
+@media print {
+    .header, .footer, .actions { display: none !important; }
+    body { background: white; }
+    .card { box-shadow: none; border: none; padding: 0; }
+    .wrap { max-width: 100%; margin: 0; }
+}

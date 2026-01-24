@@ -11,8 +11,6 @@
         List<Category> categories = service.getAllCategories();
         application.setAttribute("categories", categories);
     }
-
-    //  Set Content Security Policy để cho phép inline JavaScript
     response.setHeader("Content-Security-Policy",
             "default-src 'self'; " +
                     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; " +

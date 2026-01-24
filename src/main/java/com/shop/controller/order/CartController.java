@@ -52,32 +52,10 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-
-        // DEBUG: in session id và tất cả attribute names/values
-        System.out.println(">> DEBUG session id: " + (session != null ? session.getId() : "null"));
-        java.util.Enumeration<String> attrNames = session != null ? session.getAttributeNames() : null;
-        if (attrNames != null) {
-            while (attrNames.hasMoreElements()) {
-                String an = attrNames.nextElement();
-                Object av = session.getAttribute(an);
-                System.out.println(">> DEBUG session attr: " + an + " = " + (av != null ? av.getClass().getName() + " -> " + av.toString() : "null"));
-            }
-        } else {
-            System.out.println(">> DEBUG no session attributes");
-        }
-
         Integer userId = resolveSessionUserId(session);
-
         // Đọc action
         String action = Optional.ofNullable(request.getParameter("action")).orElse("add").trim();
-
-        // Debug logging: params
-        System.out.println(">> CartController.doPost() called. method=" + request.getMethod() + " action=" + action + " userId=" + userId);
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements()) {
-            String n = names.nextElement();
-            System.out.println("   param: " + n + " = " + request.getParameter(n));
-        }
+        String buyNow = request.getParameter("buyNow");
 
         try {
             switch (action) {
@@ -94,10 +72,9 @@ public class CartController extends HttpServlet {
                     handleClear(request, session, userId);
                     break;
                 default:
-                    // unknown -> ignore
+
             }
-
-
+            // Cập nhật lại Session
             List<Map<String, Object>> cartView = buildCartView(session, userId);
             int cartTotal = calculateCartTotalFromView(cartView);
             int cartCount = calculateCartCount(cartView);
@@ -105,7 +82,13 @@ public class CartController extends HttpServlet {
             session.setAttribute("cartTotal", cartTotal);
             session.setAttribute("cartCount", cartCount);
 
+            // 1. Nếu là Mua ngay (buyNow=true) Chuyển hướng ngay tới Giỏ hàng
+            if ("true".equals(buyNow)) {
+                response.sendRedirect(request.getContextPath() + "/cart");
+                return;
+            }
 
+            // 2. Thêm vào giỏ hàng từ nút Add to Cart
             String xhr = request.getHeader("X-Requested-With");
             if ("XMLHttpRequest".equalsIgnoreCase(xhr)) {
                 response.setContentType("application/json;charset=UTF-8");
@@ -114,9 +97,15 @@ public class CartController extends HttpServlet {
                 response.getWriter().write(json);
                 return;
             }
+            // 3.  Nếu không phải 2 trường hợp trên
+            // Quay lại trang hiện tại hoặc về giỏ hàng
+            String referer = request.getHeader("Referer");
+            if (referer != null && !referer.isEmpty() && !referer.contains("/login")) {
+                response.sendRedirect(referer);
+            } else {
+                response.sendRedirect(request.getContextPath() + "/cart");
+            }
 
-
-            response.sendRedirect(request.getContextPath() + "/cart");
         } catch (IllegalArgumentException e) {
             request.setAttribute("errorMessage", e.getMessage());
             doGet(request, response);
@@ -127,7 +116,6 @@ public class CartController extends HttpServlet {
         }
     }
 
-    // Handlers
     private void handleAdd(HttpServletRequest request, HttpSession session, Integer userId) throws Exception {
         String productIdStr = request.getParameter("productId");
         String qtyStr = request.getParameter("quantity");
@@ -136,29 +124,15 @@ public class CartController extends HttpServlet {
             throw new IllegalArgumentException("Thiếu productId");
         }
         int productId = Integer.parseInt(productIdStr.trim());
-
         int quantity = 1;
         if (qtyStr != null && !qtyStr.trim().isEmpty()) {
             try { quantity = Integer.parseInt(qtyStr.trim()); } catch (NumberFormatException ignored) {}
             if (quantity < 1) quantity = 1;
         }
 
-        // DEBUG: log ngay khi vào handleAdd
-        System.out.println(">> CartController.handleAdd() called. userId=" + userId + " productId=" + productId + " quantity=" + quantity);
-
         if (userId != null && userId > 0) {
-            // Persist to DB via CartService
-            try {
-                System.out.println(">> Calling cartService.addToCart(userId=" + userId + ", productId=" + productId + ", qty=" + quantity + ")");
-                cartService.addToCart(userId, productId, quantity);
-                System.out.println(">> cartService.addToCart completed OK");
-            } catch (Exception e) {
-                System.err.println("!! cartService.addToCart threw exception:");
-                e.printStackTrace();
-                throw e; // rethrow to be handled by outer catch
-            }
+            cartService.addToCart(userId, productId, quantity);
         } else {
-            // Guest: session cart
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
             if (cart == null) {
@@ -169,7 +143,6 @@ public class CartController extends HttpServlet {
             if (existing != null) {
                 int cur = ((Number) existing.getOrDefault("quantity", 1)).intValue();
                 existing.put("quantity", cur + quantity);
-                System.out.println(">> Guest cart updated in session: productId=" + productId + " newQty=" + (cur + quantity));
             } else {
                 Map<String, Object> product = productService.getProductById(productId);
                 if (product == null) {
@@ -183,7 +156,6 @@ public class CartController extends HttpServlet {
                 item.put("salePrice", product.get("salePrice"));
                 item.put("quantity", quantity);
                 cart.add(item);
-                System.out.println(">> Guest cart added to session: productId=" + productId + " qty=" + quantity);
             }
         }
     }
@@ -191,7 +163,7 @@ public class CartController extends HttpServlet {
     private void handleUpdate(HttpServletRequest request, HttpSession session, Integer userId) throws Exception {
         String productIdStr = request.getParameter("productId");
         String qtyStr = request.getParameter("quantity");
-        String absolute = request.getParameter("absolute"); // optional: if set, quantity is absolute
+        String absolute = request.getParameter("absolute");
 
         if (productIdStr == null || productIdStr.trim().isEmpty() || qtyStr == null || qtyStr.trim().isEmpty()) {
             throw new IllegalArgumentException("Thiếu params update");
@@ -201,14 +173,12 @@ public class CartController extends HttpServlet {
 
         if (userId != null && userId > 0) {
             if ("true".equalsIgnoreCase(absolute)) {
-
                 List<CartItem> items = cartService.getCartItems(userId);
                 int cur = items.stream().filter(i -> i.getProductId() == productId).mapToInt(CartItem::getQuantity).findFirst().orElse(0);
                 int delta = qty - cur;
                 if (delta > 0) cartService.incrementQuantity(userId, productId, delta);
                 else if (delta < 0) cartService.decrementQuantity(userId, productId, -delta);
             } else {
-
                 if (qty > 0) cartService.incrementQuantity(userId, productId, qty);
                 else if (qty < 0) cartService.decrementQuantity(userId, productId, -qty);
             }
@@ -250,7 +220,6 @@ public class CartController extends HttpServlet {
 
     private void handleClear(HttpServletRequest request, HttpSession session, Integer userId) throws Exception {
         if (userId != null && userId > 0) {
-
             cartService.clearCart(userId);
         }
         session.removeAttribute("cart");
@@ -278,7 +247,6 @@ public class CartController extends HttpServlet {
                     }
                 }
             } catch (Exception e) {
-                // fallback: session cart
                 Object s = session.getAttribute("cart");
                 if (s instanceof List) view = (List<Map<String, Object>>) s;
             }
@@ -338,14 +306,12 @@ public class CartController extends HttpServlet {
 
     private Integer resolveSessionUserId(HttpSession session) {
         if (session == null) return null;
-        // thử các key phổ biến
         Integer id = sessionAttributeAsInt(session, "userId");
         if (id != null) return id;
         id = sessionAttributeAsInt(session, "customerId");
         if (id != null) return id;
         id = sessionAttributeAsInt(session, "customer_id");
         if (id != null) return id;
-        // thử attribute "customer" (object hoặc Map)
         Object cust = session.getAttribute("customer");
         if (cust != null) {
             try {
@@ -354,13 +320,12 @@ public class CartController extends HttpServlet {
                     if (idObj instanceof Number) return ((Number) idObj).intValue();
                     if (idObj != null) return Integer.parseInt(idObj.toString());
                 } else {
-                    // thử gọi getId() reflectively
                     try {
                         java.lang.reflect.Method m = cust.getClass().getMethod("getId");
                         Object idObj = m.invoke(cust);
                         if (idObj instanceof Number) return ((Number) idObj).intValue();
                         if (idObj != null) return Integer.parseInt(idObj.toString());
-                    } catch (NoSuchMethodException ignore) { /* không có getId */ }
+                    } catch (NoSuchMethodException ignore) { }
                 }
             } catch (Exception e) {
             }

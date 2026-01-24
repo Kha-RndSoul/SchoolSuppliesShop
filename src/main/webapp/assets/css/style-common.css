@@ -156,14 +156,14 @@ body {
 }
 
 /* Cart Icon & Badge */
-.cart-icon {
-    position: relative;
+.cart-button {
+    position: relative !important;
 }
 
 .cart-badge {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 0px;
+    right: 0px;
     background: #ff3b30;
     color: white;
     border-radius: 50%;
@@ -174,6 +174,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid white;
 }
 
 /* Navigation Row */

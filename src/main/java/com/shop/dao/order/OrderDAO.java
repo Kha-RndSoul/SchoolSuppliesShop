@@ -273,4 +273,22 @@ public class OrderDAO extends BaseDao {
                         .list()
         );
     }
+    /**
+     * Lấy danh sách đơn hàng của một khách hàng cụ thể
+     */
+    public List<Order> getOrdersByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery(
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at " +
+                                        "FROM orders " +
+                                        "WHERE customer_id = :customerId " +
+                                        "ORDER BY created_at DESC"
+                        )
+                        .bind("customerId", customerId)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
 }
