@@ -102,6 +102,13 @@ public class OrderDetail {
         this.createdAt = createdAt;
     }
 
+    public BigDecimal getUnitPrice() {
+        return this.price;
+    }
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.price = unitPrice;
+    }
+
     @Override
     public String toString() {
         return "OrderDetail{" +
