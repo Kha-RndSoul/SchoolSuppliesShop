@@ -31,7 +31,7 @@ public class AdminDashboardServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         System.out.println("================================");
-        System.out.println("✓ AdminDashboardServlet initialized");
+        System.out.println(" AdminDashboardServlet initialized");
         System.out.println("   URL Patterns: /admin, /admin/dashboard");
         System.out.println("================================");
 
@@ -48,7 +48,7 @@ public class AdminDashboardServlet extends HttpServlet {
             throws ServletException, IOException {
 
         System.out.println("================================");
-        System.out.println("✓ AdminDashboardServlet.doGet() CALLED");
+        System.out.println(" AdminDashboardServlet.doGet() CALLED");
         System.out.println("   Request URI: " + request.getRequestURI());
         System.out.println("================================");
 
@@ -59,7 +59,7 @@ public class AdminDashboardServlet extends HttpServlet {
             String adminRole = (String) session.getAttribute("adminRole");
             String adminFullName = (String) session.getAttribute("adminFullName");
 
-            System.out.println("✓ Admin Info:");
+            System.out.println(" Admin Info:");
             System.out.println("   Username: " + adminUsername);
             System.out.println("   Role: " + adminRole);
             System.out.println("   Full Name: " + adminFullName);
@@ -69,7 +69,7 @@ public class AdminDashboardServlet extends HttpServlet {
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
 
-            System.out.println("✓ Filter Parameters:");
+            System.out.println(" Filter Parameters:");
             System.out.println("   Filter Type: " + filterType);
             System.out.println("   Start Date: " + startDate);
             System.out.println("   End Date: " + endDate);
@@ -77,28 +77,24 @@ public class AdminDashboardServlet extends HttpServlet {
             // Load dashboard statistics với filter
             System.out.println("→ Loading statistics...");
             Map<String, Object> stats = statisticsService.getStatistics(filterType, startDate, endDate);
-            System.out.println("✓ Statistics loaded successfully");
+            System.out.println(" Statistics loaded successfully");
 
             // Load recent orders
             System.out.println("→ Loading recent orders...");
             List<Map<String, Object>> recentOrders = orderService.getRecentOrdersWithCustomer(5);
-            System.out.println("✓ Recent orders loaded: " + recentOrders.size() + " orders");
+            System.out.println(" Recent orders loaded: " + recentOrders.size() + " orders");
 
-            // ⭐ THÊM MỚI: Load best selling products
+            // Load best selling products
             System.out.println("→ Loading best selling products...");
             List<Map<String, Object>> bestSellers = productDAO.getBestSellersWithImage(5);
-            System.out.println("✓ Best sellers loaded: " + bestSellers.size() + " products");
+            System.out.println(" Best sellers loaded: " + bestSellers.size() + " products");
 
-            // ⭐ THÊM MỚI: Load all products for products section
-            System.out.println("→ Loading all products...");
-            List<Map<String, Object>> allProducts = productDAO.getListWithImage();
-            System.out.println("✓ All products loaded: " + allProducts.size() + " products");
 
-            // ⭐ THÊM MỚI: Load categories and brands for form dropdowns
+            // Load categories and brands cho form dropdowns
             System.out.println("→ Loading categories and brands...");
             var allCategories = categoryService.getAllCategories();
             var allBrands = brandService.getAllBrands();
-            System.out.println("✓ Categories: " + allCategories.size() + ", Brands: " + allBrands.size());
+            System.out.println(" Categories: " + allCategories.size() + ", Brands: " + allBrands.size());
 
             // Debug: In ra thông tin best sellers
             if (!bestSellers.isEmpty()) {
@@ -110,7 +106,6 @@ public class AdminDashboardServlet extends HttpServlet {
             request.setAttribute("stats", stats);
             request.setAttribute("recentOrders", recentOrders);
             request.setAttribute("bestSellers", bestSellers);
-            request.setAttribute("allProducts", allProducts);
             request.setAttribute("allCategories", allCategories);
             request.setAttribute("allBrands", allBrands);
 
@@ -119,7 +114,7 @@ public class AdminDashboardServlet extends HttpServlet {
             request.setAttribute("customStartDate", startDate);
             request.setAttribute("customEndDate", endDate);
 
-            System.out.println("✓ Dashboard Stats Loaded:");
+            System.out.println(" Dashboard Stats Loaded:");
             System.out.println("   Revenue: " + stats.get("revenue"));
             System.out.println("   New Orders: " + stats.get("newOrders"));
             System.out.println("   Best Sellers: " + bestSellers.size() + " products");
@@ -133,7 +128,7 @@ public class AdminDashboardServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/admin/admin.jsp").forward(request, response);
 
         } catch (Exception e) {
-            System.err.println("✗✗✗ ERROR in AdminDashboardServlet.doGet() ✗✗✗");
+            System.err.println(" ERROR in AdminDashboardServlet.doGet() ");
             System.err.println("Error message: " + e.getMessage());
             System.err.println("Error type: " + e.getClass().getName());
             e.printStackTrace();
@@ -162,11 +157,14 @@ public class AdminDashboardServlet extends HttpServlet {
             redirectUrl.append("&endDate=").append(endDate);
         }
 
+        // Thêm hash để quay về dashboard section
+        redirectUrl.append("#dashboard-section");
+
         response.sendRedirect(redirectUrl.toString());
     }
 
     @Override
     public void destroy() {
-        System.out.println("✓ AdminDashboardServlet destroyed");
+        System.out.println(" AdminDashboardServlet destroyed");
     }
 }
