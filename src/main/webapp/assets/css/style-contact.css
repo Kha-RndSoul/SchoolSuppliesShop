@@ -173,8 +173,65 @@
     cursor: pointer;
     transition: all 0.3s;
 }
-
 .btn-reset:hover {
     background: var(--border-color);
     border-color: var(--text-light);
+}
+/* Khung Admin  */
+.admin-edit-form {
+    background-color: #f8fbff;
+    border: 2px dashed var(--primary-color);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.admin-edit-form h3 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+.admin-edit-form > p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+.btn-submit-common {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: var(--primary-color); /* Gradient xanh */
+    color: #ffffff;
+
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 250px;
+}
+.btn-submit-common:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+}
+.btn-submit-common:active {
+    transform: translateY(-1px);
+}
+.btn-submit-common i {
+    font-size: 1.1rem;
+}
+.btn-wrapper-center {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    width: 100%;
 }
