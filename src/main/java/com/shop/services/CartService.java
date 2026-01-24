@@ -4,6 +4,8 @@ import com.shop.dao.order.CartItemDAO;
 import com.shop.dao.product.ProductDAO;
 import com.shop.model.CartItem;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -159,6 +161,31 @@ public class CartService {
             int stock = getIntFromMap(productMap, "stockQuantity", 0);
             if (stock < item.getQuantity()) throw new Exception("Sản phẩm '" + getStringFromMap(productMap, "productName", "Sản phẩm") + "' không đủ số lượng. Còn lại: " + stock);
         }
+    }
+
+
+    public List<Map<String, Object>> buildCartViewForUser(int customerId) {
+        List<Map<String, Object>> view = new ArrayList<>();
+        if (customerId <= 0) return view;
+        List<CartItem> items = cartItemDAO.getByCustomerId(customerId);
+        if (items == null || items.isEmpty()) return view;
+
+        for (CartItem ci : items) {
+            int pid = ci.getProductId();
+            Map<String, Object> prod = productDAO.getProductByIdWithImage(pid);
+
+            if (prod == null) prod = productDAO.getProductByIdWithImage(pid);
+            Map<String, Object> item = new LinkedHashMap<>();
+            item.put("id", pid);
+            item.put("productName", prod != null ? prod.get("productName") : "Sản phẩm");
+            item.put("imageUrl", prod != null ? prod.get("imageUrl") : null);
+            item.put("price", prod != null ? prod.get("price") : 0);
+            item.put("salePrice", prod != null ? prod.get("salePrice") : 0);
+            item.put("quantity", ci.getQuantity());
+            view.add(item);
+        }
+
+        return view;
     }
 
     private int getIntFromMap(Map<String, Object> m, String key, int defaultVal) {

@@ -12,7 +12,6 @@ import com.shop.model.OrderDetail;
 import com.shop.model.CartItem;
 import com.shop.model.Coupon;
 import com.shop.model.OrderCoupon;
-import com.shop.model.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,9 +35,7 @@ public class OrderService {
     public static final String STATUS_DELIVERED = "DELIVERED";
     public static final String STATUS_CANCELLED = "CANCELLED";
 
-    /**
-     * Constructor - khởi tạo các DAO
-     */
+
     public OrderService() {
         this.orderDAO = new OrderDAO();
         this.orderDetailDAO = new OrderDetailDAO();
@@ -49,9 +46,7 @@ public class OrderService {
         this.customerDAO = new CustomerDAO();
     }
 
-    /**
-     * Tạo đơn hàng từ giỏ hàng
-     */
+
     public Order createOrder(int customerId, String couponCode) throws Exception {
         if (customerId <= 0) {
             throw new Exception("Customer không hợp lệ");
@@ -62,20 +57,22 @@ public class OrderService {
         }
 
         List<CartItem> cartItems = cartItemDAO.getByCustomerId(customerId);
-        if (cartItems.isEmpty()) {
+        if (cartItems == null || cartItems.isEmpty()) {
             throw new Exception("Giỏ hàng trống");
         }
 
+        // Kiểm tra tồn kho (dựa trên productMap)
         for (CartItem item : cartItems) {
-            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
+            Map<String, Object> productMap = productDAO.getProductByIdWithImage(item.getProductId());
 
-            if (product == null) {
+            if (productMap == null) {
                 throw new Exception("Sản phẩm ID " + item.getProductId() + " không tồn tại");
             }
 
-            if (product.getStockQuantity() < item.getQuantity()) {
-                throw new Exception("Sản phẩm '" + product.getProductName()
-                        + "' không đủ số lượng. Còn lại: " + product.getStockQuantity());
+            int stockQty = getIntFromMap(productMap, "stockQuantity", 0);
+            if (stockQty < item.getQuantity()) {
+                String pname = getStringFromMap(productMap, "productName", "Sản phẩm");
+                throw new Exception("Sản phẩm '" + pname + "' không đủ số lượng. Còn lại: " + stockQty);
             }
         }
 
@@ -109,18 +106,18 @@ public class OrderService {
         // Insert Order vào database
         int orderId = orderDAO.insertOrder(order);
 
-        // Tạo OrderDetails cho từng cart item
+        // Tạo OrderDetails cho từng cart item (dùng productMap)
         for (CartItem item : cartItems) {
-            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
+            Map<String, Object> productMap = productDAO.getProductByIdWithImage(item.getProductId());
 
-            if (product != null) {
+            if (productMap != null) {
                 OrderDetail detail = new OrderDetail();
                 detail.setOrderId(orderId);
                 detail.setProductId(item.getProductId());
                 detail.setQuantity(item.getQuantity());
-                detail.setProductName(product.getProductName());
+                detail.setProductName(getStringFromMap(productMap, "productName", "Sản phẩm"));
 
-                double unitPrice = getProductPrice(product);
+                double unitPrice = getProductPriceFromMap(productMap);
                 double itemSubtotal = unitPrice * item.getQuantity();
                 detail.setPrice(BigDecimal.valueOf(unitPrice));
                 detail.setSubtotal(BigDecimal.valueOf(itemSubtotal));
@@ -148,7 +145,122 @@ public class OrderService {
         // Clear giỏ hàng
         cartItemDAO.clearCart(customerId);
 
-        return order;
+        // Trả về order (có id)
+        return orderDAO.getOrderById(orderId);
+    }
+
+
+    public Order createOrder(int customerId,
+                             String couponCode,
+                             int shippingFee,
+                             String shippingName,
+                             String shippingPhone,
+                             String shippingAddr,
+                             String paymentMethod,
+                             String shippingType,
+                             String email) throws Exception {
+
+        if (customerId <= 0) {
+            throw new Exception("Customer không hợp lệ");
+        }
+
+        if (customerDAO.getCustomerById(customerId) == null) {
+            throw new Exception("Customer không tồn tại");
+        }
+
+        List<CartItem> cartItems = cartItemDAO.getByCustomerId(customerId);
+        if (cartItems == null || cartItems.isEmpty()) {
+            throw new Exception("Giỏ hàng trống");
+        }
+
+        // Kiểm tra tồn kho trước khi tạo đơn
+        for (CartItem item : cartItems) {
+            Map<String, Object> productMap = productDAO.getProductByIdWithImage(item.getProductId());
+            if (productMap == null) {
+                throw new Exception("Sản phẩm ID " + item.getProductId() + " không tồn tại");
+            }
+            int stockQty = getIntFromMap(productMap, "stockQuantity", 0);
+            if (stockQty < item.getQuantity()) {
+                throw new Exception("Sản phẩm '" + getStringFromMap(productMap, "productName", "Sản phẩm")
+                        + "' không đủ số lượng. Còn lại: " + stockQty);
+            }
+        }
+
+        double subtotal = calculateSubtotal(cartItems);
+
+        // Xử lý coupon
+        double discountAmount = 0;
+        Coupon coupon = null;
+        if (couponCode != null && !couponCode.trim().isEmpty()) {
+            coupon = validateAndGetCoupon(couponCode, customerId);
+            if (coupon != null && coupon.getDiscountValue() != null) {
+                discountAmount = calculateDiscount(coupon, subtotal);
+            }
+        }
+
+        // Tính tổng: subtotal - discount + shippingFee
+        double totalAmount = subtotal - discountAmount + (double) shippingFee;
+        if (totalAmount < 0) totalAmount = 0;
+
+        // Tạo Order object đầy đủ thông tin
+        Order order = new Order();
+        order.setCustomerId(customerId);
+        order.setOrderCode(generateOrderCode());
+        order.setOrderStatus(STATUS_PENDING);
+        order.setPaymentMethod(paymentMethod != null ? paymentMethod.toUpperCase() : "COD");
+        order.setPaymentStatus("UNPAID");
+        order.setTotalAmount(BigDecimal.valueOf(totalAmount));
+        order.setShippingName(shippingName);
+        order.setShippingPhone(shippingPhone);
+        order.setShippingAddress(shippingAddr);
+        String note = (email != null && !email.isEmpty() ? "Email: " + email + " | " : "") + "Shipping: " + (shippingType != null ? shippingType : "standard");
+        order.setNote(note);
+
+        // Insert order -> lấy orderId
+        int orderId = orderDAO.insertOrder(order);
+        if (orderId <= 0) {
+            throw new Exception("Không thể tạo đơn hàng (DB).");
+        }
+        order.setId(orderId);
+
+        // Tạo OrderDetail cho từng item (dùng productMap)
+        for (CartItem item : cartItems) {
+            Map<String, Object> productMap = productDAO.getProductByIdWithImage(item.getProductId());
+            if (productMap == null) continue;
+
+            OrderDetail detail = new OrderDetail();
+            detail.setOrderId(orderId);
+            detail.setProductId(item.getProductId());
+            detail.setProductName(getStringFromMap(productMap, "productName", "Sản phẩm"));
+            detail.setQuantity(item.getQuantity());
+
+            double unitPrice = getProductPriceFromMap(productMap);
+            detail.setPrice(BigDecimal.valueOf(unitPrice));
+            detail.setSubtotal(BigDecimal.valueOf(unitPrice * item.getQuantity()));
+
+            orderDetailDAO.insertOrderDetail(detail);
+        }
+
+        // Lưu coupon nếu có
+        if (coupon != null) {
+            OrderCoupon orderCoupon = new OrderCoupon();
+            orderCoupon.setOrderId(orderId);
+            orderCoupon.setCouponId(coupon.getId());
+            orderCoupon.setDiscountAmount(BigDecimal.valueOf(discountAmount));
+            orderCouponDAO.insertOrderCoupon(orderCoupon);
+            couponDAO.incrementUsedCount(coupon.getId());
+        }
+
+        // Trừ stock
+        for (CartItem item : cartItems) {
+            productDAO.decreaseStock(item.getProductId(), item.getQuantity());
+        }
+
+        // Clear giỏ hàng DB cho customer
+        cartItemDAO.clearCart(customerId);
+
+        // Trả về order đầy đủ từ DB
+        return orderDAO.getOrderById(orderId);
     }
 
     /**
@@ -328,7 +440,6 @@ public class OrderService {
         return orderDAO.getByCustomerId(customerId).size();
     }
 
-    // ==================== PRIVATE METHODS ====================
 
     /**
      * Tạo mã đơn hàng unique
@@ -378,10 +489,10 @@ public class OrderService {
         double subtotal = 0;
 
         for (CartItem item : cartItems) {
-            Product product = (Product) productDAO.getProductByIdWithImage(item.getProductId());
+            Map<String, Object> productMap = productDAO.getProductByIdWithImage(item.getProductId());
 
-            if (product != null) {
-                double price = getProductPrice(product);
+            if (productMap != null) {
+                double price = getProductPriceFromMap(productMap);
                 subtotal += price * item.getQuantity();
             }
         }
@@ -390,36 +501,12 @@ public class OrderService {
     }
 
     /**
-     * Lấy giá sản phẩm - ưu tiên sale price
+     * Lấy giá sản phẩm từ Map - ưu tiên sale price
      */
-    private double getProductPrice(Product product) {
-        if (product.getSalePrice() > 0) {
-            return product.getSalePrice();
-        }
-        return product.getPrice();
-    }
-
-    /**
-     * Validate và lấy coupon
-     */
-    private Coupon validateAndGetCoupon(String couponCode, int customerId) throws Exception {
-        Coupon coupon = couponDAO.getByCode(couponCode.trim());
-
-        if (coupon == null) {
-            throw new Exception("Mã giảm giá không tồn tại");
-        }
-
-        // Check valid - còn hạn và còn lượt sử dụng
-        if (!couponDAO.isValidCoupon(couponCode)) {
-            throw new Exception("Mã giảm giá đã hết hạn hoặc đã hết lượt sử dụng");
-        }
-
-        // Check customer đã dùng coupon này chưa
-        if (orderCouponDAO.hasCustomerUsedCoupon(customerId, coupon.getId())) {
-            throw new Exception("Bạn đã sử dụng mã giảm giá này rồi");
-        }
-
-        return coupon;
+    private double getProductPriceFromMap(Map<String, Object> productMap) {
+        double sale = getDoubleFromMap(productMap, "salePrice", 0.0);
+        if (sale > 0) return sale;
+        return getDoubleFromMap(productMap, "price", 0.0);
     }
 
     /**
@@ -450,6 +537,56 @@ public class OrderService {
 
         return discount;
     }
+
+    /**
+     * Validate và lấy coupon
+     */
+    private Coupon validateAndGetCoupon(String couponCode, int customerId) throws Exception {
+        if (couponCode == null || couponCode.trim().isEmpty()) {
+            throw new Exception("Mã giảm giá không được rỗng");
+        }
+
+        Coupon coupon = couponDAO.getByCode(couponCode.trim());
+        if (coupon == null) {
+            throw new Exception("Mã giảm giá không tồn tại");
+        }
+
+        // Check valid - còn hạn và còn lượt sử dụng
+        if (!couponDAO.isValidCoupon(couponCode.trim())) {
+            throw new Exception("Mã giảm giá đã hết hạn hoặc đã hết lượt sử dụng");
+        }
+
+        // Check customer đã dùng coupon này chưa
+        if (orderCouponDAO.hasCustomerUsedCoupon(customerId, coupon.getId())) {
+            throw new Exception("Bạn đã sử dụng mã giảm giá này rồi");
+        }
+
+        return coupon;
+    }
+
+    /**
+     * Helpers for map extraction
+     */
+    private int getIntFromMap(Map<String, Object> m, String key, int defaultVal) {
+        if (m == null) return defaultVal;
+        Object o = m.get(key);
+        if (o instanceof Number) return ((Number) o).intValue();
+        try { return o != null ? Integer.parseInt(o.toString()) : defaultVal; } catch (Exception e) { return defaultVal; }
+    }
+
+    private double getDoubleFromMap(Map<String, Object> m, String key, double defaultVal) {
+        if (m == null) return defaultVal;
+        Object o = m.get(key);
+        if (o instanceof Number) return ((Number) o).doubleValue();
+        try { return o != null ? Double.parseDouble(o.toString()) : defaultVal; } catch (Exception e) { return defaultVal; }
+    }
+
+    private String getStringFromMap(Map<String, Object> m, String key, String defaultVal) {
+        if (m == null) return defaultVal;
+        Object o = m.get(key);
+        return o != null ? o.toString() : defaultVal;
+    }
+
     /**
      * Lấy đơn hàng gần nhất kèm thông tin khách hàng - cho dashboard
      */

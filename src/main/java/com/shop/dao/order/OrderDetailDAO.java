@@ -110,14 +110,16 @@ public class OrderDetailDAO extends BaseDao {
         });
     }
 
-    public void insertOrderDetail(OrderDetail orderDetail) {
+
+    public void insertOrderDetail(OrderDetail detail) {
+        if (detail == null) return;
+
         get().useHandle(h -> {
             h.createUpdate(
-                            "INSERT INTO order_details " +
-                                    "(order_id, product_id, product_name, quantity, unit_price, subtotal) " +
-                                    "VALUES (:orderId, :productId, :productName, :quantity, :unitPrice, :subtotal)"
+                            "INSERT INTO order_details (order_id, product_id, quantity, unit_price, subtotal, created_at) " +
+                                    "VALUES (:orderId, :productId, :quantity, :price, :subtotal, NOW())"
                     )
-                    .bindBean(orderDetail)
+                    .bindBean(detail)
                     .execute();
         });
     }
