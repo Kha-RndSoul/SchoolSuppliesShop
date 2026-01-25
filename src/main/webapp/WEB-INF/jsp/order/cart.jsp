@@ -84,7 +84,7 @@
 
             <aside class="cart-summary" aria-label="Tóm tắt đơn hàng">
                 <div class="summary-box">
-                    <h2>Tóm tắt</h2>
+                    <h2>Tổng cộng</h2>
                     <div class="summary-row">
                         <span>Tạm tính</span>
                         <strong id="subTotal">

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -50,7 +50,7 @@
 
     <div class="actions">
         <button id="printBtn" class="btn" onclick="window.print()">In hóa đơn</button>
-        <a href="${pageContext.request.contextPath}/index" class="btn link">Về trang chủ</a>
+        <a href="${pageContext.request.contextPath}/home" class="btn link">Về trang chủ</a>
     </div>
 </main>
 
