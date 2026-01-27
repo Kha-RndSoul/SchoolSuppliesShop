@@ -246,6 +246,7 @@ public class OrderService {
             OrderCoupon orderCoupon = new OrderCoupon();
             orderCoupon.setOrderId(orderId);
             orderCoupon.setCouponId(coupon.getId());
+            orderCoupon.setCouponCode(coupon.getCouponCode());
             orderCoupon.setDiscountAmount(BigDecimal.valueOf(discountAmount));
             orderCouponDAO.insertOrderCoupon(orderCoupon);
             couponDAO.incrementUsedCount(coupon.getId());
@@ -445,7 +446,9 @@ public class OrderService {
      * Tạo mã đơn hàng unique
      */
     private String generateOrderCode() {
-        return "ORD-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+        // Tạo chuỗi random 6 ký tự (Chữ hoa và Số)
+        String randomStr = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6).toUpperCase();
+        return "ORD" + randomStr;
     }
 
     /**
@@ -522,10 +525,10 @@ public class OrderService {
         String discountType = coupon.getDiscountType();
         double discountValue = coupon.getDiscountValue().doubleValue();
 
-        if ("PERCENT".equals(discountType)) {
+        if ("PERCENTAGE".equalsIgnoreCase(discountType)) {
             // Giảm theo phần trăm
             discount = subtotal * discountValue / 100;
-        } else if ("FIXED".equals(discountType)) {
+        } else if ("FIXED_AMOUNT".equalsIgnoreCase(discountType)) {
             // Giảm số tiền cố định
             discount = discountValue;
         }
@@ -555,11 +558,13 @@ public class OrderService {
         if (!couponDAO.isValidCoupon(couponCode.trim())) {
             throw new Exception("Mã giảm giá đã hết hạn hoặc đã hết lượt sử dụng");
         }
-
+        /*
         // Check customer đã dùng coupon này chưa
         if (orderCouponDAO.hasCustomerUsedCoupon(customerId, coupon.getId())) {
             throw new Exception("Bạn đã sử dụng mã giảm giá này rồi");
         }
+
+         */
 
         return coupon;
     }
