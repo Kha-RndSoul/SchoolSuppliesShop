@@ -513,3 +513,199 @@ function showToast(message, type = 'success') {
 function showConfirmDialog(title, msg, sub, onConfirm) {
     if(confirm(`${title}\n${msg}`)) onConfirm();
 }
+/**
+ * Hiển thị form thêm banner
+ */
+function showAddBannerForm() {
+    const overlay = document.getElementById('bannerModalOverlay');
+    const modal = document.getElementById('bannerModal');
+
+    // Reset form
+    document.getElementById('bannerForm').reset();
+    document.getElementById('bannerImagePreview').innerHTML = '';
+
+    // Show modal
+    setTimeout(function() {
+        overlay.classList.add('show');
+        modal.classList.add('show');
+    }, 10);
+}
+
+/**
+ * Đóng modal thêm banner
+ */
+function closeBannerModal() {
+    const overlay = document.getElementById('bannerModalOverlay');
+    const modal = document.getElementById('bannerModal');
+
+    overlay.classList.remove('show');
+    modal.classList.remove('show');
+
+    // Reset form sau khi đóng
+    setTimeout(function() {
+        document.getElementById('bannerForm').reset();
+        document.getElementById('bannerImagePreview').innerHTML = '';
+    }, 300);
+}
+
+/**
+ * Preview ảnh banner trước khi upload
+ */
+function previewBannerImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('bannerImagePreview');
+
+    if (file) {
+        // Validate size
+        if (file.size > 10 * 1024 * 1024) {
+            showToast('Kích thước file không được vượt quá 10MB', 'error');
+            event.target.value = '';
+            preview.innerHTML = '';
+            return;
+        }
+
+        // Validate type
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!validTypes.includes(file.type)) {
+            showToast('Chỉ chấp nhận file ảnh (JPG, PNG, GIF, WEBP)', 'error');
+            event.target.value = '';
+            preview.innerHTML = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = '<img src="' + e.target.result + '" alt="Preview" style="max-width: 100%; max-height: 300px; border-radius: 8px; margin-top: 10px;">';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '';
+    }
+}
+
+/**
+ * Submit form thêm banner
+ */
+function submitBannerForm() {
+    const form = document.getElementById('bannerForm');
+    const saveBtn = document.getElementById('saveBannerBtn');
+    const formData = new FormData(form);
+
+    // Validate
+    const title = document.getElementById('bannerTitle').value.trim();
+    const imageFile = document.getElementById('bannerImage').files[0];
+
+    if (!title) {
+        showToast('Vui lòng nhập tiêu đề banner', 'error');
+        return;
+    }
+
+    if (!imageFile) {
+        showToast('Vui lòng chọn hình ảnh banner', 'error');
+        return;
+    }
+
+    // Disable button
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '⏳ Đang xử lý...';
+
+    const contextPath = window.location.pathname.split('/')[1];
+    const url = '/' + contextPath + '/admin/api/banner/add';
+
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showToast(data.message, 'success');
+                closeBannerModal();
+                // Reload page sau 1s
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('Có lỗi xảy ra khi thêm banner', 'error');
+        })
+        .finally(function() {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = '💾 Lưu Banner';
+        });
+}
+
+/**
+ * Xóa banner với confirm
+ */
+function deleteBanner(bannerId, bannerTitle) {
+    showConfirmDialog(
+        'Xác nhận xóa banner',
+        `Bạn có chắc chắn muốn xóa banner "${bannerTitle}"?`,
+        'Hành động này không thể hoàn tác!',
+        function() {
+            performDeleteBanner(bannerId);
+        }
+    );
+}
+
+/**
+ * Thực hiện xóa banner qua AJAX
+ */
+function performDeleteBanner(bannerId) {
+    console.log('️ Deleting banner ID:', bannerId);
+
+    const contextPath = window.location.pathname.split('/')[1];
+    const url = '/' + contextPath + '/admin/banners';
+
+    // Dùng URLSearchParams thay vì FormData
+    const params = new URLSearchParams();
+    params.append('action', 'delete');
+    params.append('id', bannerId);
+
+    console.log(' Parameters:', params.toString());
+    console.log(' Sending POST request to:', url);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params.toString()
+    })
+        .then(response => {
+            console.log('📡 Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log(' Response data:', data);
+
+            if (data.success) {
+                showToast(data.message || 'Xóa banner thành công!', 'success');
+
+                const row = document.getElementById('banner-row-' + bannerId);
+                if (row) {
+                    row.style.opacity = '0';
+                    row.style.transition = 'opacity 0.3s';
+                    setTimeout(function() {
+                        row.remove();
+
+                        const tbody = document.getElementById('bannerTableBody');
+                        if (tbody && tbody.children.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">Không có banner nào</td></tr>';
+                        }
+                    }, 300);
+                }
+            } else {
+                showToast(data.message || 'Lỗi khi xóa banner', 'error');
+            }
+        })
+        .catch(error => {
+            console.error(' Error:', error);
+            showToast('Có lỗi xảy ra khi xóa banner', 'error');
+        });
+}
