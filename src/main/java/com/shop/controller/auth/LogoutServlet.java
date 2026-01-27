@@ -55,13 +55,13 @@ public class LogoutServlet extends HttpServlet {
                 System.out.println("   Customer ID: " + customerId);
                 System.out.println("   Email: " + customerEmail);
 
-                // Customer redirect về home page
-                redirectUrl = request.getContextPath() + "/";
+                // Customer redirect về login page
+                redirectUrl = request.getContextPath() + "/login";
             }
 
             System.out.println("   Session ID: " + session.getId());
 
-            // Invalidate session (xóa tất cả attributes)
+            // Invalidate session
             session.invalidate();
             System.out.println(" Session invalidated");
         } else {
@@ -102,7 +102,7 @@ public class LogoutServlet extends HttpServlet {
     }
 
     /**
-     * POST /logout - Cũng hỗ trợ POST method
+     * POST /logout
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -107,7 +107,6 @@ public class LoginServlet extends HttpServlet {
         System.out.println("   Password length: " + (password != null ? password.length() + " chars" : "null"));
         System.out.println("   Remember me: " + (remember != null ? "Yes" : "No"));
         System.out.println("================================");
-        // ===============================
 
         try {
             // ========== VALIDATION ==========
@@ -166,7 +165,7 @@ public class LoginServlet extends HttpServlet {
                             session.setAttribute("cartCount", 0);
                         }
 
-                        // Remember me (optional)
+                        // Remember me
                         if (remember != null && "on".equals(remember)) {
                             Cookie emailCookie = new Cookie("customerEmail", emailOrUsername);
                             emailCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days
@@ -254,7 +253,7 @@ public class LoginServlet extends HttpServlet {
 
                     System.out.println(" Admin session created");
 
-                    // Remember me (optional)
+                    // Remember me
                     if (remember != null && "on".equals(remember)) {
                         Cookie usernameCookie = new Cookie("adminUsername", emailOrUsername);
                         usernameCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days
