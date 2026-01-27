@@ -229,7 +229,6 @@
                                             <fmt:formatNumber value="${product.soldCount}" pattern="#,###"/>
                                         </td>
                                         <td>
-                                                <%-- Logic phân loại stock badge theo số lượng tồn kho --%>
                                             <c:choose>
                                                 <c:when test="${product.stockQuantity >= 500}">
                                         <span class="stock-badge high">
@@ -400,7 +399,6 @@
                                 id="searchClearBtn"
                                 onclick="clearSearch()"
                                 style="display: none;">
-                            ✕
                         </button>
                     </div>
                 </div>
@@ -419,7 +417,6 @@
                         </tr>
                         </thead>
                         <tbody id="productTableBody">
-                        <%-- Products will be loaded by AJAX --%>
                         <tr>
                             <td colspan="7" style="text-align: center; padding: 3rem;">
                                 <div style="font-size: 2rem;"></div>
@@ -493,7 +490,13 @@
                 <div class="dashboard-widget">
                     <div class="widget-header">
                         <h3 class="widget-title">Quản lý Banner Trang chủ</h3>
+
+                        <!-- Nút Thêm Banner -->
+                        <button class="btn-add-new" onclick="showAddBannerForm()">
+                             Thêm Banner
+                        </button>
                     </div>
+
                     <div class="table-responsive">
                         <table class="admin-table banner-table">
                             <thead>
@@ -502,13 +505,14 @@
                                 <th style="width: 150px;">Hình ảnh</th>
                                 <th>Tiêu đề</th>
                                 <th style="width: 150px;">Trạng thái</th>
+                                <th style="width: 120px;">Hành động</th>
                             </tr>
                             </thead>
                             <tbody id="bannerTableBody">
                             <c:choose>
                                 <c:when test="${not empty listBanners}">
                                     <c:forEach var="b" items="${listBanners}">
-                                        <tr>
+                                        <tr id="banner-row-${b.id}">
                                             <td>#${b.id}</td>
                                             <td>
                                                 <img src="${pageContext.request.contextPath}${b.imageUrl}"
@@ -533,12 +537,19 @@
                                                     </span>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <button class="btn-delete"
+                                                        onclick="deleteBanner(${b.id}, '${b.title}')"
+                                                        title="Xóa banner">
+                                                    ️ Xóa
+                                                </button>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </c:when>
                                 <c:otherwise>
                                     <tr>
-                                        <td colspan="4" style="text-align: center; padding: 20px;">Không có banner nào</td>
+                                        <td colspan="5" style="text-align: center; padding: 20px;">Không có banner nào</td>
                                     </tr>
                                 </c:otherwise>
                             </c:choose>
@@ -547,8 +558,59 @@
                     </div>
                 </div>
             </div>
-
         </section>
+
+        <!-- Modal Thêm Banner -->
+        <div class="modal-overlay" id="bannerModalOverlay" onclick="closeBannerModal()"></div>
+        <div class="modal-container" id="bannerModal">
+            <div class="modal-header">
+                <h3 class="modal-title"> Thêm Banner Mới</h3>
+                <button class="modal-close" onclick="closeBannerModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="bannerForm" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="add">
+
+                    <div class="form-group">
+                        <label>Tiêu đề Banner *</label>
+                        <input type="text"
+                               name="title"
+                               id="bannerTitle"
+                               placeholder="VD: Khuyến mãi mùa hè"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hình ảnh Banner *</label>
+                        <input type="file"
+                               name="bannerImage"
+                               id="bannerImage"
+                               accept="image/*"
+                               onchange="previewBannerImage(event)"
+                               required>
+                        <div id="bannerImagePreview" class="image-preview"></div>
+                        <small style="color: #6b7280;">
+                            Kích thước khuyến nghị: 1920x600px. Tối đa 10MB.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" name="status" id="bannerStatus" value="true" checked>
+                            <span>Hiển thị banner ngay sau khi thêm</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeBannerModal()">
+                     Hủy
+                </button>
+                <button class="btn-primary" id="saveBannerBtn" onclick="submitBannerForm()">
+                     Lưu Banner
+                </button>
+            </div>
+        </div>
     </main>
 </div>
 
@@ -558,10 +620,10 @@
 <script>
     // Hàm xử lý bật tắt banner
     function toggleBannerStatus(bannerId, checkbox) {
-        // 1. Lấy trạng thái mới (Checked = true, Unchecked = false)
+        // 1. Lấy trạng thái mới
         const newStatus = checkbox.checked;
         const statusTextSpan = document.getElementById('status_text_' + bannerId);
-        // 2. Cập nhật giao diện ngay lập tức
+        // 2. Cập nhật giao diện
         if (newStatus) {
             statusTextSpan.innerHTML = '<span style="color: #28a745;">Đang xử lý...</span>';
         } else {
