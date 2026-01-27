@@ -78,50 +78,30 @@
             <c:set var="effectiveCartTotal" value="${not empty cartTotal ? cartTotal : (not empty sessionScope.cartTotal ? sessionScope.cartTotal : 0)}" />
             <input type="hidden" id="cartTotalHidden" name="cartTotalHidden" value="${effectiveCartTotal}" />
 
-            <!-- Coupon: choose from active coupons (no images) -->
+            <!-- Coupon: nhập mã giảm giá -->
             <section class="checkout-section">
                 <h3>Mã giảm giá</h3>
 
-                <c:if test="${empty activeCoupons}">
-                    <div class="payment-note">Hiện không có mã giảm giá nào.</div>
-                </c:if>
+                <p class="coupon-desc">
+                    Nhập mã giảm giá của bạn.
+                    <a href="${pageContext.request.contextPath}/promotions" target="_blank">
+                        Xem danh sách mã khuyến mãi
+                    </a>
+                </p>
 
-                <c:if test="${not empty activeCoupons}">
-                    <div class="coupon-list" id="couponList">
-                        <c:forEach items="${activeCoupons}" var="coupon">
-                            <div class="coupon-card"
-                                 data-code="${fn:escapeXml(coupon.couponCode)}"
-                                 data-discount-type="${fn:escapeXml(coupon.discountType)}"
-                                 data-discount-value="${coupon.discountValue}"
-                                 data-min-order="${coupon.minOrderAmount}"
-                                 data-id="${coupon.id}">
-                                <div class="coupon-body">
-                                    <div class="coupon-title">${fn:escapeXml(coupon.couponCode)}</div>
-                                    <div class="coupon-desc">
-                                        <c:choose>
-                                            <c:when test="${coupon.discountType == 'PERCENTAGE'}">
-                                                Giảm <strong>${coupon.discountValue}%</strong>
-                                            </c:when>
-                                            <c:otherwise>
-                                                Giảm <strong><fmt:formatNumber value="${coupon.discountValue}" type="number" groupingUsed="true"/>₫</strong>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <c:if test="${coupon.minOrderAmount != null && coupon.minOrderAmount > 0}">
-                                            &nbsp;• Điều kiện: đơn từ <strong><fmt:formatNumber value="${coupon.minOrderAmount}" type="number" groupingUsed="true"/>₫</strong>
-                                        </c:if>
-                                    </div>
-                                </div>
-                                <div class="coupon-right">
-                                    <button type="button" class="btn-select-coupon">Chọn</button>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                    <div id="couponMessage" role="status" aria-live="polite" style="margin-top:8px;"></div>
-                </c:if>
-
-                <!-- Hidden actual couponCode input that will be sent with the order form -->
-                <input type="hidden" id="couponCodeHidden" name="couponCode" value="">
+                <div class="coupon-input-wrapper">
+                    <input type="text" id="couponInput"
+                            name="couponCode"
+                            placeholder="Nhập mã giảm giá (VD: RAUMA36)"
+                            maxlength="50"
+                            autocomplete="off"
+                    />
+                    <button type="button" id="btnApplyCoupon" class="btn-apply-coupon">
+                        Áp dụng
+                    </button>
+                </div>
+                <div id="couponMessage" class="coupon-message"></div>
+                <input type="hidden" id="couponCodeHidden" name="couponCode" value="${param.couponCode}">
             </section>
 
             <section class="checkout-section">

@@ -123,7 +123,6 @@ public class OrderDetailDAO extends BaseDao {
                     .execute();
         });
     }
-
     public void insertBatch(List<OrderDetail> orderDetails) {
         get().useHandle(h -> {
             PreparedBatch batch = h.prepareBatch(
