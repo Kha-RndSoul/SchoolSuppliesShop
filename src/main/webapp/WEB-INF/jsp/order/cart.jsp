@@ -92,6 +92,16 @@
                         </strong>
                     </div>
                     <a href="${pageContext.request.contextPath}/checkout" class="btn-primary">Thanh toán</a>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <form action="${pageContext.request.contextPath}/cart" method="POST">
+                            <input type="hidden" name="action" value="clear">
+                            <button type="submit"
+                                    class="btn-clear-cart"
+                                    onclick="return confirm('CẢNH BÁO: Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng không?');">
+                                <i class="fas fa-trash"></i> Xóa tất cả giỏ hàng
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </aside>
         </div>

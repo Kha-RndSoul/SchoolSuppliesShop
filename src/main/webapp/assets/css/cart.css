@@ -176,3 +176,19 @@ form[action*="remove"] {
     color: #6b7280;
     margin-bottom: 1.5rem;
 }
+/* Style cho nút Xóa tất cả */
+.btn-clear-cart {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    padding: 5px;
+}
+
+.btn-clear-cart:hover {
+    color: #dc3545; /* Chuyển màu đỏ khi di chuột vào */
+    font-weight: 500;
+}

@@ -103,9 +103,9 @@ public class OrderDAO extends BaseDao {
             PreparedBatch batch = h.prepareBatch(
                     "INSERT INTO orders " +
                             "(id, customer_id, order_code, order_status, payment_method, payment_status, " +
-                            "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at) " +
+                            "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at, updated_at) " + // Thêm updated_at
                             "VALUES (:id, :customerId, :orderCode, :orderStatus, :paymentMethod, :paymentStatus, " +
-                            ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW())"
+                            ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW(), NOW())" // Thêm NOW()
             );
             orders.forEach(o -> batch.bindBean(o).add());
             batch.execute();
@@ -117,9 +117,9 @@ public class OrderDAO extends BaseDao {
                 h.createUpdate(
                                 "INSERT INTO orders " +
                                         "(customer_id, order_code, order_status, payment_method, payment_status, " +
-                                        "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at) " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at, updated_at) " +
                                         "VALUES (:customerId, :orderCode, :orderStatus, :paymentMethod, :paymentStatus, " +
-                                        ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW())"
+                                        ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW(), NOW())"
                         )
                         .bindBean(order)
                         .executeAndReturnGeneratedKeys("id")
@@ -202,9 +202,7 @@ public class OrderDAO extends BaseDao {
         return revenue != null ? revenue : 0.0;
     }
 
-    // ============================================
     // METHODS MỚI CHO THỐNG KÊ DASHBOARD
-    // ============================================
 
     /**
      * Lấy doanh thu theo khoảng thời gian (chỉ đơn COMPLETED)

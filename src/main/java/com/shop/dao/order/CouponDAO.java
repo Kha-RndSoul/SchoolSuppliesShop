@@ -67,6 +67,7 @@ public class CouponDAO extends BaseDao {
 
     /**
      * Lấy danh sách coupons đang active và còn hạn
+     * FIX: Đổi từ 'is_active = true' sang 'is_active = 1'
      */
     public List<Coupon> getActiveCoupons() {
         return get().withHandle(h ->
@@ -74,7 +75,7 @@ public class CouponDAO extends BaseDao {
                                 "min_order_amount, max_uses, used_count, start_date, end_date, " +
                                 "is_active, created_at " +
                                 "FROM coupons " +
-                                "WHERE is_active = true " +
+                                "WHERE is_active = 1 " +
                                 "  AND start_date <= CURRENT_TIMESTAMP " +
                                 "  AND end_date >= CURRENT_TIMESTAMP " +
                                 "  AND (max_uses = 0 OR used_count < max_uses) " +
@@ -86,7 +87,7 @@ public class CouponDAO extends BaseDao {
 
     /**
      * Lấy top N coupons theo số lượng sử dụng (phổ biến nhất)
-     * Mặc định lấy 4 coupons
+     * FIX: Đổi từ 'is_active = true' sang 'is_active = 1'
      */
     public List<Coupon> getTopUsedCoupons(int limit) {
         return get().withHandle(h ->
@@ -94,7 +95,7 @@ public class CouponDAO extends BaseDao {
                                 "min_order_amount, max_uses, used_count, start_date, end_date, " +
                                 "is_active, created_at " +
                                 "FROM coupons " +
-                                "WHERE is_active = true " +
+                                "WHERE is_active = 1 " +
                                 "  AND start_date <= CURRENT_TIMESTAMP " +
                                 "  AND end_date >= CURRENT_TIMESTAMP " +
                                 "ORDER BY used_count DESC " +
@@ -114,12 +115,13 @@ public class CouponDAO extends BaseDao {
 
     /**
      * Kiểm tra coupon còn hợp lệ không
+     * FIX: Đổi từ 'is_active = true' sang 'is_active = 1'
      */
     public boolean isValidCoupon(String code) {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) > 0 FROM coupons " +
                                 "WHERE coupon_code = :code " +
-                                "  AND is_active = true " +
+                                "  AND is_active = 1 " +
                                 "  AND start_date <= CURRENT_TIMESTAMP " +
                                 "  AND end_date >= CURRENT_TIMESTAMP " +
                                 "  AND (max_uses = 0 OR used_count < max_uses)")
@@ -139,7 +141,7 @@ public class CouponDAO extends BaseDao {
                             "(coupon_code, image_url, discount_type, discount_value, min_order_amount, " +
                             "max_uses, used_count, start_date, end_date, is_active) " +
                             "VALUES (:couponCode, :imageUrl, :discountType, :discountValue, :minOrderAmount, " +
-                            ":maxUses, :usedCount, :startDate, :endDate, :isActive)"
+                            ":maxUses, :usedCount, :startDate, :endDate, :active)"
             );
             coupons.forEach(c -> batch.bindBean(c).add());
             batch.execute();
@@ -148,6 +150,7 @@ public class CouponDAO extends BaseDao {
 
     /**
      * Insert coupon mới
+     * FIX: Đổi :isActive thành :active để match với getter isActive()
      */
     public void insertCoupon(Coupon coupon) {
         get().useHandle(h -> {
@@ -155,7 +158,7 @@ public class CouponDAO extends BaseDao {
                             "(coupon_code, image_url, discount_type, discount_value, min_order_amount, " +
                             "max_uses, used_count, start_date, end_date, is_active) " +
                             "VALUES (:couponCode, :imageUrl, :discountType, :discountValue, :minOrderAmount, " +
-                            ":maxUses, 0, :startDate, :endDate, :isActive)")
+                            ":maxUses, 0, :startDate, :endDate, :active)")
                     .bindBean(coupon)
                     .execute();
         });
@@ -163,6 +166,7 @@ public class CouponDAO extends BaseDao {
 
     /**
      * Update coupon
+     * FIX: Đổi :isActive thành :active để match với getter isActive()
      */
     public void updateCoupon(Coupon coupon) {
         get().useHandle(h -> {
@@ -175,7 +179,7 @@ public class CouponDAO extends BaseDao {
                             "max_uses = :maxUses, " +
                             "start_date = :startDate, " +
                             "end_date = :endDate, " +
-                            "is_active = :isActive " +
+                            "is_active = :active " +
                             "WHERE id = :id")
                     .bindBean(coupon)
                     .execute();
@@ -189,7 +193,7 @@ public class CouponDAO extends BaseDao {
         get().useHandle(h -> {
             h.createUpdate("UPDATE coupons SET is_active = :isActive WHERE id = :id")
                     .bind("id", id)
-                    .bind("isActive", isActive)
+                    .bind("isActive", isActive ? 1 : 0)
                     .execute();
         });
     }
@@ -229,11 +233,12 @@ public class CouponDAO extends BaseDao {
 
     /**
      * Đếm số coupons đang active
+     * FIX: Đổi từ 'is_active = true' sang 'is_active = 1'
      */
     public int countActive() {
         return get().withHandle(h ->
                 h.createQuery("SELECT COUNT(id) FROM coupons " +
-                                "WHERE is_active = true " +
+                                "WHERE is_active = 1 " +
                                 "  AND start_date <= CURRENT_TIMESTAMP " +
                                 "  AND end_date >= CURRENT_TIMESTAMP")
                         .mapTo(Integer.class)
