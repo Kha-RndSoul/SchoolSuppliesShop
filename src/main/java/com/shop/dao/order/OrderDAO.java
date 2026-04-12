@@ -210,7 +210,7 @@ public class OrderDAO extends BaseDao {
     public double getRevenueByDateRange(LocalDateTime start, LocalDateTime end) {
         Double revenue = get().withHandle(h -> h.createQuery(
                                 "SELECT COALESCE(SUM(total_amount), 0) FROM orders " +
-                                        "WHERE order_status = 'COMPLETED' " +
+                                        "WHERE order_status = 'DELIVERED' " +
                                         "AND created_at >= :start AND created_at <= :end"
                         )
                         .bind("start", Timestamp.valueOf(start))

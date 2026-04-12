@@ -142,7 +142,7 @@ public class AdminProductServlet extends HttpServlet {
             jsonResponse.put("success", false);
             jsonResponse.put("message", "ID sản phẩm không phải số");
         } catch (Exception e) {
-            e.printStackTrace(); // In lỗi ra console server để debug
+            e.printStackTrace();
             jsonResponse.put("success", false);
             jsonResponse.put("message", "Lỗi Server: " + e.getMessage());
         }
@@ -217,7 +217,7 @@ public class AdminProductServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
+    // Cập nhật sản phẩm
     private void handleUpdateProduct(HttpServletRequest request, JSONObject jsonResponse) {
         try {
             String productIdStr = request.getParameter("productId");
