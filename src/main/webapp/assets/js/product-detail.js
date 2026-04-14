@@ -185,6 +185,9 @@ function updateCartCount(addedQty) {
     } else {
         createCartBadge(addedQty);
     }
+    btn.textContent = originalText;
+    btn.disabled = false;
+    isSubmitting = false;
 }
 
 function setCartCount(count) {
