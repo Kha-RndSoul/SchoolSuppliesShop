@@ -94,7 +94,6 @@ function decreaseQuantity() {
     if (val > 1) input.value = val - 1;
 }
 
-// Fix: Tách validate logic thành hàm riêng để giảm complexity
 function clampQuantity(val, min, max, input) {
     if (isNaN(val) || input.value === '' || val < min) {
         input.value = min;
@@ -122,13 +121,15 @@ function validateQuantity(input) {
 }
 
 
-function switchTab(tabId) {
+// Fix: Truyền clickedHeader thay vì dùng global event object
+function switchTab(tabId, clickedHeader) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab-header').forEach(h => h.classList.remove('active'));
     const tab = document.getElementById(tabId);
     if (tab) tab.classList.add('active');
-    if (event.target) event.target.classList.add('active');
+    if (clickedHeader) clickedHeader.classList.add('active');
 }
+// Usage in HTML: onclick="switchTab('tab1', this)"
 
 
 function buyNow() {
@@ -165,7 +166,6 @@ function showNotification(message, type = 'success') {
 }
 
 
-// Fix: Tách tạo badge thành hàm riêng để giảm Deeply nested control flow
 function createCartBadge(count) {
     const cartButton = document.querySelector('.cart-button');
     if (!cartButton) return;
@@ -187,7 +187,6 @@ function updateCartCount(addedQty) {
     }
 }
 
-// Fix: Tách setCartCount thành hàm riêng để giảm Deeply nested control flow
 function setCartCount(count) {
     const badge = document.querySelector('.cart-badge');
     if (badge) {
@@ -227,8 +226,25 @@ function parseResponse(res) {
 }
 
 
-// Fix: Tách xử lý kết quả fetch thành hàm riêng để giảm complexity
-function handleAddToCartResult(result, actionUrl, val, btn, originalText, input) {
+// Fix: Tách reset button thành hàm riêng để giảm complexity
+function resetButton(btn, originalText) {
+    btn.textContent = originalText;
+    btn.disabled = false;
+    isSubmitting = false;
+}
+
+// Fix: Tách lock button thành hàm riêng
+function lockButton(btn) {
+    const originalText = btn.textContent;
+    btn.textContent = 'Đang thêm...';
+    btn.disabled = true;
+    return originalText;
+}
+
+// Fix: Gom 6 params vào 1 context object để giảm số lượng tham số
+function handleAddToCartResult(result, ctx) {
+    const { actionUrl, val, btn, originalText, input } = ctx;
+
     if (result && typeof result === 'object' && result.success) {
         showNotification('✓ Đã thêm vào giỏ hàng thành công!', 'success');
         if (typeof result.cartCount !== 'undefined') {
@@ -242,15 +258,24 @@ function handleAddToCartResult(result, actionUrl, val, btn, originalText, input)
     } else {
         showNotification('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
     }
-    btn.textContent = originalText;
-    btn.disabled = false;
-    isSubmitting = false;
+
+    resetButton(btn, originalText);
+}
+
+// Fix: Tách build params từ FormData thành hàm riêng
+function buildParamsFromForm(form) {
+    const fd = new FormData(form);
+    const params = new URLSearchParams();
+    for (const [k, v] of fd.entries()) params.append(k, v);
+    return params;
 }
 
 function handleFormSubmit(e, form) {
     e.preventDefault();
-    if (isSubmitting) return;
-    if (justValidated) { justValidated = false; return; }
+    if (isSubmitting || justValidated) {
+        justValidated = false;
+        return;
+    }
 
     const input = document.getElementById('quantity');
     const val = parseInt(input.value);
@@ -263,27 +288,56 @@ function handleFormSubmit(e, form) {
     if (!btn) return;
 
     isSubmitting = true;
-    const originalText = btn.textContent;
-    btn.textContent = 'Đang thêm...';
-    btn.disabled = true;
-
-    const fd = new FormData(form);
-    const params = new URLSearchParams();
-    for (const [k, v] of fd.entries()) params.append(k, v);
-
+    const originalText = lockButton(btn);
     const actionUrl = form.getAttribute('action');
+    const params = buildParamsFromForm(form);
+    const ctx = { actionUrl, val, btn, originalText, input };
 
     fetch(actionUrl, buildFetchOptions(params))
         .then(res => parseResponse(res))
-        .then(result => handleAddToCartResult(result, actionUrl, val, btn, originalText, input))
+        .then(result => handleAddToCartResult(result, ctx))
         .catch(() => {
             showNotification('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
-            btn.textContent = originalText;
-            btn.disabled = false;
-            isSubmitting = false;
+            resetButton(btn, originalText);
         });
 }
 
+
+// Fix: Tách setup quantity listeners thành hàm riêng để giảm complexity DOMContentLoaded
+function setupQuantityInput(qtyInput) {
+    qtyInput.removeAttribute('readonly');
+
+    qtyInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    qtyInput.addEventListener('blur', function () { validateQuantity(this); });
+    qtyInput.addEventListener('change', function () { validateQuantity(this); });
+    qtyInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            e.stopPropagation();
+            this.blur();
+        }
+    });
+    qtyInput.addEventListener('paste', function (e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        const numbersOnly = pastedText.replace(/[^0-9]/g, '');
+        if (numbersOnly) {
+            this.value = numbersOnly;
+            this.dispatchEvent(new Event('change'));
+        }
+    });
+}
+
+// Fix: Tách keyboard navigation thành hàm riêng
+function setupKeyboardNavigation() {
+    document.addEventListener('keydown', function (e) {
+        if (productImages.length <= 1) return;
+        if (e.key === 'ArrowLeft') prevImage();
+        if (e.key === 'ArrowRight') nextImage();
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     initGallery();
@@ -294,33 +348,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const qtyInput = document.getElementById('quantity');
-    if (qtyInput) {
-        qtyInput.removeAttribute('readonly');
-        qtyInput.addEventListener('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-        qtyInput.addEventListener('blur', function () { validateQuantity(this); });
-        qtyInput.addEventListener('change', function () { validateQuantity(this); });
-        qtyInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); this.blur(); }
-        });
-        qtyInput.addEventListener('paste', function (e) {
-            e.preventDefault();
-            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-            const numbersOnly = pastedText.replace(/[^0-9]/g, '');
-            if (numbersOnly) {
-                this.value = numbersOnly;
-                this.dispatchEvent(new Event('change'));
-            }
-        });
-    }
+    if (qtyInput) setupQuantityInput(qtyInput);
 
-    document.addEventListener('keydown', function (e) {
-        if (productImages.length > 1) {
-            if (e.key === 'ArrowLeft') prevImage();
-            if (e.key === 'ArrowRight') nextImage();
-        }
-    });
+    setupKeyboardNavigation();
 });
 
 console.log('Product Detail JS loaded');
