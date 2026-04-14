@@ -12,22 +12,22 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4          # Fix: v3 → v4
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v4        # Fix: v3 → v4
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven          # ✅ THÊM: cache Maven dependencies
 
       - name: Chạy test và tạo báo cáo Coverage
-        run: mvn test jacoco:report        # Fix: thêm jacoco:report
+        run: mvn test           # ✅ Fix: bỏ "jacoco:report" vì phase=test đã tự chạy
 
       - name: Kiểm tra file coverage tồn tại
         run: |
           if [ ! -f target/site/jacoco/jacoco.xml ]; then
             echo "❌ jacoco.xml không tồn tại!"
-            echo "Các file xml hiện có:"
             find . -name "*.xml" | grep -i jacoco || echo "Không tìm thấy file jacoco nào"
             exit 1
           fi
