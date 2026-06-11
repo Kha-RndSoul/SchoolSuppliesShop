@@ -16,7 +16,8 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders ORDER BY created_at DESC"
                         )
                         .mapToBean(Order.class)
@@ -30,6 +31,7 @@ public class OrderDAO extends BaseDao {
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE id = :id"
                         )
                         .bind("id", id)
@@ -45,6 +47,7 @@ public class OrderDAO extends BaseDao {
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC"
                         )
                         .bind("customerId", customerId)
@@ -59,6 +62,7 @@ public class OrderDAO extends BaseDao {
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE order_status = :status ORDER BY created_at DESC"
                         )
                         .bind("status", status)
@@ -73,6 +77,7 @@ public class OrderDAO extends BaseDao {
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId " +
                                         "ORDER BY created_at DESC LIMIT 1"
                         )
@@ -89,6 +94,7 @@ public class OrderDAO extends BaseDao {
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE shipping_address LIKE CONCAT('%', :keyword, '%') " +
                                         "OR note LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC"
                         )
@@ -280,8 +286,64 @@ public class OrderDAO extends BaseDao {
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at " +
+                                        "order_hash, signature, key_id, is_verified " +
                                         "FROM orders " +
                                         "WHERE customer_id = :customerId " +
+                                        "ORDER BY created_at DESC"
+                        )
+                        .bind("customerId", customerId)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
+
+    //Cập nhật đơn hàng sau khi user ký
+    public void updateSignature(int orderId, String orderHash,
+                                String signature, int keyId) {
+        get().useHandle(h ->
+                h.createUpdate(
+                                "UPDATE orders " +
+                                        "SET order_hash = :orderHash, " +
+                                        "    signature  = :signature, " +
+                                        "    key_id     = :keyId, " +
+                                        "    is_verified = 0, " +
+                                        "    updated_at = NOW() " +
+                                        "WHERE id = :orderId"
+                        )
+                        .bind("orderId",   orderId)
+                        .bind("orderHash", orderHash)
+                        .bind("signature", signature)
+                        .bind("keyId",     keyId)
+                        .execute()
+        );
+    }
+
+    //Cập nhật kết quả xác minh chữ ký
+    public void updateVerifyResult(int orderId, int isVerified) {
+        get().useHandle(h ->
+                h.createUpdate(
+                                "UPDATE orders " +
+                                        "SET is_verified = :isVerified, " +
+                                        "    updated_at  = NOW() " +
+                                        "WHERE id = :orderId"
+                        )
+                        .bind("orderId",    orderId)
+                        .bind("isVerified", isVerified)
+                        .execute()
+        );
+    }
+
+    //Lấy danh sách đơn hàng chưa ký
+    public List<Order> getUnsignedByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery(
+                                "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
+                                        "total_amount, shipping_name, shipping_phone, shipping_address, " +
+                                        "note, created_at, updated_at, " +
+                                        "order_hash, signature, key_id, is_verified " +
+                                        "FROM orders " +
+                                        "WHERE customer_id = :customerId " +
+                                        "AND (signature IS NULL OR signature = '') " +
                                         "ORDER BY created_at DESC"
                         )
                         .bind("customerId", customerId)
