@@ -14,9 +14,8 @@ public class OrderCouponDAO extends BaseDao {
 
     static {
         Timestamp now = new Timestamp(System.currentTimeMillis());
-
-        data.put(1, new OrderCoupon(1, 1, 1, new BigDecimal("50000"), now));
-        data.put(2, new OrderCoupon(2, 3, 2, new BigDecimal("50000"), now));
+        data.put(1, new OrderCoupon(1, 1, 1, "HELLOSALE", new BigDecimal("50000"), now));
+        data.put(2, new OrderCoupon(2, 3, 2, "GIAM20K", new BigDecimal("50000"), now));
     }
 
     public List<OrderCoupon> getListOrderCoupon() {
@@ -142,8 +141,8 @@ public class OrderCouponDAO extends BaseDao {
         get().useHandle(h -> {
             h.createUpdate(
                             "INSERT INTO order_coupons " +
-                                    "(order_id, coupon_id, coupon_code, discount_amount, created_at) " +
-                                    "VALUES (:orderId, :couponId, :couponCode, :discountAmount, NOW())"
+                                    "(order_id, coupon_id, coupon_code, discount_amount) " +
+                                    "VALUES (:orderId, :couponId, :couponCode, :discountAmount)"
                     )
                     .bindBean(orderCoupon)
                     .execute();

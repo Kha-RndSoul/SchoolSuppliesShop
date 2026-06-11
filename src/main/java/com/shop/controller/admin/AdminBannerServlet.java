@@ -25,6 +25,7 @@ public class AdminBannerServlet extends HttpServlet {
         // Khởi tạo Service
         bannerService = new BannerService();
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,9 +39,7 @@ public class AdminBannerServlet extends HttpServlet {
 
         try {
             if ("getList".equals(action)) {
-                // Gọi Service lấy tất cả banner
                 List<Banner> banners = bannerService.getAllBanners();
-                // Chuyển List Java sang JSON Array
                 JSONArray arr = new JSONArray();
                 for (Banner b : banners) {
                     JSONObject item = new JSONObject();
@@ -54,7 +53,7 @@ public class AdminBannerServlet extends HttpServlet {
                 jsonResponse.put("data", arr);
             } else {
                 jsonResponse.put("success", false);
-                jsonResponse.put("message", "Action không hợp lệ.");
+                jsonResponse.put("message", "Vui lòng sử dụng POST method cho action này");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,12 +64,11 @@ public class AdminBannerServlet extends HttpServlet {
         out.print(jsonResponse.toString());
         out.flush();
     }
-    /**
-     * doPost: Xử lý thay đổi dữ liệu (Toggle Status, Delete...)
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -79,14 +77,23 @@ public class AdminBannerServlet extends HttpServlet {
 
         try {
             String action = request.getParameter("action");
-            // 1. Xử lý Toggle Status (Bật/Tắt)
+            System.out.println("   Action: " + action);
+
+            if (action == null || action.isEmpty()) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "Thiếu parameter 'action'");
+                out.print(jsonResponse.toString());
+                out.flush();
+                return;
+            }
+
+            // 1. Toggle Status
             if ("toggleStatus".equals(action)) {
                 String idStr = request.getParameter("id");
                 String statusStr = request.getParameter("status");
                 if (idStr != null && statusStr != null) {
                     int id = Integer.parseInt(idStr);
                     boolean newStatus = Boolean.parseBoolean(statusStr);
-                    // Gọi Service
                     boolean updated = bannerService.toggleBannerStatus(id, newStatus);
                     if (updated) {
                         jsonResponse.put("success", true);
@@ -97,43 +104,48 @@ public class AdminBannerServlet extends HttpServlet {
                     }
                 } else {
                     jsonResponse.put("success", false);
-                    jsonResponse.put("message", "Dữ liệu không hợp lệ.");
+                    jsonResponse.put("message", "Thiếu tham số id hoặc status");
                 }
             }
-            // 2. Xử lý Xóa Banner
+            // 2. Delete Banner
             else if ("delete".equals(action)) {
                 String idStr = request.getParameter("id");
-                if (idStr != null) {
+                if (idStr != null && !idStr.isEmpty()) {
                     int id = Integer.parseInt(idStr);
-                    // Gọi Service
                     boolean deleted = bannerService.deleteBanner(id);
                     if (deleted) {
                         jsonResponse.put("success", true);
                         jsonResponse.put("message", "Xóa banner thành công!");
                     } else {
                         jsonResponse.put("success", false);
-                        jsonResponse.put("message", "Lỗi khi xóa banner.");
+                        jsonResponse.put("message", "Lỗi khi xóa banner (ID không tồn tại hoặc lỗi DB).");
                     }
+                } else {
+                    jsonResponse.put("success", false);
+                    jsonResponse.put("message", "Thiếu ID banner");
                 }
-            }
-            // Action lạ
-            else {
+            } else {
+                System.out.println(" Unknown action: " + action);
                 jsonResponse.put("success", false);
-                jsonResponse.put("message", "Action không tồn tại: " + action);
+                jsonResponse.put("message", "Action không hợp lệ: " + action);
             }
         } catch (NumberFormatException e) {
+            System.err.println(" Invalid number format: " + e.getMessage());
             jsonResponse.put("success", false);
-            jsonResponse.put("message", "Lỗi định dạng số (ID phải là số nguyên).");
-        } catch (IllegalArgumentException e) {
-            // Catch các lỗi do Service ném ra (ví dụ: ID <= 0)
-            jsonResponse.put("success", false);
-            jsonResponse.put("message", e.getMessage());
+            jsonResponse.put("message", "ID không hợp lệ");
         } catch (Exception e) {
+            System.err.println(" Error in doPost: " + e.getMessage());
             e.printStackTrace();
             jsonResponse.put("success", false);
-            jsonResponse.put("message", "Lỗi hệ thống: " + e.getMessage());
+            jsonResponse.put("message", "Lỗi server: " + e.getMessage());
         }
         out.print(jsonResponse.toString());
         out.flush();
+    }
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Forward DELETE requests to doPost
+        doPost(request, response);
     }
 }

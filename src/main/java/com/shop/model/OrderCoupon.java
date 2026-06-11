@@ -8,6 +8,7 @@ public class OrderCoupon {
     private int id;
     private int orderId;
     private int couponId;
+    private String couponCode;
     private BigDecimal discountAmount;
     private Timestamp createdAt;
 
@@ -21,11 +22,12 @@ public class OrderCoupon {
     }
 
 
-    public OrderCoupon(int id, int orderId, int couponId,
+    public OrderCoupon(int id, int orderId, int couponId, String couponCode,
                        BigDecimal discountAmount, Timestamp createdAt) {
         this.id = id;
         this.orderId = orderId;
         this.couponId = couponId;
+        this.couponCode = couponCode;
         this.discountAmount = discountAmount;
         this.createdAt = createdAt;
     }
@@ -54,6 +56,13 @@ public class OrderCoupon {
 
     public void setCouponId(int couponId) {
         this.couponId = couponId;
+    }
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
     }
 
     public BigDecimal getDiscountAmount() {

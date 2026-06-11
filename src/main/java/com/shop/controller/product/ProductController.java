@@ -270,7 +270,7 @@ public class ProductController extends HttpServlet {
 
             System.out.println(" ProductController completed successfully");
 
-           //forward đến JSP
+            //forward đến JSP
             request.getRequestDispatcher("/WEB-INF/jsp/products/products.jsp")
                     .forward(request, response);
 
