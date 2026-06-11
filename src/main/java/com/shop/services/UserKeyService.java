@@ -2,9 +2,10 @@ package com.shop.services;
 
 import com.shop.dao.order.UserKeyDAO;
 import com.shop.model.UserKey;
+
 import java.security.*;
 import java.util.Base64;
-
+import java.util.List;
 
 public class UserKeyService {
     private final UserKeyDAO userKeyDAO;
@@ -29,5 +30,17 @@ public class UserKeyService {
         UserKey userKey = new UserKey(customerId, pubKeyBase64, "GENERATED");
         userKeyDAO.insert(userKey);
         return priv.getEncoded();
+    }
+
+    public void uploadPublicKey(int customerId, byte[] pubKeyBytes) throws GeneralSecurityException {
+        java.security.spec.X509EncodedKeySpec pubKeySpec = new java.security.spec.X509EncodedKeySpec(pubKeyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
+        keyFactory.generatePublic(pubKeySpec);
+
+        String pubKeyBase64 = Base64.getEncoder().encodeToString(pubKeyBytes);
+        userKeyDAO.deactivateAllByCustomerId(customerId);
+        // Lưu public key mới
+        UserKey userKey = new UserKey(customerId, pubKeyBase64, "UPLOADED");
+        userKeyDAO.insert(userKey);
     }
 }
