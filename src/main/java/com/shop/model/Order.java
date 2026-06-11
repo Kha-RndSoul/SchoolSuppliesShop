@@ -16,6 +16,10 @@ public class Order {
     private String note;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private String orderHash;
+    private String signature;
+    private Integer keyId;
+    private Integer isVerified;                  // 0: chưa xác minh, 1: hợp lệ ,-1: sai
 
     public Order() {}
 
@@ -145,6 +149,38 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
+    public String getOrderHash() {
+        return orderHash;
+    }
+
+    public void setOrderHash(String orderHash) {
+        this.orderHash = orderHash;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public Integer getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(Integer keyId) {
+        this.keyId = keyId;
+    }
+
+    public Integer getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(Integer isVerified) {
+        this.isVerified = isVerified;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -161,6 +197,10 @@ public class Order {
                 ", note='" + note + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", orderHash='" + orderHash + '\'' +
+                ", signature='" + signature + '\'' +
+                ", keyId=" + keyId +
+                ", isVerified=" + isVerified +
                 '}';
     }
 }
