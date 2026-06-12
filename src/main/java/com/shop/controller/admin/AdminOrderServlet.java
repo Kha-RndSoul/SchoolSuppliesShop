@@ -1,7 +1,11 @@
 package com.shop.controller.admin;
 
 import com.shop.dao.order.OrderDAO;
+import com.shop.dao.order.UserKeyDAO;
+import com.shop.model.Order;
+import com.shop.model.UserKey;
 import com.shop.services.OrderService;
+import com.shop.util.SignatureUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -10,6 +14,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -18,12 +24,13 @@ public class AdminOrderServlet extends HttpServlet {
 
     private OrderService orderService;
     private OrderDAO orderDAO;
+    private UserKeyDAO userKeyDAO;
 
     @Override
     public void init() throws ServletException {
         orderService = new OrderService();
         orderDAO     = new OrderDAO();
-        System.out.println(" AdminOrderServlet initialized");
+        userKeyDAO   = new UserKeyDAO();
     }
 
     @Override
@@ -86,7 +93,6 @@ public class AdminOrderServlet extends HttpServlet {
         out.flush();
     }
 
-    //Lấy danh sách đơn hàng
     private void handleGetList(HttpServletRequest request, JSONObject jsonResponse)
             throws Exception {
 
@@ -102,7 +108,6 @@ public class AdminOrderServlet extends HttpServlet {
                     .collect(java.util.stream.Collectors.toList());
         }
 
-        // Phân trang
         int total      = allOrders.size();
         int totalPages = (int) Math.ceil((double) total / pageSize);
         int startIndex = (page - 1) * pageSize;
@@ -120,12 +125,16 @@ public class AdminOrderServlet extends HttpServlet {
             item.put("order_status",  o.get("order_status"));
             item.put("total_amount",  o.get("total_amount"));
             item.put("customer_name", o.get("customer_name"));
-            item.put("created_at",    o.get("created_at") != null
-                    ? o.get("created_at").toString() : "");
+            item.put("created_at",    o.get("created_at") != null ? o.get("created_at").toString() : "");
 
-            item.put("signature",   JSONObject.NULL);
-            item.put("is_verified", 0);
-            item.put("key_id",      JSONObject.NULL);
+            item.put("signature",   o.get("signature") != null ? o.get("signature").toString() : JSONObject.NULL);
+            item.put("key_id",      o.get("key_id") != null ? o.get("key_id") : JSONObject.NULL);
+
+            int isVerified = 0;
+            if (o.get("is_verified") != null) {
+                isVerified = Integer.parseInt(o.get("is_verified").toString());
+            }
+            item.put("is_verified", isVerified);
 
             ordersArray.put(item);
         }
@@ -141,7 +150,6 @@ public class AdminOrderServlet extends HttpServlet {
         jsonResponse.put("pagination", pagination);
     }
 
-    // Cập nhật trạng thái đơn hàng
     private void handleUpdateStatus(HttpServletRequest request, JSONObject jsonResponse)
             throws Exception {
 
@@ -160,13 +168,78 @@ public class AdminOrderServlet extends HttpServlet {
             return;
         }
 
+        Order order = orderDAO.getOrderById(orderId);
+        if (order == null) {
+            jsonResponse.put("success", false);
+            jsonResponse.put("message", "Không tìm thấy đơn hàng trên hệ thống");
+            return;
+        }
+
+        if ("CONFIRMED".equalsIgnoreCase(newStatus)) {
+
+            String signatureStr = order.getSignature();
+            Integer keyIdObj    = order.getKeyId();
+            String orderHash    = order.getOrderHash();
+
+            // Kiểm tra đơn hàng đã được ký hay chưa
+            if (signatureStr == null || signatureStr.trim().isEmpty() || keyIdObj == null || keyIdObj <= 0) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "Chặn: Đơn hàng này chưa được người dùng ký tên, không được phép duyệt!");
+                return;
+            }
+
+            UserKey userKey = userKeyDAO.getById(keyIdObj);
+            if (userKey == null) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "Chặn: Không tìm thấy khóa bảo mật tương ứng với đơn hàng!");
+                return;
+            }
+
+            // Kiểm tra thời gian khóa mất
+            Timestamp orderCreatedAt = order.getCreatedAt();
+            Timestamp reportedLostAt = userKey.getReportedLostAt();
+
+            if (reportedLostAt != null && orderCreatedAt != null) {
+                if (orderCreatedAt.after(reportedLostAt)) {
+                    jsonResponse.put("success", false);
+                    jsonResponse.put("message", "Chặn: Khóa bảo mật của người dùng đã bị báo mất trước thời điểm đơn hàng này được tạo!");
+
+                    JSONObject details = new JSONObject();
+                    details.put("created_at", orderCreatedAt.toString());
+                    details.put("reported_lost_at", reportedLostAt.toString());
+                    jsonResponse.put("details", details);
+                    return;
+                }
+            }
+
+            // Verify chữ ký
+            boolean isSignatureValid = false;
+            try {
+                byte[] signatureBytes = Base64.getDecoder().decode(signatureStr.trim());
+                byte[] publicKeyBytes = Base64.getDecoder().decode(userKey.getPublicKey().trim());
+
+                isSignatureValid = SignatureUtil.verify(orderHash, signatureBytes, publicKeyBytes);
+            } catch (Exception ex) {
+                isSignatureValid = false;
+            }
+
+            if (!isSignatureValid) {
+                orderDAO.updateVerifyResult(orderId, -1);
+
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "CẢNH BÁO: Chữ ký không trùng khớp! Dữ liệu đơn hàng có dấu hiệu bị can thiệp trái phép, cấm duyệt đơn!");
+                return;
+            }
+        }
+
+        // Cập nhật trạng thái đơn
         try {
             orderService.updateStatus(orderId, newStatus);
             jsonResponse.put("success", true);
-            jsonResponse.put("message", "Cập nhật trạng thái thành công");
+            jsonResponse.put("message", "Cập nhật trạng thái đơn hàng thành công!");
         } catch (Exception e) {
             jsonResponse.put("success", false);
-            jsonResponse.put("message", e.getMessage());
+            jsonResponse.put("message", "Lỗi khi cập nhật dữ liệu: " + e.getMessage());
         }
     }
 
