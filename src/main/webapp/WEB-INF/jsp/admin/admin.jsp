@@ -474,6 +474,7 @@
                             <th>Mã Đơn</th>
                             <th>Khách Hàng</th>
                             <th>Tổng Tiền</th>
+                            <th>Trạng thái</th>
                             <th>Chữ Ký</th>
                             <th>Ngày Đặt</th>
                             <th>Hành Động</th>
