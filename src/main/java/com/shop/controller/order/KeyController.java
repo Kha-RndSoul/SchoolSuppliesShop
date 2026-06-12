@@ -1,6 +1,7 @@
 package com.shop.controller.order;
 
 import com.shop.model.Customer;
+import com.shop.model.UserKey;
 import com.shop.services.UserKeyService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -62,7 +63,46 @@ public class KeyController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/key");
+
+        Customer customer = getCustomer(request, response);
+        if (customer == null) return;
+
+        String action = request.getParameter("action");
+        if (action == null) action = "";
+
+        switch (action) {
+            case "generate":
+                handleGenerate(request, response, customer);
+                break;
+            default:
+                response.sendRedirect(request.getContextPath() + "/key");
+        }
+    }
+
+    private void handleGenerate(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Customer customer) throws IOException {
+        try {
+            byte[][] keyPair = userKeyService.generateKeyPairOnly();
+            UserKey existing = userKeyService.getActiveKey(customer.getId());
+            HttpSession session = request.getSession();
+
+            if (existing == null) {
+                userKeyService.saveAndActivate(customer.getId(), keyPair[0], "GENERATED");
+                session.setAttribute("newKeyActivated", true);
+            }
+
+            session.setAttribute("pendingPrivateKey", keyPair[0]);
+            session.setAttribute("pendingPublicKey",  keyPair[1]);
+
+            response.sendRedirect(request.getContextPath() + "/key");
+
+        } catch (Exception e) {
+            System.err.println("Caught exception " + e.toString());
+            response.sendRedirect(request.getContextPath()
+                    + "/key?error=" + java.net.URLEncoder.encode(
+                    "Lỗi sinh khóa: " + e.getMessage(), "UTF-8"));
+        }
     }
 
     private Customer getCustomer(HttpServletRequest request,
