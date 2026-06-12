@@ -42,7 +42,7 @@ public class AdminDashboardServlet extends HttpServlet {
         productDAO = new ProductDAO();
         categoryService = new CategoryService();
         brandService = new BrandService();
-        bannerService = new BannerService(); // <--- Khởi tạo service
+        bannerService = new BannerService();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class AdminDashboardServlet extends HttpServlet {
             var allCategories = categoryService.getAllCategories();
             var allBrands = brandService.getAllBrands();
             System.out.println(" Categories: " + allCategories.size() + ", Brands: " + allBrands.size());
-            // 5. Load Banners (MỚI THÊM)
+            // 5. Load Banners
             System.out.println("→ Loading banners...");
             List<Banner> listBanners = bannerService.getAllBanners();
             System.out.println(" Banners loaded: " + listBanners.size());

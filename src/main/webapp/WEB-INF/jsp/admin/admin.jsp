@@ -432,23 +432,66 @@
             </div>
         </section>
 
-        <!-- OTHER SECTIONS ( -->
+        <!--SECTION QUẢN LÝ ĐƠN HÀNG -->
         <section id="orders-section" class="admin-section">
             <div class="section-header">
-                <h2>Quản lý đơn hàng</h2>
+                <h2>Quản Lý Đơn Hàng</h2>
+                <div class="section-actions">
+                    <select class="filter-select" id="orderStatusFilter" onchange="filterOrdersByStatus()">
+                        <option value="ALL">Tất cả trạng thái</option>
+                        <option value="PENDING">Chờ xử lý</option>
+                        <option value="CONFIRMED">Đã xác nhận</option>
+                        <option value="SHIPPING">Đang giao</option>
+                        <option value="DELIVERED">Hoàn thành</option>
+                        <option value="CANCELLED">Đã hủy</option>
+                    </select>
+                    <select class="filter-select" id="orderSigFilter" onchange="filterOrdersByStatus()">
+                        <option value="ALL">Tất cả chữ ký</option>
+                        <option value="UNSIGNED">Chưa ký</option>
+                        <option value="UNVERIFIED">Chưa xác minh</option>
+                        <option value="VALID">Hợp lệ</option>
+                        <option value="INVALID">Sai / Bị chỉnh</option>
+                    </select>
+                </div>
             </div>
-            <h3>Danh sách đơn hàng</h3>
-            <p>Tương tự section Sản phẩm</p>
-        </section>
 
-        <section id="customers-section" class="admin-section">
-            <div class="section-header">
-                <h2>Quản lý khách hàng</h2>
+            <div class="dashboard-widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">Danh Sách Đơn Hàng</h3>
+                    <div class="product-search-box">
+                        <input type="text" id="orderSearchInput" class="search-input"
+                               placeholder=" Tìm mã đơn, khách hàng..."
+                               onkeyup="searchOrders()">
+                        <button class="search-clear-btn" id="orderSearchClearBtn"
+                                onclick="clearOrderSearch()" style="display:none;">×</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Mã Đơn</th>
+                            <th>Khách Hàng</th>
+                            <th>Tổng Tiền</th>
+                            <th>Chữ Ký</th>
+                            <th>Ngày Đặt</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align:center; padding:3rem; color:#6b7280;">
+                                Đang tải dữ liệu...
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="orderPagination"></div>
+                </div>
             </div>
-            <h3>Danh sách khách hàng</h3>
-            <p>Tương tự section Sản phẩm</p>
         </section>
-
+        <!-- Các Section khác -->
         <section id="categories-section" class="admin-section">
             <div class="section-header">
                 <h2>Quản lý danh mục</h2>
