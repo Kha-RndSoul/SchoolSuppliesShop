@@ -97,7 +97,7 @@ public class KeyController extends HttpServlet {
             HttpSession session = request.getSession();
 
             if (existing == null) {
-                userKeyService.saveAndActivate(customer.getId(), keyPair[0], "GENERATED");
+                userKeyService.saveAndActivate(customer.getId(), keyPair[1], "GENERATED");
                 session.setAttribute("newKeyActivated", true);
             }
 
