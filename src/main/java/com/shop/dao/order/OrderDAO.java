@@ -30,7 +30,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE id = :id"
                         )
@@ -46,7 +46,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC"
                         )
@@ -61,7 +61,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE order_status = :status ORDER BY created_at DESC"
                         )
@@ -76,7 +76,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId " +
                                         "ORDER BY created_at DESC LIMIT 1"
@@ -93,7 +93,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE shipping_address LIKE CONCAT('%', :keyword, '%') " +
                                         "OR note LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC"
@@ -150,11 +150,13 @@ public class OrderDAO extends BaseDao {
 
     public void updateStatus(int id, String status) {
         get().useHandle(h -> {
+            int isVerifiedValue = "CONFIRMED".equalsIgnoreCase(status) ? 1 : 0;
             h.createUpdate(
-                            "UPDATE orders SET order_status = :status, updated_at = NOW() WHERE id = :id"
+                            "UPDATE orders SET order_status = :status, is_verified = :isVerified, updated_at = NOW() WHERE id = :id"
                     )
                     .bind("id", id)
                     .bind("status", status)
+                    .bind("isVerified", isVerifiedValue)
                     .execute();
         });
     }
@@ -267,6 +269,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT o.id, o.customer_id, o.order_code, o.order_status, " +
                                         "o.total_amount, o.created_at, " +
+                                        "o.order_hash, o.signature, o.key_id, o.is_verified, " +
                                         "COALESCE(c.full_name, o.shipping_name, 'Khách vãng lai') as customer_name " +
                                         "FROM orders o " +
                                         "LEFT JOIN customers c ON o.customer_id = c.id " +
@@ -285,7 +288,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders " +
                                         "WHERE customer_id = :customerId " +
