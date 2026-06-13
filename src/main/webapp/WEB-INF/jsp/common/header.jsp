@@ -81,6 +81,13 @@
                             <span>${sessionScope.customerName}</span>
                         </div>
                     </a>
+                    <%-- Quản lý khóa --%>
+                    <a href="${pageContext.request.contextPath}/key" class="action-item">
+                        <div class="action-text">
+                            <button class="user-button" type="button">🔑</button>
+                            <span>Quản lý khóa</span>
+                        </div>
+                    </a>
                     <a href="${pageContext.request.contextPath}/logout" class="action-item"
                        onclick="return confirm('Bạn có chắc muốn đăng xuất?');">
                         <div class="action-text">
