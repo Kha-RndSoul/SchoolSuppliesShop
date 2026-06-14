@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.shop.dao.order.UserKeyDAO;
+import com.shop.model.UserKey;
+import java.security.MessageDigest;
+import java.util.Base64;
+
 public class OrderService {
 
     private final OrderDAO orderDAO;
@@ -27,6 +32,7 @@ public class OrderService {
     private final OrderCouponDAO orderCouponDAO;
     private final ProductDAO productDAO;
     private final CustomerDAO customerDAO;
+    private final UserKeyDAO userKeyDAO;
 
     // Các trạng thái đơn hàng
     public static final String STATUS_PENDING = "PENDING";
@@ -44,6 +50,7 @@ public class OrderService {
         this.orderCouponDAO = new OrderCouponDAO();
         this.productDAO = new ProductDAO();
         this.customerDAO = new CustomerDAO();
+        this.userKeyDAO = new UserKeyDAO();
     }
 
 
@@ -250,6 +257,38 @@ public class OrderService {
             orderCoupon.setDiscountAmount(BigDecimal.valueOf(discountAmount));
             orderCouponDAO.insertOrderCoupon(orderCoupon);
             couponDAO.incrementUsedCount(coupon.getId());
+        }
+        //  Tính order_hash + gắn key_id
+        try {
+            // Lấy key đang active của customer
+            UserKey activeKey = userKeyDAO.getActiveByCustomerId(customerId);
+            Integer keyId = (activeKey != null) ? activeKey.getId() : null;
+            // Lấy lại order_details vừa insert để build dữ liệu hash
+            List<OrderDetail> insertedDetails = orderDetailDAO.getByOrderId(orderId);
+            // Build chuỗi dữ liệu đơn hàng
+            StringBuilder sb = new StringBuilder();
+            sb.append(order.getOrderCode()).append("|");
+            sb.append(customerId).append("|");
+            sb.append(totalAmount).append("|");
+            sb.append(shippingName).append("|");
+            sb.append(shippingPhone).append("|");
+            sb.append(shippingAddr).append("|");
+
+            for (OrderDetail d : insertedDetails) {
+                sb.append(d.getProductId()).append(":")
+                        .append(d.getQuantity()).append(":")
+                        .append(d.getPrice()).append(":")
+                        .append(d.getSubtotal()).append(";");
+            }
+            if (coupon != null) {
+                sb.append(coupon.getCouponCode()).append(":").append(discountAmount);
+            }
+            MessageDigest md = MessageDigest.getInstance("SHA-1", "SUN");
+            byte[] hashBytes = md.digest(sb.toString().getBytes("UTF-8"));
+            String orderHash = Base64.getEncoder().encodeToString(hashBytes);
+            orderDAO.updateSignature(orderId, orderHash, null, keyId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // Trừ stock

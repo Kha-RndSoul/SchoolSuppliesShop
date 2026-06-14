@@ -32,13 +32,26 @@ public class UserKeyService {
         userKey.setActive(true);
         userKeyDAO.insert(userKey);
     }
-
+    // lưu khóa mới xuống DB với is_active = false, chờ user upload xác nhận
+    public void savePendingKey(int customerId, byte[] pubKeyBytes) throws Exception {
+        String pubKeyBase64 = Base64.getEncoder().encodeToString(pubKeyBytes);
+        UserKey userKey = new UserKey(customerId, pubKeyBase64, "GENERATED");
+        userKey.setActive(false);
+        userKeyDAO.insert(userKey);
+    }
+    // upload public key từ file, kiểm tra có tồn tại dưới DB không rồi mới activate
     public void uploadPublicKey(int customerId, byte[] encKey) throws Exception {
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(encKey);
         KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
         keyFactory.generatePublic(pubKeySpec);
-
-        saveAndActivate(customerId, encKey, "UPLOADED");
+        // kiểm tra key này có tồn tại dưới DB của customer không
+        String pubKeyBase64 = Base64.getEncoder().encodeToString(encKey);
+        UserKey existing = userKeyDAO.getByPublicKeyAndCustomerId(pubKeyBase64, customerId);
+        if (existing == null) {
+            throw new Exception("Khóa này không tồn tại trong hệ thống.");
+        }
+        userKeyDAO.deactivateAllByCustomerId(customerId);
+        userKeyDAO.activateById(existing.getId());
     }
 
     public PublicKey loadPublicKey(int keyId) throws Exception {
