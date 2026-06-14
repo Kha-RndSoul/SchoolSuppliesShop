@@ -18,6 +18,8 @@
     var couponHidden = q("couponCodeHidden");
     var couponMessage = q("couponMessage");
     var couponListEl = document.getElementById("couponList");
+    var couponInputEl = q("couponInput");
+    var btnApplyCouponEl = q("btnApplyCoupon");
 
     function getSubtotal() {
         return parseIntSafe(subtotalEl.getAttribute("data-value"));
@@ -56,11 +58,12 @@
     function computeDiscountFromCoupon(coupon, orderAmount) {
         var discount = 0;
         if (!coupon || orderAmount <= 0) return 0;
-        var type = (coupon.type || "").toUpperCase();
+        var type = (coupon.type || "").toUpperCase().trim();
         var val = Number(coupon.value) || 0;
-        if (type === "PERCENTAGE") {
+
+        if (type === "PERCENTAGE" || type === "PERCENT") {
             discount = Math.round(orderAmount * (val / 100));
-        } else if (type === "FIXED_AMOUNT") {
+        } else if (type === "FIXED_AMOUNT" || type === "AMOUNT") {
             discount = Math.round(val);
         } else {
             discount = 0;
@@ -106,9 +109,9 @@
         selected.forEach(function (c) { c.classList.remove('selected'); });
         discountAmtEl.setAttribute('data-value', 0);
         discountAmtEl.textContent = "-0₫";
-        discountRowEl.style.display = "none";
-        appliedCouponCodeEl.textContent = "";
-        couponHidden.value = "";
+        if (discountRowEl) discountRowEl.style.display = "none";
+        if (appliedCouponCodeEl) appliedCouponCodeEl.textContent = "";
+        if (couponHidden) couponHidden.value = "";
         if (couponMessage) {
             couponMessage.style.color = "#064e3b";
             couponMessage.textContent = "";
@@ -142,11 +145,16 @@
 
         var coupon = { type: dtype, value: Number(dval) };
         var discount = computeDiscountFromCoupon(coupon, orderAmount);
+
+        applyDiscountToUI(code, discount);
+    }
+
+    function applyDiscountToUI(code, discount) {
         discountAmtEl.setAttribute('data-value', discount);
         discountAmtEl.textContent = "-" + formatCurrency(discount);
-        discountRowEl.style.display = "flex";
-        appliedCouponCodeEl.textContent = code;
-        couponHidden.value = code;
+        if (discountRowEl) discountRowEl.style.display = "flex";
+        if (appliedCouponCodeEl) appliedCouponCodeEl.textContent = code;
+        if (couponHidden) couponHidden.value = code;
 
         if (couponMessage) {
             couponMessage.style.color = "#065f46";
@@ -173,15 +181,52 @@
             });
     }
 
+    function initApplyCouponButton() {
+        if (!btnApplyCouponEl || !couponInputEl) return;
+
+        btnApplyCouponEl.addEventListener("click", function () {
+            var code = couponInputEl.value.trim().toUpperCase();
+            if (!code) {
+                if (couponMessage) {
+                    couponMessage.style.color = "#b91c1c";
+                    couponMessage.textContent = "Vui lòng nhập mã giảm giá trước.";
+                }
+                return;
+            }
+
+            validateCouponAjax(code, function (err, data) {
+                if (err || !data) {
+                    if (couponMessage) {
+                        couponMessage.style.color = "#b91c1c";
+                        couponMessage.textContent = "Lỗi hệ thống khi kiểm tra mã.";
+                    }
+                    return;
+                }
+
+                if (data.success) {
+                    applyDiscountToUI(data.couponCode, data.discount);
+                } else {
+                    if (couponMessage) {
+                        couponMessage.style.color = "#b91c1c";
+                        couponMessage.textContent = data.message || "Mã giảm giá không hợp lệ.";
+                    }
+                    discountAmtEl.setAttribute('data-value', 0);
+                    discountAmtEl.textContent = "-0₫";
+                    if (discountRowEl) discountRowEl.style.display = "none";
+                    recalcTotal();
+                }
+            });
+        });
+    }
+
     // Init
     document.addEventListener("DOMContentLoaded", function () {
-
         shippingFeeEl.textContent = formatCurrency(parseIntSafe(shippingFeeEl.getAttribute("data-value")));
         subtotalEl.textContent = formatCurrency(parseIntSafe(subtotalEl.getAttribute("data-value")));
 
         initShippingRadios();
         initCouponCards();
-
+        initApplyCouponButton();
 
         document.addEventListener('click', function (e) {
             var couponSection = document.querySelector('.coupon-list');

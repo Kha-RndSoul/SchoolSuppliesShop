@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -43,32 +44,33 @@
                         </c:choose>
 
                         <div class="promotion-content">
+                            <c:set var="type" value="${fn:trim(p.discountType)}" />
                             <c:choose>
-                                <c:when test="${p.discountType == 'PERCENT'}">
-                                    <span class="promotion-badge">Giảm ${p.discountValue}%</span>
+                                <c:when test="${type == 'PERCENT' || type == 'PERCENTAGE'}">
+                                    <span class="promotion-badge">Giảm <fmt:formatNumber value="${p.discountValue}" maxFractionDigits="0"/>%</span>
                                 </c:when>
-                                <c:when test="${p.discountType == 'AMOUNT'}">
-                                    <span class="promotion-badge">Giảm <fmt:formatNumber value="${p.discountValue}" type="number" groupingUsed="true"/>₫</span>
+                                <c:when test="${type == 'AMOUNT' || type == 'FIXED_AMOUNT'}">
+                                    <span class="promotion-badge">Giảm <fmt:formatNumber value="${p.discountValue}" maxFractionDigits="0"/>₫</span>
                                 </c:when>
                                 <c:otherwise>
-                                    <span class="promotion-badge">Khuyến mãi</span>
+                                    <span class="promotion-badge">Khuyến mãi (${p.discountType})</span>
                                 </c:otherwise>
                             </c:choose>
 
                             <h3 class="promotion-title">Mã: ${p.couponCode}</h3>
 
                             <p class="promotion-description">
-                                Đơn tối thiểu: <strong><fmt:formatNumber value="${p.minOrderAmount}" type="number" groupingUsed="true"/>₫</strong>
+                                Đơn tối thiểu: <strong><fmt:formatNumber value="${p.minOrderAmount}" maxFractionDigits="0"/>₫</strong>
                                 <br/>
                                 Đã dùng: <strong>${p.usedCount}</strong>
                             </p>
 
                             <div class="promotion-details">
-                                <div class="promotion-code">Mã: <strong>${p.couponCode}</strong></div>
-                                <div class="promotion-expiry">
-                                    <fmt:formatDate value="${p.startDate}" pattern="dd/MM/yyyy"/>
-                                    —
-                                    <fmt:formatDate value="${p.endDate}" pattern="dd/MM/yyyy"/>
+                                <div class="promotion-expiry" style="width: 100%; text-align: left;">
+                                    Hạn dùng:
+                                    <strong><fmt:formatDate value="${p.startDate}" pattern="dd/MM/yyyy"/></strong>
+                                    -
+                                    <strong><fmt:formatDate value="${p.endDate}" pattern="dd/MM/yyyy"/></strong>
                                 </div>
                             </div>
                         </div>
