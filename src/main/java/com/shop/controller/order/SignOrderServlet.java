@@ -135,11 +135,19 @@ public class SignOrderServlet extends HttpServlet {
     private byte[] readPrivateKeyBytes(Part privateKeyPart) throws Exception {
         byte[] uploadedBytes = privateKeyPart.getInputStream().readAllBytes();
 
+        if (uploadedBytes == null || uploadedBytes.length == 0) {
+            throw new IllegalArgumentException("Private key file rỗng");
+        }
+
         String privateKeyText = new String(uploadedBytes, StandardCharsets.UTF_8)
                 .trim()
                 .replaceAll("\\s+", "");
 
-        return Base64.getDecoder().decode(privateKeyText);
+        try {
+            return Base64.getDecoder().decode(privateKeyText);
+        } catch (IllegalArgumentException e) {
+            return uploadedBytes;
+        }
     }
 
     private Customer getCustomer(HttpServletRequest request,

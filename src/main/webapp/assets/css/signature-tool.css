@@ -1,0 +1,216 @@
+body { background-color: var(--bg-light); }
+
+.wrap {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.page-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.page-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.page-links a:hover { text-decoration: underline; }
+
+/* Alert */
+.alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.alert-success {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.alert-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* Card */
+.card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Table */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.order-table th {
+    background: var(--bg-light);
+    color: var(--text-light);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.order-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+    vertical-align: middle;
+}
+
+.order-table tr:last-child td { border-bottom: none; }
+
+.order-table tr:hover td { background: var(--bg-light); }
+
+.hash-cell {
+    max-width: 260px;
+    word-break: break-all;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.btn-select {
+    padding: 6px 16px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-select:hover { background: var(--secondary-color); }
+
+.empty-text {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    padding: 12px 0;
+}
+
+/* Sign form */
+.sign-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.sign-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.95rem;
+}
+
+.sign-info-row:last-child { border-bottom: none; }
+
+.sign-info-row strong {
+    color: var(--text-light);
+    font-weight: 600;
+    min-width: 110px;
+}
+
+.hash-value {
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: var(--text-dark);
+    word-break: break-all;
+    text-align: right;
+    max-width: 520px;
+}
+
+.file-upload-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.file-upload-hint {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+input[type="file"] {
+    display: block;
+    padding: 10px;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    width: 100%;
+    background: var(--bg-light);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-sign {
+    margin-top: 20px;
+    padding: 12px 32px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-sign:hover { background: var(--secondary-color); }
+
+.placeholder-text {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    padding: 8px 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-pending  { background: #fef9c3; color: #854d0e; }
+.badge-confirmed { background: #dbeafe; color: #1e40af; }
+.badge-cancelled { background: #fee2e2; color: #991b1b; }

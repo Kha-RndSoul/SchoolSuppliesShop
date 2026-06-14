@@ -88,6 +88,13 @@
                             <span>Quản lý khóa</span>
                         </div>
                     </a>
+                    <%-- Tool ký đơn --%>
+                    <a href="${pageContext.request.contextPath}/signature-tool" class="action-item">
+                        <div class="action-text">
+                            <button class="user-button" type="button">✍️</button>
+                            <span>Tool ký đơn</span>
+                        </div>
+                    </a>
                     <a href="${pageContext.request.contextPath}/logout" class="action-item"
                        onclick="return confirm('Bạn có chắc muốn đăng xuất?');">
                         <div class="action-text">
