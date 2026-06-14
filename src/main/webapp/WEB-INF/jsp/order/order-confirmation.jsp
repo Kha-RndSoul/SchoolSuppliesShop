@@ -51,8 +51,15 @@
     <div class="actions">
         <button id="printBtn" class="btn" onclick="window.print()">In hóa đơn</button>
         <a href="${pageContext.request.contextPath}/home" class="btn link">Về trang chủ</a>
+        <c:if test="${not empty order and empty order.signature}">
+            <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}"
+               class="btn btn-sign">
+                ✍️ Ký đơn hàng
+            </a>
+        </c:if>
     </div>
 </main>
+
 
 <!--Footer -->
 <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>

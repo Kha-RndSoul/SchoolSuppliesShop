@@ -150,13 +150,11 @@ public class OrderDAO extends BaseDao {
 
     public void updateStatus(int id, String status) {
         get().useHandle(h -> {
-            int isVerifiedValue = "CONFIRMED".equalsIgnoreCase(status) ? 1 : 0;
             h.createUpdate(
-                            "UPDATE orders SET order_status = :status, is_verified = :isVerified, updated_at = NOW() WHERE id = :id"
+                            "UPDATE orders SET order_status = :status, updated_at = NOW() WHERE id = :id"
                     )
                     .bind("id", id)
                     .bind("status", status)
-                    .bind("isVerified", isVerifiedValue)
                     .execute();
         });
     }
