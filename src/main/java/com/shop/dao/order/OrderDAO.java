@@ -186,7 +186,7 @@ public class OrderDAO extends BaseDao {
 
     public double getTotalRevenue() {
         Double revenue = get().withHandle(h -> h.createQuery(
-                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE order_status = 'COMPLETED'"
+                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE order_status = 'DELIVERED'"
                         )
                         .mapTo(Double.class)
                         .one()
@@ -197,7 +197,7 @@ public class OrderDAO extends BaseDao {
     public double getRevenueByMonth(int month, int year) {
         Double revenue = get().withHandle(h -> h.createQuery(
                                 "SELECT COALESCE(SUM(total_amount), 0) FROM orders " +
-                                        "WHERE order_status = 'COMPLETED' " +
+                                        "WHERE order_status = 'DELIVERED' " +
                                         "AND MONTH(created_at) = :month AND YEAR(created_at) = :year"
                         )
                         .bind("month", month)
