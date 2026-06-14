@@ -127,10 +127,13 @@ public class StatisticsService {
             return String.format("%.1f tỷ đ", amount / 1_000_000_000);
         } else if (amount >= 1_000_000) {
             return String.format("%.1f triệu đ", amount / 1_000_000);
-        } else if (amount >= 1_000) {
-            return String.format("%,,.0f đ", amount);
         } else {
-            return String.format("%.0f đ", amount);
+            try {
+                java.text.DecimalFormat formatter = new java.text.DecimalFormat("#,###");
+                return formatter.format(amount) + " đ";
+            } catch (Exception e) {
+                return String.format("%.0f đ", amount);
+            }
         }
     }
 
