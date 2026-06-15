@@ -338,4 +338,29 @@ public class OrderDAO extends BaseDao {
                         .list()
         );
     }
+    // Lấy danh sách đơn hàng theo phân trang
+    public List<Order> getOrdersByPaging(int customerId, int offset, int limit) {
+        return get().withHandle(h ->
+                h.createQuery(
+                                "SELECT * FROM orders WHERE customer_id = :customerId " +
+                                        "ORDER BY created_at DESC " +
+                                        "LIMIT :limit OFFSET :offset"
+                        )
+                        .bind("customerId", customerId)
+                        .bind("offset", offset)
+                        .bind("limit", limit)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
+
+    // Tính tổng số đơn hàng
+    public int getTotalOrderCountByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM orders WHERE customer_id = :customerId")
+                        .bind("customerId", customerId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
 }
