@@ -186,7 +186,7 @@ public class OrderDAO extends BaseDao {
 
     public double getTotalRevenue() {
         Double revenue = get().withHandle(h -> h.createQuery(
-                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE order_status = 'COMPLETED'"
+                                "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE order_status = 'DELIVERED'"
                         )
                         .mapTo(Double.class)
                         .one()
@@ -197,7 +197,7 @@ public class OrderDAO extends BaseDao {
     public double getRevenueByMonth(int month, int year) {
         Double revenue = get().withHandle(h -> h.createQuery(
                                 "SELECT COALESCE(SUM(total_amount), 0) FROM orders " +
-                                        "WHERE order_status = 'COMPLETED' " +
+                                        "WHERE order_status = 'DELIVERED' " +
                                         "AND MONTH(created_at) = :month AND YEAR(created_at) = :year"
                         )
                         .bind("month", month)
@@ -256,6 +256,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT o.id, o.customer_id, o.order_code, o.order_status, " +
                                         "o.total_amount, o.created_at, " +
+                                        "o.order_hash, o.signature, o.key_id, o.is_verified, " +
                                         "COALESCE(c.full_name, o.shipping_name, 'Khách vãng lai') as customer_name " +
                                         "FROM orders o " +
                                         "LEFT JOIN customers c ON o.customer_id = c.id " +

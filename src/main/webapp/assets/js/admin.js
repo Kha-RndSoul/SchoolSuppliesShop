@@ -452,6 +452,9 @@ function showSection(name) {
     if (nav) nav.classList.add('active');
 
     if (name === 'products' && target && !target.dataset.ajaxLoaded) loadProductsPage(1);
+    if (name === 'orders' && target && !target.dataset.ajaxLoaded) {
+        loadOrdersPage(1);
+    }
 }
 
 function handleHashChange() { restoreSectionFromHash(); }
@@ -708,4 +711,156 @@ function performDeleteBanner(bannerId) {
             console.error(' Error:', error);
             showToast('Có lỗi xảy ra khi xóa banner', 'error');
         });
+}
+let currentOrderPage         = 1;
+let ordersPerPage            = 10;
+let currentOrderStatusFilter = 'ALL';
+
+function loadOrdersPage(page) {
+    const tbody = document.getElementById('orderTableBody');
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem;">
+                            Đang tải...</td></tr>`;
+
+    const statusParam = currentOrderStatusFilter !== 'ALL'
+        ? `&status=${currentOrderStatusFilter}` : '';
+
+    fetch(`/${CONTEXT_PATH}/admin/api/orders?action=list&page=${page}&pageSize=${ordersPerPage}${statusParam}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                renderOrdersTable(data.orders);
+                renderOrderPagination(data.pagination);
+                currentOrderPage = data.pagination.currentPage;
+                document.getElementById('orders-section').dataset.ajaxLoaded = 'true';
+            } else {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;
+                    padding:2rem; color:#dc2626;">${data.message}</td></tr>`;
+            }
+        })
+        .catch(() => {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;
+                padding:2rem; color:#dc2626;">Không thể tải dữ liệu</td></tr>`;
+        });
+}
+
+function renderOrdersTable(orders) {
+    const tbody = document.getElementById('orderTableBody');
+
+    if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;
+            padding:2rem; color:#6b7280;">Không có đơn hàng nào</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = orders.map(o => {
+
+        const statusMap = {
+            PENDING:   ['pending',    'Chờ xử lý'],
+            CONFIRMED: ['processing', 'Đã xác nhận'],
+            SHIPPING:  ['shipping',   'Đang giao'],
+            DELIVERED: ['completed',  'Hoàn thành'],
+            CANCELLED: ['cancelled',  'Đã hủy']
+        };
+        const [sCls, sLabel] = statusMap[o.order_status] || ['', o.order_status];
+        const statusBadge = `<span class="status-badge ${sCls}">${sLabel}</span>`;
+
+        let sigBadge;
+        if (!o.signature) {
+            sigBadge = `<span class="status-badge pending">Chưa ký</span>`;
+        } else if (o.is_verified === 1) {
+            sigBadge = `<span class="status-badge completed">✓ Hợp lệ</span>`;
+        } else {
+            sigBadge = `<span class="status-badge cancelled">✗ Sai / Bị chỉnh</span>`;
+        }
+
+        // Nút duyệt
+        const canApprove = o.order_status === 'PENDING' && o.is_verified === 1;
+        const btnApprove = canApprove
+            ? `<button class="btn-edit"
+                   onclick="approveOrder(${o.id}, '${escapeHtml(o.order_code)}')">
+                    Duyệt
+               </button>`
+            : '';
+
+        return `
+            <tr>
+                <td><span class="order-code">${o.order_code || 'N/A'}</span></td>
+                <td>${o.customer_name || o.shipping_name || 'Khách vãng lai'}</td>
+                <td><strong>${formatCurrency(o.total_amount || 0)}</strong></td>
+                <td>${statusBadge}</td>
+                <td>${sigBadge}</td>
+                <td>${formatDateTime(o.created_at)}</td>
+                <td>${btnApprove}</td>
+            </tr>`;
+    }).join('');
+}
+
+function renderOrderPagination(pagination) {
+    const container = document.getElementById('orderPagination');
+    if (!container) return;
+
+    const { currentPage, totalPages } = pagination;
+
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let html = '<div class="pagination-controls">';
+    html += `<button class="pagination-btn"
+                 onclick="changeOrderPage(${currentPage - 1})"
+                 ${currentPage === 1 ? 'disabled' : ''}>◀ Trước</button>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+            html += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}"
+                         onclick="changeOrderPage(${i})">${i}</button>`;
+        } else if (i === currentPage - 3 || i === currentPage + 3) {
+            html += '<span class="pagination-dots">...</span>';
+        }
+    }
+
+    html += `<button class="pagination-btn"
+                 onclick="changeOrderPage(${currentPage + 1})"
+                 ${currentPage === totalPages ? 'disabled' : ''}>Sau ▶</button>`;
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function changeOrderPage(page) {
+    if (page < 1) return;
+    loadOrdersPage(page);
+    document.getElementById('orders-section')
+        .scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function approveOrder(orderId, orderCode) {
+    if (!confirm(`Duyệt đơn hàng "${orderCode}"?`)) return;
+
+    const fd = new FormData();
+    fd.append('action',    'updateStatus');
+    fd.append('orderId',   orderId);
+    fd.append('newStatus', 'CONFIRMED');
+
+    fetch(`/${CONTEXT_PATH}/admin/api/orders`, { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                showToast(data.message || 'Đã duyệt đơn hàng!', 'success');
+            } else {
+                showToast(data.message || 'Không thể duyệt đơn hàng', 'error');
+            }
+            setTimeout(() => loadOrdersPage(currentOrderPage), 800);
+        })
+        .catch(() => showToast('Có lỗi xảy ra', 'error'));
+}
+function formatDateTime(timestamp) {
+    if (!timestamp) return 'N/A';
+    const date = new Date(timestamp);
+    const day     = String(date.getDate()).padStart(2, '0');
+    const month   = String(date.getMonth() + 1).padStart(2, '0');
+    const year    = date.getFullYear();
+    const hours   = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
 }

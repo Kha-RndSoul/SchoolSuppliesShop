@@ -119,7 +119,7 @@
                     </div>
 
                     <!-- Discount row (hidden initially) -->
-                    <div id="discountRow" class="total-discount" style="display:none;">
+                    <div id="discountRow" class="total-discount" style="display:flex;">
                         <span>Giảm giá (<span id="appliedCouponCode"></span>):</span>
                         <span id="discountAmount" data-value="0">-0₫</span>
                     </div>
