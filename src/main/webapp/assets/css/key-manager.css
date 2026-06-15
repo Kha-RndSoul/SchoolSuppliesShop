@@ -14,3 +14,51 @@
 .key-card.inactive {
     border-left-color: #9ca3af;
     opacity: 0.7; }
+/* Badges trạng thái */
+.key-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.status-active   {
+    background: #d1fae5;
+    color: #065f46; }
+.status-lost     {
+    background: #fee2e2;
+    color: #991b1b; }
+.status-inactive {
+    background: #f3f4f6;
+    color: #6b7280; }
+
+/* Buttons */
+.key-actions { display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap; }
+
+.btn-generate, .btn-report, .btn-upload {
+    border: none; border-radius: 8px;
+    font-weight: 600; cursor: pointer;
+    transition: background 0.3s; color: #fff;
+}
+.btn-generate, .btn-report {
+    padding: 0.875rem 2rem;
+    font-size: 1rem; }
+.btn-upload                {
+    padding: 0.625rem 1.5rem;
+    border-radius: 6px; white-space: nowrap; }
+
+.btn-generate            {
+    background: var(--primary-color); }
+.btn-generate:hover      {
+    background: var(--secondary-color); }
+.btn-report              {
+    background: #ef4444; }
+.btn-report:hover        {
+    background: #dc2626; }
+.btn-upload              {
+    background: #10b981; }
+.btn-upload:hover        {
+    background: #059669; }
