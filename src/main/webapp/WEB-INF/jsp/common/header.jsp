@@ -92,7 +92,7 @@
                     <a href="${pageContext.request.contextPath}/signature-tool" class="action-item">
                         <div class="action-text">
                             <button class="user-button" type="button">✍️</button>
-                            <span>Tool ký đơn</span>
+                            <span>Ký đơn</span>
                         </div>
                     </a>
                     <a href="${pageContext.request.contextPath}/logout" class="action-item"

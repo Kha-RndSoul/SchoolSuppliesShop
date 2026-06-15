@@ -78,8 +78,9 @@
                             </td>
                             <td class="hash-cell">${order.orderHash}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}"
-                                   class="btn-select">Chọn ký</a>
+                                <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}#sign-section"
+                                    class="btn-select">Chọn ký
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -91,7 +92,9 @@
 
     <%-- Form ký --%>
     <div class="card">
-        <div class="card-title">Ký đơn hàng</div>
+        <div class="card-title">
+            <h2 id="sign-section">Ký đơn hàng</h2>
+        </div>
 
         <c:choose>
             <c:when test="${empty selectedOrder}">
