@@ -38,8 +38,9 @@ public class OrderDetailDAO extends BaseDao {
     public List<OrderDetail> getList() {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, order_id, product_id, product_name, " +
-                                        "quantity, unit_price, subtotal FROM order_details"
+                                "SELECT id, order_id, product_id, " +
+                                        "NULL AS product_name, unit_price AS price, quantity, subtotal " +
+                                        "FROM order_details"
                         )
                         .mapToBean(OrderDetail.class)
                         .list()
@@ -49,8 +50,9 @@ public class OrderDetailDAO extends BaseDao {
     public OrderDetail getOrderDetailById(int id) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, order_id, product_id, product_name, " +
-                                        "quantity, unit_price, subtotal FROM order_details WHERE id = :id"
+                                "SELECT id, order_id, product_id, " +
+                                        "NULL AS product_name, unit_price AS price, quantity, subtotal " +
+                                        "FROM order_details WHERE id = :id"
                         )
                         .bind("id", id)
                         .mapToBean(OrderDetail.class)
@@ -62,8 +64,9 @@ public class OrderDetailDAO extends BaseDao {
     public List<OrderDetail> getByOrderId(int orderId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, order_id, product_id, product_name, " +
-                                        "quantity, unit_price, subtotal FROM order_details WHERE order_id = :orderId"
+                                "SELECT id, order_id, product_id, " +
+                                        "NULL AS product_name, unit_price AS price, quantity, subtotal " +
+                                        "FROM order_details WHERE order_id = :orderId"
                         )
                         .bind("orderId", orderId)
                         .mapToBean(OrderDetail.class)
@@ -74,8 +77,9 @@ public class OrderDetailDAO extends BaseDao {
     public List<OrderDetail> getByProductId(int productId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, order_id, product_id, product_name, " +
-                                        "quantity, unit_price, subtotal FROM order_details WHERE product_id = :productId"
+                                "SELECT id, order_id, product_id, " +
+                                        "NULL AS product_name, unit_price AS price, quantity, subtotal " +
+                                        "FROM order_details WHERE product_id = :productId"
                         )
                         .bind("productId", productId)
                         .mapToBean(OrderDetail.class)
@@ -86,8 +90,9 @@ public class OrderDetailDAO extends BaseDao {
     public OrderDetail getByOrderIdAndProductId(int orderId, int productId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT id, order_id, product_id, product_name, " +
-                                        "quantity, unit_price, subtotal FROM order_details " +
+                                "SELECT id, order_id, product_id, " +
+                                        "NULL AS product_name, unit_price AS price, quantity, subtotal " +
+                                        "FROM order_details " +
                                         "WHERE order_id = :orderId AND product_id = :productId"
                         )
                         .bind("orderId", orderId)
