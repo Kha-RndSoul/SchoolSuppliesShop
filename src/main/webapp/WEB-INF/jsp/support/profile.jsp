@@ -16,7 +16,7 @@
         .profile-page-wrapper {
             padding: 40px 0;
             background-color: #f8f9fa;
-            min-height: calc(100vh - 200px); /
+            min-height: calc(100vh - 200px);
         }
         .profile-heading {
             text-align: center;
@@ -165,12 +165,104 @@
             color: #888;
         }
         .empty-state a { color: #d70018; font-weight: 600; }
+
+        /* Badge xác minh chữ ký số */
+        .verify-badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .verify-VALID { background: #e6f4ea; color: #1e7e34; border: 1px solid #c3e6cb; }
+        .verify-NOT_YET { background: #f8f9fa; color: #666; border: 1px solid #ddd; }
+        .verify-INVALID { background: #fbeaea; color: #c53030; border: 1px solid #f5c6cb; font-weight: 700; }
+
+        /* CSS để đổi toàn bộ dòng sang màu đỏ chớp nháy khi phát hiện gian lận dữ liệu */
+        .row-fraud-warning {
+            background-color: #fff1f0 !important;
+            animation: pulse-danger 2s infinite;
+        }
+        .row-fraud-warning td {
+            color: #cf1322 !important;
+            border-bottom: 1px solid #ffa39e !important;
+        }
+
+        @keyframes pulse-danger {
+            0% { background-color: #fff1f0; }
+            50% { background-color: #ffccc7; }
+            100% { background-color: #fff1f0; }
+        }
+
+        /* Nút xử lý ký số nhỏ gọn trong bảng */
+        .btn-sign-action {
+            background-color: #2f54eb;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        .btn-sign-action:hover {
+            background-color: #1d39c4;
+            color: white;
+        }
+
+        /* CSS Phong cách cho các nút bấm phân trang tương tự Admin */
+        .pagination-controls {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        .pagination-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .pagination-btn:hover:not(.disabled):not(.active) {
+            background-color: #f5f5f5;
+            border-color: #ccc;
+        }
+        .pagination-btn.active {
+            background-color: var(--primary-color, #d70018);
+            border-color: var(--primary-color, #d70018);
+            color: #fff;
+            font-weight: bold;
+            cursor: default;
+        }
+        .pagination-btn.disabled {
+            border-color: #eee;
+            color: #ccc;
+            background: #fafafa;
+            cursor: not-allowed;
+        }
+        .pagination-dots {
+            padding: 6px 8px;
+            color: #999;
+            cursor: default;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/header.jsp" />
 
-<div class="profile-page-wrapper">
+<div class="profile-page-wrapper" id="orders-section">
     <main class="container">
         <h1 class="profile-heading">Quản lý tài khoản</h1>
 
@@ -241,7 +333,7 @@
 
         <div class="profile-card order-history-section">
             <h3>
-                Đơn hàng gần đây của bạn :
+                Đơn hàng của tôi :
             </h3>
 
             <c:choose>
@@ -255,44 +347,125 @@
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
                                 <th>Thanh toán</th>
+                                <th>Xác minh chữ ký</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach var="order" items="${orderHistory}">
-                                <tr>
+                                <tr class="${order.isVerified == -1 ? 'row-fraud-warning' : ''}">
+                                    <td><a href="#" class="order-code-link">#${order.orderCode}</a></td>
                                     <td>
-                                        <a href="#" class="order-code-link">#${order.orderCode}</a>
-                                    </td>
-                                    <td>
-                                        <fmt:formatDate value="${order.createdAt}" pattern="dd/MM/yyyy"/>
-                                        <br>
+                                        <fmt:formatDate value="${order.createdAt}" pattern="dd/MM/yyyy"/><br>
                                         <small style="color: #999;"><fmt:formatDate value="${order.createdAt}" pattern="HH:mm"/></small>
                                     </td>
                                     <td class="text-primary-brand">
                                         <fmt:formatNumber value="${order.totalAmount}" type="number"/>₫
                                     </td>
+                                    <td><span class="status-badge status-${order.orderStatus}">${order.orderStatus}</span></td>
+                                    <td><span style="font-weight: 500;">${order.paymentMethod}</span></td>
                                     <td>
-                                        <span class="status-badge status-${order.orderStatus}">${order.orderStatus}</span>
+                                        <c:choose>
+                                            <c:when test="${order.isVerified == 1}"><span class="verify-badge verify-VALID">✓ Đã xác minh</span></c:when>
+                                            <c:when test="${order.isVerified == -1}"><span class="verify-badge verify-INVALID">⚠️ Bị chỉnh sửa!</span></c:when>
+                                            <c:otherwise><span class="verify-badge verify-NOT_YET">Chưa ký</span></c:otherwise>
+                                        </c:choose>
                                     </td>
                                     <td>
-                                        <span style="font-weight: 500;">${order.paymentMethod}</span><br>
-                                        <small style="color: #888;">(${order.paymentStatus})</small>
+                                        <c:choose>
+                                            <c:when test="${order.isVerified == null || order.isVerified == 0}">
+                                                <button onclick="openSignModal('${order.orderCode}', '${order.id}')" class="btn-sign-action">
+                                                    Dán chữ ký
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise><span style="color: #999; font-size: 0.9rem;">🚫 Khóa</span></c:otherwise>
+                                        </c:choose>
                                     </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
                     </div>
+
+                    <c:if test="${totalPages > 1}">
+                        <div class="pagination-controls">
+                            <c:choose>
+                                <c:when test="${currentPage == 1}">
+                                    <span class="pagination-btn disabled">◀ Trước</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="?page=${currentPage - 1}" class="pagination-btn">◀ Trước</a>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                <c:choose>
+                                    <%-- Điều kiện hiển thị: Trang đầu, trang cuối, và khoảng xung quanh trang hiện tại (i >= currentPage - 2 và i <= currentPage + 2) --%>
+                                    <c:when test="${i == 1 || i == totalPages || (i >= currentPage - 2 && i <= currentPage + 2)}">
+                                        <c:choose>
+                                            <c:when test="${i == currentPage}">
+                                                <span class="pagination-btn active">${i}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="?page=${i}" class="pagination-btn">${i}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+
+                                    <%-- Thêm dấu ba chấm ... ở các biên chặn --%>
+                                    <c:when test="${i == currentPage - 3 || i == currentPage + 3}">
+                                        <span class="pagination-dots">...</span>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:choose>
+                                <c:when test="${currentPage == totalPages}">
+                                    <span class="pagination-btn disabled">Sau ▶</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="?page=${currentPage + 1}" class="pagination-btn">Sau ▶</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </c:if>
+
                 </c:when>
                 <c:otherwise>
                     <div class="empty-state">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag" style="margin-bottom: 15px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                         <p>Bạn chưa có đơn hàng nào.</p>
                         <a href="${pageContext.request.contextPath}/products">Khám phá sản phẩm ngay &rarr;</a>
                     </div>
                 </c:otherwise>
             </c:choose>
         </div>
+
+        <script>
+            function openSignModal(orderCode, orderId) {
+                let signature = prompt("Đơn hàng: #" + orderCode + "\nHãy dán chuỗi Chữ ký số (Signature) tạo được từ Tool Offline vào đây:");
+                if (signature != null && signature.trim() !== "") {
+                    // Tạo một form ẩn để submit dữ liệu lên SignOrderServlet
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "${pageContext.request.contextPath}/sign-order";
+
+                    let idInput = document.createElement("input");
+                    idInput.type = "hidden";
+                    idInput.name = "orderId";
+                    idInput.value = orderId;
+                    form.appendChild(idInput);
+
+                    let sigInput = document.createElement("input");
+                    sigInput.type = "hidden";
+                    sigInput.name = "signatureStr"; // Truyền chuỗi text thay vì file
+                    sigInput.value = signature.trim();
+                    form.appendChild(sigInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            }
+        </script>
     </main>
 </div>
 
