@@ -30,7 +30,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE id = :id"
                         )
@@ -46,7 +46,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC"
                         )
@@ -61,7 +61,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE order_status = :status ORDER BY created_at DESC"
                         )
@@ -76,7 +76,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId " +
                                         "ORDER BY created_at DESC LIMIT 1"
@@ -93,7 +93,7 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE shipping_address LIKE CONCAT('%', :keyword, '%') " +
                                         "OR note LIKE CONCAT('%', :keyword, '%') ORDER BY created_at DESC"
@@ -109,9 +109,9 @@ public class OrderDAO extends BaseDao {
             PreparedBatch batch = h.prepareBatch(
                     "INSERT INTO orders " +
                             "(id, customer_id, order_code, order_status, payment_method, payment_status, " +
-                            "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at, updated_at) " + // Thêm updated_at
+                            "total_amount, shipping_name, shipping_phone, shipping_address, note, created_at, updated_at) " +
                             "VALUES (:id, :customerId, :orderCode, :orderStatus, :paymentMethod, :paymentStatus, " +
-                            ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW(), NOW())" // Thêm NOW()
+                            ":totalAmount, :shippingName, :shippingPhone, :shippingAddress, :note, NOW(), NOW())"
             );
             orders.forEach(o -> batch.bindBean(o).add());
             batch.execute();
@@ -208,11 +208,6 @@ public class OrderDAO extends BaseDao {
         return revenue != null ? revenue : 0.0;
     }
 
-    // METHODS MỚI CHO THỐNG KÊ DASHBOARD
-
-    /**
-     * Lấy doanh thu theo khoảng thời gian (chỉ đơn COMPLETED)
-     */
     public double getRevenueByDateRange(LocalDateTime start, LocalDateTime end) {
         Double revenue = get().withHandle(h -> h.createQuery(
                                 "SELECT COALESCE(SUM(total_amount), 0) FROM orders " +
@@ -227,9 +222,6 @@ public class OrderDAO extends BaseDao {
         return revenue != null ? revenue : 0.0;
     }
 
-    /**
-     * Đếm số đơn hàng theo khoảng thời gian (không tính CANCELLED)
-     */
     public int countOrdersByDateRange(LocalDateTime start, LocalDateTime end) {
         return get().withHandle(h -> h.createQuery(
                                 "SELECT COUNT(*) FROM orders " +
@@ -243,9 +235,6 @@ public class OrderDAO extends BaseDao {
         );
     }
 
-    /**
-     * Đếm số đơn hàng theo trạng thái và khoảng thời gian
-     */
     public int countOrdersByStatusAndDateRange(String status, LocalDateTime start, LocalDateTime end) {
         return get().withHandle(h -> h.createQuery(
                                 "SELECT COUNT(*) FROM orders " +
@@ -285,11 +274,9 @@ public class OrderDAO extends BaseDao {
                 h.createQuery(
                                 "SELECT id, customer_id, order_code, order_status, payment_method, payment_status, " +
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
-                                        "note, created_at, updated_at " +
+                                        "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
-                                        "FROM orders " +
-                                        "WHERE customer_id = :customerId " +
-                                        "ORDER BY created_at DESC"
+                                        "FROM orders WHERE customer_id = :customerId ORDER BY created_at DESC"
                         )
                         .bind("customerId", customerId)
                         .mapToBean(Order.class)
@@ -299,7 +286,7 @@ public class OrderDAO extends BaseDao {
 
     //Cập nhật đơn hàng sau khi user ký
     public void updateSignature(int orderId, String orderHash,
-                                String signature, int keyId) {
+                                String signature, Integer keyId) {
         get().useHandle(h ->
                 h.createUpdate(
                                 "UPDATE orders " +
@@ -341,8 +328,7 @@ public class OrderDAO extends BaseDao {
                                         "total_amount, shipping_name, shipping_phone, shipping_address, " +
                                         "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
-                                        "FROM orders " +
-                                        "WHERE customer_id = :customerId " +
+                                        "FROM orders WHERE customer_id = :customerId " +
                                         "AND (signature IS NULL OR signature = '') " +
                                         "ORDER BY created_at DESC"
                         )
