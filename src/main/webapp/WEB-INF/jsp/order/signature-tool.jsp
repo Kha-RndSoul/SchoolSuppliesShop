@@ -45,8 +45,8 @@
                         <th>Mã đơn</th>
                         <th>Ngày tạo</th>
                         <th>Tổng tiền</th>
-                        <th>Trạng thái</th>
-                        <th>Hash</th>
+                        <th>Trạng thái đơn</th>
+                        <th>Tình trạng kí</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -68,19 +68,41 @@
                                     <c:when test="${order.orderStatus == 'CONFIRMED'}">
                                         <span class="badge badge-confirmed">Đã xác nhận</span>
                                     </c:when>
+                                    <c:when test="${order.orderStatus == 'SHIPPING'}">
+                                        <span class="badge badge-cancelled">Đang giao</span>
+                                    </c:when>
                                     <c:when test="${order.orderStatus == 'CANCELLED'}">
                                         <span class="badge badge-cancelled">Đã huỷ</span>
+                                    </c:when>
+                                    <c:when test="${order.orderStatus == 'DELIVERED'}">
+                                        <span class="badge badge-cancelled">Đã giao</span>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="badge badge-pending">${order.orderStatus}</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td class="hash-cell">${order.orderHash}</td>
+                            <td class="hash-cell">
+                                <c:choose>
+                                    <c:when test="${not empty order.orderHash and not empty order.keyId}">
+                                        <span style="color: green;">Sẵn sàng ký</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span style="color: red;">Thiếu hash/key</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}#sign-section"
-                                    class="btn-select">Chọn ký
-                                </a>
+                                <c:choose>
+                                    <c:when test="${not empty order.orderHash and not empty order.keyId}">
+                                        <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}#sign-section"
+                                           class="btn-select">Chọn ký
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="btn-unselect"> Không thể ký </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
@@ -93,7 +115,7 @@
     <%-- Form ký --%>
     <div class="card">
         <div class="card-title">
-            <h2 id="sign-section">Ký đơn hàng</h2>
+            <h2 id="sign-section">KÝ ĐƠN HÀNG</h2>
         </div>
 
         <c:choose>
@@ -107,8 +129,7 @@
                         <span>${selectedOrder.orderCode}</span>
                     </div>
                     <div class="sign-info-row">
-                        <strong>Order hash:</strong>
-                        <span class="hash-value">${selectedOrder.orderHash}</span>
+                        <p><strong>Dữ liệu ký:</strong> Đơn hàng đã có hash, sẵn sàng ký.</p>
                     </div>
                 </div>
 
