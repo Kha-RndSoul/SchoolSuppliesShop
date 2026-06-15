@@ -167,7 +167,8 @@ public class SignOrderServlet extends HttpServlet {
                                  String message) throws IOException {
         response.sendRedirect(request.getContextPath()
                 + "/signature-tool?success="
-                + URLEncoder.encode(message, StandardCharsets.UTF_8));
+                + URLEncoder.encode(message, StandardCharsets.UTF_8)
+                + "#sign-section");
     }
 
     private void redirectError(HttpServletRequest request,
@@ -175,6 +176,7 @@ public class SignOrderServlet extends HttpServlet {
                                String message) throws IOException {
         response.sendRedirect(request.getContextPath()
                 + "/signature-tool?error="
-                + URLEncoder.encode(message, StandardCharsets.UTF_8));
+                + URLEncoder.encode(message, StandardCharsets.UTF_8)
+                + "#sign-section");
     }
 }

@@ -38,10 +38,30 @@ public class ProfileServlet extends HttpServlet {
         }
 
         try {
-            // Lấy lịch sử đơn hàng từ OrderDAO
-            List<Order> orderHistory = orderDAO.getOrdersByCustomerId(customer.getId());
+            // Xử lý phân trang
+            int page = 1;
+            int recordsPerPage = 5;
+            if (request.getParameter("page") != null) {
+                try {
+                    page = Integer.parseInt(request.getParameter("page"));
+                    if (page < 1) page = 1;
+                } catch (NumberFormatException e) {
+                    page = 1;
+                }
+            }
+
+            int offset = (page - 1) * recordsPerPage;
+
+            List<Order> orderHistory = orderDAO.getOrdersByPaging(customer.getId(), offset, recordsPerPage);
             request.setAttribute("orderHistory", orderHistory);
-            // Forward tới JSP
+
+            int totalRecords = orderDAO.getTotalOrderCountByCustomerId(customer.getId());
+            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+            if (totalPages == 0) totalPages = 1;
+
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+
             request.getRequestDispatcher("/WEB-INF/jsp/support/profile.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
