@@ -362,7 +362,16 @@
                             <tbody>
                             <c:forEach var="order" items="${orderHistory}">
                                 <tr class="${order.isVerified == -1 ? 'row-fraud-warning' : ''}">
-                                    <td><a href="#" class="order-code-link">#${order.orderCode}</a></td>
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           class="order-code-link"
+                                           data-hash="${order.orderHash}"
+                                           onclick="copyOrderHash(this)"
+                                           style="cursor: pointer;"
+                                           title="Click để copy nhanh Mã xác thực (Order Hash)">
+                                            #${order.orderCode} <span style="font-size: 0.8rem; color: #999; font-weight: normal; margin-left: 2px;"></span>
+                                        </a>
+                                    </td>
                                     <td>
                                         <fmt:formatDate value="${order.createdAt}" pattern="dd/MM/yyyy"/><br>
                                         <small style="color: #999;"><fmt:formatDate value="${order.createdAt}" pattern="HH:mm"/></small>
@@ -374,7 +383,7 @@
                                     <td><span style="font-weight: 500;">${order.paymentMethod}</span></td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${order.isVerified == 1}"><span class="verify-badge verify-VALID">✓ Đã xác minh</span></c:when>
+                                            <c:when test="${order.isVerified == 1}"><span class="verify-badge verify-VALID">Đã xác minh</span></c:when>
                                             <c:when test="${order.isVerified == -1}"><span class="verify-badge verify-INVALID">⚠️ Bị chỉnh sửa!</span></c:when>
                                             <c:otherwise><span class="verify-badge verify-NOT_YET">Chưa ký</span></c:otherwise>
                                         </c:choose>
@@ -459,25 +468,30 @@
             function openSignModal(orderCode, orderId) {
                 let signature = prompt("Đơn hàng: #" + orderCode + "\nHãy dán chuỗi Chữ ký số (Signature) tạo được từ Tool Offline vào đây:");
                 if (signature != null && signature.trim() !== "") {
-                    // Tạo một form ẩn để submit dữ liệu lên SignOrderServlet
-                    let form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "${pageContext.request.contextPath}/sign-order";
+                    const params = new URLSearchParams();
+                    params.append("orderId", orderId);
+                    params.append("signatureStr", signature.trim());
 
-                    let idInput = document.createElement("input");
-                    idInput.type = "hidden";
-                    idInput.name = "orderId";
-                    idInput.value = orderId;
-                    form.appendChild(idInput);
-
-                    let sigInput = document.createElement("input");
-                    sigInput.type = "hidden";
-                    sigInput.name = "signatureStr"; // Truyền chuỗi text thay vì file
-                    sigInput.value = signature.trim();
-                    form.appendChild(sigInput);
-
-                    document.body.appendChild(form);
-                    form.submit();
+                    fetch("${pageContext.request.contextPath}/sign-order", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: params.toString()
+                    })
+                        .then(async response => {
+                            if (response.ok) {
+                                alert("Ký số đơn hàng #" + orderCode + " thành công!");
+                                window.location.reload();
+                            } else {
+                                const errorText = await response.text();
+                                alert("Lỗi ký số: " + errorText);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Lỗi hệ thống AJAX:", error);
+                            alert("Không thể kết nối đến máy chủ xử lý!");
+                        });
                 }
             }
 
@@ -496,6 +510,20 @@
                     document.body.appendChild(form);
                     form.submit();
                 }
+            }
+            function copyOrderHash(element) {
+                const hash = element.getAttribute('data-hash');
+
+                if (!hash || hash.trim() === "") {
+                    alert("Đơn hàng này hệ thống chưa tạo Mã xác thực (Order Hash)!");
+                    return;
+                }
+
+                navigator.clipboard.writeText(hash.trim()).then(function() {
+                    alert("Đã copy thành công Mã xác thực (Order Hash) của đơn hàng #" + element.innerText.replace('📋', '').trim() + "\n\nBây giờ bạn có thể dán vào Tool Offline để ký số.");
+                }).catch(function(err) {
+                    console.error("Không thể copy tự động, lỗi: ", err);
+                });
             }
         </script>
     </main>
