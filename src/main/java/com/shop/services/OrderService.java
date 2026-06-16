@@ -306,6 +306,107 @@ public class OrderService {
         // Trả về order đầy đủ từ DB
         return orderDAO.getOrderById(orderId);
     }
+    // Tạo lại đơn hàng
+    public Order recreateOrder(int oldOrderId, int customerId) throws Exception {
+        //Kiểm tra tồn tại
+        Order oldOrder = orderDAO.getOrderById(oldOrderId);
+        if (oldOrder == null) {
+            throw new Exception("Đơn hàng cũ không tồn tại");
+        }
+
+        // Kiểm tra xem đúng chính chủ đơn hàng hay không
+        if (oldOrder.getCustomerId() != customerId) {
+            throw new Exception("Bạn không có quyền sao chép đơn hàng này");
+        }
+
+        // Lấy danh sách sản phẩm từ đơn hàng cũ
+        List<OrderDetail> oldDetails = orderDetailDAO.getByOrderId(oldOrderId);
+        if (oldDetails == null || oldDetails.isEmpty()) {
+            throw new Exception("Đơn hàng cũ không có thông tin sản phẩm");
+        }
+
+        // Kiểm tra và cập nhật lại tồn kho
+        for (OrderDetail detail : oldDetails) {
+            Map<String, Object> productMap = productDAO.getProductByIdWithImage(detail.getProductId());
+            if (productMap == null) {
+                throw new Exception("Sản phẩm ID " + detail.getProductId() + " không còn tồn tại trên hệ thống");
+            }
+            int stockQty = getIntFromMap(productMap, "stockQuantity", 0);
+            if (stockQty < detail.getQuantity()) {
+                throw new Exception("Sản phẩm '" + detail.getProductName() + "' không đủ số lượng tồn kho để đặt lại đơn.");
+            }
+        }
+
+        // Tạo đơn hàng mới
+        Order newOrder = new Order();
+        newOrder.setCustomerId(customerId);
+        newOrder.setOrderCode(generateOrderCode());
+        newOrder.setOrderStatus(STATUS_PENDING);
+        newOrder.setPaymentMethod(oldOrder.getPaymentMethod());
+        newOrder.setPaymentStatus("UNPAID");
+        newOrder.setTotalAmount(oldOrder.getTotalAmount());
+        newOrder.setShippingName(oldOrder.getShippingName());
+        newOrder.setShippingPhone(oldOrder.getShippingPhone());
+        newOrder.setShippingAddress(oldOrder.getShippingAddress());
+        newOrder.setNote("Đặt lại từ đơn: " + oldOrder.getOrderCode() + " | " + (oldOrder.getNote() != null ? oldOrder.getNote() : ""));
+
+        // Lưu đơn hàng mới vào DB
+        int newOrderId = orderDAO.insertOrder(newOrder);
+        if (newOrderId <= 0) {
+            throw new Exception("Lỗi hệ thống: Không thể khởi tạo đơn hàng mới.");
+        }
+        newOrder.setId(newOrderId);
+
+        // Copy Order Detail cũ sang đơn mới
+        for (OrderDetail oldDetail : oldDetails) {
+            OrderDetail newDetail = new OrderDetail();
+            newDetail.setOrderId(newOrderId);
+            newDetail.setProductId(oldDetail.getProductId());
+            newDetail.setProductName(oldDetail.getProductName());
+            newDetail.setQuantity(oldDetail.getQuantity());
+            newDetail.setPrice(oldDetail.getPrice());
+            newDetail.setSubtotal(oldDetail.getSubtotal());
+
+            orderDetailDAO.insertOrderDetail(newDetail);
+        }
+
+        // Hash và gắn key_id
+        try {
+            UserKey activeKey = userKeyDAO.getActiveByCustomerId(customerId);
+            Integer keyId = (activeKey != null) ? activeKey.getId() : null;
+
+            List<OrderDetail> insertedDetails = orderDetailDAO.getByOrderId(newOrderId);
+            StringBuilder sb = new StringBuilder();
+            sb.append(newOrder.getOrderCode()).append("|");
+            sb.append(customerId).append("|");
+            sb.append(newOrder.getTotalAmount()).append("|");
+            sb.append(newOrder.getShippingName()).append("|");
+            sb.append(newOrder.getShippingPhone()).append("|");
+            sb.append(newOrder.getShippingAddress()).append("|");
+
+            for (OrderDetail d : insertedDetails) {
+                sb.append(d.getProductId()).append(":")
+                        .append(d.getQuantity()).append(":")
+                        .append(d.getPrice()).append(":")
+                        .append(d.getSubtotal()).append(";");
+            }
+
+            MessageDigest md = MessageDigest.getInstance("SHA-1", "SUN");
+            byte[] hashBytes = md.digest(sb.toString().getBytes("UTF-8"));
+            String orderHash = Base64.getEncoder().encodeToString(hashBytes);
+
+            // Cập nhật đơn hàng
+            orderDAO.updateSignature(newOrderId, orderHash, null, keyId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Cập nhật stock
+        for (OrderDetail detail : oldDetails) {
+            productDAO.decreaseStock(detail.getProductId(), detail.getQuantity());
+        }
+        return orderDAO.getOrderById(newOrderId);
+    }
 
     /**
      * Lấy đơn hàng theo ID
