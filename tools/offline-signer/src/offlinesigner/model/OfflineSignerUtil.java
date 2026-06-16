@@ -1,9 +1,16 @@
 package offlinesigner.model;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.*;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.SecureRandom;
+import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
@@ -21,8 +28,11 @@ public class OfflineSignerUtil {
 
         KeyPair pair = keyGen.generateKeyPair();
 
-        Files.write(outputDir.resolve("private_key.key"), pair.getPrivate().getEncoded());
-        Files.write(outputDir.resolve("public_key.key"), pair.getPublic().getEncoded());
+        byte[] privateKeyBytes = pair.getPrivate().getEncoded();
+        byte[] publicKeyBytes = pair.getPublic().getEncoded();
+
+        Files.write(outputDir.resolve("private_key.key"), privateKeyBytes);
+        Files.write(outputDir.resolve("public_key.key"), publicKeyBytes);
     }
 
     public static String signOrderHash(String orderHash, Path privateKeyPath) throws Exception {
@@ -35,7 +45,18 @@ public class OfflineSignerUtil {
 
         Signature dsa = Signature.getInstance(SIGNATURE_ALGORITHM, PROVIDER);
         dsa.initSign(privateKey);
-        dsa.update(orderHash.trim().getBytes(StandardCharsets.UTF_8));
+
+        byte[] data = orderHash.trim().getBytes(StandardCharsets.UTF_8);
+
+        BufferedInputStream input = new BufferedInputStream(new ByteArrayInputStream(data));
+        byte[] buffer = new byte[1024];
+        int len;
+
+        while ((len = input.read(buffer)) != -1) {
+            dsa.update(buffer, 0, len);
+        }
+
+        input.close();
 
         byte[] signatureBytes = dsa.sign();
 
