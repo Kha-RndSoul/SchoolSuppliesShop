@@ -32,7 +32,7 @@
 
     <%-- Danh sách đơn chưa ký --%>
     <div class="card">
-        <div class="card-title">Danh sách đơn chưa ký</div>
+        <div class="card-title">Danh sách đơn cần xác thực</div>
 
         <c:choose>
             <c:when test="${empty unsignedOrders}">
@@ -46,7 +46,7 @@
                         <th>Ngày tạo</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái đơn</th>
-                        <th>Tình trạng kí</th>
+                        <th>Tình trạng ký</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -69,13 +69,13 @@
                                         <span class="badge badge-confirmed">Đã xác nhận</span>
                                     </c:when>
                                     <c:when test="${order.orderStatus == 'SHIPPING'}">
-                                        <span class="badge badge-cancelled">Đang giao</span>
+                                        <span class="badge badge-pending">Đang giao</span>
                                     </c:when>
                                     <c:when test="${order.orderStatus == 'CANCELLED'}">
                                         <span class="badge badge-cancelled">Đã huỷ</span>
                                     </c:when>
                                     <c:when test="${order.orderStatus == 'DELIVERED'}">
-                                        <span class="badge badge-cancelled">Đã giao</span>
+                                        <span class="badge badge-confirmed">Đã giao</span>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="badge badge-pending">${order.orderStatus}</span>
@@ -84,23 +84,38 @@
                             </td>
                             <td class="hash-cell">
                                 <c:choose>
-                                    <c:when test="${not empty order.orderHash and not empty order.keyId}">
-                                        <span style="color: green;">Sẵn sàng ký</span>
+                                    <c:when test="${not empty order.signature and order.isVerified == 1}">
+                                        <span style="color: green;">Ký thành công</span>
                                     </c:when>
+
+                                    <c:when test="${not empty order.signature and order.isVerified == -1}">
+                                        <span style="color: red;">Chữ ký sai</span>
+                                    </c:when>
+
+                                    <c:when test="${not empty order.orderHash and not empty order.keyId}">
+                                        <span style="color: orange;">Sẵn sàng ký</span>
+                                    </c:when>
+
                                     <c:otherwise>
                                         <span style="color: red;">Thiếu hash/key</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
+
                             <td>
                                 <c:choose>
+                                    <c:when test="${not empty order.signature}">
+                                    </c:when>
+
                                     <c:when test="${not empty order.orderHash and not empty order.keyId}">
                                         <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}#sign-section"
-                                           class="btn-select">Chọn ký
+                                           class="btn-select">
+                                            Chọn ký
                                         </a>
                                     </c:when>
+
                                     <c:otherwise>
-                                        <a class="btn-unselect"> Không thể ký </a>
+                                        <span class="btn-unselect">Không thể ký</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>

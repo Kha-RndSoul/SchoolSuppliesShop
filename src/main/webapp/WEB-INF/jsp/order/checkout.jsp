@@ -138,9 +138,18 @@
                     ${errorMessage}
                 </c:if>
             </div>
-
+            <c:if test="${needPublicKey}">
+                <div class="alert alert-error">
+                    Bạn cần đăng ký public key trước khi đặt hàng.
+                    <a href="${pageContext.request.contextPath}/key">
+                        Đi tới Quản lý khóa
+                    </a>
+                </div>
+            </c:if>
             <div class="form-actions">
-                <button id="placeOrderBtn" type="submit" class="btn-primary">Đặt hàng</button>
+                <button type="submit" <c:if test="${needPublicKey}">disabled</c:if> class="btn-primary">
+                    Đặt hàng
+                </button>
             </div>
         </form>
     </div>

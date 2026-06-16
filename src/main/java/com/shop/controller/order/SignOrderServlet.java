@@ -32,19 +32,21 @@ public class SignOrderServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Customer customer = getCustomer(request, response);
-        if (customer == null) return;
+        if (customer == null) {
+            return;
+        }
+
+        String orderIdStr = request.getParameter("orderId");
+        String signatureBase64 = request.getParameter("signatureBase64");
 
         try {
-            String orderIdStr = request.getParameter("orderId");
-            String signatureBase64 = request.getParameter("signatureBase64");
-
-            if (orderIdStr == null || orderIdStr.trim().isEmpty()) {
+            if (isBlank(orderIdStr)) {
                 redirectError(request, response, "Vui lòng chọn đơn hàng cần ký.");
                 return;
             }
 
-            if (signatureBase64 == null || signatureBase64.trim().isEmpty()) {
-                redirectError(request, response, "Vui lòng dán chữ ký từ tool ký.");
+            if (isBlank(signatureBase64)) {
+                redirectError(request, response, "Vui lòng dán chữ ký được tạo từ tool ký offline.");
                 return;
             }
 
@@ -61,13 +63,18 @@ public class SignOrderServlet extends HttpServlet {
                 return;
             }
 
-            if (order.getSignature() != null && !order.getSignature().trim().isEmpty()) {
+            if (!"PENDING".equalsIgnoreCase(order.getOrderStatus())) {
+                redirectError(request, response, "Chỉ có thể ký đơn hàng đang chờ xử lý.");
+                return;
+            }
+
+            if (!isBlank(order.getSignature())) {
                 redirectError(request, response, "Đơn hàng này đã được ký.");
                 return;
             }
 
-            if (order.getOrderHash() == null || order.getOrderHash().trim().isEmpty()) {
-                redirectError(request, response, "Đơn hàng chưa có mã hash.");
+            if (isBlank(order.getOrderHash())) {
+                redirectError(request, response, "Đơn hàng chưa có mã xác thực.");
                 return;
             }
 
@@ -87,19 +94,29 @@ public class SignOrderServlet extends HttpServlet {
                 return;
             }
 
-            if (userKey.getPublicKey() == null || userKey.getPublicKey().trim().isEmpty()) {
+            if (userKey.getReportedLostAt() != null) {
+                redirectError(request, response,
+                        "Khóa này đã bị báo mất/thu hồi. Không thể dùng để ký đơn hàng. Vui lòng đăng ký khóa mới và tạo lại đơn hàng nếu cần.");
+                return;
+            }
+
+            if (isBlank(userKey.getPublicKey())) {
                 redirectError(request, response, "Public key không hợp lệ.");
                 return;
             }
 
-            String cleanSignatureBase64 = signatureBase64.trim().replaceAll("\\s+", "");
+            String cleanSignatureBase64 = signatureBase64
+                    .trim()
+                    .replaceAll("\\s+", "");
 
             byte[] signatureBytes;
             byte[] publicKeyBytes;
 
             try {
                 signatureBytes = Base64.getDecoder().decode(cleanSignatureBase64);
-                publicKeyBytes = Base64.getDecoder().decode(userKey.getPublicKey().trim());
+                publicKeyBytes = Base64.getDecoder().decode(
+                        userKey.getPublicKey().trim().replaceAll("\\s+", "")
+                );
             } catch (IllegalArgumentException e) {
                 redirectError(request, response, "Chữ ký không đúng định dạng Base64.");
                 return;
@@ -112,7 +129,8 @@ public class SignOrderServlet extends HttpServlet {
             );
 
             if (!valid) {
-                redirectError(request, response, "Chữ ký không hợp lệ. Vui lòng kiểm tra lại private key hoặc mã hash.");
+                redirectError(request, response,
+                        "Chữ ký không hợp lệ. Vui lòng kiểm tra lại private key hoặc mã xác thực đơn hàng.");
                 return;
             }
 
@@ -145,6 +163,10 @@ public class SignOrderServlet extends HttpServlet {
         }
 
         return (Customer) session.getAttribute("customer");
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
     private void redirectSuccess(HttpServletRequest request,

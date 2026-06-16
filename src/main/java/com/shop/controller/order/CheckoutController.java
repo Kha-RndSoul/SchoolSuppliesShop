@@ -8,7 +8,8 @@ import com.shop.services.CategoryService;
 import com.shop.services.CouponService;
 import com.shop.services.CustomerService;
 import com.shop.services.OrderService;
-
+import com.shop.model.UserKey;
+import com.shop.services.UserKeyService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -27,6 +28,7 @@ public class CheckoutController extends HttpServlet {
     private CustomerService customerService;
     private CartService cartService;
     private CouponService couponService;
+    private UserKeyService userKeyService;
 
     @Override
     public void init() throws ServletException {
@@ -35,6 +37,7 @@ public class CheckoutController extends HttpServlet {
         this.customerService = new CustomerService();
         this.cartService = new CartService();
         this.couponService = new CouponService();
+        this.userKeyService = new UserKeyService();
         System.out.println(" CheckoutController initialized");
     }
 
@@ -117,6 +120,17 @@ public class CheckoutController extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            boolean needPublicKey = false;
+
+            if (userId != null && userId > 0) {
+                UserKey activeKey = userKeyService.getActiveKey(userId);
+
+                if (activeKey == null || activeKey.getReportedLostAt() != null) {
+                    needPublicKey = true;
+                }
+            }
+
+            request.setAttribute("needPublicKey", needPublicKey);
 
             request.getRequestDispatcher("/WEB-INF/jsp/order/checkout.jsp").forward(request, response);
 
@@ -251,6 +265,14 @@ public class CheckoutController extends HttpServlet {
 
             int shippingFee = "express".equalsIgnoreCase(shipping) ? 50000 : 25000;
 
+            UserKey activeKey = userKeyService.getActiveKey(customerId);
+
+            if (activeKey == null || activeKey.getReportedLostAt() != null) {
+                request.setAttribute("errorMessage",
+                        "Bạn cần đăng ký public key trước khi đặt hàng. Vui lòng vào Quản lý khóa để tải tool, tạo khóa và upload public key.");
+                doGet(request, response);
+                return;
+            }
             Order createdOrder = orderService.createOrder(
                     customerId,
                     couponCode.isEmpty() ? null : couponCode,
