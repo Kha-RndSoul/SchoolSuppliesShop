@@ -16,13 +16,13 @@ public class OfflineSignerUtil {
     public static void generateKeyPair(Path outputDir) throws Exception {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance(KEY_ALGORITHM, PROVIDER);
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG", PROVIDER);
-
         keyGen.initialize(1024, random);
-
         KeyPair pair = keyGen.generateKeyPair();
-
-        Files.write(outputDir.resolve("private_key.key"), pair.getPrivate().getEncoded());
-        Files.write(outputDir.resolve("public_key.key"), pair.getPublic().getEncoded());
+        // đặt tên file theo timestamp
+        String timestamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss")
+                .format(new java.util.Date());
+        Files.write(outputDir.resolve("PrivateKey_" + timestamp + ".key"), pair.getPrivate().getEncoded());
+        Files.write(outputDir.resolve("PublicKey_"  + timestamp + ".key"), pair.getPublic().getEncoded());
     }
 
     public static String signOrderHash(String orderHash, Path privateKeyPath) throws Exception {
@@ -32,7 +32,6 @@ public class OfflineSignerUtil {
 
         byte[] privateKeyBytes = Files.readAllBytes(privateKeyPath);
         PrivateKey privateKey = loadPrivateKey(privateKeyBytes);
-
         Signature dsa = Signature.getInstance(SIGNATURE_ALGORITHM, PROVIDER);
         dsa.initSign(privateKey);
         dsa.update(orderHash.trim().getBytes(StandardCharsets.UTF_8));
@@ -45,7 +44,6 @@ public class OfflineSignerUtil {
     private static PrivateKey loadPrivateKey(byte[] privateKeyBytes) throws Exception {
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, PROVIDER);
-
         return keyFactory.generatePrivate(keySpec);
     }
 }
