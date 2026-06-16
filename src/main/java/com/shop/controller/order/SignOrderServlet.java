@@ -11,8 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @WebServlet(name = "SignOrderServlet", urlPatterns = {"/sign-order"})
@@ -31,22 +29,24 @@ public class SignOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
         Customer customer = getCustomer(request, response);
         if (customer == null) {
+            sendAjaxError(response, "Vui lòng đăng nhập để thực hiện ký đơn hàng.");
             return;
         }
 
         String orderIdStr = request.getParameter("orderId");
-        String signatureBase64 = request.getParameter("signatureBase64");
+        String signatureBase64 = request.getParameter("signatureStr");
 
         try {
             if (isBlank(orderIdStr)) {
-                redirectError(request, response, "Vui lòng chọn đơn hàng cần ký.");
+                sendAjaxError(response, "Vui lòng chọn đơn hàng cần ký.");
                 return;
             }
 
             if (isBlank(signatureBase64)) {
-                redirectError(request, response, "Vui lòng dán chữ ký được tạo từ tool ký offline.");
+                sendAjaxError(response, "Vui lòng dán chữ ký được tạo từ tool ký offline.");
                 return;
             }
 
@@ -54,54 +54,53 @@ public class SignOrderServlet extends HttpServlet {
 
             Order order = orderDAO.getOrderById(orderId);
             if (order == null) {
-                redirectError(request, response, "Không tìm thấy đơn hàng.");
+                sendAjaxError(response, "Không tìm thấy đơn hàng.");
                 return;
             }
 
             if (order.getCustomerId() != customer.getId()) {
-                redirectError(request, response, "Bạn không có quyền ký đơn hàng này.");
+                sendAjaxError(response, "Bạn không có quyền ký đơn hàng này.");
                 return;
             }
 
             if (!"PENDING".equalsIgnoreCase(order.getOrderStatus())) {
-                redirectError(request, response, "Chỉ có thể ký đơn hàng đang chờ xử lý.");
+                sendAjaxError(response, "Chỉ có thể ký đơn hàng đang chờ xử lý.");
                 return;
             }
 
             if (!isBlank(order.getSignature())) {
-                redirectError(request, response, "Đơn hàng này đã được ký.");
+                sendAjaxError(response, "Đơn hàng này đã được ký.");
                 return;
             }
 
             if (isBlank(order.getOrderHash())) {
-                redirectError(request, response, "Đơn hàng chưa có mã xác thực.");
+                sendAjaxError(response, "Đơn hàng chưa có mã xác thực.");
                 return;
             }
 
             if (order.getKeyId() == null) {
-                redirectError(request, response, "Đơn hàng chưa được gắn khóa công khai.");
+                sendAjaxError(response, "Đơn hàng chưa được gắn khóa công khai.");
                 return;
             }
 
             UserKey userKey = userKeyService.getById(order.getKeyId());
             if (userKey == null) {
-                redirectError(request, response, "Không tìm thấy public key của đơn hàng.");
+                sendAjaxError(response, "Không tìm thấy public key của đơn hàng.");
                 return;
             }
 
             if (userKey.getCustomerId() != customer.getId()) {
-                redirectError(request, response, "Public key không thuộc tài khoản hiện tại.");
+                sendAjaxError(response, "Public key không thuộc tài khoản hiện tại.");
                 return;
             }
 
             if (userKey.getReportedLostAt() != null) {
-                redirectError(request, response,
-                        "Khóa này đã bị báo mất/thu hồi. Không thể dùng để ký đơn hàng. Vui lòng đăng ký khóa mới và tạo lại đơn hàng nếu cần.");
+                sendAjaxError(response, "Khóa này đã bị báo mất hoặc thu hồi. Không thể dùng để ký đơn hàng.");
                 return;
             }
 
             if (isBlank(userKey.getPublicKey())) {
-                redirectError(request, response, "Public key không hợp lệ.");
+                sendAjaxError(response, "Public key không hợp lệ.");
                 return;
             }
 
@@ -118,7 +117,7 @@ public class SignOrderServlet extends HttpServlet {
                         userKey.getPublicKey().trim().replaceAll("\\s+", "")
                 );
             } catch (IllegalArgumentException e) {
-                redirectError(request, response, "Chữ ký không đúng định dạng Base64.");
+                sendAjaxError(response, "Chữ ký không đúng định dạng Base64.");
                 return;
             }
 
@@ -129,8 +128,7 @@ public class SignOrderServlet extends HttpServlet {
             );
 
             if (!valid) {
-                redirectError(request, response,
-                        "Chữ ký không hợp lệ. Vui lòng kiểm tra lại private key hoặc mã xác thực đơn hàng.");
+                sendAjaxError(response, "Chữ ký không hợp lệ. Vui lòng kiểm tra lại cặp khóa hoặc mã xác thực đơn hàng.");
                 return;
             }
 
@@ -143,25 +141,22 @@ public class SignOrderServlet extends HttpServlet {
 
             orderDAO.updateVerifyResult(order.getId(), 1);
 
-            redirectSuccess(request, response, "Xác minh chữ ký thành công.");
+            response.setStatus(HttpServletResponse.SC_OK);
 
         } catch (NumberFormatException e) {
-            redirectError(request, response, "Mã đơn hàng không hợp lệ.");
+            sendAjaxError(response, "Mã đơn hàng không hợp lệ.");
         } catch (Exception e) {
             e.printStackTrace();
-            redirectError(request, response, "Lỗi xác minh chữ ký: " + e.getMessage());
+            sendAjaxError(response, "Lỗi xác minh chữ ký: " + e.getMessage());
         }
     }
 
     private Customer getCustomer(HttpServletRequest request,
                                  HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
-
         if (session == null || session.getAttribute("customer") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
             return null;
         }
-
         return (Customer) session.getAttribute("customer");
     }
 
@@ -169,21 +164,9 @@ public class SignOrderServlet extends HttpServlet {
         return value == null || value.trim().isEmpty();
     }
 
-    private void redirectSuccess(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 String message) throws IOException {
-        response.sendRedirect(request.getContextPath()
-                + "/signature-tool?success="
-                + URLEncoder.encode(message, StandardCharsets.UTF_8)
-                + "#sign-section");
-    }
-
-    private void redirectError(HttpServletRequest request,
-                               HttpServletResponse response,
-                               String message) throws IOException {
-        response.sendRedirect(request.getContextPath()
-                + "/signature-tool?error="
-                + URLEncoder.encode(message, StandardCharsets.UTF_8)
-                + "#sign-section");
+    private void sendAjaxError(HttpServletResponse response, String message) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.getWriter().write(message);
     }
 }
