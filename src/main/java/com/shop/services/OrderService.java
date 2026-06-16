@@ -223,6 +223,13 @@ public class OrderService {
         String note = (email != null && !email.isEmpty() ? "Email: " + email + " | " : "") + "Shipping: " + (shippingType != null ? shippingType : "standard");
         order.setNote(note);
 
+        UserKey activeKey = userKeyDAO.getActiveByCustomerId(customerId);
+
+        if (activeKey == null || activeKey.getReportedLostAt() != null) {
+            throw new Exception("Bạn cần đăng ký public key trước khi đặt hàng.");
+        }
+
+        Integer keyId = activeKey.getId();
         // Insert order -> lấy orderId
         int orderId = orderDAO.insertOrder(order);
         if (orderId <= 0) {
@@ -260,9 +267,6 @@ public class OrderService {
         }
         //  Tính order_hash + gắn key_id
         try {
-            // Lấy key đang active của customer
-            UserKey activeKey = userKeyDAO.getActiveByCustomerId(customerId);
-            Integer keyId = (activeKey != null) ? activeKey.getId() : null;
             // Lấy lại order_details vừa insert để build dữ liệu hash
             List<OrderDetail> insertedDetails = orderDetailDAO.getByOrderId(orderId);
             // Build chuỗi dữ liệu đơn hàng
