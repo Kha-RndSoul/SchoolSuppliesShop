@@ -79,13 +79,6 @@ public class UserKeyDAO extends BaseDao {
                         .execute()
         );
     }
-    // kích hoạt khóa theo ID
-    public void activateById(int keyId) {
-        get().useHandle(h -> h.createUpdate("UPDATE user_keys SET is_active = true WHERE id = :keyId")
-                .bind("keyId", keyId)
-                .execute()
-        );
-    }
     // tìm key theo public_key và customer_id để kiểm tra có tồn tại dưới DB không
     public UserKey getByPublicKeyAndCustomerId(String publicKey, int customerId) {
         return get().withHandle(h -> h.createQuery("SELECT id, customer_id, public_key, is_active AS active, source, " +
