@@ -706,7 +706,30 @@
                 }
             });
     }
+    function approveOrder(orderCode, orderId) {
+        if (confirm("Bạn có chắc chắn muốn duyệt đơn hàng #" + orderCode + " này không?")) {
+            const params = new URLSearchParams();
+            params.append("orderId", orderId);
 
+            fetch("${pageContext.request.contextPath}/admin/approve-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params.toString()
+            })
+                .then(async response => {
+                    if (response.ok) {
+                        alert("Đã duyệt đơn hàng #" + orderCode + " thành công!");
+                        window.location.reload();
+                    } else {
+                        const errorText = await response.text();
+                        alert("Lỗi khi duyệt: " + errorText);
+                    }
+                })
+                .catch(error => {
+                    alert("Không thể kết nối đến máy chủ!");
+                });
+        }
+    }
 </script>
 </body>
 </html>

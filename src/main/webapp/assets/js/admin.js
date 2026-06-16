@@ -768,16 +768,16 @@ function renderOrdersTable(orders) {
         if (!o.signature) {
             sigBadge = `<span class="status-badge pending">Chưa ký</span>`;
         } else if (o.is_verified === 1) {
-            sigBadge = `<span class="status-badge completed">✓ Hợp lệ</span>`;
+            sigBadge = `<span class="status-badge completed">Hợp lệ</span>`;
         } else {
-            sigBadge = `<span class="status-badge cancelled">✗ Sai / Bị chỉnh</span>`;
+            sigBadge = `<span class="status-badge cancelled">Sai / Bị chỉnh sửa</span>`;
         }
 
         // Nút duyệt
         const canApprove = o.order_status === 'PENDING' && o.is_verified === 1;
         const btnApprove = canApprove
             ? `<button class="btn-edit"
-                   onclick="approveOrder(${o.id}, '${escapeHtml(o.order_code)}')">
+                   onclick="approveOrder('${escapeHtml(o.order_code)}' ,${o.id})">
                     Duyệt
                </button>`
             : '';
