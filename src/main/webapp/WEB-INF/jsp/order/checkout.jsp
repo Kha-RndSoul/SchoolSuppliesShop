@@ -91,10 +91,10 @@
 
                 <div class="coupon-input-wrapper">
                     <input type="text" id="couponInput"
-                            name="couponCode"
-                            placeholder="Nhập mã giảm giá (VD: RAUMA36)"
-                            maxlength="50"
-                            autocomplete="off"
+                           name="couponInput"
+                           placeholder="Nhập mã giảm giá (VD: RAUMA36)"
+                           maxlength="50"
+                           autocomplete="off"
                     />
                     <button type="button" id="btnApplyCoupon" class="btn-apply-coupon">
                         Áp dụng
@@ -119,7 +119,7 @@
                     </div>
 
                     <!-- Discount row (hidden initially) -->
-                    <div id="discountRow" class="total-discount" style="display:flex;">
+                    <div id="discountRow" class="total-discount" style="display:none;">
                         <span>Giảm giá (<span id="appliedCouponCode"></span>):</span>
                         <span id="discountAmount" data-value="0">-0₫</span>
                     </div>

@@ -7,7 +7,6 @@ import com.shop.model.UserKey;
 import com.shop.services.UserKeyService;
 import com.shop.util.SignatureUtil;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -17,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @WebServlet(name = "SignOrderServlet", urlPatterns = {"/sign-order"})
-@MultipartConfig
 public class SignOrderServlet extends HttpServlet {
 
     private OrderDAO orderDAO;
@@ -38,18 +36,19 @@ public class SignOrderServlet extends HttpServlet {
 
         try {
             String orderIdStr = request.getParameter("orderId");
+            String signatureBase64 = request.getParameter("signatureBase64");
+
             if (orderIdStr == null || orderIdStr.trim().isEmpty()) {
                 redirectError(request, response, "Vui lòng chọn đơn hàng cần ký.");
                 return;
             }
 
-            int orderId = Integer.parseInt(orderIdStr.trim());
-
-            Part privateKeyPart = request.getPart("privateKeyFile");
-            if (privateKeyPart == null || privateKeyPart.getSize() == 0) {
-                redirectError(request, response, "Vui lòng upload file private key.");
+            if (signatureBase64 == null || signatureBase64.trim().isEmpty()) {
+                redirectError(request, response, "Vui lòng dán chữ ký từ tool ký.");
                 return;
             }
+
+            int orderId = Integer.parseInt(orderIdStr.trim());
 
             Order order = orderDAO.getOrderById(orderId);
             if (order == null) {
@@ -93,10 +92,18 @@ public class SignOrderServlet extends HttpServlet {
                 return;
             }
 
-            byte[] privateKeyBytes = readPrivateKeyBytes(privateKeyPart);
-            byte[] signatureBytes = SignatureUtil.sign(order.getOrderHash(), privateKeyBytes);
+            String cleanSignatureBase64 = signatureBase64.trim().replaceAll("\\s+", "");
 
-            byte[] publicKeyBytes = Base64.getDecoder().decode(userKey.getPublicKey().trim());
+            byte[] signatureBytes;
+            byte[] publicKeyBytes;
+
+            try {
+                signatureBytes = Base64.getDecoder().decode(cleanSignatureBase64);
+                publicKeyBytes = Base64.getDecoder().decode(userKey.getPublicKey().trim());
+            } catch (IllegalArgumentException e) {
+                redirectError(request, response, "Chữ ký không đúng định dạng Base64.");
+                return;
+            }
 
             boolean valid = SignatureUtil.verify(
                     order.getOrderHash(),
@@ -105,48 +112,26 @@ public class SignOrderServlet extends HttpServlet {
             );
 
             if (!valid) {
-                redirectError(request, response, "Private key không khớp với public key của đơn hàng.");
+                redirectError(request, response, "Chữ ký không hợp lệ. Vui lòng kiểm tra lại private key hoặc mã hash.");
                 return;
             }
-
-            String signatureBase64 = Base64.getEncoder().encodeToString(signatureBytes);
 
             orderDAO.updateSignature(
                     order.getId(),
                     order.getOrderHash(),
-                    signatureBase64,
+                    cleanSignatureBase64,
                     order.getKeyId()
             );
 
             orderDAO.updateVerifyResult(order.getId(), 1);
 
-            redirectSuccess(request, response, "Ký đơn hàng thành công.");
+            redirectSuccess(request, response, "Xác minh chữ ký thành công.");
 
         } catch (NumberFormatException e) {
             redirectError(request, response, "Mã đơn hàng không hợp lệ.");
-        } catch (IllegalArgumentException e) {
-            redirectError(request, response, "File private key không hợp lệ.");
         } catch (Exception e) {
             e.printStackTrace();
-            redirectError(request, response, "Lỗi ký đơn hàng: " + e.getMessage());
-        }
-    }
-
-    private byte[] readPrivateKeyBytes(Part privateKeyPart) throws Exception {
-        byte[] uploadedBytes = privateKeyPart.getInputStream().readAllBytes();
-
-        if (uploadedBytes == null || uploadedBytes.length == 0) {
-            throw new IllegalArgumentException("Private key file rỗng");
-        }
-
-        String privateKeyText = new String(uploadedBytes, StandardCharsets.UTF_8)
-                .trim()
-                .replaceAll("\\s+", "");
-
-        try {
-            return Base64.getDecoder().decode(privateKeyText);
-        } catch (IllegalArgumentException e) {
-            return uploadedBytes;
+            redirectError(request, response, "Lỗi xác minh chữ ký: " + e.getMessage());
         }
     }
 
