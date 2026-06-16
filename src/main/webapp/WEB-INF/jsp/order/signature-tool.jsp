@@ -164,11 +164,19 @@
 
                 <script>
                     function copyOrderHash() {
-                        const hashBox = document.getElementById("orderHash");
-                        hashBox.select();
-                        hashBox.setSelectionRange(0, 99999);
-                        document.execCommand("copy");
-                        alert("Đã copy mã xác thực đơn hàng.");
+                        const hashInput = document.getElementById("orderHash");
+
+                        if (!hashInput || !hashInput.value) {
+                            alert("Đơn hàng chưa có mã xác thực.");
+                            return;
+                        }
+                        navigator.clipboard.writeText(hashInput.value)
+                            .then(function () {
+                                alert("Đã copy mã xác thực đơn hàng. Hãy dán vào tool ký offline.");
+                            })
+                            .catch(function () {
+                                alert("Không thể copy mã xác thực. Vui lòng thử lại.");
+                            });
                     }
                 </script>
             </c:otherwise>
