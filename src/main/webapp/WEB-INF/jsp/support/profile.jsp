@@ -21,7 +21,6 @@
         .profile-heading {
             text-align: center;
             margin-bottom: 35px;
-
             font-weight: 700;
         }
 
@@ -266,6 +265,15 @@
     <main class="container">
         <h1 class="profile-heading">Quản lý tài khoản</h1>
 
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success">${successMessage}</div>
+            <c:remove var="successMessage" scope="session"/>
+        </c:if>
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger">${errorMessage}</div>
+            <c:remove var="errorMessage" scope="session"/>
+        </c:if>
+
         <div class="profile-grid">
             <div class="profile-card">
                 <h3>
@@ -373,12 +381,19 @@
                                     </td>
                                     <td>
                                         <c:choose>
+                                            <%-- Nếu đơn hàng bị hủy, xuất hiện nút đặt lại đơn --%>
+                                            <c:when test="${order.orderStatus == 'CANCELLED'}">
+                                                <button onclick="recreateOrder('${order.id}')" class="btn-sign-action" style="background-color: #28a745;">
+                                                    Đặt lại đơn
+                                                </button>
+                                            </c:when>
+
+                                            <%-- Nếu đơn hàng chưa ký thì hiển thị nút dán chữ ký--%>
                                             <c:when test="${order.isVerified == null || order.isVerified == 0}">
                                                 <button onclick="openSignModal('${order.orderCode}', '${order.id}')" class="btn-sign-action">
                                                     Dán chữ ký
                                                 </button>
                                             </c:when>
-                                            <c:otherwise><span style="color: #999; font-size: 0.9rem;">🚫 Khóa</span></c:otherwise>
                                         </c:choose>
                                     </td>
                                 </tr>
@@ -460,6 +475,23 @@
                     sigInput.name = "signatureStr"; // Truyền chuỗi text thay vì file
                     sigInput.value = signature.trim();
                     form.appendChild(sigInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            }
+
+            function recreateOrder(orderId) {
+                if (confirm("Bạn có muốn tự động tạo lại đơn hàng mới tương tự như đơn hàng đã hủy này không?")) {
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "${pageContext.request.contextPath}/recreate-order";
+
+                    let idInput = document.createElement("input");
+                    idInput.type = "hidden";
+                    idInput.name = "oldOrderId";
+                    idInput.value = orderId;
+                    form.appendChild(idInput);
 
                     document.body.appendChild(form);
                     form.submit();
