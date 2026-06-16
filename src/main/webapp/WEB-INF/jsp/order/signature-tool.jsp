@@ -134,19 +134,51 @@
                 </div>
 
                 <form action="${pageContext.request.contextPath}/sign-order"
-                      method="post"
-                      enctype="multipart/form-data">
+                      method="post">
 
                     <input type="hidden" name="orderId" value="${selectedOrder.id}"/>
 
-                    <label class="file-upload-label" for="privateKeyFile">
-                        Upload file private key (.key)
-                    </label>
-                    <p class="file-upload-hint">Chọn file private key đã tải về khi tạo khóa.</p>
-                    <input type="file" id="privateKeyFile" name="privateKeyFile" accept=".key" required>
+                    <p>
+                        <strong>Mã xác thực đơn hàng:</strong>
+                        <span style="color: green;">Đã sẵn sàng</span>
+                    </p>
 
-                    <button type="submit" class="btn-sign">Ký đơn hàng</button>
+                    <input type="hidden" id="orderHash" value="${selectedOrder.orderHash}"/>
+
+                    <button type="button" onclick="copyOrderHash()">
+                        Copy mã xác thực để ký
+                    </button>
+                    <p>
+                        <a href="${pageContext.request.contextPath}/assets/tools/SignTool.jar" download>
+                            Tải tool ký
+                        </a>
+                    </p>
+
+                    <p><strong>Dán chữ ký từ tool:</strong></p>
+                    <textarea name="signatureBase64" rows="5" cols="100" required
+                              placeholder="Dán chữ ký Base64 được tạo từ tool ký"></textarea>
+
+                    <br><br>
+                    <button type="submit">Hoàn tất xác minh</button>
                 </form>
+
+                <script>
+                    function copyOrderHash() {
+                        const hashInput = document.getElementById("orderHash");
+
+                        if (!hashInput || !hashInput.value) {
+                            alert("Đơn hàng chưa có mã xác thực.");
+                            return;
+                        }
+                        navigator.clipboard.writeText(hashInput.value)
+                            .then(function () {
+                                alert("Đã copy mã xác thực đơn hàng. Hãy dán vào tool ký offline.");
+                            })
+                            .catch(function () {
+                                alert("Không thể copy mã xác thực. Vui lòng thử lại.");
+                            });
+                    }
+                </script>
             </c:otherwise>
         </c:choose>
     </div>

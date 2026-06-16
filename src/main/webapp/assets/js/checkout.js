@@ -184,7 +184,8 @@
     function initApplyCouponButton() {
         if (!btnApplyCouponEl || !couponInputEl) return;
 
-        btnApplyCouponEl.addEventListener("click", function () {
+        btnApplyCouponEl.addEventListener("click", function (e) {
+            e.preventDefault();
             var code = couponInputEl.value.trim().toUpperCase();
             if (!code) {
                 if (couponMessage) {
