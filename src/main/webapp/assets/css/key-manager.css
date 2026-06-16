@@ -9,11 +9,14 @@
     box-shadow: var(--shadow-md);
     border-left: 4px solid var(--primary-color);
 }
-.key-card.lost     {
-    border-left-color: #ef4444; }
+.key-card.lost {
+    border-left-color: #ef4444;
+}
 .key-card.inactive {
     border-left-color: #9ca3af;
-    opacity: 0.7; }
+    opacity: 0.7;
+}
+
 /* Badges trạng thái */
 .key-status {
     display: inline-block;
@@ -22,43 +25,116 @@
     font-size: 0.85rem;
     font-weight: 600;
 }
-.status-active   {
+.status-active {
     background: #d1fae5;
-    color: #065f46; }
-.status-lost     {
+    color: #065f46;
+}
+.status-lost {
     background: #fee2e2;
-    color: #991b1b; }
+    color: #991b1b;
+}
 .status-inactive {
     background: #f3f4f6;
-    color: #6b7280; }
+    color: #6b7280;
+}
 
 /* Buttons */
-.key-actions { display: flex;
+.key-actions {
+    display: flex;
     gap: 1rem;
     margin-top: 2rem;
-    flex-wrap: wrap; }
+    flex-wrap: wrap;
+}
 
 .btn-generate, .btn-report, .btn-upload {
-    border: none; border-radius: 8px;
-    font-weight: 600; cursor: pointer;
-    transition: background 0.3s; color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: #fff;
 }
 .btn-generate, .btn-report {
     padding: 0.875rem 2rem;
-    font-size: 1rem; }
-.btn-upload                {
+    font-size: 1rem;
+}
+.btn-upload {
     padding: 0.625rem 1.5rem;
-    border-radius: 6px; white-space: nowrap; }
+    border-radius: 6px;
+    white-space: nowrap;
+}
 
-.btn-generate            {
-    background: var(--primary-color); }
-.btn-generate:hover      {
-    background: var(--secondary-color); }
-.btn-report              {
-    background: #ef4444; }
-.btn-report:hover        {
-    background: #dc2626; }
-.btn-upload              {
-    background: #10b981; }
-.btn-upload:hover        {
-    background: #059669; }
+.btn-generate { background: var(--primary-color); }
+.btn-generate:hover { background: var(--secondary-color); }
+.btn-report { background: #ef4444; }
+.btn-report:hover { background: #dc2626; }
+.btn-upload { background: #10b981; }
+.btn-upload:hover { background: #059669; }
+
+/* Upload section */
+.upload-section {
+    background: #f9fafb;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+.upload-section h3 {
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+.upload-form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.upload-form input[type="file"] {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #fff;
+}
+
+/* Thông báo */
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* Hộp cảnh báo */
+.warning-box, .pending-box {
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.warning-box {
+    background: #fffbeb;
+    border: 1px solid #fbbf24;
+}
+.warning-box p {
+    margin: 0;
+    color: #92400e;
+}
+.pending-box {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    margin-top: 1rem;
+}
+.pending-box p {
+    margin: 0;
+    color: #1e40af;
+}
