@@ -89,6 +89,12 @@ public class SignOrderServlet extends HttpServlet {
                 return;
             }
 
+            if (userKey.getReportedLostAt() != null) {
+                redirectError(request, response,
+                        "Khóa này đã bị báo mất/thu hồi. Không thể dùng để ký đơn hàng. Vui lòng đăng ký khóa mới và tạo lại đơn hàng nếu cần.");
+                return;
+            }
+
             if (isBlank(userKey.getPublicKey())) {
                 redirectError(request, response, "Public key không hợp lệ.");
                 return;
@@ -103,7 +109,9 @@ public class SignOrderServlet extends HttpServlet {
 
             try {
                 signatureBytes = Base64.getDecoder().decode(cleanSignatureBase64);
-                publicKeyBytes = Base64.getDecoder().decode(userKey.getPublicKey().trim());
+                publicKeyBytes = Base64.getDecoder().decode(
+                        userKey.getPublicKey().trim().replaceAll("\\s+", "")
+                );
             } catch (IllegalArgumentException e) {
                 redirectError(request, response, "Chữ ký không đúng định dạng Base64.");
                 return;

@@ -46,7 +46,7 @@
                         <th>Ngày tạo</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái đơn</th>
-                        <th>Tình trạng kí</th>
+                        <th>Tình trạng ký</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -69,13 +69,13 @@
                                         <span class="badge badge-confirmed">Đã xác nhận</span>
                                     </c:when>
                                     <c:when test="${order.orderStatus == 'SHIPPING'}">
-                                        <span class="badge badge-cancelled">Đang giao</span>
+                                        <span class="badge badge-pending">Đang giao</span>
                                     </c:when>
                                     <c:when test="${order.orderStatus == 'CANCELLED'}">
                                         <span class="badge badge-cancelled">Đã huỷ</span>
                                     </c:when>
                                     <c:when test="${order.orderStatus == 'DELIVERED'}">
-                                        <span class="badge badge-cancelled">Đã giao</span>
+                                        <span class="badge badge-confirmed">Đã giao</span>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="badge badge-pending">${order.orderStatus}</span>
@@ -100,7 +100,7 @@
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a class="btn-unselect"> Không thể ký </a>
+                                        <span class="btn-unselect">Không thể ký</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
