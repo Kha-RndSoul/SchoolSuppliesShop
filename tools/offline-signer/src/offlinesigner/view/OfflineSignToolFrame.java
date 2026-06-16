@@ -37,9 +37,9 @@ public class OfflineSignToolFrame extends JFrame {
         guide.setWrapStyleWord(true);
         guide.setText(
                 "Chức năng này tạo cặp khóa DSA:\n\n" +
-                        "- private_key.key: người dùng tự giữ để ký đơn hàng.\n" +
-                        "- public_key.key: dùng để upload lên website.\n\n" +
-                        "Lưu ý: Không gửi private_key.key cho bất kỳ ai."
+                        "- PrivateKey_ddMMyyyy_HHmmss.key: giữ trên máy để ký đơn hàng.\n" +
+                        "- PublicKey_ddMMyyyy_HHmmss.key: upload lên website để đăng ký.\n\n" +
+                        "Lưu ý: Không gửi file PrivateKey cho bất kỳ ai."
         );
 
         JButton generateButton = new JButton("Tạo cặp khóa");
@@ -66,7 +66,7 @@ public class OfflineSignToolFrame extends JFrame {
 
         privateKeyLabel = new JLabel("Chưa chọn private key");
 
-        JButton chooseKeyButton = new JButton("Chọn private_key.key");
+        JButton chooseKeyButton = new JButton("Chọn PrivateKey.key");
         chooseKeyButton.addActionListener(e -> choosePrivateKey());
 
         JButton signButton = new JButton("Ký số");
@@ -114,11 +114,11 @@ public class OfflineSignToolFrame extends JFrame {
 
             JOptionPane.showMessageDialog(this,
                     "Tạo khóa thành công!\n\n" +
-                            "Đã tạo 2 file:\n" +
-                            "- private_key.key\n" +
-                            "- public_key.key\n\n" +
-                            "Upload public_key.key lên website.\n" +
-                            "Giữ private_key.key trên máy để ký đơn.",
+                            "Đã tạo 2 file trong thư mục bạn chọn:\n" +
+                            "- PrivateKey_ddMMyyyy_HHmmss.key\n" +
+                            "- PublicKey_ddMMyyyy_HHmmss.key\n\n" +
+                            "Upload file PublicKey lên website.\n" +
+                            "Giữ file PrivateKey trên máy để ký đơn.",
                     "Thành công",
                     JOptionPane.INFORMATION_MESSAGE);
 
@@ -132,7 +132,7 @@ public class OfflineSignToolFrame extends JFrame {
 
     private void choosePrivateKey() {
         JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Chọn file private_key.key");
+        chooser.setDialogTitle("Chọn file PrivateKey.key");
 
         int result = chooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -155,7 +155,7 @@ public class OfflineSignToolFrame extends JFrame {
 
             if (privateKeyFile == null) {
                 JOptionPane.showMessageDialog(this,
-                        "Vui lòng chọn file private_key.key.",
+                        "Vui lòng chọn file PrivateKey.key.",
                         "Thiếu private key",
                         JOptionPane.WARNING_MESSAGE);
                 return;

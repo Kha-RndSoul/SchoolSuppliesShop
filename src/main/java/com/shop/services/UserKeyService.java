@@ -13,47 +13,22 @@ public class UserKeyService {
     public UserKeyService() {
         this.userKeyDAO = new UserKeyDAO();
     }
-
-    public byte[][] generateKeyPairOnly() throws Exception {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
-        SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        keyGen.initialize(1024, random);
-        KeyPair pair = keyGen.generateKeyPair();
-        return new byte[][]{
-                pair.getPrivate().getEncoded(),
-                pair.getPublic().getEncoded()
-        };
-    }
-     // Khi chưa có key nào, hoặc user upload xác nhận key mới.
-    public void saveAndActivate(int customerId, byte[] pubKeyBytes, String source) throws Exception {
-        String pubKeyBase64 = Base64.getEncoder().encodeToString(pubKeyBytes);
-        userKeyDAO.deactivateAllByCustomerId(customerId);
-        UserKey userKey = new UserKey(customerId, pubKeyBase64, source);
-        userKey.setActive(true);
-        userKeyDAO.insert(userKey);
-    }
-    // lưu khóa mới xuống DB với is_active = false, chờ user upload xác nhận
-    public void savePendingKey(int customerId, byte[] pubKeyBytes) throws Exception {
-        String pubKeyBase64 = Base64.getEncoder().encodeToString(pubKeyBytes);
-        UserKey userKey = new UserKey(customerId, pubKeyBase64, "GENERATED");
-        userKey.setActive(false);
-        userKeyDAO.insert(userKey);
-    }
-    // upload public key từ file, kiểm tra có tồn tại dưới DB không rồi mới activate
     public void uploadPublicKey(int customerId, byte[] encKey) throws Exception {
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(encKey);
         KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
         keyFactory.generatePublic(pubKeySpec);
-        // kiểm tra key này có tồn tại dưới DB của customer không
         String pubKeyBase64 = Base64.getEncoder().encodeToString(encKey);
+        // kiểm tra key này đã từng bị báo mất chưa
         UserKey existing = userKeyDAO.getByPublicKeyAndCustomerId(pubKeyBase64, customerId);
-        if (existing == null) {
-            throw new Exception("Khóa này không tồn tại trong hệ thống.");
+        if (existing != null && existing.getReportedLostAt() != null) {
+            throw new Exception("Khóa này đã bị báo mất trước đó, không thể kích hoạt lại. Vui lòng chọn cặp khóa mới.");
         }
+        // deactivate key cũ rồi lưu key mới, active luôn
         userKeyDAO.deactivateAllByCustomerId(customerId);
-        userKeyDAO.activateById(existing.getId());
+        UserKey userKey = new UserKey(customerId, pubKeyBase64, "UPLOADED");
+        userKey.setActive(true);
+        userKeyDAO.insert(userKey);
     }
-
     public PublicKey loadPublicKey(int keyId) throws Exception {
         UserKey userKey = userKeyDAO.getById(keyId);
         if (userKey == null) throw new Exception("Không tìm thấy key id: " + keyId);
