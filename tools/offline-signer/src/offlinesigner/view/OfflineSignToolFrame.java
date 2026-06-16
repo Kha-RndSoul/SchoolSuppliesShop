@@ -4,201 +4,116 @@ import offlinesigner.model.OfflineSignerUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class OfflineSignToolFrame extends JFrame {
-
-    private JTextArea orderHashArea;
-    private JTextArea signatureArea;
-    private JLabel privateKeyLabel;
-    private File privateKeyFile;
+    private JTabbedPane tabbedPane1;
+    private JPanel panel1;
+    private JTextField txtFolderPath;
+    private JButton btnChooseFolder;
+    private JButton btnGenerateKeys;
+    private JTextField txtOrderHash;
+    private JTextField txtKeyPath;
+    private JButton btnChoosePrivateKey;
+    private JButton btnSign;
+    private JTextField txtSignature;
+    private JButton btnCopySignature;
 
     public OfflineSignToolFrame() {
-        setTitle("Tool ký đơn hàng offline");
-        setSize(760, 560);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setContentPane(panel1);
+        this.setTitle("Công cụ Ký số Offline");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Tạo khóa", createKeyPanel());
-        tabs.addTab("Ký đơn hàng", createSignPanel());
+        this.setMinimumSize(new java.awt.Dimension(500, 300));
 
-        add(tabs);
-    }
-
-    private JPanel createKeyPanel() {
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JTextArea guide = new JTextArea();
-        guide.setEditable(false);
-        guide.setLineWrap(true);
-        guide.setWrapStyleWord(true);
-        guide.setText(
-                "Chức năng này tạo cặp khóa DSA:\n\n" +
-                        "- PrivateKey_ddMMyyyy_HHmmss.key: giữ trên máy để ký đơn hàng.\n" +
-                        "- PublicKey_ddMMyyyy_HHmmss.key: upload lên website để đăng ký.\n\n" +
-                        "Lưu ý: Không gửi file PrivateKey cho bất kỳ ai."
-        );
-
-        JButton generateButton = new JButton("Tạo cặp khóa");
-        generateButton.addActionListener(e -> generateKeys());
-
-        panel.add(guide, BorderLayout.CENTER);
-        panel.add(generateButton, BorderLayout.SOUTH);
-
-        return panel;
-    }
-
-    private JPanel createSignPanel() {
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        orderHashArea = new JTextArea(5, 60);
-        orderHashArea.setLineWrap(true);
-        orderHashArea.setWrapStyleWord(true);
-
-        signatureArea = new JTextArea(6, 60);
-        signatureArea.setLineWrap(true);
-        signatureArea.setWrapStyleWord(true);
-        signatureArea.setEditable(false);
-
-        privateKeyLabel = new JLabel("Chưa chọn private key");
-
-        JButton chooseKeyButton = new JButton("Chọn PrivateKey.key");
-        chooseKeyButton.addActionListener(e -> choosePrivateKey());
-
-        JButton signButton = new JButton("Ký số");
-        signButton.addActionListener(e -> signOrder());
-
-        JButton copyButton = new JButton("Copy chữ ký");
-        copyButton.addActionListener(e -> copySignature());
-
-        JPanel hashPanel = new JPanel(new BorderLayout(5, 5));
-        hashPanel.add(new JLabel("Dán mã xác thực đơn hàng từ website:"), BorderLayout.NORTH);
-        hashPanel.add(new JScrollPane(orderHashArea), BorderLayout.CENTER);
-
-        JPanel keyPanel = new JPanel(new BorderLayout(5, 5));
-        keyPanel.add(privateKeyLabel, BorderLayout.CENTER);
-        keyPanel.add(chooseKeyButton, BorderLayout.EAST);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(signButton);
-        buttonPanel.add(copyButton);
-
-        JPanel signaturePanel = new JPanel(new BorderLayout(5, 5));
-        signaturePanel.add(keyPanel, BorderLayout.NORTH);
-        signaturePanel.add(buttonPanel, BorderLayout.CENTER);
-        signaturePanel.add(new JScrollPane(signatureArea), BorderLayout.SOUTH);
-
-        panel.add(hashPanel, BorderLayout.NORTH);
-        panel.add(signaturePanel, BorderLayout.CENTER);
-
-        return panel;
-    }
-
-    private void generateKeys() {
-        try {
+        //Nút chọn thư mục lưu khóa
+        btnChooseFolder.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
-            chooser.setDialogTitle("Chọn thư mục lưu khóa");
-            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Chỉ cho chọn thư mục
+            chooser.setDialogTitle("Chọn thư mục lưu cặp khóa");
 
-            int result = chooser.showSaveDialog(this);
-            if (result != JFileChooser.APPROVE_OPTION) {
+            int result = chooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFolder = chooser.getSelectedFile();
+                txtFolderPath.setText(selectedFolder.getAbsolutePath());
+            }
+        });
+
+        // Nút tạo khóa
+        btnGenerateKeys.addActionListener(e -> {
+            String folderPathStr = txtFolderPath.getText().trim();
+            if (folderPathStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn thư mục lưu trữ trước!", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            try {
+                Path outputDir = Paths.get(folderPathStr);
 
-            File dir = chooser.getSelectedFile();
-            OfflineSignerUtil.generateKeyPair(dir.toPath());
+                OfflineSignerUtil.generateKeyPair(outputDir);
+                JOptionPane.showMessageDialog(this, "Tạo cặp khóa (Public/Private Key) thành công tại:\n" + folderPathStr, "Thành công", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi tạo khóa: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
 
-            JOptionPane.showMessageDialog(this,
-                    "Tạo khóa thành công!\n\n" +
-                            "Đã tạo 2 file trong thư mục bạn chọn:\n" +
-                            "- PrivateKey_ddMMyyyy_HHmmss.key\n" +
-                            "- PublicKey_ddMMyyyy_HHmmss.key\n\n" +
-                            "Upload file PublicKey lên website.\n" +
-                            "Giữ file PrivateKey trên máy để ký đơn.",
-                    "Thành công",
-                    JOptionPane.INFORMATION_MESSAGE);
+        // Nút chọn file private key
+        btnChoosePrivateKey.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // Chỉ cho chọn file
+            chooser.setDialogTitle("Chọn file Private Key (*.key)");
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Lỗi tạo khóa: " + e.getMessage(),
-                    "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
+            int result = chooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = chooser.getSelectedFile();
+                txtKeyPath.setText(selectedFile.getAbsolutePath());
+            }
+        });
 
-    private void choosePrivateKey() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Chọn file PrivateKey.key");
-
-        int result = chooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            privateKeyFile = chooser.getSelectedFile();
-            privateKeyLabel.setText("Đã chọn: " + privateKeyFile.getAbsolutePath());
-        }
-    }
-
-    private void signOrder() {
-        try {
-            String orderHash = orderHashArea.getText().trim();
+        // Nút ký
+        btnSign.addActionListener(e -> {
+            String orderHash = txtOrderHash.getText().trim();
+            String keyPathStr = txtKeyPath.getText().trim();
 
             if (orderHash.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "Vui lòng dán mã xác thực đơn hàng.",
-                        "Thiếu dữ liệu",
-                        JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vui lòng dán mã xác thực đơn hàng (Order Hash) vào!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (keyPathStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đường dẫn đến file private_key.key!", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            if (privateKeyFile == null) {
-                JOptionPane.showMessageDialog(this,
-                        "Vui lòng chọn file PrivateKey.key.",
-                        "Thiếu private key",
-                        JOptionPane.WARNING_MESSAGE);
+            try {
+                Path privateKeyPath = Paths.get(keyPathStr);
+
+                String signature = OfflineSignerUtil.signOrderHash(orderHash, privateKeyPath);
+
+                txtSignature.setText(signature);
+                JOptionPane.showMessageDialog(this, "Ký số đơn hàng thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi trong quá trình ký số: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+
+        // Nút copy chữ ký
+        btnCopySignature.addActionListener(e -> {
+            String signature = txtSignature.getText().trim();
+            if (signature.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Chưa có chữ ký để copy!", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            String signatureBase64 = OfflineSignerUtil.signOrderHash(
-                    orderHash,
-                    privateKeyFile.toPath()
-            );
+            StringSelection stringSelection = new StringSelection(signature);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
 
-            signatureArea.setText(signatureBase64);
-
-            JOptionPane.showMessageDialog(this,
-                    "Ký đơn hàng thành công.\nHãy copy chữ ký và dán lại vào website.",
-                    "Thành công",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Lỗi ký đơn hàng: " + e.getMessage(),
-                    "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void copySignature() {
-        String signature = signatureArea.getText().trim();
-
-        if (signature.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Chưa có chữ ký để copy.",
-                    "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        Toolkit.getDefaultToolkit()
-                .getSystemClipboard()
-                .setContents(new StringSelection(signature), null);
-
-        JOptionPane.showMessageDialog(this,
-                "Đã copy chữ ký.",
-                "Thành công",
-                JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Đã copy chữ ký số vào bộ nhớ tạm!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 }
