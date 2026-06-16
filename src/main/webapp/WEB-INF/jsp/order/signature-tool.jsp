@@ -32,7 +32,7 @@
 
     <%-- Danh sách đơn chưa ký --%>
     <div class="card">
-        <div class="card-title">Danh sách đơn chưa ký</div>
+        <div class="card-title">Danh sách đơn cần xác thực</div>
 
         <c:choose>
             <c:when test="${empty unsignedOrders}">
@@ -84,21 +84,36 @@
                             </td>
                             <td class="hash-cell">
                                 <c:choose>
-                                    <c:when test="${not empty order.orderHash and not empty order.keyId}">
-                                        <span style="color: green;">Sẵn sàng ký</span>
+                                    <c:when test="${not empty order.signature and order.isVerified == 1}">
+                                        <span style="color: green;">Ký thành công</span>
                                     </c:when>
+
+                                    <c:when test="${not empty order.signature and order.isVerified == -1}">
+                                        <span style="color: red;">Chữ ký sai</span>
+                                    </c:when>
+
+                                    <c:when test="${not empty order.orderHash and not empty order.keyId}">
+                                        <span style="color: orange;">Sẵn sàng ký</span>
+                                    </c:when>
+
                                     <c:otherwise>
                                         <span style="color: red;">Thiếu hash/key</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
+
                             <td>
                                 <c:choose>
+                                    <c:when test="${not empty order.signature}">
+                                    </c:when>
+
                                     <c:when test="${not empty order.orderHash and not empty order.keyId}">
                                         <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}#sign-section"
-                                           class="btn-select">Chọn ký
+                                           class="btn-select">
+                                            Chọn ký
                                         </a>
                                     </c:when>
+
                                     <c:otherwise>
                                         <span class="btn-unselect">Không thể ký</span>
                                     </c:otherwise>

@@ -330,7 +330,7 @@ public class OrderDAO extends BaseDao {
                                         "note, created_at, updated_at, " +
                                         "order_hash, signature, key_id, is_verified " +
                                         "FROM orders WHERE customer_id = :customerId " +
-                                        "AND (signature IS NULL OR signature = '') " +
+                                        "AND order_status = 'PENDING' " +
                                         "ORDER BY created_at DESC"
                         )
                         .bind("customerId", customerId)

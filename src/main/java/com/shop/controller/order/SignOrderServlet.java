@@ -63,6 +63,11 @@ public class SignOrderServlet extends HttpServlet {
                 return;
             }
 
+            if (!"PENDING".equalsIgnoreCase(order.getOrderStatus())) {
+                redirectError(request, response, "Chỉ có thể ký đơn hàng đang chờ xử lý.");
+                return;
+            }
+
             if (!isBlank(order.getSignature())) {
                 redirectError(request, response, "Đơn hàng này đã được ký.");
                 return;
