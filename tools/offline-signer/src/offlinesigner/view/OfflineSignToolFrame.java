@@ -29,6 +29,7 @@ public class OfflineSignToolFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setMinimumSize(new java.awt.Dimension(500, 300));
+        this.setLocationRelativeTo(null);
 
         //Nút chọn thư mục lưu khóa
         btnChooseFolder.addActionListener(e -> {
@@ -53,8 +54,13 @@ public class OfflineSignToolFrame extends JFrame {
             try {
                 Path outputDir = Paths.get(folderPathStr);
 
-                OfflineSignerUtil.generateKeyPair(outputDir);
-                JOptionPane.showMessageDialog(this, "Tạo cặp khóa (Public/Private Key) thành công tại:\n" + folderPathStr, "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                String keyTimeStamp = OfflineSignerUtil.generateKeyPair(outputDir);
+
+                String pubKeyName = "PublicKey_" + keyTimeStamp + ".key";
+                String privKeyName = "PrivateKey_" + keyTimeStamp + ".key";
+                String message = String.format("Tạo cặp khóa %s và %s thành công!", pubKeyName, privKeyName);
+
+                JOptionPane.showMessageDialog(this, message, "Thành công", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Lỗi khi tạo khóa: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();

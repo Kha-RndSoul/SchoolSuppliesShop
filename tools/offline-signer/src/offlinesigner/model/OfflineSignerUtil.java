@@ -13,7 +13,7 @@ public class OfflineSignerUtil {
     private static final String SIGNATURE_ALGORITHM = "SHA1withDSA";
     private static final String PROVIDER = "SUN";
 
-    public static void generateKeyPair(Path outputDir) throws Exception {
+    public static String generateKeyPair(Path outputDir) throws Exception {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance(KEY_ALGORITHM, PROVIDER);
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG", PROVIDER);
         keyGen.initialize(1024, random);
@@ -23,6 +23,7 @@ public class OfflineSignerUtil {
                 .format(new java.util.Date());
         Files.write(outputDir.resolve("PrivateKey_" + timestamp + ".key"), pair.getPrivate().getEncoded());
         Files.write(outputDir.resolve("PublicKey_"  + timestamp + ".key"), pair.getPublic().getEncoded());
+        return timestamp;
     }
 
     public static String signOrderHash(String orderHash, Path privateKeyPath) throws Exception {
