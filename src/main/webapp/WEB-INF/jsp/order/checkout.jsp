@@ -139,18 +139,39 @@
                 </c:if>
             </div>
             <c:if test="${needPublicKey}">
-                <div class="alert alert-error">
-                    Bạn cần đăng ký public key trước khi đặt hàng.
-                    <a href="${pageContext.request.contextPath}/key">
-                        Đi tới Quản lý khóa
-                    </a>
+                <div id="key-required-warning" class="checkout-key-warning" tabindex="-1">
+                    <h3>Không thể đặt hàng vì chưa có khóa đang hoạt động</h3>
+                    <p>
+                        Vui lòng vào trang <strong>Quản lý khóa</strong>, tải tool ký offline,
+                        tạo cặp khóa và upload file <strong>PublicKey</strong> lên hệ thống.
+                    </p>
+                    <div class="checkout-key-actions">
+                        <a href="${pageContext.request.contextPath}/key" class="btn-primary">
+                            Đi tới Quản lý khóa
+                        </a>
+                    </div>
+                </div>
+                <script>
+                    window.addEventListener("DOMContentLoaded", function () {
+                        const warningBox = document.getElementById("key-required-warning");
+
+                        if (warningBox) {
+                            warningBox.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start"
+                            });
+                            warningBox.focus();
+                        }
+                    });
+                </script>
+            </c:if>
+            <c:if test="${!needPublicKey}">
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        Đặt hàng
+                    </button>
                 </div>
             </c:if>
-            <div class="form-actions">
-                <button type="submit" <c:if test="${needPublicKey}">disabled</c:if> class="btn-primary">
-                    Đặt hàng
-                </button>
-            </div>
         </form>
     </div>
 </main>
