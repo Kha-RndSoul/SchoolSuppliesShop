@@ -111,7 +111,11 @@
             </form>
         </div>
     </div>
-
+    <div style="margin-top: 20px;">
+        <a href="${pageContext.request.contextPath}/assets/tools/SignTool.jar" download>
+            Tải công cụ ký đơn hàng tại đây
+        </a>
+    </div>
 </main>
 
 <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>

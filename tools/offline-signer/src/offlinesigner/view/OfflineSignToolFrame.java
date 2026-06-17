@@ -13,6 +13,8 @@ import java.nio.file.Paths;
 
 public class OfflineSignToolFrame extends JFrame {
 
+    private JPanel panel1;
+    private JTabbedPane tabbedPane1;
     private JTextField txtFolderPath;
     private JButton btnChooseFolder;
     private JButton btnGenerateKeys;
