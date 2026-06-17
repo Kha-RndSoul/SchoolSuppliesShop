@@ -49,8 +49,10 @@ public class UserKeyService {
     public List<UserKey> getAllKeys(int customerId) {
         return userKeyDAO.getAllByCustomerId(customerId);
     }
-// Báo mất khóa
+// Báo mất khóa và hủy đơn bị mất khóa
     public void reportLost(int keyId) {
         userKeyDAO.reportLost(keyId);
+        com.shop.dao.order.OrderDAO orderDAO = new com.shop.dao.order.OrderDAO();
+        orderDAO.cancelUnverifiedOrdersByKeyId(keyId);
     }
 }
