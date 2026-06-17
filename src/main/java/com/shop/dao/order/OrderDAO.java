@@ -267,6 +267,19 @@ public class OrderDAO extends BaseDao {
                         .list()
         );
     }
+    public List<Map<String, Object>> getOrdersWithKeyTimeByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery(
+                                "SELECT o.*, k.created_at AS key_created_at " +
+                                        "FROM orders o " +
+                                        "LEFT JOIN user_keys k ON o.key_id = k.id " +
+                                        "WHERE o.customer_id = :customerId ORDER BY o.created_at DESC"
+                        )
+                        .bind("customerId", customerId)
+                        .mapToMap()
+                        .list()
+        );
+    }
     /**
      * Lấy danh sách đơn hàng của một khách hàng cụ thể
      */

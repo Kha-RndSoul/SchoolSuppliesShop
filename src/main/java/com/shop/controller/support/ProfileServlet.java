@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 public class ProfileServlet extends HttpServlet {
@@ -52,7 +53,7 @@ public class ProfileServlet extends HttpServlet {
 
             int offset = (page - 1) * recordsPerPage;
 
-            List<Order> orderHistory = orderDAO.getOrdersByPaging(customer.getId(), offset, recordsPerPage);
+            List<Map<String, Object>> orderHistory = orderDAO.getOrdersWithKeyTimeByCustomerId(customer.getId());
             request.setAttribute("orderHistory", orderHistory);
 
             int totalRecords = orderDAO.getTotalOrderCountByCustomerId(customer.getId());

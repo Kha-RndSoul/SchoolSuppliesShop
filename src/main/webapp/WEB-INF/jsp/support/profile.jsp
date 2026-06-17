@@ -354,52 +354,67 @@
                                 <th>Ngày đặt</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
-                                <th>Thanh toán</th>
+                                <th>Khóa áp dụng</th>
                                 <th>Xác minh chữ ký</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach var="order" items="${orderHistory}">
-                                <tr class="${order.isVerified == -1 ? 'row-fraud-warning' : ''}">
+                                <tr class="${order.is_verified == -1 ? 'row-fraud-warning' : ''}">
                                     <td>
                                         <a href="javascript:void(0)"
                                            class="order-code-link"
-                                           data-hash="${order.orderHash}"
+                                           data-hash="${order.order_hash}"
                                            onclick="copyOrderHash(this)"
                                            style="cursor: pointer;"
                                            title="Click để copy nhanh Mã xác thực (Order Hash)">
-                                            #${order.orderCode} <span style="font-size: 0.8rem; color: #999; font-weight: normal; margin-left: 2px;"></span>
+                                            #${order.order_code} <span style="font-size: 0.8rem; color: #999; font-weight: normal; margin-left: 2px;"></span>
                                         </a>
                                     </td>
                                     <td>
-                                        <fmt:formatDate value="${order.createdAt}" pattern="dd/MM/yyyy"/><br>
-                                        <small style="color: #999;"><fmt:formatDate value="${order.createdAt}" pattern="HH:mm"/></small>
+                                        <fmt:formatDate value="${order.created_at}" pattern="dd/MM/yyyy"/><br>
+                                        <small style="color: #999;"><fmt:formatDate value="${order.created_at}" pattern="HH:mm"/></small>
                                     </td>
                                     <td class="text-primary-brand">
-                                        <fmt:formatNumber value="${order.totalAmount}" type="number"/>₫
+                                        <fmt:formatNumber value="${order.total_amount}" type="number"/>₫
                                     </td>
-                                    <td><span class="status-badge status-${order.orderStatus}">${order.orderStatus}</span></td>
-                                    <td><span style="font-weight: 500;">${order.paymentMethod}</span></td>
+                                    <td>
+                                        <span class="status-badge status-${order.order_status}">${order.order_status}</span>
+                                    </td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${order.isVerified == 1}"><span class="verify-badge verify-VALID">Đã xác minh</span></c:when>
-                                            <c:when test="${order.isVerified == -1}"><span class="verify-badge verify-INVALID">⚠️ Bị chỉnh sửa!</span></c:when>
+                                            <c:when test="${not empty order.key_created_at}">
+                                                <fmt:parseDate value="${order.key_created_at}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedKeyDate" type="both"/>
+
+                                                <span class="key-badge" style="font-family: monospace; font-size: 0.85rem; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; color: #374151; font-weight: 500; border: 1px solid #e5e7eb;" title="Khóa được sử dụng để ký xác thực đơn hàng này">
+                                                    PublicKey_<fmt:formatDate value="${parsedKeyDate}" pattern="ddMMyyyy_HHmmss"/>
+                                                </span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span style="color: #999; font-style: italic; font-size: 0.9rem;">Chưa gắn khóa</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${order.is_verified == 1}"><span class="verify-badge verify-VALID">Đã xác minh</span></c:when>
+                                            <c:when test="${order.is_verified == -1}"><span class="verify-badge verify-INVALID">⚠️ Bị chỉnh sửa!</span></c:when>
                                             <c:otherwise><span class="verify-badge verify-NOT_YET">Chưa ký</span></c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td>
                                         <c:choose>
                                             <%-- Nếu đơn hàng bị hủy, xuất hiện nút đặt lại đơn --%>
-                                            <c:when test="${order.orderStatus == 'CANCELLED'}">
+                                            <c:when test="${order.order_status == 'CANCELLED'}">
                                                 <button onclick="recreateOrder('${order.id}')" class="btn-sign-action" style="background-color: #28a745;">
                                                     Đặt lại đơn
                                                 </button>
                                             </c:when>
 
-                                            <%-- Nếu đơn hàng chưa ký thì hiển thị nút dán chữ ký--%>
-                                            <c:when test="${order.isVerified == null || order.isVerified == 0}">
-                                                <button onclick="openSignModal('${order.orderCode}', '${order.id}')" class="btn-sign-action">
+                                            <c:when test="${order.is_verified == null || order.is_verified == 0}">
+                                                <button onclick="openSignModal('${order.order_code}', '${order.id}')" class="btn-sign-action">
                                                     Dán chữ ký
                                                 </button>
                                             </c:when>
