@@ -228,7 +228,15 @@
         initShippingRadios();
         initCouponCards();
         initApplyCouponButton();
-
+        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+            if (NEED_PUBLIC_KEY) {
+                e.preventDefault();
+                var box = document.getElementById('noKeyAlert');
+                box.style.display = 'block';
+                box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                box.focus();
+            }
+        });
         document.addEventListener('click', function (e) {
             var couponSection = document.querySelector('.coupon-list');
             if (!couponSection) return;

@@ -16,6 +16,15 @@
 <jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 
 <main class="container" id="main" data-context="${pageContext.request.contextPath}">
+    <c:if test="${needPublicKey}">
+        <div id="noKeyAlert" class="alert-error" style="display:none;" tabindex="-1">
+            <p><strong>Bạn cần đăng ký public key trước khi đặt hàng.</strong>
+                Vui lòng vào trang <strong>Quản lý khóa</strong>, tải tool ký offline,
+                tạo cặp khóa và upload file Public Key lên hệ thống.
+                <a href="${pageContext.request.contextPath}/key">Đi tới Quản lý khóa →</a>
+            </p>
+        </div>
+    </c:if>
     <div class="checkout-wrapper">
         <form id="checkoutForm" action="${pageContext.request.contextPath}/checkout" method="POST" novalidate>
 
@@ -132,46 +141,11 @@
                     </div>
                 </div>
             </section>
-
-            <div id="checkoutError" role="alert" class="form-error" aria-live="polite">
-                <c:if test="${not empty errorMessage}">
-                    ${errorMessage}
-                </c:if>
-            </div>
-            <c:if test="${needPublicKey}">
-                <div id="key-required-warning" class="checkout-key-warning" tabindex="-1">
-                    <h3>Không thể đặt hàng vì chưa có khóa đang hoạt động</h3>
-                    <p>
-                        Vui lòng vào trang <strong>Quản lý khóa</strong>, tải tool ký offline,
-                        tạo cặp khóa và upload file <strong>PublicKey</strong> lên hệ thống.
-                    </p>
-                    <div class="checkout-key-actions">
-                        <a href="${pageContext.request.contextPath}/key" class="btn-primary">
-                            Đi tới Quản lý khóa
-                        </a>
-                    </div>
-                </div>
-                <script>
-                    window.addEventListener("DOMContentLoaded", function () {
-                        const warningBox = document.getElementById("key-required-warning");
-
-                        if (warningBox) {
-                            warningBox.scrollIntoView({
-                                behavior: "smooth",
-                                block: "start"
-                            });
-                            warningBox.focus();
-                        }
-                    });
-                </script>
-            </c:if>
-            <c:if test="${!needPublicKey}">
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">
                         Đặt hàng
                     </button>
                 </div>
-            </c:if>
         </form>
     </div>
 </main>
@@ -179,6 +153,7 @@
 <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
 <script>
     const CONTEXT_PATH = '${pageContext.request.contextPath}';
+    const NEED_PUBLIC_KEY = ${needPublicKey ? 'true' : 'false'};
 </script>
 
 <script src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
