@@ -384,10 +384,15 @@
                                     </td>
                                     <td>
                                         <c:choose>
+                                            <c:when test="${not empty order.key_file_name}">
+        <span class="key-badge" style="font-family: monospace; font-size: 0.85rem; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; color: #374151; font-weight: 500; border: 1px solid #e5e7eb;">
+                ${order.key_file_name}
+        </span>
+                                            </c:when>
                                             <c:when test="${not empty order.key_created_at}">
+                                                <%-- fallback nếu file_name null --%>
                                                 <fmt:parseDate value="${order.key_created_at}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedKeyDate" type="both"/>
-
-                                                <span class="key-badge" style="font-family: monospace; font-size: 0.85rem; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; color: #374151; font-weight: 500; border: 1px solid #e5e7eb;" title="Khóa được sử dụng để ký xác thực đơn hàng này">
+                                                <span class="key-badge" style="font-family: monospace; font-size: 0.85rem; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; color: #374151; font-weight: 500; border: 1px solid #e5e7eb;">
                                                     PublicKey_<fmt:formatDate value="${parsedKeyDate}" pattern="ddMMyyyy_HHmmss"/>
                                                 </span>
                                             </c:when>
