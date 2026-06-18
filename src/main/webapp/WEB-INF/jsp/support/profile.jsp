@@ -400,7 +400,7 @@
                                     <td>
                                         <c:choose>
                                             <c:when test="${order.is_verified == 1}"><span class="verify-badge verify-VALID">Đã xác minh</span></c:when>
-                                            <c:when test="${order.is_verified == -1}"><span class="verify-badge verify-INVALID">⚠️ Bị chỉnh sửa!</span></c:when>
+                                            <c:when test="${order.is_verified == -1}"><span class="verify-badge verify-INVALID">Bị chỉnh sửa!</span></c:when>
                                             <c:otherwise><span class="verify-badge verify-NOT_YET">Chưa ký</span></c:otherwise>
                                         </c:choose>
                                     </td>

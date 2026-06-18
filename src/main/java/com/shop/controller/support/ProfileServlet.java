@@ -4,6 +4,7 @@ import com.shop.dao.order.OrderDAO;
 import com.shop.model.Customer;
 import com.shop.model.Order;
 import com.shop.services.CustomerService;
+import com.shop.services.OrderService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -52,6 +53,9 @@ public class ProfileServlet extends HttpServlet {
             }
 
             int offset = (page - 1) * recordsPerPage;
+
+            OrderService orderService = new OrderService();
+            orderService.reVerifyOrdersOnLoad(customer.getId());
 
             List<Map<String, Object>> orderHistory = orderDAO.getOrdersWithKeyTimeByCustomerId(customer.getId());
             request.setAttribute("orderHistory", orderHistory);
