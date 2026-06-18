@@ -3,6 +3,7 @@ USE school_supplies_db;
 -- Tạo bảng user_keys
 CREATE TABLE user_keys (
                            id               INT PRIMARY KEY AUTO_INCREMENT,
+                           file_name        VARCHAR(255) NULL,
                            customer_id      INT          NOT NULL,
                            public_key       TEXT         NOT NULL,
                            is_active        BOOLEAN      DEFAULT TRUE,

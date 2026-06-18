@@ -71,11 +71,13 @@ public class KeyController extends HttpServlet {
                         "Vui lòng chọn file .key", "UTF-8"));
                 return;
             }
+            // lấy tên file gốc để hiển thị
+            String fileName = filePart.getSubmittedFileName();
             InputStream is = filePart.getInputStream();
             byte[] encKey = is.readAllBytes();
             is.close();
 
-            userKeyService.uploadPublicKey(customer.getId(), encKey);
+            userKeyService.uploadPublicKey(customer.getId(), encKey, fileName);
 
             response.sendRedirect(request.getContextPath()
                     + "/key?success=" + java.net.URLEncoder.encode(
@@ -84,7 +86,7 @@ public class KeyController extends HttpServlet {
         } catch (GeneralSecurityException e) {
             response.sendRedirect(request.getContextPath()
                     + "/key?error=" + java.net.URLEncoder.encode(
-                    "File không hợp lệ, vui lòng upload đúng file publicKey được tạo ra từ tool", "UTF-8"));
+                    "File không hợp lệ, vui lòng upload đúng file public key DSA", "UTF-8"));
         } catch (Exception e) {
             System.err.println("Caught exception " + e.toString());
             response.sendRedirect(request.getContextPath()
