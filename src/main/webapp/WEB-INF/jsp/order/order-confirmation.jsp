@@ -52,9 +52,9 @@
         <button id="printBtn" class="btn" onclick="window.print()">In hóa đơn</button>
         <a href="${pageContext.request.contextPath}/home" class="btn link">Về trang chủ</a>
         <c:if test="${not empty order and empty order.signature}">
-            <a href="${pageContext.request.contextPath}/signature-tool?orderId=${order.id}"
+            <a href="${pageContext.request.contextPath}/profile"
                class="btn btn-sign">
-                ✍️ Ký đơn hàng
+                Ký đơn hàng
             </a>
         </c:if>
     </div>

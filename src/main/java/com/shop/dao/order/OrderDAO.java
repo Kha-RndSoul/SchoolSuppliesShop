@@ -376,4 +376,12 @@ public class OrderDAO extends BaseDao {
                         .one()
         );
     }
+    public int cancelUnverifiedOrdersByKeyId(int keyId) {
+        return get().withHandle(h ->
+                h.createUpdate("UPDATE orders SET order_status = 'CANCELLED' " +
+                                "WHERE key_id = :keyId AND (is_verified IS NULL OR is_verified = 0)")
+                        .bind("keyId", keyId)
+                        .execute()
+        );
+    }
 }
