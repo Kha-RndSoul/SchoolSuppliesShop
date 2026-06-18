@@ -9,6 +9,7 @@ public class UserKey {
     private String publicKey;
     private boolean isActive;       // true: đang dùng, false: đã hủy
     private String source;
+    private String fileName;
     private Timestamp createdAt;
     private Timestamp reportedLostAt; // null = chưa báo mất
 
@@ -45,6 +46,11 @@ public class UserKey {
     public void setSource(String source) {
         this.source = source; }
 
+    public String getFileName() {
+        return fileName; }
+    public void setFileName(String fileName) {
+        this.fileName = fileName; }
+
     public Timestamp getCreatedAt() {
         return createdAt; }
     public void setCreatedAt(Timestamp createdAt) {
@@ -62,6 +68,7 @@ public class UserKey {
                 ", customerId=" + customerId +
                 ", isActive=" + isActive +
                 ", source='" + source + '\'' +
+                ", fileName='" + fileName + '\'' +
                 ", createdAt=" + createdAt +
                 ", reportedLostAt=" + reportedLostAt +
                 '}';
