@@ -270,7 +270,7 @@ public class OrderDAO extends BaseDao {
     public List<Map<String, Object>> getOrdersWithKeyTimeByCustomerId(int customerId) {
         return get().withHandle(h ->
                 h.createQuery(
-                                "SELECT o.*, k.created_at AS key_created_at " +
+                                "SELECT o.*, k.created_at AS key_created_at, k.file_name AS key_file_name " +
                                         "FROM orders o " +
                                         "LEFT JOIN user_keys k ON o.key_id = k.id " +
                                         "WHERE o.customer_id = :customerId ORDER BY o.created_at DESC"
