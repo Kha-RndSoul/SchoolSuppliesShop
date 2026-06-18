@@ -745,4 +745,46 @@ public class OrderService {
         }
         return OrderDAO.getRecentOrdersWithCustomer(limit);
     }
+    public void reVerifyOrdersOnLoad(int customerId) {
+        List<Order> verifiedOrders = orderDAO.getVerifiedOrdersByCustomerId(customerId);
+
+        for (Order order : verifiedOrders) {
+            try {
+                List<OrderDetail> details = orderDetailDAO.getByOrderId(order.getId());
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(order.getOrderCode()).append("|");
+                sb.append(order.getCustomerId()).append("|");
+
+                sb.append(order.getTotalAmount().doubleValue()).append("|");
+
+                sb.append(order.getShippingName()).append("|");
+                sb.append(order.getShippingPhone()).append("|");
+                sb.append(order.getShippingAddress()).append("|");
+
+                for (OrderDetail d : details) {
+                    sb.append(d.getProductId()).append(":")
+                            .append(d.getQuantity()).append(":")
+                            .append(d.getPrice()).append(":")
+                            .append(d.getSubtotal()).append(";");
+                }
+
+                OrderCoupon oc = orderCouponDAO.getByOrderId(order.getId());
+                if (oc != null && oc.getCouponCode() != null) {
+                    sb.append(oc.getCouponCode()).append(":")
+                            .append(oc.getDiscountAmount().doubleValue());
+                }
+                MessageDigest md = MessageDigest.getInstance("SHA-1", "SUN");
+                byte[] hashBytes = md.digest(sb.toString().getBytes("UTF-8"));
+                String currentHash = Base64.getEncoder().encodeToString(hashBytes);
+
+                if (!currentHash.equals(order.getOrderHash())) {
+                    orderDAO.updateVerifyResult(order.getId(), -1);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

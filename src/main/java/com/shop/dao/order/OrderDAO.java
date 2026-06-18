@@ -384,4 +384,19 @@ public class OrderDAO extends BaseDao {
                         .execute()
         );
     }
+    // Lấy danh sách đơn hàng đã verify của người dùng
+    public List<Order> getVerifiedOrdersByCustomerId(int customerId) {
+        return get().withHandle(h ->
+                h.createQuery(
+                                "SELECT id, customer_id, order_code, order_status, payment_method, " +
+                                        "payment_status, total_amount, shipping_name, shipping_phone, " +
+                                        "shipping_address, note, created_at, updated_at, " +
+                                        "order_hash, signature, key_id, is_verified " +
+                                        "FROM orders WHERE customer_id = :customerId AND is_verified = 1"
+                        )
+                        .bind("customerId", customerId)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
 }
