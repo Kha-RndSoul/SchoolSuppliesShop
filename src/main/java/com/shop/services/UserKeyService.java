@@ -13,7 +13,7 @@ public class UserKeyService {
     public UserKeyService() {
         this.userKeyDAO = new UserKeyDAO();
     }
-    public void uploadPublicKey(int customerId, byte[] encKey) throws Exception {
+    public void uploadPublicKey(int customerId, byte[] encKey, String fileName) throws Exception {
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(encKey);
         KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
         keyFactory.generatePublic(pubKeySpec);
@@ -21,11 +21,12 @@ public class UserKeyService {
         // kiểm tra key này đã từng bị báo mất chưa
         UserKey existing = userKeyDAO.getByPublicKeyAndCustomerId(pubKeyBase64, customerId);
         if (existing != null && existing.getReportedLostAt() != null) {
-            throw new Exception("Khóa này đã bị báo mất trước đó, không thể kích hoạt lại. Vui lòng chọn cặp khóa mới.");
+            throw new Exception("Khóa này đã bị báo mất trước đó, không thể kích hoạt lại. Vui lòng tạo cặp khóa mới.");
         }
         // deactivate key cũ rồi lưu key mới, active luôn
         userKeyDAO.deactivateAllByCustomerId(customerId);
         UserKey userKey = new UserKey(customerId, pubKeyBase64, "UPLOADED");
+        userKey.setFileName(fileName);
         userKey.setActive(true);
         userKeyDAO.insert(userKey);
     }

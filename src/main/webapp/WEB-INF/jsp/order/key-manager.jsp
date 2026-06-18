@@ -37,10 +37,8 @@
             <c:otherwise>
                 <table style="margin-top: 1rem; border-collapse: collapse; width: 100%;">
                     <tr>
-                        <td style="padding: 0.5rem 1rem 0.5rem 0; color: var(--text-light);">Tên khóa:</td>
-                        <td>
-                            PublicKey_<fmt:formatDate value="${activeKey.createdAt}" pattern="ddMMyyyy_HHmmss"/>
-                        </td>
+                        <td style="padding: 0.5rem 1rem 0.5rem 0; color: var(--text-light);">Tên file khóa:</td>
+                        <td>${activeKey.fileName}</td>
                     </tr>
                     <tr>
                         <td style="padding: 0.5rem 1rem 0.5rem 0; color: var(--text-light); width: 150px;">Trạng thái:</td>
